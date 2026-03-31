@@ -1,4 +1,4 @@
-package main.java.latice.application;
+package latice.application;
 
 public class LaticeApplicationConsole {
     public static void main(String[] args) {
