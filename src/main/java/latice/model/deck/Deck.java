@@ -44,6 +44,10 @@ public class Deck {
         return tiles.remove(tiles.size() - 1);
     }
 
+    public void addTiles(Tile... tiles) {
+        Collections.addAll(this.tiles, tiles);
+    }
+
     public void shuffle() {
         Collections.shuffle(tiles);
     }

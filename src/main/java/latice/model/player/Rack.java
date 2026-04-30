@@ -45,8 +45,10 @@ public class Rack {
             throw new EmptyDeckException("Cannot exchange with empty deck");
         }
 
-        // TODO : Vérifier s'il faut remettre les tiles dans le deck
+        for (Tile tile: tiles)
+            deck.addTiles(tile);
 
+        deck.shuffle();
         tiles.clear();
         refill(deck);
     }
