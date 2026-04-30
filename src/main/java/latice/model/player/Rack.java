@@ -5,13 +5,18 @@ import latice.model.exception.EmptyDeckException;
 import latice.model.exception.RackFullException;
 import latice.model.tile.Tile;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rack {
-    private List<Tile> tiles;
+    private final List<Tile> tiles;
 
-    public Rack() {
+    private Rack(List<Tile> tiles) {
+        this.tiles = tiles;
+    }
+
+    public static Rack create() {
+        return new Rack(new ArrayList<>());
     }
 
     public List<Tile> getTiles() {
@@ -44,6 +49,17 @@ public class Rack {
 
         tiles.clear();
         refill(deck);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Tile tile : tiles) {
+            sb.append(" - ").append(tile);
+        }
+
+        return sb.toString();
     }
 
     public boolean isEmpty() {

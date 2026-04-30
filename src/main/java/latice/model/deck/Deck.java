@@ -17,7 +17,7 @@ public class Deck {
         this.tiles = tiles;
     }
 
-    public static Deck createFullDeck() {
+    public static Deck create() {
         List<Tile> tiles = new ArrayList<>();
 
         for (Color color : Color.values()) {
@@ -30,6 +30,10 @@ public class Deck {
         Deck deck = new Deck(tiles);
         deck.shuffle();
         return deck;
+    }
+
+    public int size() {
+        return tiles.size();
     }
 
     public Tile draw() {

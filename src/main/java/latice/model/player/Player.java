@@ -5,9 +5,8 @@ import latice.model.deck.Deck;
 public class Player {
     private final String name;
     private final int score;
-    private Rack rack;
+    private final Rack rack;
     private final Deck deck;
-
 
     private Player(String name, int score, Deck deck, Rack rack) {
         this.name = name;
@@ -17,13 +16,30 @@ public class Player {
     }
 
     public static Player create(String name, Deck deck) {
-        Rack rack = new Rack();
+        Rack rack = Rack.create();
         rack.refill(deck);
         return new Player(name, 0, deck, rack);
     }
 
-    public Player(String name, int score, Deck deck) {
-        this(name, score, deck, new Rack());
+    public String getName() {
+        return name;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Rack getRack() {
+        return rack;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    @Override
+    public String toString() {
+        return name + ":\n - score: " + score + "\n - rack: " + rack;
     }
 
     public void drawTile() {
