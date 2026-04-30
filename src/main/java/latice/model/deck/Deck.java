@@ -27,6 +27,10 @@ public class Deck {
             }
         }
 
+        return create(tiles);
+    }
+
+    public static Deck create(List<Tile> tiles) {
         Deck deck = new Deck(tiles);
         deck.shuffle();
         return deck;
@@ -34,6 +38,10 @@ public class Deck {
 
     public int size() {
         return tiles.size();
+    }
+
+    public List<Tile> getTiles() {
+        return tiles;
     }
 
     public Tile draw() {

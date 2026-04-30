@@ -58,7 +58,7 @@ public class Rack {
         StringBuilder sb = new StringBuilder();
 
         for (Tile tile : tiles) {
-            sb.append(" - ").append(tile);
+            sb.append("   - ").append(tile);
         }
 
         return sb.toString();

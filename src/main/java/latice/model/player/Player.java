@@ -39,7 +39,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return name + ":\n - score: " + score + "\n - rack: " + rack;
+        return name + ":\n - score: " + score + "\n - rack:\n" + rack;
     }
 
     public void drawTile() {
