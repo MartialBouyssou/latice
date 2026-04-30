@@ -5,30 +5,31 @@ import latice.model.tile.Color;
 import latice.model.tile.Shape;
 import latice.model.tile.Tile;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Deck {
-    private List<Tile> tiles;
+    private final List<Tile> tiles;
 
 
-    public Deck(List<Tile> tiles) {
+    private Deck(List<Tile> tiles) {
         this.tiles = tiles;
     }
 
-    public Deck() {
-        // TODO: peut être reprendre en init ou factory
-        for (Color color: Color.values()) {
-            for (Shape shape : Shape.values()) {
-                addTiles(new Tile(shape, color),
-                        new Tile(shape, color));
+    public static Deck createFullDeck() {
+        List<Tile> tiles = new ArrayList<>();
 
+        for (Color color : Color.values()) {
+            for (Shape shape : Shape.values()) {
+                tiles.add(new Tile(shape, color));
+                tiles.add(new Tile(shape, color));
             }
         }
-    }
 
-    private void addTiles(Tile... tiles) {
-        Collections.addAll(this.tiles, tiles);
+        Deck deck = new Deck(tiles);
+        deck.shuffle();
+        return deck;
     }
 
     public Tile draw() {

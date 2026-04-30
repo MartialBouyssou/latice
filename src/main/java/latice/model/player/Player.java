@@ -9,14 +9,17 @@ public class Player {
     private final Deck deck;
 
 
-    public Player(String name, int score, Deck deck, Rack rack) {
+    private Player(String name, int score, Deck deck, Rack rack) {
         this.name = name;
         this.score = score;
         this.deck = deck;
         this.rack = rack;
+    }
 
-        // TODO: peut être reprendre en init ou factory
+    public static Player create(String name, Deck deck) {
+        Rack rack = new Rack();
         rack.refill(deck);
+        return new Player(name, 0, deck, rack);
     }
 
     public Player(String name, int score, Deck deck) {
