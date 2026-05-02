@@ -11,12 +11,12 @@ import java.util.List;
 public class Rack {
     private final List<Tile> tiles;
 
-    private Rack(List<Tile> tiles) {
+    public Rack(List<Tile> tiles) {
         this.tiles = tiles;
     }
 
-    public static Rack create() {
-        return new Rack(new ArrayList<>());
+    public Rack() {
+        this(new ArrayList<>());
     }
 
     public List<Tile> getTiles() {
@@ -58,7 +58,7 @@ public class Rack {
         StringBuilder sb = new StringBuilder();
 
         for (Tile tile : tiles) {
-            sb.append("   - ").append(tile);
+            sb.append("\n   - ").append(tile);
         }
 
         return sb.toString();

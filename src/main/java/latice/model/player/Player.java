@@ -16,7 +16,7 @@ public class Player {
     }
 
     public static Player create(String name, Deck deck) {
-        Rack rack = Rack.create();
+        Rack rack = new Rack();
         rack.refill(deck);
         return new Player(name, 0, deck, rack);
     }

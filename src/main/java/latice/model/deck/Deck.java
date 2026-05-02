@@ -1,11 +1,9 @@
 package latice.model.deck;
 
 import latice.model.exception.EmptyDeckException;
-import latice.model.tile.Color;
-import latice.model.tile.Shape;
 import latice.model.tile.Tile;
+import latice.model.tile.TileFactory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,16 +16,9 @@ public class Deck {
     }
 
     public static Deck create() {
-        List<Tile> tiles = new ArrayList<>();
-
-        for (Color color : Color.values()) {
-            for (Shape shape : Shape.values()) {
-                tiles.add(new Tile(shape, color));
-                tiles.add(new Tile(shape, color));
-            }
-        }
-
-        return create(tiles);
+        Deck deck = new Deck(TileFactory.createFullDeckTiles());
+        deck.shuffle();
+        return deck;
     }
 
     public static Deck create(List<Tile> tiles) {

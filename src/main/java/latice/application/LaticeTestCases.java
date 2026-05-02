@@ -3,6 +3,7 @@ package latice.application;
 import latice.model.deck.Deck;
 import latice.model.player.Player;
 import latice.model.tile.Tile;
+
 import static latice.application.LaticeApplicationConsole.*;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class LaticeTestCases {
     	for (int i = 0; i < deckFull.size()/2; i++) {
     		firstPart1.add(tiles1.get(i*2));
     		secondPart1.add(tiles1.get(i*2+1));
-    	};
+    	}
     	
     	Deck deckP1 = Deck.create(firstPart1);
     	Deck deckP2 = Deck.create(secondPart1);
