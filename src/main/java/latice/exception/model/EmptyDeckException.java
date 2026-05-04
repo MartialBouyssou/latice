@@ -1,4 +1,4 @@
-package latice.model.exception;
+package latice.exception.model;
 
 public class EmptyDeckException extends RuntimeException {
 

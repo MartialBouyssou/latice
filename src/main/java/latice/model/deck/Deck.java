@@ -1,6 +1,6 @@
 package latice.model.deck;
 
-import latice.model.exception.EmptyDeckException;
+import latice.exception.model.EmptyDeckException;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
 

@@ -1,8 +1,8 @@
 package latice.model.player;
 
 import latice.model.deck.Deck;
-import latice.model.exception.EmptyDeckException;
-import latice.model.exception.RackFullException;
+import latice.exception.model.EmptyDeckException;
+import latice.exception.model.RackFullException;
 import latice.model.tile.Tile;
 
 import java.util.ArrayList;
