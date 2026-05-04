@@ -36,11 +36,18 @@ public class LaticeTestCases {
     	Player player1 = Player.create("firstPlayer", deckP1);
     	Player player2 = Player.create("firstPlayer", deckP2);
 
-    	message("Rack first player : " + player1.getRack());
+    	message("First player Rack  : " + player1.getRack());
+		message("Second player Rack : " + player2.getRack());
     	
     	player1.getRack().exchangeAll(deckP1);
-    	message("Nombre Tuile P1 :" + deckP1.size());
-    	message("Rack first player : " + player1.getRack());
+    	message("P1 Tile number :" + player1.getDeck().size());
+		message("P2 Tile number :" + player2.getDeck().size());
+    	message("First player Rack after exchange : " + player1.getRack());
+
+		message("Is player 1 first tile equal to player 1 first tile : "
+				+ (player1.getRack().getTiles().get(0) == player1.getRack().getTiles().get(0)));
+		message("Is player 1 first tile equal to player 2 first tile : "
+				+ (player1.getRack().getTiles().get(0) == player2.getRack().getTiles().get(0)));
     	
    }
 }
