@@ -16,6 +16,12 @@ import java.util.ArrayList;
 public class Board {
 
     private Cell[][] grid = null;
+    private static final int[][] sunCells = {
+            {0, 0}, {1, 1}, {2, 2}, {8, 0}, {7, 1}, {6, 2},
+            {8, 8}, {7, 7}, {6, 6}, {0, 8}, {1, 7}, {2, 6},
+            {4, 0}, {0, 4}, {8, 4}, {4, 8}
+    };
+    static int[] moonCell = {4, 4};
 
     private Board(Cell[][] grid){
         this.grid = grid;
@@ -24,21 +30,13 @@ public class Board {
     public static Board create() {
         Cell[][] grid = new Cell[9][9];
 
-        int[][] sunPositions = {
-            {0, 0}, {1, 1}, {2, 2}, {8, 0}, {7, 1}, {6, 2},
-            {8, 8}, {7, 7}, {6, 6}, {0, 8}, {1, 7}, {2, 6},
-            {4, 0}, {0, 4}, {8, 4}, {4, 8}
-        };
-
-        int[] moonPosition = {4, 4};
-
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 Tile tile = new Tile(Shape.FEATHER, Color.YELLOW);
 
-                if (i == moonPosition[0] && j == moonPosition[1]) {
+                if (i == moonCell[0] && j == moonCell[1]) {
                     grid[i][j] = new MoonCell(tile);
-                } else if (isSunPosition(i, j, sunPositions)) {
+                } else if (isSunCellAt(i, j, sunCells)) {
                     grid[i][j] = new SunCell(tile);
                 } else {
                     grid[i][j] = new NormalCell(tile);
@@ -49,7 +47,7 @@ public class Board {
         return new Board(grid);
     }
 
-    private static boolean isSunPosition(int x, int y, int[][] sunPositions) {
+    private static boolean isSunCellAt(int x, int y, int[][] sunPositions) {
         for (int[] position : sunPositions) {
             if (position[0] == x && position[1] == y) {
                 return true;
@@ -92,10 +90,6 @@ public class Board {
             }
         }
         return neighbors;
-    }
-
-    public boolean isEmpty() {
-        return grid == null;
     }
 
     public boolean isInside(int x, int y) {
