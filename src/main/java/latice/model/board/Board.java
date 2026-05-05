@@ -7,15 +7,19 @@ import latice.model.cell.NormalCell;
 import latice.model.tile.Tile;
 import latice.model.tile.Shape;
 import latice.model.tile.Color;
+import latice.exception.model.InvalidPositionException;
+import latice.exception.model.CellOccupiedException;
+import latice.exception.model.InvalidTileException;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Board {
 
     private Cell[][] grid = null;
 
     private Board(Cell[][] grid){
-        this.grid = grid ;
-    };
+        this.grid = grid;
+    }
 
     public static Board create() {
         Cell[][] grid = new Cell[9][9];
@@ -43,7 +47,7 @@ public class Board {
         }
 
         return new Board(grid);
-    };
+    }
 
     private static boolean isSunPosition(int x, int y, int[][] sunPositions) {
         for (int[] position : sunPositions) {
@@ -52,26 +56,49 @@ public class Board {
             }
         }
         return false;
-    };
+    }
 
     public void placeTile(Tile tile, int x, int y) {
+        if (tile == null) {
+            throw new InvalidTileException();
+        }
+        if (!isInside(x, y)) {
+            throw new InvalidPositionException();
+        }
+        if (!grid[x][y].isEmpty()) {
+            throw new CellOccupiedException();
+        }
         grid[x][y].setTile(tile);
-    };
+    }
 
     public Cell getCell(int x, int y) {
-        return null;
-    };
+        if (!isInside(x, y)) {
+            throw new InvalidPositionException();
+        }
+        return grid[x][y];
+    }
 
     public List<Cell> getNeighbors(int x, int y) {
-        return null;
-    };
+        if (!isInside(x, y)) {
+            throw new InvalidPositionException();
+        }
+        List<Cell> neighbors = new ArrayList<>();
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // up, down, left, right
+        for (int[] dir : directions) {
+            int nx = x + dir[0];
+            int ny = y + dir[1];
+            if (isInside(nx, ny)) {
+                neighbors.add(grid[nx][ny]);
+            }
+        }
+        return neighbors;
+    }
 
     public boolean isEmpty() {
         return grid == null;
-    };
+    }
 
     public boolean isInside(int x, int y) {
-        return grid[x][y] == null;
-    };
-
+        return x >= 0 && x < 9 && y >= 0 && y < 9;
+    }
 }
