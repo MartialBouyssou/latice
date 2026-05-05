@@ -1,7 +1,10 @@
 package latice.application;
 
+import latice.model.board.Board;
+
 public class LaticeApplicationConsole {
-    private LaticeApplicationConsole() {}
+    private LaticeApplicationConsole() {
+    }
 
     public static void displayHeader() {
         System.out.println("---------------------------------------------------");
