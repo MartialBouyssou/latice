@@ -1,5 +1,6 @@
 package latice.application;
 
+import latice.model.board.Board;
 import latice.model.deck.Deck;
 import latice.model.player.Player;
 import latice.model.tile.Tile;
@@ -12,7 +13,10 @@ import java.util.List;
 public class LaticeTestCases {
 
     public static void main(String[] args) {
-    	Deck deckFull = Deck.create();
+    	Board board = Board.create();
+
+
+		Deck deckFull = Deck.create();
     	
     	List<Tile> firstPart1 = new ArrayList<>();
     	List<Tile> secondPart1 = new ArrayList<>();
@@ -48,6 +52,5 @@ public class LaticeTestCases {
 				+ (player1.getRack().getTiles().get(0) == player1.getRack().getTiles().get(0)));
 		message("Is player 1 first tile equal to player 2 first tile : "
 				+ (player1.getRack().getTiles().get(0) == player2.getRack().getTiles().get(0)));
-    	
    }
 }
