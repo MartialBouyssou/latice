@@ -13,35 +13,26 @@ public class Game {
     Board board;
     // Referee referee;
     Player currentPlayer;
-    int turnCount;
+    int turnCount = 0;
 
     public Game(List<Player> players, Board board/*, Referee referee*/) {
-        this.players = players;
-        this.board = board;
-        // this.referee = referee;
-        this.currentPlayer = players.get(0);
-        this.turnCount = 0;
     }
 
     public void startGame() {
+
         Board board = Board.create();
         Deck deckFull = Deck.create();
-        List<Tile> firstPart1 = new ArrayList<>();
-        List<Tile> secondPart1 = new ArrayList<>();
+        List<Tile> firstPart = new ArrayList<>();
+        List<Tile> secondPart = new ArrayList<>();
         List<Tile> tiles1 = deckFull.getTiles();
 
         for (int i = 0; i < deckFull.size()/2; i++) {
-            firstPart1.add(tiles1.get(i*2));
-            secondPart1.add(tiles1.get(i*2+1));
+            firstPart.add(tiles1.get(i*2));
+            secondPart.add(tiles1.get(i*2+1));
         }
 
-        players.get(0).getDeck().create(firstPart1);
-        players.get(1).getDeck().create(secondPart1);
-
-        players.get(0).getRack().exchangeAll(players.get(0).getDeck());
-        players.get(1).getRack().exchangeAll(players.get(1).getDeck());
-
-
+        players.add(Player.create("P1", Deck.create(firstPart) ));
+        players.add(Player.create("P2", Deck.create(secondPart) ));
     };
 
     public void nextTurn() {
