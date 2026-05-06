@@ -35,6 +35,10 @@ public class Rack {
             this.tiles.remove(tile);
     }
 
+    public int size() {
+        return tiles.size();
+    }
+
     public void refill(Deck deck) {
         while (tiles.size() < 5 && !deck.isEmpty())
             addTile(deck.draw());

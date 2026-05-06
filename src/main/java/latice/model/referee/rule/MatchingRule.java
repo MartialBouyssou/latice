@@ -1,4 +1,4 @@
-package latice.model.rule;
+package latice.model.referee.rule;
 
 import latice.model.board.Board;
 import latice.model.cell.Cell;
