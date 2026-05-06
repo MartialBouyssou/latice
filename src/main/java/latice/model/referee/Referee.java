@@ -2,6 +2,7 @@ package latice.model.referee;
 
 import latice.model.board.Board;
 import latice.model.game.Game;
+import latice.model.player.Player;
 import latice.model.referee.rule.IRule;
 import latice.model.tile.Tile;
 
@@ -14,6 +15,7 @@ public class Referee {
         this.rules = rules;
     }
 
+    // V5
     public boolean isValidMove(Board board, Tile tile, int x, int y) {
         for (IRule rule : rules) {
             if (!rule.validate(board, tile, x, y)) {
@@ -24,20 +26,32 @@ public class Referee {
     }
 
     public int calculateScore(Board board, Tile tile, int x, int y) {
-        // TODO: Implémenter le système de score
+        // TODO V6: implement scoring logic
         return 0;
     }
 
+    public boolean canBuyExtraAction(int playerScore) {
+        // TODO V7: return playerScore >= EXTRA_ACTION_COST
+        return false;
+    }
+
+    public Player determineWinner(Game game) {
+        // TODO V6: iterate game.getPlayers(), compare getTilesPlayed(), return null on tie
+        return null;
+    }
+
     public boolean isGameOver(Game game) {
-        if (game.getTurnCount() == 10) {
+        int maxTurns = 10 * game.getPlayers().size();
+        if (game.getTurnCount() >= maxTurns) {
             return true;
         }
-        // Check if players have any tile left (in rack / deck)
-        boolean playerOneHasNoTiles = game.getPlayers().get(0).getDeck().isEmpty() &&
-                game.getPlayers().get(0).getRack().isEmpty();
-        boolean playerTwoHasNoTiles = game.getPlayers().get(1).getDeck().isEmpty() &&
-                game.getPlayers().get(1).getRack().isEmpty();
 
-        return playerOneHasNoTiles || playerTwoHasNoTiles;
+        for (Player player : game.getPlayers()) {
+            if (player.getDeck().isEmpty() && player.getRack().isEmpty()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
