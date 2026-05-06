@@ -24,11 +24,14 @@ public class ConsoleListener implements GameListener {
     @Override
     public void onTilePlaced(TilePlacedEvent event) {
         Player player = event.getPlayer();
+
         message(player.getName() + " placed tile " + event.getTile() +
                 " at position (" + event.getX() + "," + event.getY() + ")");
         message("He have now " + player.getRack().size() +
                 " tiles in his rack. \nHe need to draw");
+
         event.getPlayer().drawTile();
+
         message("He have now " + player.getRack().size() +
                 " tiles in his rack. He drew a tile");
 

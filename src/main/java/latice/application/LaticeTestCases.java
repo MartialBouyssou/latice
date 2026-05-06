@@ -41,9 +41,12 @@ public class LaticeTestCases {
 	private static void eventExampleInGameContext(Game game) {
 		game.startGame(); // here is call onGameStarted from ConsoleListener
 		message(game.getBoard().toString());
+
+		//  first turn
 		Tile playedTile = game.getCurrentPlayer().getRack().getTiles().get(0);
 		game.playTile(playedTile, 4, 4); // here is call onTilePlayed from ConsoleListener
 		game.endTurn(); // here is call onTurnEnded from ConsoleListener
+
 		message(game.getBoard().toString());
 	}
 
