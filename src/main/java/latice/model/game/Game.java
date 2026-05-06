@@ -12,9 +12,11 @@ import java.util.List;
 public class Game {
     private List<Player> players;
     private Board board;
-    private Referee referee;
+    private final Referee referee;
     private Player currentPlayer;
     private int turnCount = 0;
+    private final Player firstPlayer = players.get(0);
+    private final Player secondPlayer = players.get(1);
 
     public Game(Referee referee) {
         this.referee = referee;
@@ -50,14 +52,16 @@ public class Game {
 
         players.add(Player.create("P1", Deck.create(firstPart) ));
         players.add(Player.create("P2", Deck.create(secondPart) ));
+
+        currentPlayer = firstPlayer;
     }
 
     public void nextTurn() {
         turnCount++;
-        if (currentPlayer == players.get(0)) {
-            currentPlayer = players.get(1);
+        if (currentPlayer == firstPlayer) {
+            currentPlayer = secondPlayer;
         } else {
-            currentPlayer = players.get(0);
+            currentPlayer = firstPlayer;
         }
     }
 
@@ -70,8 +74,6 @@ public class Game {
     }
 
     public Player getWinner() {
-        Player firstPlayer = players.get(0);
-        Player secondPlayer = players.get(1);
         int firstPlayerTileCount = firstPlayer.getDeck().size() + firstPlayer.getRack().size();
         int secondPlayerTileCount = secondPlayer.getDeck().size() + secondPlayer.getRack().size();
 

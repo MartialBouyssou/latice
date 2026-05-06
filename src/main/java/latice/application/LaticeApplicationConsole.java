@@ -23,3 +23,5 @@ public class LaticeApplicationConsole {
     	System.out.println("-------------------------------------");
     }
 }
+
+
