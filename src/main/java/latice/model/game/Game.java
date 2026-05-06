@@ -1,23 +1,29 @@
 package latice.model.game;
 
+import latice.exception.model.GameNotStartException;
 import latice.model.board.Board;
 import latice.model.deck.Deck;
+import latice.model.game.events.*;
 import latice.model.player.Player;
 import latice.model.referee.Referee;
 import latice.model.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
-    private List<Player> players;
+    private final List<Player> players;
     private Board board;
-    private Referee referee;
+    private final Referee referee;
     private Player currentPlayer;
-    private int turnCount = 0;
+    private int turnCount;
+    private final List<GameListener> listeners = new ArrayList<>();
 
     public Game(Referee referee) {
         this.referee = referee;
+        this.players = new ArrayList<>();
+        this.turnCount = 0;
     }
 
     public List<Player> getPlayers() {
@@ -36,52 +42,93 @@ public class Game {
         return turnCount;
     }
 
-    public void startGame() {
-        board = Board.create();
-        Deck deckFull = Deck.create();
-        List<Tile> firstPart = new ArrayList<>();
-        List<Tile> secondPart = new ArrayList<>();
-        List<Tile> tiles1 = deckFull.getTiles();
-
-        for (int i = 0; i < deckFull.size()/2; i++) {
-            firstPart.add(tiles1.get(i*2));
-            secondPart.add(tiles1.get(i*2+1));
-        }
-
-        players.add(Player.create("P1", Deck.create(firstPart) ));
-        players.add(Player.create("P2", Deck.create(secondPart) ));
+    public Referee getReferee() {
+        return referee;
     }
 
-    public void nextTurn() {
-        turnCount++;
-        if (currentPlayer == players.get(0)) {
-            currentPlayer = players.get(1);
-        } else {
-            currentPlayer = players.get(0);
+    // V4
+    public void startGame() {
+        board = Board.create();
+
+        Deck fullDeck = Deck.create();
+        List<Tile> allTiles = fullDeck.getTiles();
+
+        List<Tile> firstHalf = new ArrayList<>();
+        List<Tile> secondHalf = new ArrayList<>();
+
+        for (int i = 0; i < allTiles.size() / 2; i++) {
+            firstHalf.add(allTiles.get(i * 2));
+            secondHalf.add(allTiles.get(i * 2 + 1));
         }
+
+        players.add(Player.create("P1", Deck.create(firstHalf)));
+        players.add(Player.create("P2", Deck.create(secondHalf)));
+
+        currentPlayer = players.get(new Random().nextInt(players.size()));
+
+        sendEvent(new GameStartedEvent(currentPlayer));
     }
 
     public void endTurn() {
-        //TODO: implement end turn logic (ex check if game is over, etc..)
+        if (currentPlayer == null) {
+            throw new GameNotStartException();
+        }
+        currentPlayer.getRack().refill(currentPlayer.getDeck());
+
+        turnCount++;
+        Player lastPlayer = currentPlayer;
+        nextPlayer();
+
+        if (referee.isGameOver(this)) {
+            sendEvent(new GameOverEvent(getWinner()));
+        } else {
+            // TODO: calculate last turn score ?
+            sendEvent(new TurnEndedEvent(lastPlayer, 0, currentPlayer));
+        }
     }
 
     public boolean isGameOver() {
+        if (currentPlayer == null) {
+            throw new GameNotStartException();
+        }
+
         return referee.isGameOver(this);
     }
 
     public Player getWinner() {
-        Player firstPlayer = players.get(0);
-        Player secondPlayer = players.get(1);
-        int firstPlayerTileCount = firstPlayer.getDeck().size() + firstPlayer.getRack().size();
-        int secondPlayerTileCount = secondPlayer.getDeck().size() + secondPlayer.getRack().size();
+        // TODO V6: delegate to referee.determineWinner(this)
+        if (currentPlayer == null) {
+            throw new GameNotStartException();
+        }
 
-        if (firstPlayerTileCount > secondPlayerTileCount) {
-            return firstPlayer;
-        } else if (firstPlayerTileCount < secondPlayerTileCount) {
-            return secondPlayer;
-        } else {
-            // TODO: implement Draw when the 2 players have the same amount of tiles
-            return Player.create("Draw : no one won", players.get(0).getDeck());
+        return null;
+    }
+
+    private void nextPlayer() {
+        if (currentPlayer == null) {
+            throw new GameNotStartException();
+        }
+
+        int currentIndex = players.indexOf(currentPlayer);
+        currentPlayer = players.get((currentIndex + 1) % players.size());
+    }
+
+    public void addListener(GameListener listener) {
+        listeners.add(listener);
+    }
+
+    private void sendEvent(GameEvent event) {
+        for (GameListener listener : listeners) {
+            if (event instanceof GameStartedEvent e) listener.onGameStarted(e);
+            if (event instanceof GameOverEvent e) listener.onGameOver(e);
+
+            if (event instanceof TurnPassedEvent e) listener.onTurnPassed(e);
+            if (event instanceof TurnEndedEvent e) listener.onTurnEnded(e);
+
+            if (event instanceof TilePlacedEvent e) listener.onTilePlaced(e);
+            if (event instanceof InvalidMoveEvent e) listener.onInvalidMove(e);
+
+            if (event instanceof RackExchangedEvent e) listener.onRackExchanged(e);
         }
     }
 }
