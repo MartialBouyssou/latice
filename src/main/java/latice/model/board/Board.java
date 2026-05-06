@@ -36,7 +36,7 @@ public class Board {
 
                 if (i == moonCell[0] && j == moonCell[1]) {
                     grid[i][j] = new MoonCell(tile);
-                } else if (isSunCellAt(i, j, sunCells)) {
+                } else if (isSunCellAt(i, j)) {
                     grid[i][j] = new SunCell(tile);
                 } else {
                     grid[i][j] = new NormalCell(tile);
@@ -47,8 +47,8 @@ public class Board {
         return new Board(grid);
     }
 
-    private static boolean isSunCellAt(int x, int y, int[][] sunCells) {
-        for (int[] position : sunCells) {
+    private static boolean isSunCellAt(int x, int y) {
+        for (int[] position : Board.sunCells) {
             if (position[0] == x && position[1] == y) {
                 return true;
             }
@@ -104,7 +104,7 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             sb.append("│");
             for (int j = 0; j < 9; j++) {
-                if (isSunCellAt(i, j, sunCells)) {
+                if (isSunCellAt(i, j)) {
                     sb.append("S ");
                 } else if (i == moonCell[0] && j == moonCell[1]) {
                     sb.append("M ");
