@@ -23,7 +23,7 @@ public class Board {
     };
     static int[] moonCell = {4, 4};
 
-    private Board(Cell[][] grid){
+    private Board(Cell[][] grid) {
         this.grid = grid;
     }
 
@@ -47,8 +47,8 @@ public class Board {
         return new Board(grid);
     }
 
-    private static boolean isSunCellAt(int x, int y, int[][] sunPositions) {
-        for (int[] position : sunPositions) {
+    private static boolean isSunCellAt(int x, int y, int[][] sunCells) {
+        for (int[] position : sunCells) {
             if (position[0] == x && position[1] == y) {
                 return true;
             }
@@ -94,5 +94,27 @@ public class Board {
 
     public boolean isInside(int x, int y) {
         return x >= 0 && x < 9 && y >= 0 && y < 9;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Board 9x9:\n");
+        sb.append(" ┌─────────────────┐\n");
+        for (int i = 0; i < 9; i++) {
+            sb.append("│");
+            for (int j = 0; j < 9; j++) {
+                if (isSunCellAt(i, j, sunCells)) {
+                    sb.append("S ");
+                } else if (i == moonCell[0] && j == moonCell[1]) {
+                    sb.append("M ");
+                } else {
+                    sb.append("N ");
+                }
+            }
+            sb.append("│\n");
+        }
+        sb.append(" └─────────────────┘");
+        return sb.toString();
     }
 }

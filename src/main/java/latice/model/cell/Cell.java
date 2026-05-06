@@ -4,8 +4,8 @@ import latice.model.tile.Tile;
 public abstract class Cell {
     private Tile tile = null;
 
-    Cell(Tile tile){
-        this.tile = tile;
+    Cell( ){
+        tile = null;
     }
 
     public boolean isEmpty(){

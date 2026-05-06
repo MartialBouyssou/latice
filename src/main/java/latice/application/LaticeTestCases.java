@@ -52,5 +52,7 @@ public class LaticeTestCases {
 				+ (player1.getRack().getTiles().get(0) == player1.getRack().getTiles().get(0)));
 		message("Is player 1 first tile equal to player 2 first tile : "
 				+ (player1.getRack().getTiles().get(0) == player2.getRack().getTiles().get(0)));
+
+		message(board.toString());
    }
 }
