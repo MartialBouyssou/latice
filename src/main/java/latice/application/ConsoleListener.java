@@ -2,12 +2,20 @@ package latice.application;
 
 import latice.model.game.events.*;
 
+import static latice.application.LaticeApplicationConsole.message;
+
 public class ConsoleListener implements GameListener {
+
+    @Override
+    public void onGameStarted(GameStartedEvent event) {
+        String firstPlayer = event.getPlayer().getName();
+        message(firstPlayer + " is playing first :)");
+    }
 
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
         String nextPlayerName = event.getNextPlayer().getName();
-        System.out.println("Turn ended. \nNow " + nextPlayerName + " is playing !!!!");
+        message("Turn ended. \nNow " + nextPlayerName + " is playing !!!!");
     }
 
     @Override
@@ -20,6 +28,4 @@ public class ConsoleListener implements GameListener {
     public void onRackExchanged(RackExchangedEvent event) { /* not yet needed */ }
     @Override
     public void onTurnPassed(TurnPassedEvent event) { /* not yet needed */ }
-    @Override
-    public void onGameStarted(GameStartedEvent event) { /* not yet needed */ }
 }

@@ -23,8 +23,7 @@ public class LaticeTestCases {
 		// Game test
 		displayHeader();
 		Game game = getNewGame();
-		game.startGame();
-		eventExample(game);
+		eventExampleInGameContext(game);
 	}
 
 	private static Game getNewGame() {
@@ -38,9 +37,10 @@ public class LaticeTestCases {
 		return game;
 	}
 
-	private static void eventExample(Game game) {
-		titre("Event Example");
-		game.endTurn();
+	private static void eventExampleInGameContext(Game game) {
+		game.startGame(); // here is call onGameStarted from ConsoleListener
+		message(game.getBoard().toString());
+		game.endTurn(); // here is call onTurnEnded from ConsoleListener
 	}
 
 	static void testBoardCreation() {
