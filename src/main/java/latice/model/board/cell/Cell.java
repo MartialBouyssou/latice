@@ -1,10 +1,14 @@
-package latice.model.cell;
+package latice.model.board.cell;
 
 import latice.model.tile.Tile;
 public abstract class Cell {
     private Tile tile = null;
 
-    Cell( ){
+    Cell(Tile tile){
+        this.tile = tile;
+    }
+
+    Cell(){
         tile = null;
     }
 

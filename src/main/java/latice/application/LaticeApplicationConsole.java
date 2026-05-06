@@ -1,9 +1,9 @@
 package latice.application;
 
 import latice.model.board.Board;
-import latice.model.cell.Cell;
-import latice.model.cell.MoonCell;
-import latice.model.cell.SunCell;
+import latice.model.board.cell.Cell;
+import latice.model.board.cell.MoonCell;
+import latice.model.board.cell.SunCell;
 
 public class LaticeApplicationConsole {
     private LaticeApplicationConsole() {

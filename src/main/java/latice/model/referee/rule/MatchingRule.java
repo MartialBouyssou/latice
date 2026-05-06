@@ -1,7 +1,7 @@
 package latice.model.referee.rule;
 
 import latice.model.board.Board;
-import latice.model.cell.Cell;
+import latice.model.board.cell.Cell;
 import latice.model.tile.Tile;
 
 import java.util.List;
