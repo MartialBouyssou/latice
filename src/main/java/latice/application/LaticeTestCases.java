@@ -6,6 +6,7 @@ import latice.model.referee.Referee;
 import latice.model.referee.rule.AdjacencyRule;
 import latice.model.referee.rule.IRule;
 import latice.model.referee.rule.MatchingRule;
+import latice.model.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,10 @@ public class LaticeTestCases {
 	private static void eventExampleInGameContext(Game game) {
 		game.startGame(); // here is call onGameStarted from ConsoleListener
 		message(game.getBoard().toString());
+		Tile playedTile = game.getCurrentPlayer().getRack().getTiles().get(0);
+		game.playTile(playedTile, 4, 4); // here is call onTilePlayed from ConsoleListener
 		game.endTurn(); // here is call onTurnEnded from ConsoleListener
+		message(game.getBoard().toString());
 	}
 
 	static void testBoardCreation() {

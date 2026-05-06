@@ -69,6 +69,24 @@ public class Game {
         sendEvent(new GameStartedEvent(currentPlayer));
     }
 
+    public void playTile(Tile tile, int x, int y) {
+        // TODO: First implementation just to see if the game work atm
+        if (currentPlayer == null) {
+            throw new GameNotStartException();
+        }
+
+        if (!currentPlayer.getRack().getTiles().contains(tile)) {
+            sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y));
+            return;
+        }
+
+        currentPlayer.getRack().getTiles().remove(tile);
+        board.getCell(x, y).setTile(tile);
+
+        sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y,
+                referee.calculateScore(this.getBoard(), tile, x, y)));
+    }
+
     public void endTurn() {
         if (currentPlayer == null) {
             throw new GameNotStartException();

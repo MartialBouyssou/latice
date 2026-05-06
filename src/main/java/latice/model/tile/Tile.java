@@ -19,7 +19,11 @@ public class Tile {
 
     @Override
     public String toString() {
-        return shape + " " + color;
+        return shape.getShape() + " " + color;
+    }
+
+    public String toEmoji() {
+        return shape.toString();
     }
 
     @Override
