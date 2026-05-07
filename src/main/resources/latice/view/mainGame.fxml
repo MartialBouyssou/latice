@@ -38,407 +38,407 @@
          <children>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="8">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_moon.png" />
+                  <Image url="@../images/bg_moon.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sea.png" />
+                  <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../../../resources/latice/images/bg_sun.png" />
+                  <Image url="@../images/bg_sun.png" />
                </image>
             </ImageView>
          </children>
