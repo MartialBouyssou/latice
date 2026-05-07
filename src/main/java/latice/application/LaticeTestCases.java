@@ -6,6 +6,8 @@ import latice.model.referee.Referee;
 import latice.model.referee.rule.AdjacencyRule;
 import latice.model.referee.rule.IRule;
 import latice.model.referee.rule.MatchingRule;
+import latice.model.tile.Color;
+import latice.model.tile.Shape;
 import latice.model.tile.Tile;
 
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ public class LaticeTestCases {
 		displayHeader();
 		Game game = getNewGame();
 		eventExampleInGameContext(game);
+
+		testGetTileImgParh();
 	}
 
 	private static Game getNewGame() {
@@ -98,4 +102,9 @@ public class LaticeTestCases {
 		}
 		return true;
 	}
+
+	static void testGetTileImgParh(){
+		Tile tile = new Tile(Shape.BIRD, Color.GREEN);
+		message(tile.getTileImgPath(tile));
+	};
 }
