@@ -10,10 +10,10 @@ import latice.model.tile.Color;
 import latice.model.tile.Shape;
 import latice.model.tile.Tile;
 
+import static latice.application.LaticeApplicationConsole.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static latice.application.LaticeApplicationConsole.*;
 
 public class LaticeTestCases {
 
