@@ -28,7 +28,7 @@ public class LaticeTestCases {
 		Game game = getNewGame();
 		eventExampleInGameContext(game);
 
-		testGetTileImgParh();
+		testGetTileImgPath();
 	}
 
 	private static Game getNewGame() {
@@ -103,7 +103,7 @@ public class LaticeTestCases {
 		return true;
 	}
 
-	static void testGetTileImgParh(){
+	static void testGetTileImgPath(){
 		Tile tile = new Tile(Shape.BIRD, Color.GREEN);
 		message(tile.getTileImgPath(tile));
 	};
