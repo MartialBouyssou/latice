@@ -453,26 +453,41 @@
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
+               <HBox.margin>
+                  <Insets bottom="50.0" />
+               </HBox.margin>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="150.0" nodeOrientation="INHERIT">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
+               <HBox.margin>
+                  <Insets bottom="50.0" />
+               </HBox.margin>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="150.0" nodeOrientation="INHERIT">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
+               <HBox.margin>
+                  <Insets bottom="50.0" />
+               </HBox.margin>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="150.0" nodeOrientation="INHERIT">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
+               <HBox.margin>
+                  <Insets bottom="50.0" />
+               </HBox.margin>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="150.0" nodeOrientation="INHERIT">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
+               <HBox.margin>
+                  <Insets bottom="50.0" />
+               </HBox.margin>
             </ImageView>
          </children>
          <BorderPane.margin>
