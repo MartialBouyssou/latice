@@ -39,4 +39,8 @@ public class Tile {
     public int hashCode() {
         return super.hashCode();
     }
+
+    public String getTileImgPath(Tile tile) {
+        return "latice/images/" + shape.getShape() + "_" +  color.getColor().charAt(0) + ".png";
+    }
 }
