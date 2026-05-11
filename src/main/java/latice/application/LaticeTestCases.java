@@ -10,10 +10,10 @@ import latice.model.tile.Color;
 import latice.model.tile.Shape;
 import latice.model.tile.Tile;
 
+import static latice.application.LaticeApplicationConsole.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static latice.application.LaticeApplicationConsole.*;
 
 public class LaticeTestCases {
 
@@ -28,7 +28,7 @@ public class LaticeTestCases {
 		Game game = getNewGame();
 		eventExampleInGameContext(game);
 
-		testGetTileImgParh();
+		testGetTileImgPath();
 	}
 
 	private static Game getNewGame() {
@@ -103,8 +103,8 @@ public class LaticeTestCases {
 		return true;
 	}
 
-	static void testGetTileImgParh(){
+	static void testGetTileImgPath(){
 		Tile tile = new Tile(Shape.BIRD, Color.GREEN);
 		message(tile.getTileImgPath(tile));
-	};
+	}
 }
