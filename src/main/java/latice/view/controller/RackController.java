@@ -1,6 +1,7 @@
 package latice.view.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -86,7 +87,10 @@ public class RackController implements GameListener {
 
     @Override
     public void onInvalidMove(InvalidMoveEvent event) {
-
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Move");
+        alert.setHeaderText("Invalid Move");
+        // alert.setContentText(event.getReason());
     }
 
     @Override
