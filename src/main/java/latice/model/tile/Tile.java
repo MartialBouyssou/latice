@@ -19,7 +19,11 @@ public class Tile {
 
     @Override
     public String toString() {
-        return shape + " " + color;
+        return shape.getShape() + " " + color;
+    }
+
+    public String toEmoji() {
+        return shape.toString();
     }
 
     @Override
@@ -34,5 +38,9 @@ public class Tile {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    public String getTileImgPath(Tile tile) {
+        return "latice/images/" + shape.getShape() + "_" +  color.getColor().charAt(0) + ".png";
     }
 }
