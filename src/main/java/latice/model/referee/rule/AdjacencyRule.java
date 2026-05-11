@@ -21,4 +21,9 @@ public class AdjacencyRule implements IRule {
         }
         return false;
     }
+
+    @Override
+    public int getPriority() {
+        return 1;
+    }
 }

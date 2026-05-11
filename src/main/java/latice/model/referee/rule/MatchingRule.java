@@ -25,4 +25,9 @@ public class MatchingRule implements IRule {
         }
         return true;
     }
+
+    @Override
+    public int getPriority() {
+        return 1;
+    }
 }

@@ -3,9 +3,7 @@ package latice.application;
 import latice.model.board.Board;
 import latice.model.game.Game;
 import latice.model.referee.Referee;
-import latice.model.referee.rule.AdjacencyRule;
-import latice.model.referee.rule.IRule;
-import latice.model.referee.rule.MatchingRule;
+import latice.model.referee.rule.*;
 import latice.model.tile.Color;
 import latice.model.tile.Shape;
 import latice.model.tile.Tile;
@@ -14,6 +12,7 @@ import static latice.application.LaticeApplicationConsole.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class LaticeTestCases {
 
@@ -35,8 +34,10 @@ public class LaticeTestCases {
 		List<IRule> rules = new ArrayList<>();
 		rules.add(new MatchingRule());
 		rules.add(new AdjacencyRule());
+		rules.add(new PositionRule());
+		rules.add(new FirstTurnRule());
 
-		Game game = new Game(new Referee(rules));
+		Game game = new Game(Referee.create(rules));
 		game.addListener(new ConsoleListener());
 
 		return game;
@@ -47,8 +48,19 @@ public class LaticeTestCases {
 		message(game.getBoard().toString());
 
 		//  first turn
-		Tile playedTile = game.getCurrentPlayer().getRack().getTiles().get(0);
-		game.playTile(playedTile, 4, 4); // here is call onTilePlayed from ConsoleListener
+		Scanner scanner = new Scanner(System.in);
+
+		do {
+			System.out.print("Enter x coordinate where you want to place a tile: ");
+			int x = scanner.nextInt();
+			System.out.print("Enter y coordinate where you want to place a tile: ");
+			int y = scanner.nextInt();
+
+			Tile playedTile = game.getCurrentPlayer().getRack().getTiles().get(0);
+			game.playTile(playedTile, x, y); // here is call onTilePlayed from ConsoleListener
+
+		} while (!game.isTilePlayedThisTurn());
+
 		game.endTurn(); // here is call onTurnEnded from ConsoleListener
 
 		message(game.getBoard().toString());
