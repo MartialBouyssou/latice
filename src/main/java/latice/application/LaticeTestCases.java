@@ -105,6 +105,6 @@ public class LaticeTestCases {
 
 	static void testGetTileImgPath(){
 		Tile tile = new Tile(Shape.BIRD, Color.GREEN);
-		message(tile.getTileImgPath(tile));
+		message(tile.getTileImgPath());
 	}
 }
