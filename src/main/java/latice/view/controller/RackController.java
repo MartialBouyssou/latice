@@ -38,7 +38,6 @@ public class RackController {
             if (i < tiles.size()) {
                 Tile tile = tiles.get(i);
                 String imagePath = tile.getTileImgPath();
-                message(imagePath);
                 ImageView imageView = rackImageViews.get(i);
                 imageView.setImage(new Image(imagePath));
                 imageView.setVisible(true);
