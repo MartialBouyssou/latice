@@ -415,7 +415,7 @@
                   <Image url="@../images/bg_sea.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
+            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <image>
                   <Image url="@../images/bg_moon.png" />
                </image>
@@ -447,9 +447,9 @@
       </GridPane>
    </center>
    <bottom>
-      <HBox alignment="CENTER" cache="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="253.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="rackBox" alignment="CENTER" cache="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="253.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
+            <ImageView fx:id="rackTile1" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
@@ -457,7 +457,7 @@
                   <Insets bottom="50.0" />
                </HBox.margin>
             </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
+            <ImageView fx:id="rackTile2" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
@@ -465,7 +465,7 @@
                   <Insets bottom="50.0" />
                </HBox.margin>
             </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
+            <ImageView fx:id="rackTile3" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
@@ -473,7 +473,7 @@
                   <Insets bottom="50.0" />
                </HBox.margin>
             </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
+            <ImageView fx:id="rackTile4" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
@@ -481,7 +481,7 @@
                   <Insets bottom="50.0" />
                </HBox.margin>
             </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
+            <ImageView fx:id="rackTile5" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
                   <Image url="@../images/dolphin_m.png" />
                </image>
@@ -492,6 +492,7 @@
          </children>
          <BorderPane.margin>
             <Insets />
-         </BorderPane.margin></HBox>
+         </BorderPane.margin>
+      </HBox>
    </bottom>
 </BorderPane>
