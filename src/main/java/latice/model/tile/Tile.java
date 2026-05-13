@@ -40,9 +40,7 @@ public class Tile {
         return super.hashCode();
     }
 
-    public static String getTileImgPath(Tile tile) {
-        Shape shape = tile.getShape();
-        Color color = tile.getColor();
+    public String getTileImgPath() {
         return "latice/images/" + shape.getShape() + "_" +  color.getColor().charAt(0) + ".png";
     }
 }
