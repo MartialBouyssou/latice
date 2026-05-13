@@ -50,7 +50,7 @@ public class RackController implements GameListener {
         for (int i = 0; i < 5; i++) {
             if (i < tiles.size()) {
                 Tile tile = tiles.get(i);
-                String imagePath = tile.getTileImgPath(tile);
+                String imagePath = Tile.getTileImgPath(tile);
                 ImageView imageView = rackImageViews.get(i);
                 imageView.setImage(new Image(imagePath));
                 imageView.setVisible(true);
