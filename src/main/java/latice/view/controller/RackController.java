@@ -13,7 +13,9 @@ import latice.model.tile.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RackController implements GameListener {
+import static latice.application.LaticeApplicationConsole.message;
+
+public class RackController {
     @FXML private HBox rackBox;
     @FXML private ImageView rackTile1;
     @FXML private ImageView rackTile2;
@@ -26,31 +28,17 @@ public class RackController implements GameListener {
 
     @FXML
     public void initialize() {
-        rackImageViews = new ArrayList<>();
-        rackImageViews.add(rackTile1);
-        rackImageViews.add(rackTile2);
-        rackImageViews.add(rackTile3);
-        rackImageViews.add(rackTile4);
-        rackImageViews.add(rackTile5);
+        rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-        game.addListener(this);
-    }
-
-    private void updateRack() {
-        if (game == null || game.getCurrentPlayer() == null) {
-            return;
-        }
-
-        Player currentPlayer = game.getCurrentPlayer();
-        List<Tile> tiles = currentPlayer.getRack().getTiles();
+    public void updateRack(Player player) {
+        List<Tile> tiles = player.getRack().getTiles();
 
         for (int i = 0; i < 5; i++) {
             if (i < tiles.size()) {
                 Tile tile = tiles.get(i);
-                String imagePath = Tile.getTileImgPath(tile);
+                String imagePath = tile.getTileImgPath();
+                message(imagePath);
                 ImageView imageView = rackImageViews.get(i);
                 imageView.setImage(new Image(imagePath));
                 imageView.setVisible(true);
@@ -60,41 +48,10 @@ public class RackController implements GameListener {
         }
     }
 
-    @Override
-    public void onGameStarted(GameStartedEvent event) {
-        updateRack();
-    }
-
-    @Override
-    public void onGameOver(GameOverEvent event) {
-
-    }
-
-    @Override
-    public void onTurnPassed(TurnPassedEvent event) {
-        updateRack();
-    }
-
-    @Override
-    public void onTurnEnded(TurnEndedEvent event) {
-        updateRack();
-    }
-
-    @Override
-    public void onTilePlaced(TilePlacedEvent event) {
-        updateRack();
-    }
-
-    @Override
-    public void onInvalidMove(InvalidMoveEvent event) {
+    public void showInvalidMove() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid Move");
         alert.setHeaderText("Invalid Move");
-        // alert.setContentText(event.getReason());
-    }
-
-    @Override
-    public void onRackExchanged(RackExchangedEvent event) {
-        updateRack();
+        alert.show();
     }
 }
