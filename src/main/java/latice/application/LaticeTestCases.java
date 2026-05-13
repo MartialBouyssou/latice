@@ -1,5 +1,6 @@
 package latice.application;
 
+import latice.application.listeners.ConsoleListener;
 import latice.model.board.Board;
 import latice.model.game.Game;
 import latice.model.referee.Referee;

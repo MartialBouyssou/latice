@@ -7,7 +7,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import latice.application.listeners.ConsoleListener;
+import latice.application.listeners.LaticeGameListener;
+import latice.model.game.Game;
+import latice.model.referee.Referee;
+import latice.model.referee.rule.AdjacencyRule;
+import latice.model.referee.rule.IRule;
+import latice.model.referee.rule.MatchingRule;
+import latice.view.controller.RackController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ApplicationMain extends Application {
@@ -19,16 +29,31 @@ public class ApplicationMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getResource("/latice/view/mainGame.fxml")));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/latice/view/mainGame.fxml"));
+            Parent root = loader.load();
+
+            RackController rackController = loader.getController();
+
+            Game game = buildGame();
+            game.addListener(new LaticeGameListener(rackController));
+
             primaryStage.setScene(new Scene(root, 1920, 1080));
+            primaryStage.setTitle("Latice");
+            primaryStage.show();
+
+            game.startGame();
+
         } catch (Exception e) {
             BorderPane errorPane = new BorderPane();
-            errorPane.setCenter(new Label("Error loading the application: " + e.getMessage()));
+            errorPane.setCenter(new Label("Error: " + e.getMessage()));
             primaryStage.setScene(new Scene(errorPane, 400, 200));
+            primaryStage.show();
         }
+    }
 
-        primaryStage.setTitle("Latice");
-        primaryStage.show();
+    private Game buildGame() {
+        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule());
+        return new Game(new Referee(rules));
     }
 }
