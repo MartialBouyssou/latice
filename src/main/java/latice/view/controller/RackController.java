@@ -6,14 +6,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import latice.model.game.Game;
-import latice.model.game.events.*;
 import latice.model.player.Player;
 import latice.model.tile.Tile;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static latice.application.LaticeApplicationConsole.message;
 
 public class RackController {
     @FXML private HBox rackBox;
