@@ -47,6 +47,7 @@ public class RackController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid Move");
         alert.setHeaderText("Invalid Move");
+        //alert.setContentText(event.getReason());
         alert.show();
     }
 }
