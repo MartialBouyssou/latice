@@ -2,6 +2,7 @@ package latice.view.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class RackController {
     @FXML private HBox rackBox;
+    @FXML private Label currentPlayerLabel;
     @FXML private ImageView rackTile1;
     @FXML private ImageView rackTile2;
     @FXML private ImageView rackTile3;
@@ -28,6 +30,8 @@ public class RackController {
     }
 
     public void updateRack(Player player) {
+        currentPlayerLabel.setText("Tour de " + player.getName() + " :");
+
         List<Tile> tiles = player.getRack().getTiles();
 
         for (int i = 0; i < 5; i++) {
