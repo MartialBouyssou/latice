@@ -86,14 +86,14 @@ class TileTest {
     void getTileImgPathShouldReturnCorrectPath() {
         Tile tile = new Tile(Shape.BIRD, Color.RED);
 
-        String imagePath = tile.getTileImgPath(tile);
+        String imagePath = tile.getTileImgPath();
         assertEquals("latice/images/bird_r.png", imagePath);
     }
 
     @Test
     void getTileImgPathShouldUseFirstLetterOfColor() {
         Tile tile = new Tile(Shape.TURTLE, Color.YELLOW);
-        String imagePath = tile.getTileImgPath(tile);
+        String imagePath = tile.getTileImgPath();
 
         assertTrue(imagePath.endsWith("_y.png"));
     }
