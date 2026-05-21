@@ -79,7 +79,7 @@ public class Board {
             throw new InvalidPositionException();
         }
         List<Cell> neighbors = new ArrayList<>();
-        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // up, down, left, right
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
         for (int[] dir : directions) {
             int nx = x + dir[0];
             int ny = y + dir[1];

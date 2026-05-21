@@ -13,12 +13,14 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
+    public static final int MAX_TURN_COUNT = 10;
     private final List<Player> players;
     private Board board;
     private final Referee referee;
     private Player currentPlayer;
     private int turnCount;
     private final List<GameListener> listeners = new ArrayList<>();
+    private int playersTurnScore;
 
     public Game(Referee referee) {
         this.referee = referee;
@@ -70,7 +72,6 @@ public class Game {
     }
 
     public void playTile(Tile tile, int x, int y) {
-        // TODO: First implementation just to see if the game work atm
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
@@ -80,11 +81,15 @@ public class Game {
             return;
         }
 
+        playersTurnScore = referee.calculateScore(this.getBoard(), tile, x, y);
+
         currentPlayer.getRack().getTiles().remove(tile);
+        currentPlayer.incrementTilesPlayed();
+        currentPlayer.addScore(playersTurnScore);
+
         board.getCell(x, y).setTile(tile);
 
-        sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y,
-                referee.calculateScore(this.getBoard(), tile, x, y)));
+        sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
     }
 
     public void endTurn() {
@@ -93,7 +98,6 @@ public class Game {
         }
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
-        turnCount++;
         Player lastPlayer = currentPlayer;
         nextPlayer();
 
@@ -101,8 +105,11 @@ public class Game {
             sendEvent(new GameOverEvent(getWinner()));
         } else {
             // TODO: calculate last turn score ?
-            sendEvent(new TurnEndedEvent(lastPlayer, 0, currentPlayer));
+            sendEvent(new TurnEndedEvent(lastPlayer, playersTurnScore, currentPlayer));
         }
+
+        turnCount++;
+        playersTurnScore = 0;
     }
 
     public boolean isGameOver() {
@@ -114,12 +121,11 @@ public class Game {
     }
 
     public Player getWinner() {
-        // TODO V6: delegate to referee.determineWinner(this)
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
 
-        return null;
+        return referee.determineWinner(this);
     }
 
     private void nextPlayer() {
