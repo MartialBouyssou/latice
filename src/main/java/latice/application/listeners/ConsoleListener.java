@@ -1,4 +1,4 @@
-package latice.application;
+package latice.application.listeners;
 
 import latice.model.game.events.*;
 import latice.model.player.Player;
