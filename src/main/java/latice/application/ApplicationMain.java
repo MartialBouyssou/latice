@@ -13,7 +13,6 @@ import latice.model.referee.Referee;
 import latice.model.referee.rule.AdjacencyRule;
 import latice.model.referee.rule.IRule;
 import latice.model.referee.rule.MatchingRule;
-import latice.view.controller.DragAndDropController;
 import latice.view.controller.GameController;
 
 import java.util.List;
