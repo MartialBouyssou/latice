@@ -10,19 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.RackController">
-   <top>
-      <HBox alignment="CENTER" prefHeight="60.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="currentPlayerLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Tour de ... :" />
-         </children>
-         <padding>
-            <Insets bottom="10.0" top="10.0" />
-         </padding>
-      </HBox>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.RackController">
    <center>
-      <GridPane maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+      <GridPane maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" translateX="-190.0" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -453,7 +443,7 @@
             </ImageView>
          </children>
          <BorderPane.margin>
-            <Insets left="20.0" right="20.0" top="20.0" />
+            <Insets right="20.0" top="20.0" />
          </BorderPane.margin>
       </GridPane>
    </center>
@@ -506,4 +496,14 @@
          </BorderPane.margin>
       </HBox>
    </bottom>
+   <left>
+      <HBox alignment="CENTER" maxHeight="675.0" maxWidth="500.0" minHeight="675.0" minWidth="400.0" prefHeight="675.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+         <children>
+            <Label fx:id="currentPlayerLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Tour de ... :" translateX="120.0" translateY="-310.0" />
+         </children>
+      </HBox>
+   </left>
 </BorderPane>
