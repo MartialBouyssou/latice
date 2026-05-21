@@ -7,18 +7,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import latice.application.listeners.ConsoleListener;
 import latice.application.listeners.LaticeGameListener;
 import latice.model.game.Game;
 import latice.model.referee.Referee;
 import latice.model.referee.rule.AdjacencyRule;
 import latice.model.referee.rule.IRule;
 import latice.model.referee.rule.MatchingRule;
-import latice.view.controller.RackController;
+import latice.view.controller.DragAndDropController;
+import latice.view.controller.GameController;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ApplicationMain extends Application {
 
@@ -33,14 +31,16 @@ public class ApplicationMain extends Application {
                     getClass().getResource("/latice/view/mainGame.fxml"));
             Parent root = loader.load();
 
-            RackController rackController = loader.getController();
+            GameController gameController = loader.getController();
 
             Game game = buildGame();
-            game.addListener(new LaticeGameListener(rackController));
+            game.addListener(new LaticeGameListener(gameController));
 
             primaryStage.setScene(new Scene(root, 1920, 1080));
             primaryStage.setTitle("Latice");
             primaryStage.show();
+
+            gameController.setGame(game);
 
             game.startGame();
 

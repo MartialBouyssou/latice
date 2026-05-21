@@ -1,13 +1,13 @@
 package latice.application.listeners;
 
 import latice.model.game.events.*;
-import latice.view.controller.RackController;
+import latice.view.controller.GameController;
 
 public class LaticeGameListener implements GameListener {
 
-    private final RackController rackController;
+    private final GameController rackController;
 
-    public LaticeGameListener(RackController rackController) {
+    public LaticeGameListener(GameController rackController) {
         this.rackController = rackController;
     }
 
