@@ -1,46 +1,46 @@
 package latice.application.listeners;
 
 import latice.model.game.events.*;
-import latice.view.controller.RackController;
+import latice.view.controller.GameController;
 
 public class LaticeGameListener implements GameListener {
 
-    private final RackController rackController;
+    private final GameController gameController;
 
-    public LaticeGameListener(RackController rackController) {
-        this.rackController = rackController;
+    public LaticeGameListener(GameController gameController) {
+        this.gameController = gameController;
     }
 
     @Override
     public void onGameStarted(GameStartedEvent event) {
-        rackController.updateRack(event.getPlayer());
+        gameController.updateRack(event.getPlayer());
     }
 
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
-        rackController.updateRack(event.getNextPlayer());
+        gameController.updateRack(event.getNextPlayer());
     }
 
     @Override
     public void onTilePlaced(TilePlacedEvent event) {
-        rackController.updateRack(event.getPlayer());
+        gameController.updateRack(event.getPlayer());
     }
 
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
-        rackController.updateRack(event.getNextPlayer());
+        gameController.updateRack(event.getNextPlayer());
     }
 
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
-        rackController.updateRack(event.getPlayer());
+        gameController.updateRack(event.getPlayer());
     }
 
     @Override
-    public void onGameOver(GameOverEvent event) { }
+    public void onGameOver(GameOverEvent event) { /* unused event atm */ }
 
     @Override
     public void onInvalidMove(InvalidMoveEvent event) {
-        rackController.showInvalidMove();
+        gameController.showInvalidMove();
     }
 }

@@ -7,18 +7,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import latice.application.listeners.ConsoleListener;
 import latice.application.listeners.LaticeGameListener;
 import latice.model.game.Game;
 import latice.model.referee.Referee;
 import latice.model.referee.rule.AdjacencyRule;
 import latice.model.referee.rule.IRule;
 import latice.model.referee.rule.MatchingRule;
-import latice.view.controller.RackController;
+import latice.model.referee.rule.PositionRule;
+import latice.view.controller.GameController;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ApplicationMain extends Application {
 
@@ -33,27 +31,25 @@ public class ApplicationMain extends Application {
                     getClass().getResource("/latice/view/mainGame.fxml"));
             Parent root = loader.load();
 
-            RackController rackController = loader.getController();
+            GameController gameController = loader.getController();
 
             Game game = buildGame();
-            game.addListener(new LaticeGameListener(rackController));
-
+            game.addListener(new LaticeGameListener(gameController));
             primaryStage.setScene(new Scene(root, 1920, 1080));
-            primaryStage.setTitle("Latice");
-            primaryStage.show();
 
             game.startGame();
-
         } catch (Exception e) {
             BorderPane errorPane = new BorderPane();
-            errorPane.setCenter(new Label("Error: " + e.getMessage()));
+            errorPane.setCenter(new Label("Error loading the application: " + e.getMessage()));
             primaryStage.setScene(new Scene(errorPane, 400, 200));
-            primaryStage.show();
         }
+
+        primaryStage.setTitle("Latice");
+        primaryStage.show();
     }
 
     private Game buildGame() {
-        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule());
+        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule(), new PositionRule());
         return new Game(new Referee(rules));
     }
 }
