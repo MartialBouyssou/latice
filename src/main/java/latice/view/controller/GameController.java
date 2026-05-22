@@ -24,6 +24,7 @@ public class GameController {
     @FXML private HBox rackBox;
     @FXML private GridPane board;
     @FXML private Label currentPlayerLabel;
+    @FXML private Label currentPlayerScoreLabel;
     @FXML private ImageView rackTile1;
     @FXML private ImageView rackTile2;
     @FXML private ImageView rackTile3;
@@ -52,6 +53,8 @@ public class GameController {
     public void updateRack(Player player) {
         List<Tile> tiles = player.getRack().getTiles();
         currentPlayerLabel.setText("Tour de " + player.getName() + " :");
+        System.out.println(currentPlayerLabel);
+        currentPlayerScoreLabel.setText("Score : " + player.getScore());
 
         for (int i = 0; i < 5; i++) {
             if (i < tiles.size()) {
