@@ -44,11 +44,7 @@ public class GameController {
             }
         }
 
-        for (Node node : board.getChildren()) {
-            if (node instanceof ImageView) {
-                setupDropTarget((ImageView) node);
-            }
-        }
+        setupBoardDropTarget();
     }
 
     public void updateRack(Player player) {
@@ -74,6 +70,29 @@ public class GameController {
         alert.show();
     }
 
+
+    public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
+        try {
+            for (Node node : board.getChildren()) {
+                Integer colIndex = GridPane.getColumnIndex(node);
+                Integer rowIndex = GridPane.getRowIndex(node);
+                int x = (colIndex == null) ? 0 : colIndex;
+                int y = (rowIndex == null) ? 0 : rowIndex;
+
+                if (x == targetX && y == targetY && node instanceof ImageView) {
+                    System.out.println("chargement de l'image : " + tile.getTileImgPath());
+                    ((ImageView) node).setImage(new Image(tile.getTileImgPath()));
+                    break;
+                }
+            }
+
+            updateRack(player);
+
+        } catch (Exception e) {
+            System.err.println("ERREUR lors de l'affichage de la tuile sur l'interface :");
+        }
+    }
+
     private void setupDraggable(ImageView tileView) {
         tileView.setOnDragDetected(event -> {
             Dragboard db = tileView.startDragAndDrop(TransferMode.MOVE);
@@ -83,16 +102,58 @@ public class GameController {
             content.putString(imageUrl);
 
             db.setContent(content);
-
             db.setDragView(tileView.getImage());
 
             event.consume();
         });
 
         tileView.setOnDragDone(event -> {
-            if (event.getTransferMode() == TransferMode.MOVE) {
-                rackBox.getChildren().remove(tileView);
+            event.consume();
+        });
+    }
+
+    private void setupBoardDropTarget() {
+        board.setOnDragOver(event -> {
+            if (event.getGestureSource() != board && event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.MOVE);
             }
+            event.consume();
+        });
+
+        board.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+
+            if (db.hasString() && game != null) {
+                double cellWidth  = board.getWidth()  / 9.0;
+                double cellHeight = board.getHeight() / 9.0;
+
+                int col = (int) (event.getX() / cellWidth);
+                int row = (int) (event.getY() / cellHeight);
+
+                Tile tile = extractTileFromUrl(db.getString());
+
+                if (tile != null) {
+
+                    boolean valid = game.getReferee().isValidMove(game.getBoard(), tile, col, row);
+
+                    if (valid) {
+                        game.playTile(tile, col, row);
+                        placeTileOnBoard(tile, col, row, game.getCurrentPlayer());
+                        System.out.println("tuile posée en (" + col + ", " + row + ")");
+                        success = true;
+                    } else {
+                        System.err.println("Coup invalide : règles non respectées pour (" + col + ", " + row + ")");
+                        showInvalidMove();
+                    }
+                } else {
+                    System.err.println("Tuile non reconnue depuis l'URL : " + db.getString());
+                }
+            } else {
+                System.err.println("Dragboard vide ou Game = null");
+            }
+
+            event.setDropCompleted(success);
             event.consume();
         });
     }
@@ -109,21 +170,34 @@ public class GameController {
             Dragboard db = event.getDragboard();
             boolean success = false;
 
-            if (db.hasString()) {
+
+            if (db.hasString() && game != null) {
                 String imageUrl = db.getString();
+                System.out.println("URL captée depuis la souris : " + imageUrl);
 
                 Integer colIndex = GridPane.getColumnIndex(cellView);
                 Integer rowIndex = GridPane.getRowIndex(cellView);
                 int x = (colIndex == null) ? 0 : colIndex;
                 int y = (rowIndex == null) ? 0 : rowIndex;
+                System.out.println("Coordonnées ciblées : X=" + x + ", Y=" + y);
 
                 Tile tileToPlace = extractTileFromUrl(imageUrl);
 
                 if (tileToPlace != null) {
-                    gameBoard.placeTile(tileToPlace, x, y);
-                    cellView.setImage(new Image(imageUrl));
-                    success = true;
+                    System.out.println("Tuile reconnue ! Chemin de l'image : " + tileToPlace.getTileImgPath());
+                    try {
+                        game.playTile(tileToPlace, x, y);
+                        success = true;
+                        System.out.println("Ordre playTile() envoyé au modèle avec succès.");
+                    } catch (Exception e) {
+                        System.err.println("Crash à l'intérieur du moteur de jeu (playTile) :");
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("La tuile n'a pas été reconnue ! extractTileFromUrl a renvoyé null.");
                 }
+            } else {
+                System.err.println("Dragboard vide ou objet Game = null");
             }
 
             event.setDropCompleted(success);

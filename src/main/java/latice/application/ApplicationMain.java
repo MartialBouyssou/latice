@@ -13,6 +13,7 @@ import latice.model.referee.Referee;
 import latice.model.referee.rule.AdjacencyRule;
 import latice.model.referee.rule.IRule;
 import latice.model.referee.rule.MatchingRule;
+import latice.model.referee.rule.PositionRule;
 import latice.view.controller.GameController;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class ApplicationMain extends Application {
     }
 
     private Game buildGame() {
-        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule());
+        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule(), new PositionRule());
         return new Game(new Referee(rules));
     }
 }

@@ -23,24 +23,23 @@ public class LaticeGameListener implements GameListener {
 
     @Override
     public void onTilePlaced(TilePlacedEvent event) {
-        rackController.updateRack(event.getPlayer());
+        rackController.placeTileOnBoard(
+                event.getTile(),
+                event.getX(),
+                event.getY(),
+                event.getPlayer()
+        );
     }
 
     @Override
-    public void onTurnPassed(TurnPassedEvent event) {
-        rackController.updateRack(event.getNextPlayer());
-    }
+    public void onTurnPassed(TurnPassedEvent event) { rackController.updateRack(event.getNextPlayer()); }
 
     @Override
-    public void onRackExchanged(RackExchangedEvent event) {
-        rackController.updateRack(event.getPlayer());
-    }
+    public void onRackExchanged(RackExchangedEvent event) { rackController.updateRack(event.getPlayer()); }
 
     @Override
     public void onGameOver(GameOverEvent event) { }
 
     @Override
-    public void onInvalidMove(InvalidMoveEvent event) {
-        rackController.showInvalidMove();
-    }
+    public void onInvalidMove(InvalidMoveEvent event) { rackController.showInvalidMove(); }
 }
