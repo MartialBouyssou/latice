@@ -18,12 +18,12 @@ public class MatchingRule implements IRule {
                 boolean sameColor = neighbor.getColor() == tile.getColor();
                 boolean sameShape = neighbor.getShape() == tile.getShape();
 
-                if (!sameColor && !sameShape) {
-                    return false;
+                if (sameColor || sameShape) {
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     @Override

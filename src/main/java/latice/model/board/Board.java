@@ -80,10 +80,10 @@ public class Board {
         List<Cell> neighbors = new ArrayList<>();
         int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // up, down, left, right
         for (int[] dir : directions) {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
-            if (isInside(nx, ny)) {
-                neighbors.add(grid[nx][ny]);
+            int neighbordX = x + dir[0];
+            int neighbordY = y + dir[1];
+            if (isInside(neighbordX, neighbordY)) {
+                neighbors.add(grid[neighbordX][neighbordY]);
             }
         }
         return neighbors;

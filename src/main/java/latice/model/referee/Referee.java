@@ -26,10 +26,12 @@ public class Referee {
 
     public boolean isValidMove(Board board, Tile tile, int x, int y) {
         for (IRule rule : rules) {
-            if (rule instanceof FirstTurnRule && rule.validate(board, tile, x, y)) {
-                return true;
+            if (rule instanceof FirstTurnRule) {
+                if (rule.validate(board, tile, x, y)) {
+                    return true;
+                }
             }
-            if (!rule.validate(board, tile, x, y)) {
+            else if (!rule.validate(board, tile, x, y)) {
                 return false;
             }
         }
