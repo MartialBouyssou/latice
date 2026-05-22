@@ -149,7 +149,6 @@ public class GameController {
                     if (!hasAlreadyPlaced) {
                         game.playTile(tile, col, row);
                     } else {
-                        // TODO: [TURN PASS] delete line 'endTurn' (line 53 LaticeGameListener)
                         showInvalidMove("You already placed a tile this turn ! " +
                                 "Buy an action or end your turn !");
                     }
