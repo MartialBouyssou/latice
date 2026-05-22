@@ -8,12 +8,18 @@ public class InvalidMoveEvent implements GameEvent {
     private final Tile tile;
     private final int x;
     private final int y;
+    private final String reason;
 
-    public InvalidMoveEvent(Player player, Tile tile, int x, int y) {
+    public InvalidMoveEvent(Player player, Tile tile, int x, int y, String reason) {
         this.player = player;
         this.tile = tile;
         this.x = x;
         this.y = y;
+        this.reason = reason;
+    }
+
+    public String getReason() {
+        return reason;
     }
 
     public Player getPlayer() {

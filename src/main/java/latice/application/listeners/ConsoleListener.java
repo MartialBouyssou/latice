@@ -16,6 +16,11 @@ public class ConsoleListener implements GameListener {
     }
 
     @Override
+    public void onActionBought(ActionBoughtEvent event) {
+
+    }
+
+    @Override
     public void onTurnEnded(TurnEndedEvent event) {
         String nextPlayerName = event.getNextPlayer().getName();
         message("Turn ended. \nNow " + nextPlayerName + " is playing !!!!");
@@ -39,9 +44,12 @@ public class ConsoleListener implements GameListener {
     }
 
     @Override
-    public void onGameOver(GameOverEvent event) { /* not yet needed */ }
+    public void onInvalidMove(InvalidMoveEvent event) {
+        message("Invalid move: " + event.getReason());
+    }
+
     @Override
-    public void onInvalidMove(InvalidMoveEvent event) { /* not yet needed */ }
+    public void onGameOver(GameOverEvent event) { /* not yet needed */ }
     @Override
     public void onRackExchanged(RackExchangedEvent event) { /* not yet needed */ }
     @Override
