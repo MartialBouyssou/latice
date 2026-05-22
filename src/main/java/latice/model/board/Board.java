@@ -1,12 +1,10 @@
 package latice.model.board;
 
-import latice.model.cell.Cell;
-import latice.model.cell.SunCell;
-import latice.model.cell.MoonCell;
-import latice.model.cell.NormalCell;
+import latice.model.board.cell.Cell;
+import latice.model.board.cell.SunCell;
+import latice.model.board.cell.MoonCell;
+import latice.model.board.cell.NormalCell;
 import latice.model.tile.Tile;
-import latice.model.tile.Shape;
-import latice.model.tile.Color;
 import latice.exception.model.InvalidPositionException;
 import latice.exception.model.CellOccupiedException;
 import latice.exception.model.InvalidTileException;
@@ -21,7 +19,8 @@ public class Board {
             {8, 8}, {7, 7}, {6, 6}, {0, 8}, {1, 7}, {2, 6},
             {4, 0}, {0, 4}, {8, 4}, {4, 8}
     };
-    static int[] moonCell = {4, 4};
+
+    public static final int[] MOON_CELL = {4, 4};
 
     private Board(Cell[][] grid) {
         this.grid = grid;
@@ -32,14 +31,12 @@ public class Board {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                Tile tile = new Tile(Shape.FEATHER, Color.YELLOW);
-
-                if (i == moonCell[0] && j == moonCell[1]) {
-                    grid[i][j] = new MoonCell(tile);
-                } else if (isSunCellAt(i, j, sunCells)) {
-                    grid[i][j] = new SunCell(tile);
+                if (i == MOON_CELL[0] && j == MOON_CELL[1]) {
+                    grid[i][j] = new MoonCell();
+                } else if (isSunCellAt(i, j)) {
+                    grid[i][j] = new SunCell();
                 } else {
-                    grid[i][j] = new NormalCell(tile);
+                    grid[i][j] = new NormalCell();
                 }
             }
         }
@@ -47,8 +44,8 @@ public class Board {
         return new Board(grid);
     }
 
-    private static boolean isSunCellAt(int x, int y, int[][] sunCells) {
-        for (int[] position : sunCells) {
+    private static boolean isSunCellAt(int x, int y) {
+        for (int[] position : Board.sunCells) {
             if (position[0] == x && position[1] == y) {
                 return true;
             }
@@ -104,12 +101,24 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             sb.append("│");
             for (int j = 0; j < 9; j++) {
-                if (isSunCellAt(i, j, sunCells)) {
-                    sb.append("S ");
-                } else if (i == moonCell[0] && j == moonCell[1]) {
-                    sb.append("M ");
+                if (isSunCellAt(i, j)) {
+                    if (grid[i][j].isEmpty()) {
+                        sb.append("S ");
+                    } else {
+                        sb.append(grid[i][j].getTile().toEmoji()).append(" ");
+                    }
+                } else if (i == MOON_CELL[0] && j == MOON_CELL[1]) {
+                    if (grid[i][j].isEmpty()) {
+                        sb.append("M ");
+                    } else {
+                        sb.append(grid[i][j].getTile().toEmoji()).append(" ");
+                    }
                 } else {
-                    sb.append("N ");
+                    if (grid[i][j].isEmpty()) {
+                        sb.append("N ");
+                    } else {
+                        sb.append(grid[i][j].getTile().toEmoji()).append(" ");
+                    }
                 }
             }
             sb.append("│\n");

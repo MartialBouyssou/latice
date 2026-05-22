@@ -4,6 +4,7 @@ import latice.exception.model.EmptyDeckException;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Deck {
 
 
     private Deck(List<Tile> tiles) {
-        this.tiles = tiles;
+        this.tiles = new ArrayList<>(tiles);
     }
 
     public static Deck create() {
@@ -22,7 +23,7 @@ public class Deck {
     }
 
     public static Deck create(List<Tile> tiles) {
-        Deck deck = new Deck(tiles);
+        Deck deck = new Deck((tiles));
         deck.shuffle();
         return deck;
     }

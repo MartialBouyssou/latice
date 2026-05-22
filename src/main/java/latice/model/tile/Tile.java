@@ -3,10 +3,12 @@ package latice.model.tile;
 public class Tile {
     private final Shape shape;
     private final Color color;
+    private final String imagePath;
 
     public Tile(Shape shape, Color color) {
         this.shape = shape;
         this.color = color;
+        this.imagePath = getTileImgPath();
     }
 
     public Shape getShape() {
@@ -17,9 +19,17 @@ public class Tile {
         return color;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
     @Override
     public String toString() {
-        return shape + " " + color;
+        return shape.getShape() + " " + color;
+    }
+
+    public String toEmoji() {
+        return shape.toString();
     }
 
     @Override
@@ -35,4 +45,9 @@ public class Tile {
     public int hashCode() {
         return super.hashCode();
     }
+
+    public String getTileImgPath() {
+        return "latice/images/" + shape.getShape() + "_" +  color.getColor().charAt(0) + ".png";
+    }
+
 }

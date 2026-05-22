@@ -1,16 +1,19 @@
 package latice.application;
 
+import latice.application.listeners.ConsoleListener;
 import latice.model.board.Board;
 import latice.model.game.Game;
 import latice.model.referee.Referee;
-import latice.model.referee.rule.AdjacencyRule;
-import latice.model.referee.rule.IRule;
-import latice.model.referee.rule.MatchingRule;
+import latice.model.referee.rule.*;
+import latice.model.tile.Color;
+import latice.model.tile.Shape;
+import latice.model.tile.Tile;
+
+import static latice.application.LaticeApplicationConsole.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static latice.application.LaticeApplicationConsole.*;
+import java.util.Scanner;
 
 public class LaticeTestCases {
 
@@ -24,14 +27,18 @@ public class LaticeTestCases {
 		displayHeader();
 		Game game = getNewGame();
 		eventExampleInGameContext(game);
+
+		testGetTileImgPath();
 	}
 
 	private static Game getNewGame() {
 		List<IRule> rules = new ArrayList<>();
 		rules.add(new MatchingRule());
 		rules.add(new AdjacencyRule());
+		rules.add(new PositionRule());
+		rules.add(new FirstTurnRule());
 
-		Game game = new Game(new Referee(rules));
+		Game game = new Game(Referee.create(rules));
 		game.addListener(new ConsoleListener());
 
 		return game;
@@ -40,7 +47,24 @@ public class LaticeTestCases {
 	private static void eventExampleInGameContext(Game game) {
 		game.startGame(); // here is call onGameStarted from ConsoleListener
 		message(game.getBoard().toString());
+
+		//  first turn
+		Scanner scanner = new Scanner(System.in);
+
+		do {
+			System.out.print("Enter x coordinate where you want to place a tile: ");
+			int x = scanner.nextInt();
+			System.out.print("Enter y coordinate where you want to place a tile: ");
+			int y = scanner.nextInt();
+
+			Tile playedTile = game.getCurrentPlayer().getRack().getTiles().get(0);
+			game.playTile(playedTile, x, y); // here is call onTilePlayed from ConsoleListener
+
+		} while (!game.isTilePlayedThisTurn());
+
 		game.endTurn(); // here is call onTurnEnded from ConsoleListener
+
+		message(game.getBoard().toString());
 	}
 
 	static void testBoardCreation() {
@@ -90,5 +114,10 @@ public class LaticeTestCases {
 			}
 		}
 		return true;
+	}
+
+	static void testGetTileImgPath(){
+		Tile tile = new Tile(Shape.BIRD, Color.GREEN);
+		message(tile.getTileImgPath());
 	}
 }

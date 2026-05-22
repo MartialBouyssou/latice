@@ -1,6 +1,7 @@
 package latice.model.game;
 
 import latice.exception.model.GameNotStartException;
+import latice.exception.model.NoTilePlayedException;
 import latice.model.board.Board;
 import latice.model.deck.Deck;
 import latice.model.game.events.*;
@@ -19,6 +20,8 @@ public class Game {
     private Player currentPlayer;
     private int turnCount;
     private final List<GameListener> listeners = new ArrayList<>();
+
+    private boolean tilePlayedThisTurn = false;
 
     public Game(Referee referee) {
         this.referee = referee;
@@ -69,10 +72,37 @@ public class Game {
         sendEvent(new GameStartedEvent(currentPlayer));
     }
 
+    public void playTile(Tile tile, int x, int y) {
+        if (currentPlayer == null) {
+            throw new GameNotStartException();
+        }
+
+        if (!currentPlayer.getRack().getTiles().contains(tile)) {
+            sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
+                    "Player don't have this tile in his rack"));
+        } else if (!referee.isValidMove(board, tile, x, y)) {
+            sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
+                    "Move is not valid according to game rules"));
+        } else {
+            currentPlayer.getRack().getTiles().remove(tile);
+            board.getCell(x, y).setTile(tile);
+
+            tilePlayedThisTurn = true;
+            currentPlayer.incrementTilesPlayed();
+            sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y,
+                    referee.calculateScore(this.getBoard(), tile, x, y)));
+        }
+    }
+
     public void endTurn() {
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
+        if (!tilePlayedThisTurn) {
+            throw new NoTilePlayedException();
+        }
+        tilePlayedThisTurn = false;
+
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
         turnCount++;
@@ -130,5 +160,9 @@ public class Game {
 
             if (event instanceof RackExchangedEvent e) listener.onRackExchanged(e);
         }
+    }
+
+    public boolean isTilePlayedThisTurn() {
+        return tilePlayedThisTurn;
     }
 }
