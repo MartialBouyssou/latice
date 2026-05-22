@@ -17,6 +17,11 @@ public class LaticeGameListener implements GameListener {
     }
 
     @Override
+    public void onActionBought(ActionBoughtEvent event) {
+
+    }
+
+    @Override
     public void onTurnEnded(TurnEndedEvent event) {
         rackController.updateRack(event.getNextPlayer());
     }
