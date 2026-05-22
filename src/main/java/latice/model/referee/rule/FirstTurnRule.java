@@ -3,8 +3,6 @@ package latice.model.referee.rule;
 import latice.model.board.Board;
 import latice.model.tile.Tile;
 
-import static latice.application.LaticeApplicationConsole.message;
-
 public class FirstTurnRule implements IRule {
     @Override
     public boolean validate(Board board, Tile tile, int x, int y) {
