@@ -12,6 +12,7 @@ public class FirstTurnRule implements IRule {
         int moonCellY = Board.MOON_CELL[1];
 
         if (x != moonCellX || y != moonCellY) {
+            message("hello boy");
             return false;
         }
         return true;

@@ -25,7 +25,7 @@ class RefereeTest {
         board = Board.create();
         birdRedTile = new Tile(Shape.BIRD, Color.RED);
         List<IRule> rules = List.of(new PositionRule(), new AdjacencyRule(), new MatchingRule());
-        refereeWithAllRules = new Referee(rules);
+        refereeWithAllRules = Referee.create(rules);
     }
 
     @Test
@@ -89,7 +89,7 @@ class RefereeTest {
     @Test
     void isValidMoveShouldReturnTrueWhenNoRulesAreConfigured() {
         // Arrange
-        Referee emptyReferee = new Referee(List.of());
+        Referee emptyReferee = Referee.create(List.of());
 
         // Act
         boolean valid = emptyReferee.isValidMove(board, birdRedTile, 0, 0);
