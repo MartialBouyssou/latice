@@ -14,12 +14,14 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
+    public static final int MAX_TURN_COUNT = 10;
     private final List<Player> players;
     private Board board;
     private final Referee referee;
     private Player currentPlayer;
     private int turnCount;
     private final List<GameListener> listeners = new ArrayList<>();
+    private int playersTurnScore;
 
     private boolean tilePlayedThisTurn = false;
 
@@ -105,7 +107,6 @@ public class Game {
 
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
-        turnCount++;
         Player lastPlayer = currentPlayer;
         nextPlayer();
 
@@ -113,8 +114,11 @@ public class Game {
             sendEvent(new GameOverEvent(getWinner()));
         } else {
             // TODO: calculate last turn score ?
-            sendEvent(new TurnEndedEvent(lastPlayer, 0, currentPlayer));
+            sendEvent(new TurnEndedEvent(lastPlayer, playersTurnScore, currentPlayer));
         }
+
+        turnCount++;
+        playersTurnScore = 0;
     }
 
     public boolean isGameOver() {
@@ -126,12 +130,11 @@ public class Game {
     }
 
     public Player getWinner() {
-        // TODO V6: delegate to referee.determineWinner(this)
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
 
-        return null;
+        return referee.determineWinner(this);
     }
 
     private void nextPlayer() {

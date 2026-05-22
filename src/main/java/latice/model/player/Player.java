@@ -31,7 +31,6 @@ public class Player {
         return score;
     }
 
-    // V6
     public void addScore(int points) {
         this.score += points;
     }
@@ -49,7 +48,6 @@ public class Player {
         this.score -= cost;
     }
 
-    // V6
     public int getTilesPlayed() {
         return tilesPlayed;
     }

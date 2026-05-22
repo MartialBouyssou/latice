@@ -1,6 +1,7 @@
 package latice.model.referee;
 
 import latice.model.board.Board;
+import latice.model.board.cell.Cell;
 import latice.model.game.Game;
 import latice.model.player.Player;
 import latice.model.referee.rule.FirstTurnRule;
@@ -39,8 +40,22 @@ public class Referee {
     }
 
     public int calculateScore(Board board, Tile tile, int x, int y) {
-        // TODO V6: implement scoring logic
-        return 0;
+        List<Cell> neighbors = board.getNeighbors(x, y);
+        int matchingCount = 0;
+
+        for (Cell neighbor : neighbors) {
+            if (!neighbor.isEmpty() && (neighbor.getTile().getColor() == tile.getColor() ||
+                            neighbor.getTile().getShape() == tile.getShape())) {
+                    matchingCount++;
+                }
+        }
+
+        return switch (matchingCount) {
+            case 2 -> 1;
+            case 3 -> 2;
+            case 4 -> 4;
+            default -> 0;
+        };
     }
 
     public boolean canBuyExtraAction(int playerScore) {
@@ -49,12 +64,20 @@ public class Referee {
     }
 
     public Player determineWinner(Game game) {
-        // TODO V6: iterate game.getPlayers(), compare getTilesPlayed(), return null on tie
+        int firstPlayerPlayedCount = game.getPlayers().get(0).getTilesPlayed();
+        int secondPlayerPlayedCount = game.getPlayers().get(1).getTilesPlayed();
+
+        if (firstPlayerPlayedCount > secondPlayerPlayedCount) {
+            return game.getPlayers().get(0);
+        } else if (secondPlayerPlayedCount > firstPlayerPlayedCount) {
+            return game.getPlayers().get(1);
+        }
+
         return null;
     }
 
     public boolean isGameOver(Game game) {
-        int maxTurns = 10 * game.getPlayers().size();
+        int maxTurns = Game.MAX_TURN_COUNT * game.getPlayers().size();
         if (game.getTurnCount() >= maxTurns) {
             return true;
         }
