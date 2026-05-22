@@ -16,6 +16,11 @@ public class ConsoleListener implements GameListener {
     }
 
     @Override
+    public void onActionBought(ActionBoughtEvent event) {
+
+    }
+
+    @Override
     public void onTurnEnded(TurnEndedEvent event) {
         String nextPlayerName = event.getNextPlayer().getName();
         message("Turn ended. \nNow " + nextPlayerName + " is playing !!!!");
