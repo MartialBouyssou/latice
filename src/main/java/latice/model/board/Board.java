@@ -5,8 +5,6 @@ import latice.model.board.cell.SunCell;
 import latice.model.board.cell.MoonCell;
 import latice.model.board.cell.NormalCell;
 import latice.model.tile.Tile;
-import latice.model.tile.Shape;
-import latice.model.tile.Color;
 import latice.exception.model.InvalidPositionException;
 import latice.exception.model.CellOccupiedException;
 import latice.exception.model.InvalidTileException;
@@ -21,7 +19,8 @@ public class Board {
             {8, 8}, {7, 7}, {6, 6}, {0, 8}, {1, 7}, {2, 6},
             {4, 0}, {0, 4}, {8, 4}, {4, 8}
     };
-    static int[] moonCell = {4, 4};
+
+    public static final int[] MOON_CELL = {4, 4};
 
     private Board(Cell[][] grid) {
         this.grid = grid;
@@ -32,7 +31,7 @@ public class Board {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (i == moonCell[0] && j == moonCell[1]) {
+                if (i == MOON_CELL[0] && j == MOON_CELL[1]) {
                     grid[i][j] = new MoonCell();
                 } else if (isSunCellAt(i, j)) {
                     grid[i][j] = new SunCell();
@@ -108,7 +107,7 @@ public class Board {
                     } else {
                         sb.append(grid[i][j].getTile().toEmoji()).append(" ");
                     }
-                } else if (i == moonCell[0] && j == moonCell[1]) {
+                } else if (i == MOON_CELL[0] && j == MOON_CELL[1]) {
                     if (grid[i][j].isEmpty()) {
                         sb.append("M ");
                     } else {
