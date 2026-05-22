@@ -79,6 +79,10 @@ public class Game {
             throw new GameNotStartException();
         }
 
+        playersTurnScore = referee.calculateScore(this.getBoard(), tile, x, y);
+        currentPlayer.incrementTilesPlayed();
+        currentPlayer.addScore(playersTurnScore);
+
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
                     "Player don't have this tile in his rack"));
@@ -91,8 +95,7 @@ public class Game {
 
             tilePlayedThisTurn = true;
             currentPlayer.incrementTilesPlayed();
-            sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y,
-                    referee.calculateScore(this.getBoard(), tile, x, y)));
+            sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
         }
     }
 
@@ -113,7 +116,6 @@ public class Game {
         if (referee.isGameOver(this)) {
             sendEvent(new GameOverEvent(getWinner()));
         } else {
-            // TODO: calculate last turn score ?
             sendEvent(new TurnEndedEvent(lastPlayer, playersTurnScore, currentPlayer));
         }
 
