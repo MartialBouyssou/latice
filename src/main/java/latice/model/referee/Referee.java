@@ -3,22 +3,35 @@ package latice.model.referee;
 import latice.model.board.Board;
 import latice.model.game.Game;
 import latice.model.player.Player;
+import latice.model.referee.rule.FirstTurnRule;
 import latice.model.referee.rule.IRule;
 import latice.model.tile.Tile;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Referee {
     private final List<IRule> rules;
 
-    public Referee(List<IRule> rules) {
+    private Referee(List<IRule> rules) {
         this.rules = rules;
     }
 
-    // V5
+    public static Referee create(List<IRule> rules) {
+        rules = rules.stream()
+                .sorted(Comparator.comparingInt(IRule::getPriority))
+                .toList();
+        return new Referee(rules);
+    }
+
     public boolean isValidMove(Board board, Tile tile, int x, int y) {
         for (IRule rule : rules) {
-            if (!rule.validate(board, tile, x, y)) {
+            if (rule instanceof FirstTurnRule) {
+                if (rule.validate(board, tile, x, y)) {
+                    return true;
+                }
+            }
+            else if (!rule.validate(board, tile, x, y)) {
                 return false;
             }
         }

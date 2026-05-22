@@ -8,4 +8,5 @@ public interface GameListener {
     void onRackExchanged(RackExchangedEvent event);
     void onTurnPassed(TurnPassedEvent event);
     void onGameStarted(GameStartedEvent event);
+    void onActionBought(ActionBoughtEvent event);
 }

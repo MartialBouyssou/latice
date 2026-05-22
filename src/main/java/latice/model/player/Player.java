@@ -54,7 +54,6 @@ public class Player {
         return tilesPlayed;
     }
 
-    // V5
     public void incrementTilesPlayed() {
         tilesPlayed++;
     }
