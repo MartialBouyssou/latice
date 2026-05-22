@@ -5,47 +5,44 @@ import latice.view.controller.GameController;
 
 public class LaticeGameListener implements GameListener {
 
-    private final GameController gameController;
+    private final GameController rackController;
 
-    public LaticeGameListener(GameController gameController) {
-        this.gameController = gameController;
+    public LaticeGameListener(GameController rackController) {
+        this.rackController = rackController;
     }
 
     @Override
     public void onGameStarted(GameStartedEvent event) {
-        gameController.updateRack(event.getPlayer());
-    }
-
-    @Override
-    public void onActionBought(ActionBoughtEvent event) {
-
+        rackController.updateRack(event.getPlayer());
     }
 
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
-        gameController.updateRack(event.getNextPlayer());
+        rackController.updateRack(event.getNextPlayer());
     }
 
     @Override
     public void onTilePlaced(TilePlacedEvent event) {
-        gameController.updateRack(event.getPlayer());
+        rackController.placeTileOnBoard(
+                event.getTile(),
+                event.getX(),
+                event.getY(),
+                event.getPlayer()
+        );
     }
 
     @Override
-    public void onTurnPassed(TurnPassedEvent event) {
-        gameController.updateRack(event.getNextPlayer());
-    }
+    public void onTurnPassed(TurnPassedEvent event) { rackController.updateRack(event.getNextPlayer()); }
 
     @Override
-    public void onRackExchanged(RackExchangedEvent event) {
-        gameController.updateRack(event.getPlayer());
-    }
+    public void onRackExchanged(RackExchangedEvent event) { rackController.updateRack(event.getPlayer()); }
 
     @Override
-    public void onGameOver(GameOverEvent event) { /* unused event atm */ }
+    public void onGameOver(GameOverEvent event) { }
 
     @Override
     public void onInvalidMove(InvalidMoveEvent event) {
-        gameController.showInvalidMove();
+        System.out.println("Invalid move: " + event.getReason());
+        rackController.showInvalidMove();
     }
 }

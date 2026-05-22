@@ -10,10 +10,7 @@ import javafx.stage.Stage;
 import latice.application.listeners.LaticeGameListener;
 import latice.model.game.Game;
 import latice.model.referee.Referee;
-import latice.model.referee.rule.AdjacencyRule;
-import latice.model.referee.rule.IRule;
-import latice.model.referee.rule.MatchingRule;
-import latice.model.referee.rule.PositionRule;
+import latice.model.referee.rule.*;
 import latice.view.controller.GameController;
 
 import java.util.List;
@@ -35,21 +32,26 @@ public class ApplicationMain extends Application {
 
             Game game = buildGame();
             game.addListener(new LaticeGameListener(gameController));
+
             primaryStage.setScene(new Scene(root, 1920, 1080));
+            primaryStage.setTitle("Latice");
+            primaryStage.show();
+
+            gameController.setGame(game);
 
             game.startGame();
+
         } catch (Exception e) {
             BorderPane errorPane = new BorderPane();
-            errorPane.setCenter(new Label("Error loading the application: " + e.getMessage()));
+            errorPane.setCenter(new Label("Error: " + e.getMessage()));
             primaryStage.setScene(new Scene(errorPane, 400, 200));
+            primaryStage.show();
         }
-
-        primaryStage.setTitle("Latice");
-        primaryStage.show();
     }
 
     private Game buildGame() {
-        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule(), new PositionRule());
-        return new Game(new Referee(rules));
+        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule(),
+                                    new PositionRule(), new FirstTurnRule());
+        return new Game(Referee.create(rules));
     }
 }
