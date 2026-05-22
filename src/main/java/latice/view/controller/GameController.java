@@ -134,18 +134,7 @@ public class GameController {
                 Tile tile = extractTileFromUrl(db.getString());
 
                 if (tile != null) {
-
-                    boolean valid = game.getReferee().isValidMove(game.getBoard(), tile, col, row);
-
-                    if (valid) {
-                        game.playTile(tile, col, row);
-                        placeTileOnBoard(tile, col, row, game.getCurrentPlayer());
-                        System.out.println("tuile posée en (" + col + ", " + row + ")");
-                        success = true;
-                    } else {
-                        System.err.println("Coup invalide : règles non respectées pour (" + col + ", " + row + ")");
-                        showInvalidMove();
-                    }
+                    game.playTile(tile, col, row);
                 } else {
                     System.err.println("Tuile non reconnue depuis l'URL : " + db.getString());
                 }

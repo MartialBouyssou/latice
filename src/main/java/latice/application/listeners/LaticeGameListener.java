@@ -41,5 +41,8 @@ public class LaticeGameListener implements GameListener {
     public void onGameOver(GameOverEvent event) { }
 
     @Override
-    public void onInvalidMove(InvalidMoveEvent event) { rackController.showInvalidMove(); }
+    public void onInvalidMove(InvalidMoveEvent event) {
+        System.out.println("Invalid move: " + event.getReason());
+        rackController.showInvalidMove();
+    }
 }
