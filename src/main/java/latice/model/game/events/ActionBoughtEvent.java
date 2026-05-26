@@ -3,7 +3,7 @@ package latice.model.game.events;
 import latice.model.player.ActionType;
 import latice.model.player.Player;
 
-public class ActionBoughtEvent {
+public class ActionBoughtEvent implements GameEvent {
     public Player player;
     public ActionType actionType;
 
