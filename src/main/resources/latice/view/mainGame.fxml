@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,6 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.GameController">
    <center>
@@ -506,4 +508,13 @@
          </children>
       </HBox>
    </left>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Buy an action" translateX="-500.0" translateY="700.0" onAction="#buttonBuyAnAction" />
+            <Button mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Exchange Rack" translateX="-500.0" translateY="750.0" onAction="#buttonExchangeRack"/>
+            <Button mnemonicParsing="false" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-100.0" translateY="800.0" onAction="#buttonEndTurn"/>
+         </children>
+      </VBox>
+   </right>
 </BorderPane>

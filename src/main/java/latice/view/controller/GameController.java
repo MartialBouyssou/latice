@@ -150,6 +150,12 @@ public class GameController {
         });
     }
 
+    public void buttonExchangeRack(){};
+
+    public void buttonBuyAnAction(){};
+
+    public void buttonEndTurn(){};
+
     private void setupDropTarget(ImageView cellView) {
         cellView.setOnDragOver(event -> {
             if (event.getGestureSource() != cellView && event.getDragboard().hasString()) {
