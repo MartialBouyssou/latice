@@ -51,9 +51,9 @@ public class Referee {
         }
 
         return switch (matchingCount) {
-            case 2 -> 1;
-            case 3 -> 2;
-            case 4 -> 4;
+            case 1 -> 1;
+            case 2 -> 2;
+            case 3 -> 4;
             default -> 0;
         };
     }

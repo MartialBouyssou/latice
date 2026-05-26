@@ -14,7 +14,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.GameController">
    <center>
-      <GridPane fx:id="board" maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" translateX="-200.0" BorderPane.alignment="CENTER">
+      <GridPane fx:id="board" maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" translateX="-150.0" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -499,14 +499,12 @@
       </HBox>
    </bottom>
    <left>
-      <HBox alignment="CENTER" maxHeight="675.0" maxWidth="500.0" minHeight="675.0" minWidth="400.0" prefHeight="675.0" prefWidth="400.0" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="10.0" top="10.0" />
-         </padding>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="currentPlayerLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Tour de ... :" translateX="120.0" translateY="-310.0" />
+            <Label fx:id="currentPlayerLabel" minWidth="300.0" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Tour de ..:" translateX="250.0" translateY="90.0" />
+            <Label fx:id="currentPlayerScoreLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Score: " translateX="250.0" translateY="120.0" />
          </children>
-      </HBox>
+      </VBox>
    </left>
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">

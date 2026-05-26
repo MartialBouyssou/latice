@@ -24,6 +24,7 @@ public class Game {
     private int playersTurnScore;
 
     private boolean tilePlayedThisTurn = false;
+    private boolean playTwiceActive = false;
 
     public Game(Referee referee) {
         this.referee = referee;
@@ -81,7 +82,6 @@ public class Game {
 
         playersTurnScore = referee.calculateScore(this.getBoard(), tile, x, y);
         currentPlayer.incrementTilesPlayed();
-        currentPlayer.addScore(playersTurnScore);
 
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
@@ -93,8 +93,12 @@ public class Game {
             currentPlayer.getRack().getTiles().remove(tile);
             board.getCell(x, y).setTile(tile);
 
+            if (playTwiceActive) {
+                playTwiceActive = false;
+            }
             tilePlayedThisTurn = true;
             currentPlayer.incrementTilesPlayed();
+            currentPlayer.addScore(playersTurnScore);
             sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
         }
     }
@@ -152,7 +156,7 @@ public class Game {
         listeners.add(listener);
     }
 
-    private void sendEvent(GameEvent event) {
+    public void sendEvent(GameEvent event) {
         for (GameListener listener : listeners) {
             if (event instanceof GameStartedEvent e) listener.onGameStarted(e);
             if (event instanceof GameOverEvent e) listener.onGameOver(e);
@@ -169,5 +173,14 @@ public class Game {
 
     public boolean isTilePlayedThisTurn() {
         return tilePlayedThisTurn;
+    }
+
+    public int getPlayersTurnScore() {
+        return playersTurnScore;
+    }
+
+    public Player getNextPlayer() {
+        int currentIndex = players.indexOf(currentPlayer);
+        return players.get((currentIndex + 1) % players.size());
     }
 }

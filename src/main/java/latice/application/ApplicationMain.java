@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import latice.application.listeners.LaticeGameListener;
+import latice.listeners.LaticeGameListener;
 import latice.model.game.Game;
 import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
