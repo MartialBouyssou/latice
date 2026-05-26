@@ -50,8 +50,8 @@ public class LaticeGameListener implements GameListener {
             playTwiceActive = false;
         } else {
             gameController.hasAlreadyPlaced = true;
+            gameController.getGame().endTurn();
         }
-        gameController.getGame().endTurn();
     }
 
     @Override

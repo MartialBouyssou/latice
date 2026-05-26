@@ -54,4 +54,8 @@ public class ConsoleListener implements GameListener {
     public void onRackExchanged(RackExchangedEvent event) { /* not yet needed */ }
     @Override
     public void onTurnPassed(TurnPassedEvent event) { /* not yet needed */ }
+
+    @Override
+    public void onCannotAfford(CannotAffordEvent event) { /* not yet needed */ }
+
 }

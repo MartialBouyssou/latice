@@ -24,7 +24,7 @@ public class Game {
     private final List<GameListener> listeners = new ArrayList<>();
     private int playersTurnScore;
 
-    private boolean tilePlayedThisTurn = false;
+    private boolean actionPlayedThisTurn = false;
     private boolean playTwiceActive = false;
 
     public Game(Referee referee) {
@@ -97,7 +97,7 @@ public class Game {
             if (playTwiceActive) {
                 playTwiceActive = false;
             }
-            tilePlayedThisTurn = true;
+            actionPlayedThisTurn = true;
             currentPlayer.incrementTilesPlayed();
             currentPlayer.addScore(playersTurnScore);
             sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
@@ -108,10 +108,10 @@ public class Game {
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
-        if (!tilePlayedThisTurn) {
+        if (!actionPlayedThisTurn) {
             throw new NoTilePlayedException();
         }
-        tilePlayedThisTurn = false;
+        actionPlayedThisTurn = false;
 
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
@@ -176,8 +176,8 @@ public class Game {
         }
     }
 
-    public boolean isTilePlayedThisTurn() {
-        return tilePlayedThisTurn;
+    public boolean isActionPlayedThisTurn() {
+        return actionPlayedThisTurn;
     }
 
     public int getPlayersTurnScore() {
@@ -192,16 +192,24 @@ public class Game {
     public void exchangeAll() {
         sendEvent(new RackExchangedEvent(currentPlayer, currentPlayer.getRack()));
         currentPlayer.getRack().exchangeAll(currentPlayer.getDeck());
+        actionPlayedThisTurn = true;
         endTurn();
     }
 
     public void buyAnAction() {
         if (currentPlayer.canAfford(2)){
-            sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
             currentPlayer.spendScore(2);
+            sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
         }else{
             sendEvent(new CannotAffordEvent( "Not enough point to buy extra action"));
         };
+
+    }
+
+    public void passTurn(){
+        sendEvent(new TurnPassedEvent(getNextPlayer(), currentPlayer, playersTurnScore));
+        actionPlayedThisTurn =true;
+        endTurn();
     }
 
 

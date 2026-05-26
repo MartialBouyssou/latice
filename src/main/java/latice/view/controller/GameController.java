@@ -168,7 +168,7 @@ public class GameController {
 
     public void buttonBuyAnAction(){ game.buyAnAction(); ;};
 
-    public void buttonEndTurn(){ game.endTurn();};
+    public void buttonEndTurn(){ game.passTurn();};
 
     private void setupDropTarget(ImageView cellView) {
         cellView.setOnDragOver(event -> {
