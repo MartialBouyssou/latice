@@ -68,7 +68,7 @@ public class LaticeGameListener implements GameListener {
 
     @Override
     public void onGameOver(GameOverEvent event) {
-            gameController.showGameOver(event.getWinner());
+        gameController.showGameOver(event.getWinner());
     }
 
     @Override
@@ -76,5 +76,7 @@ public class LaticeGameListener implements GameListener {
         gameController.showInvalidMove(event.getReason());
     }
 
-    public void onCannotAfford(CannotAffordEvent event) { gameController.showInvalidMove(event.getReason());}
+    public void onCannotAfford(CannotAffordEvent event) {
+        gameController.showInvalidMove(event.getReason());
+    }
 }
