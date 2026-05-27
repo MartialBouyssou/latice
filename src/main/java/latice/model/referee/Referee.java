@@ -2,6 +2,7 @@ package latice.model.referee;
 
 import latice.model.board.Board;
 import latice.model.board.cell.Cell;
+import latice.model.board.cell.SunCell;
 import latice.model.game.Game;
 import latice.model.player.Player;
 import latice.model.referee.rule.FirstTurnRule;
@@ -50,12 +51,16 @@ public class Referee {
                 }
         }
 
-        return switch (matchingCount) {
+        int score = switch (matchingCount) {
             case 1 -> 1;
             case 2 -> 2;
             case 3 -> 4;
             default -> 0;
         };
+
+        if (board.getCell(x, y) instanceof SunCell) score += 1;
+
+        return score;
     }
 
     public boolean canBuyExtraAction(int playerScore) {

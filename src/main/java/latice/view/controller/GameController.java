@@ -3,6 +3,7 @@ package latice.view.controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import latice.model.game.Game;
 import latice.model.game.events.TurnPassedEvent;
 import latice.model.player.Player;
@@ -25,11 +27,17 @@ public class GameController {
     @FXML private GridPane board;
     @FXML private Label currentPlayerLabel;
     @FXML private Label currentPlayerScoreLabel;
+    @FXML private Label playerTileRemainingLabel;
     @FXML private ImageView rackTile1;
     @FXML private ImageView rackTile2;
     @FXML private ImageView rackTile3;
     @FXML private ImageView rackTile4;
     @FXML private ImageView rackTile5;
+    @FXML private StackPane screenOverlay;
+    @FXML private Label overlayPlayerLabel;
+    @FXML private Button overlayButton;
+    @FXML private Label lastPlayerLabel;
+    @FXML private Label lastPlayerScoreLabel;
 
     private Game game;
     private List<ImageView> rackImageViews;
@@ -46,11 +54,25 @@ public class GameController {
         }
 
         setupBoardDropTarget();
+
+        overlayButton.setOnAction(e -> hideOverlay());
+    }
+
+    public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
+        overlayPlayerLabel.setText("It's " + nextPlayer.getName() + "'s turn!");
+        lastPlayerLabel.setText(lastPlayer.getName() + "'s score :");
+        lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
+        screenOverlay.setVisible(true);
+        screenOverlay.setManaged(true);
+    }
+
+    private void hideOverlay() {
+        screenOverlay.setVisible(false);
+        screenOverlay.setManaged(false);
     }
 
     public void updateRack(Player player) {
         List<Tile> tiles = player.getRack().getTiles();
-        currentPlayerLabel.setText("Tour de " + player.getName() + " :");
 
         for (int i = 0; i < 5; i++) {
             if (i < tiles.size()) {
@@ -65,8 +87,12 @@ public class GameController {
         }
     }
 
-    public void updateScore(Player player) {
-        currentPlayerScoreLabel.setText("Score : " + player.getScore());
+    public void updatePlayerInfo(Player player) {
+        int remainingTiles = player.getDeck().size() + player.getRack().getTiles().size();
+
+        currentPlayerLabel.setText(player.getName() + "'s turn:");
+        currentPlayerScoreLabel.setText("Score: " + player.getScore());
+        playerTileRemainingLabel.setText("Remaining Tiles: " + remainingTiles);
     }
 
     public void showInvalidMove(String reason) {
@@ -212,8 +238,6 @@ public class GameController {
     }
 
     private void setupPassButton() {
-        // TODO: [TURN PASS] this is the button that allow player to skip or end turn when pressed
-        // add the button action
         if (!hasAlreadyPlaced) {
             game.sendEvent(new TurnPassedEvent(game.getCurrentPlayer(),
                     game.getNextPlayer(), game.getPlayersTurnScore()));

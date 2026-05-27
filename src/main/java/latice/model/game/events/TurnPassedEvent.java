@@ -4,13 +4,13 @@ import latice.model.player.Player;
 
 public class TurnPassedEvent implements GameEvent {
     private final Player nextPlayer;
-    private final int currentPlayerScore;
+    private final int lastTurnScore;
     private final Player lastPlayer;
 
-    public TurnPassedEvent(Player nextPlayer, Player lastPlayer, int currentPayerScore) {
+    public TurnPassedEvent(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         this.nextPlayer = nextPlayer;
         this.lastPlayer = lastPlayer;
-        this.currentPlayerScore = currentPayerScore;
+        this.lastTurnScore = lastTurnScore;
     }
 
     public Player getNextPlayer() {
@@ -21,7 +21,7 @@ public class TurnPassedEvent implements GameEvent {
         return lastPlayer;
     }
 
-    public int getCurrentPlayerScore() {
-        return currentPlayerScore;
+    public int getLastTurnScore() {
+        return lastTurnScore;
     }
 }

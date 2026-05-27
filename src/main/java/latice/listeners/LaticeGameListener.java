@@ -16,12 +16,12 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onGameStarted(GameStartedEvent event) {
         rackController.updateRack(event.getPlayer());
-        rackController.updateScore(event.getPlayer());
+        rackController.updatePlayerInfo(event.getPlayer());
     }
 
     @Override
     public void onActionBought(ActionBoughtEvent event) {
-        rackController.updateScore(event.getPlayer());
+        rackController.updatePlayerInfo(event.getPlayer());
 
         if (event.getActionType() == ActionType.PLAY_TWICE) {
             playTwiceActive = true;
@@ -31,8 +31,10 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
         rackController.hasAlreadyPlaced = false;
+        rackController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+                event.getLastTurnScore());
         rackController.updateRack(event.getNextPlayer());
-        rackController.updateScore(event.getNextPlayer());
+        rackController.updatePlayerInfo(event.getNextPlayer());
     }
 
     @Override
@@ -43,7 +45,7 @@ public class LaticeGameListener implements GameListener {
                 event.getY(),
                 event.getPlayer()
         );
-        rackController.updateScore(event.getPlayer());
+        rackController.updatePlayerInfo(event.getPlayer());
         rackController.updateRack(event.getPlayer());
 
         if (playTwiceActive) {
@@ -57,8 +59,10 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
         rackController.hasAlreadyPlaced = false;
+        rackController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+                event.getLastTurnScore());
         rackController.updateRack(event.getNextPlayer());
-        rackController.updateScore(event.getNextPlayer());
+        rackController.updatePlayerInfo(event.getNextPlayer());
     }
 
     @Override
