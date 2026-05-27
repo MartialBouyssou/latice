@@ -509,6 +509,13 @@
          </children>
       </VBox>
    </left>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" onAction="#buttonEndTurn"/>
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
    <StackPane fx:id="screenOverlay" managed="false" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: rgba(0,0,0,1);" visible="false">
       <children>
