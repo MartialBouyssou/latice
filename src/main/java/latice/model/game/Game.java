@@ -202,7 +202,7 @@ public class Game {
             sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
         }else{
             sendEvent(new CannotAffordEvent( "Not enough point to buy extra action"));
-        };
+        }
 
     }
 
