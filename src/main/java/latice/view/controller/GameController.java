@@ -164,11 +164,17 @@ public class GameController {
         });
     }
 
-    public void buttonExchangeAll(){ game.exchangeAll(); }
+    public void buttonExchangeAll(){
+        game.exchangeAll();
+    }
 
-    public void buttonBuyAnAction(){ game.buyAnAction(); ;};
+    public void buttonBuyAnAction(){
+        game.buyAnAction();
+    }
 
-    public void buttonEndTurn(){ game.passTurn();};
+    public void buttonEndTurn(){
+        game.passTurn();
+    }
 
     private void setupDropTarget(ImageView cellView) {
         cellView.setOnDragOver(event -> {
