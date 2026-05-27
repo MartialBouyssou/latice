@@ -23,7 +23,7 @@ public class Game {
     private final List<GameListener> listeners = new ArrayList<>();
     private int playersTurnScore;
 
-    private boolean tilePlayedThisTurn = false;
+    private boolean actionPlayedThisTurn = false;
     private boolean playTwiceActive = false;
 
     public Game(Referee referee) {
@@ -96,7 +96,7 @@ public class Game {
             if (playTwiceActive) {
                 playTwiceActive = false;
             }
-            tilePlayedThisTurn = true;
+            actionPlayedThisTurn = true;
             currentPlayer.incrementTilesPlayed();
             currentPlayer.addScore(playersTurnScore);
             sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
@@ -107,10 +107,10 @@ public class Game {
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
-        if (!tilePlayedThisTurn) {
+        if (!actionPlayedThisTurn) {
             throw new NoTilePlayedException();
         }
-        tilePlayedThisTurn = false;
+        actionPlayedThisTurn = false;
 
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
@@ -125,6 +125,12 @@ public class Game {
 
         turnCount++;
         playersTurnScore = 0;
+    }
+
+    public void passTurn(){
+        sendEvent(new TurnPassedEvent(getNextPlayer(), currentPlayer, playersTurnScore));
+        actionPlayedThisTurn = true;
+        endTurn();
     }
 
     public boolean isGameOver() {
@@ -171,8 +177,8 @@ public class Game {
         }
     }
 
-    public boolean isTilePlayedThisTurn() {
-        return tilePlayedThisTurn;
+    public boolean isActionPlayedThisTurn() {
+        return actionPlayedThisTurn;
     }
 
     public int getPlayersTurnScore() {

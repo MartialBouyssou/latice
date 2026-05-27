@@ -16,7 +16,7 @@
 <StackPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.GameController">
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0">
    <center>
-      <GridPane fx:id="board" maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" translateX="-150.0" BorderPane.alignment="CENTER">
+      <GridPane fx:id="board" maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" translateX="-100.0" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -512,7 +512,7 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" onAction="#buttonEndTurn"/>
+            <Button mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" />
          </children>
       </VBox>
    </right>
@@ -521,6 +521,14 @@
       <children>
          <VBox alignment="CENTER" spacing="30.0">
             <children>
+               <Label fx:id="turnNumberLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Turn ...">
+                  <padding>
+                     <Insets bottom="30.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="30.0" />
+                  </VBox.margin>
+               </Label>
                <Label fx:id="lastPlayerLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Score de ...:" />
                <Label fx:id="lastPlayerScoreLabel" style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: white;" text="...">
                   <VBox.margin>

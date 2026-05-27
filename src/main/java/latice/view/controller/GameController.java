@@ -38,6 +38,7 @@ public class GameController {
     @FXML private Button overlayButton;
     @FXML private Label lastPlayerLabel;
     @FXML private Label lastPlayerScoreLabel;
+    @FXML private Label turnNumberLabel;
 
     private Game game;
     private List<ImageView> rackImageViews;
@@ -62,6 +63,7 @@ public class GameController {
         overlayPlayerLabel.setText("It's " + nextPlayer.getName() + "'s turn!");
         lastPlayerLabel.setText(lastPlayer.getName() + "'s score :");
         lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
+        turnNumberLabel.setText("Turn " + (game.getTurnCount()/2 + 1) + "/" + Game.MAX_TURN_COUNT);
         screenOverlay.setVisible(true);
         screenOverlay.setManaged(true);
     }
@@ -110,6 +112,10 @@ public class GameController {
         alert.setContentText("Player" + player.getName() + " won with a score of "
                 + player.getScore() + " points !");
         alert.show();
+    }
+
+    public void buttonEndTurn(){
+        game.passTurn();
     }
 
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
