@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,10 +10,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.GameController">
+<StackPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.GameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0">
    <center>
-      <GridPane fx:id="board" maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" translateX="-200.0" BorderPane.alignment="CENTER">
+      <GridPane fx:id="board" maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" translateX="-100.0" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -497,13 +501,47 @@
       </HBox>
    </bottom>
    <left>
-      <HBox alignment="CENTER" maxHeight="675.0" maxWidth="500.0" minHeight="675.0" minWidth="400.0" prefHeight="675.0" prefWidth="400.0" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="10.0" top="10.0" />
-         </padding>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="currentPlayerLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Tour de ... :" translateX="120.0" translateY="-310.0" />
+            <Label fx:id="currentPlayerLabel" minWidth="300.0" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="...'s turn:" translateX="250.0" translateY="90.0" />
+            <Label fx:id="currentPlayerScoreLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Score: " translateX="250.0" translateY="120.0" />
+               <Label fx:id="playerTileRemainingLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Tile restante:  ..." translateX="250.0" translateY="150.0" />
          </children>
-      </HBox>
+      </VBox>
    </left>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" />
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
+   <StackPane fx:id="screenOverlay" managed="false" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: rgba(0,0,0,1);" visible="false">
+      <children>
+         <VBox alignment="CENTER" spacing="30.0">
+            <children>
+               <Label fx:id="turnNumberLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Turn ...">
+                  <padding>
+                     <Insets bottom="30.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="30.0" />
+                  </VBox.margin>
+               </Label>
+               <Label fx:id="lastPlayerLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Score de ...:" />
+               <Label fx:id="lastPlayerScoreLabel" style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: white;" text="...">
+                  <VBox.margin>
+                     <Insets bottom="100.0" />
+                  </VBox.margin>
+                  <padding>
+                     <Insets bottom="100.0" />
+                  </padding>
+               </Label>
+               <Label fx:id="overlayPlayerLabel" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white;" text="C'est au tour de : ..." />
+               <Button fx:id="overlayButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="I'm ready!" />
+            </children>
+         </VBox>
+      </children>
+   </StackPane>
+</StackPane>

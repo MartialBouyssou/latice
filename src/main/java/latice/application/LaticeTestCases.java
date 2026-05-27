@@ -1,6 +1,6 @@
 package latice.application;
 
-import latice.application.listeners.ConsoleListener;
+import latice.listeners.ConsoleListener;
 import latice.model.board.Board;
 import latice.model.game.Game;
 import latice.model.referee.Referee;
@@ -60,7 +60,7 @@ public class LaticeTestCases {
 			Tile playedTile = game.getCurrentPlayer().getRack().getTiles().get(0);
 			game.playTile(playedTile, x, y); // here is call onTilePlayed from ConsoleListener
 
-		} while (!game.isTilePlayedThisTurn());
+		} while (!game.isActionPlayedThisTurn());
 
 		game.endTurn(); // here is call onTurnEnded from ConsoleListener
 

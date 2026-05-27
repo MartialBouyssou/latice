@@ -23,7 +23,8 @@ public class Game {
     private final List<GameListener> listeners = new ArrayList<>();
     private int playersTurnScore;
 
-    private boolean tilePlayedThisTurn = false;
+    private boolean actionPlayedThisTurn = false;
+    private boolean playTwiceActive = false;
 
     public Game(Referee referee) {
         this.referee = referee;
@@ -81,7 +82,6 @@ public class Game {
 
         playersTurnScore = referee.calculateScore(this.getBoard(), tile, x, y);
         currentPlayer.incrementTilesPlayed();
-        currentPlayer.addScore(playersTurnScore);
 
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
@@ -93,8 +93,12 @@ public class Game {
             currentPlayer.getRack().getTiles().remove(tile);
             board.getCell(x, y).setTile(tile);
 
-            tilePlayedThisTurn = true;
+            if (playTwiceActive) {
+                playTwiceActive = false;
+            }
+            actionPlayedThisTurn = true;
             currentPlayer.incrementTilesPlayed();
+            currentPlayer.addScore(playersTurnScore);
             sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
         }
     }
@@ -103,10 +107,10 @@ public class Game {
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
-        if (!tilePlayedThisTurn) {
+        if (!actionPlayedThisTurn) {
             throw new NoTilePlayedException();
         }
-        tilePlayedThisTurn = false;
+        actionPlayedThisTurn = false;
 
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
@@ -121,6 +125,12 @@ public class Game {
 
         turnCount++;
         playersTurnScore = 0;
+    }
+
+    public void passTurn(){
+        sendEvent(new TurnPassedEvent(getNextPlayer(), currentPlayer, playersTurnScore));
+        actionPlayedThisTurn = true;
+        endTurn();
     }
 
     public boolean isGameOver() {
@@ -152,7 +162,7 @@ public class Game {
         listeners.add(listener);
     }
 
-    private void sendEvent(GameEvent event) {
+    public void sendEvent(GameEvent event) {
         for (GameListener listener : listeners) {
             if (event instanceof GameStartedEvent e) listener.onGameStarted(e);
             if (event instanceof GameOverEvent e) listener.onGameOver(e);
@@ -167,7 +177,16 @@ public class Game {
         }
     }
 
-    public boolean isTilePlayedThisTurn() {
-        return tilePlayedThisTurn;
+    public boolean isActionPlayedThisTurn() {
+        return actionPlayedThisTurn;
+    }
+
+    public int getPlayersTurnScore() {
+        return playersTurnScore;
+    }
+
+    public Player getNextPlayer() {
+        int currentIndex = players.indexOf(currentPlayer);
+        return players.get((currentIndex + 1) % players.size());
     }
 }

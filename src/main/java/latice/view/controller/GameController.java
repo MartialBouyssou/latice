@@ -3,6 +3,7 @@ package latice.view.controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,8 +12,9 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import latice.model.board.Board;
+import javafx.scene.layout.StackPane;
 import latice.model.game.Game;
+import latice.model.game.events.TurnPassedEvent;
 import latice.model.player.Player;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
@@ -24,21 +26,27 @@ public class GameController {
     @FXML private HBox rackBox;
     @FXML private GridPane board;
     @FXML private Label currentPlayerLabel;
+    @FXML private Label currentPlayerScoreLabel;
+    @FXML private Label playerTileRemainingLabel;
     @FXML private ImageView rackTile1;
     @FXML private ImageView rackTile2;
     @FXML private ImageView rackTile3;
     @FXML private ImageView rackTile4;
     @FXML private ImageView rackTile5;
+    @FXML private StackPane screenOverlay;
+    @FXML private Label overlayPlayerLabel;
+    @FXML private Button overlayButton;
+    @FXML private Label lastPlayerLabel;
+    @FXML private Label lastPlayerScoreLabel;
+    @FXML private Label turnNumberLabel;
 
     private Game game;
-    private Board gameBoard;
     private List<ImageView> rackImageViews;
+    public boolean hasAlreadyPlaced = false;
 
     @FXML
     public void initialize() {
         rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
-
-        gameBoard = Board.create();
 
         for (Node node : rackBox.getChildren()) {
             if (node instanceof ImageView) {
@@ -47,11 +55,26 @@ public class GameController {
         }
 
         setupBoardDropTarget();
+
+        overlayButton.setOnAction(e -> hideOverlay());
+    }
+
+    public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
+        overlayPlayerLabel.setText("It's " + nextPlayer.getName() + "'s turn!");
+        lastPlayerLabel.setText(lastPlayer.getName() + "'s score :");
+        lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
+        turnNumberLabel.setText("Turn " + (game.getTurnCount()/2 + 1) + "/" + Game.MAX_TURN_COUNT);
+        screenOverlay.setVisible(true);
+        screenOverlay.setManaged(true);
+    }
+
+    private void hideOverlay() {
+        screenOverlay.setVisible(false);
+        screenOverlay.setManaged(false);
     }
 
     public void updateRack(Player player) {
         List<Tile> tiles = player.getRack().getTiles();
-        currentPlayerLabel.setText("Tour de " + player.getName() + " :");
 
         for (int i = 0; i < 5; i++) {
             if (i < tiles.size()) {
@@ -66,13 +89,34 @@ public class GameController {
         }
     }
 
-    public void showInvalidMove() {
+    public void updatePlayerInfo(Player player) {
+        int remainingTiles = player.getDeck().size() + player.getRack().getTiles().size();
+
+        currentPlayerLabel.setText(player.getName() + "'s turn:");
+        currentPlayerScoreLabel.setText("Score: " + player.getScore());
+        playerTileRemainingLabel.setText("Remaining Tiles: " + remainingTiles);
+    }
+
+    public void showInvalidMove(String reason) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid Move");
-        alert.setHeaderText("Invalid Move");
+        alert.setHeaderText("You can't do that..");
+        alert.setContentText(reason);
         alert.show();
     }
 
+    public void showGameOver(Player player) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game ended");
+        alert.setHeaderText("Winner :" + player.getName());
+        alert.setContentText("Player" + player.getName() + " won with a score of "
+                + player.getScore() + " points !");
+        alert.show();
+    }
+
+    public void buttonEndTurn(){
+        game.passTurn();
+    }
 
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
         try {
@@ -83,7 +127,6 @@ public class GameController {
                 int y = (rowIndex == null) ? 0 : rowIndex;
 
                 if (x == targetX && y == targetY && node instanceof ImageView) {
-                    System.out.println("chargement de l'image : " + tile.getTileImgPath());
                     ((ImageView) node).setImage(new Image(tile.getTileImgPath()));
                     break;
                 }
@@ -91,9 +134,7 @@ public class GameController {
 
             updateRack(player);
 
-        } catch (Exception e) {
-            System.err.println("ERREUR lors de l'affichage de la tuile sur l'interface :");
-        }
+        } catch (Exception e) { /* No need to debug this catch */ }
     }
 
     private void setupDraggable(ImageView tileView) {
@@ -137,7 +178,12 @@ public class GameController {
                 Tile tile = extractTileFromUrl(db.getString());
 
                 if (tile != null) {
-                    game.playTile(tile, col, row);
+                    if (!hasAlreadyPlaced) {
+                        game.playTile(tile, col, row);
+                    } else {
+                        showInvalidMove("You already placed a tile this turn ! " +
+                                "Buy an action or end your turn !");
+                    }
                 } else {
                     System.err.println("Tuile non reconnue depuis l'URL : " + db.getString());
                 }
@@ -195,6 +241,15 @@ public class GameController {
             event.setDropCompleted(success);
             event.consume();
         });
+    }
+
+    private void setupPassButton() {
+        if (!hasAlreadyPlaced) {
+            game.sendEvent(new TurnPassedEvent(game.getCurrentPlayer(),
+                    game.getNextPlayer(), game.getPlayersTurnScore()));
+        } else {
+            game.endTurn();
+        }
     }
 
     private Tile extractTileFromUrl(String fullUrl) {
