@@ -44,15 +44,11 @@
                <Label style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="Player 1 username:" />
                <TextField fx:id="player1UsernameTf" maxHeight="50.0" maxWidth="175.0" minHeight="50.0" minWidth="175.0" prefHeight="50.0" prefWidth="175.0" />
                <Label style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="Player 2 username:" />
-               <TextField fx:id="player2UsernameTf" maxHeight="50.0" maxWidth="175.0" minHeight="50.0" minWidth="175.0" prefHeight="50.0" prefWidth="175.0">
-                  <padding>
-                     <Insets bottom="75.0" />
-                  </padding>
+               <TextField fx:id="player2UsernameTf" maxHeight="50.0" maxWidth="175.0" minHeight="50.0" minWidth="175.0" prefHeight="50.0" prefWidth="175.0" />
+               <Button maxHeight="67.0" maxWidth="300.0" minHeight="67.0" minWidth="300.0" mnemonicParsing="false" onAction="#startGame" prefHeight="67.0" prefWidth="300.0" style="-fx-font-size: 32px; -fx-background-radius: 10;" text="Play">
                   <VBox.margin>
-                     <Insets bottom="75.0" />
-                  </VBox.margin>
-               </TextField>
-               <Button mnemonicParsing="false" onAction="#startGame" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 32px; -fx-background-radius: 10;" text="Play" />
+                     <Insets top="75.0" />
+                  </VBox.margin></Button>
             </children>
          </VBox>
          <VBox fx:id="rulesMenuVBox" alignment="TOP_CENTER" spacing="16.0" style="-fx-padding: 60 200 60 200;" visible="false">
