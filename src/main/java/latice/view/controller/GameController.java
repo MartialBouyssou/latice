@@ -13,6 +13,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import latice.listeners.LaticeGameListener;
+import latice.model.board.cell.SunCell;
 import latice.model.game.Game;
 import latice.model.game.events.TurnPassedEvent;
 import latice.model.player.Player;
@@ -22,6 +23,7 @@ import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GameController {
 
@@ -38,6 +40,7 @@ public class GameController {
     @FXML private StackPane screenOverlay;
     @FXML private Label overlayPlayerLabel;
     @FXML private Button overlayButton;
+    @FXML private Button endTurnButton;
     @FXML private Label lastPlayerLabel;
     @FXML private Label lastPlayerScoreLabel;
     @FXML private Label turnNumberLabel;
@@ -119,6 +122,7 @@ public class GameController {
     }
 
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
+        endTurnButton.setDisable(true);
         overlayPlayerLabel.setText("It's " + nextPlayer.getName() + "'s turn!");
         lastPlayerLabel.setText(lastPlayer.getName() + "'s score :");
         lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
@@ -130,6 +134,7 @@ public class GameController {
     public void hideOverlay() {
         screenOverlay.setVisible(false);
         screenOverlay.setManaged(false);
+        endTurnButton.setDisable(false);
     }
 
     public void updateRack(Player player) {
@@ -165,9 +170,10 @@ public class GameController {
     }
 
     public void showGameOver(Player player) {
+        hideOverlay();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Game ended");
-        alert.setHeaderText("Winner :" + player.getName());
+        alert.setHeaderText("Winner: " + player.getName());
         alert.setContentText("Player" + player.getName() + " won with a score of "
                 + player.getScore() + " points !");
         alert.show();
@@ -316,6 +322,45 @@ public class GameController {
         String mapKey = "latice/images/" + filename;
 
         return TileFactory.getTileFromImagePath(mapKey);
+    }
+
+    public void endGame() {
+        playMenuVBox.setVisible(true);
+        playMenuVBox.setManaged(true);
+        usernameMenuVBox.setVisible(false);
+        usernameMenuVBox.setManaged(false);
+
+        gameBoardBP.setVisible(false);
+        gameBoardBP.setManaged(false);
+        startMenuStackpane.setVisible(true);
+        startMenuStackpane.setManaged(true);
+    }
+
+    public void resetBoard() {
+        for (Node node : board.getChildren()) {
+            if (node instanceof ImageView imageView) {
+                Integer col = GridPane.getColumnIndex(node);
+                Integer row = GridPane.getRowIndex(node);
+                int x = (col == null) ? 0 : col;
+                int y = (row == null) ? 0 : row;
+
+                String imagePath;
+                if ((x == 4 && y == 4)) {
+                    imagePath = Objects.requireNonNull(getClass()
+                            .getResource("/latice/images/bg_moon.png")).toExternalForm();
+                } else if (game.getBoard().getCell(x, y) instanceof SunCell) {
+                    imagePath = Objects.requireNonNull(getClass()
+                            .getResource("/latice/images/bg_sun.png")).toExternalForm();
+                } else {
+                    imagePath = Objects.requireNonNull(getClass()
+                            .getResource("/latice/images/bg_sea.png")).toExternalForm();
+                }
+
+                imageView.setImage(new Image(imagePath));
+                imageView.setVisible(true);
+            }
+        }
+        hasAlreadyPlaced = false;
     }
 
     public Game getGame() {
