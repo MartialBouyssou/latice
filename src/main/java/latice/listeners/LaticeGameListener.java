@@ -6,22 +6,22 @@ import latice.view.controller.GameController;
 
 public class LaticeGameListener implements GameListener {
 
-    private final GameController rackController;
+    private final GameController gameController;
     private boolean playTwiceActive = false;
 
     public LaticeGameListener(GameController rackController) {
-        this.rackController = rackController;
+        this.gameController = rackController;
     }
 
     @Override
     public void onGameStarted(GameStartedEvent event) {
-        rackController.updateRack(event.getPlayer());
-        rackController.updatePlayerInfo(event.getPlayer());
+        gameController.updateRack(event.getPlayer());
+        gameController.updatePlayerInfo(event.getPlayer());
     }
 
     @Override
     public void onActionBought(ActionBoughtEvent event) {
-        rackController.updatePlayerInfo(event.getPlayer());
+        gameController.updatePlayerInfo(event.getPlayer());
 
         if (event.getActionType() == ActionType.PLAY_TWICE) {
             playTwiceActive = true;
@@ -30,53 +30,55 @@ public class LaticeGameListener implements GameListener {
 
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
-        rackController.hasAlreadyPlaced = false;
-        rackController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+        gameController.hasAlreadyPlaced = false;
+        gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
                 event.getLastTurnScore());
-        rackController.updateRack(event.getNextPlayer());
-        rackController.updatePlayerInfo(event.getNextPlayer());
+        gameController.updateRack(event.getNextPlayer());
+        gameController.updatePlayerInfo(event.getNextPlayer());
     }
 
     @Override
     public void onTilePlaced(TilePlacedEvent event) {
-        rackController.placeTileOnBoard(
+        gameController.placeTileOnBoard(
                 event.getTile(),
                 event.getX(),
                 event.getY(),
                 event.getPlayer()
         );
-        rackController.updatePlayerInfo(event.getPlayer());
-        rackController.updateRack(event.getPlayer());
+        gameController.updatePlayerInfo(event.getPlayer());
+        gameController.updateRack(event.getPlayer());
 
         if (playTwiceActive) {
             playTwiceActive = false;
         } else {
-            rackController.hasAlreadyPlaced = true;
+            gameController.hasAlreadyPlaced = true;
         }
-        rackController.getGame().endTurn();
+        gameController.getGame().endTurn();
     }
 
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
-        rackController.hasAlreadyPlaced = false;
-        rackController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+        gameController.hasAlreadyPlaced = false;
+        gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
                 event.getLastTurnScore());
-        rackController.updateRack(event.getNextPlayer());
-        rackController.updatePlayerInfo(event.getNextPlayer());
+        gameController.updateRack(event.getNextPlayer());
+        gameController.updatePlayerInfo(event.getNextPlayer());
     }
 
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
-        rackController.updateRack(event.getPlayer());
+        gameController.updateRack(event.getPlayer());
     }
 
     @Override
     public void onGameOver(GameOverEvent event) {
-            rackController.showGameOver(event.getWinner());
+        gameController.showGameOver(event.getWinner());
+        gameController.endGame();
+        gameController.resetBoard();
     }
 
     @Override
     public void onInvalidMove(InvalidMoveEvent event) {
-        rackController.showInvalidMove(event.getReason());
+        gameController.showInvalidMove(event.getReason());
     }
 }

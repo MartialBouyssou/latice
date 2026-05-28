@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -14,7 +15,84 @@
 <?import javafx.scene.layout.VBox?>
 
 <StackPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.GameController">
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0">
+   <StackPane fx:id="startMenuStackpane" maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: black;">
+      <children>
+         <VBox fx:id="playMenuVBox" alignment="CENTER" spacing="30.0">
+            <children>
+               <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Latice">
+                  <padding>
+                     <Insets bottom="30.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="30.0" />
+                  </VBox.margin>
+               </Label>
+               <Button mnemonicParsing="false" onAction="#showUsernameChoiceMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Play" />
+               <Button mnemonicParsing="false" onAction="#showRules" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Rules" />
+            </children>
+         </VBox>
+         <VBox fx:id="usernameMenuVBox" alignment="CENTER" spacing="30.0" visible="false">
+            <children>
+               <Label style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: white;" text="Latice">
+                  <padding>
+                     <Insets bottom="30.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="30.0" />
+                  </VBox.margin>
+               </Label>
+               <Label style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="Player 1 username:" />
+               <TextField fx:id="player1UsernameTf" maxHeight="50.0" maxWidth="175.0" minHeight="50.0" minWidth="175.0" prefHeight="50.0" prefWidth="175.0" />
+               <Label style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="Player 2 username:" />
+               <TextField fx:id="player2UsernameTf" maxHeight="50.0" maxWidth="175.0" minHeight="50.0" minWidth="175.0" prefHeight="50.0" prefWidth="175.0">
+                  <padding>
+                     <Insets bottom="75.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="75.0" />
+                  </VBox.margin>
+               </TextField>
+               <Button mnemonicParsing="false" onAction="#startGame" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 32px; -fx-background-radius: 10;" text="Play" />
+            </children>
+         </VBox>
+         <VBox fx:id="rulesMenuVBox" alignment="TOP_CENTER" spacing="16.0" style="-fx-padding: 60 200 60 200;" visible="false">
+            <children>
+               <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" text="Rules">
+                  <padding>
+                     <Insets top="75.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets top="75.0" />
+                  </VBox.margin></Label>
+
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="Setup" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="Tiles are shuffled and split equally between 2 players. Each player draws 5 tiles onto their rack. The first player places one tile on the moon square (center) to start." wrapText="true" />
+
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="On your turn" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="The first action is FREE. Each additional action costs 2 points. Choose one of the 4 actions below." wrapText="true" />
+
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="4 possible actions" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="1. Play a tile — Place a tile from your rack adjacent to an existing tile. Each touching side must match by color or shape." wrapText="true" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="2. Buy an action — Spend 2 points to play an extra move." wrapText="true" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="3. Exchange rack — Replace all tiles on your rack with new ones from your pool. Ends your turn." wrapText="true" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="4. Pass — Skip your turn for free." wrapText="true" />
+
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="Scoring" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="Double (2 matching sides) → +1 pt  |  Trefoil (3 sides) → +2 pts  |  Latice (4 sides) → +4 pts  |  Sun square → +2 pts bonus" wrapText="true" />
+
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="End of game" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="The game ends when a player empties their rack and pool, or after 10 cycles (1 cycle = 1 turn per player). The player who placed the most tiles wins." wrapText="true" />
+
+               <Button mnemonicParsing="false" onAction="#showPlayMenu" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-background-radius: 10;" text="Back">
+                  <VBox.margin>
+                     <Insets top="20.0" />
+                  </VBox.margin>
+               </Button>
+            </children>
+         </VBox>
+      </children>
+   </StackPane>
+<BorderPane fx:id="gameBoardBP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" visible="false">
    <center>
       <GridPane fx:id="board" maxHeight="700.0" maxWidth="700.0" minHeight="700.0" minWidth="700.0" prefHeight="700.0" prefWidth="700.0" translateX="-100.0" BorderPane.alignment="CENTER">
          <columnConstraints>
@@ -512,7 +590,7 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" />
+            <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" />
          </children>
       </VBox>
    </right>
@@ -539,7 +617,7 @@
                   </padding>
                </Label>
                <Label fx:id="overlayPlayerLabel" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white;" text="C'est au tour de : ..." />
-               <Button fx:id="overlayButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="I'm ready!" />
+               <Button fx:id="overlayButton" mnemonicParsing="false" onAction="#hideOverlay" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="I'm ready!" />
             </children>
          </VBox>
       </children>
