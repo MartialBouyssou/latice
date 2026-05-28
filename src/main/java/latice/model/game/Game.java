@@ -14,19 +14,30 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
+    public static final int MAX_TURN_COUNT = 10;
     private final List<Player> players;
+    private final String player1Username;
+    private final String player2Username;
     private Board board;
     private final Referee referee;
     private Player currentPlayer;
     private int turnCount;
     private final List<GameListener> listeners = new ArrayList<>();
+    private int playersTurnScore;
 
-    private boolean tilePlayedThisTurn = false;
+    private boolean actionPlayedThisTurn = false;
+    private boolean playTwiceActive = false;
 
-    public Game(Referee referee) {
+    public Game(Referee referee, String player1Username, String player2Username) {
         this.referee = referee;
         this.players = new ArrayList<>();
         this.turnCount = 0;
+        this.player1Username = player1Username;
+        this.player2Username = player2Username;
+    }
+
+    public Game(Referee referee) {
+        this(referee, "P1", "P2");
     }
 
     public List<Player> getPlayers() {
@@ -64,8 +75,8 @@ public class Game {
             secondHalf.add(allTiles.get(i * 2 + 1));
         }
 
-        players.add(Player.create("P1", Deck.create(firstHalf)));
-        players.add(Player.create("P2", Deck.create(secondHalf)));
+        players.add(Player.create(player1Username, Deck.create(firstHalf)));
+        players.add(Player.create(player2Username, Deck.create(secondHalf)));
 
         currentPlayer = players.get(new Random().nextInt(players.size()));
 
@@ -77,6 +88,9 @@ public class Game {
             throw new GameNotStartException();
         }
 
+        playersTurnScore = referee.calculateScore(this.getBoard(), tile, x, y);
+        currentPlayer.incrementTilesPlayed();
+
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
                     "Player don't have this tile in his rack"));
@@ -87,10 +101,13 @@ public class Game {
             currentPlayer.getRack().getTiles().remove(tile);
             board.getCell(x, y).setTile(tile);
 
-            tilePlayedThisTurn = true;
+            if (playTwiceActive) {
+                playTwiceActive = false;
+            }
+            actionPlayedThisTurn = true;
             currentPlayer.incrementTilesPlayed();
-            sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y,
-                    referee.calculateScore(this.getBoard(), tile, x, y)));
+            currentPlayer.addScore(playersTurnScore);
+            sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
         }
     }
 
@@ -98,23 +115,30 @@ public class Game {
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
-        if (!tilePlayedThisTurn) {
+        if (!actionPlayedThisTurn) {
             throw new NoTilePlayedException();
         }
-        tilePlayedThisTurn = false;
+        actionPlayedThisTurn = false;
 
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
-        turnCount++;
         Player lastPlayer = currentPlayer;
         nextPlayer();
 
         if (referee.isGameOver(this)) {
             sendEvent(new GameOverEvent(getWinner()));
         } else {
-            // TODO: calculate last turn score ?
-            sendEvent(new TurnEndedEvent(lastPlayer, 0, currentPlayer));
+            sendEvent(new TurnEndedEvent(lastPlayer, playersTurnScore, currentPlayer));
         }
+
+        turnCount++;
+        playersTurnScore = 0;
+    }
+
+    public void passTurn(){
+        sendEvent(new TurnPassedEvent(getNextPlayer(), currentPlayer, playersTurnScore));
+        actionPlayedThisTurn = true;
+        endTurn();
     }
 
     public boolean isGameOver() {
@@ -126,12 +150,11 @@ public class Game {
     }
 
     public Player getWinner() {
-        // TODO V6: delegate to referee.determineWinner(this)
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
 
-        return null;
+        return referee.determineWinner(this);
     }
 
     private void nextPlayer() {
@@ -147,7 +170,7 @@ public class Game {
         listeners.add(listener);
     }
 
-    private void sendEvent(GameEvent event) {
+    public void sendEvent(GameEvent event) {
         for (GameListener listener : listeners) {
             if (event instanceof GameStartedEvent e) listener.onGameStarted(e);
             if (event instanceof GameOverEvent e) listener.onGameOver(e);
@@ -162,7 +185,16 @@ public class Game {
         }
     }
 
-    public boolean isTilePlayedThisTurn() {
-        return tilePlayedThisTurn;
+    public boolean isActionPlayedThisTurn() {
+        return actionPlayedThisTurn;
+    }
+
+    public int getPlayersTurnScore() {
+        return playersTurnScore;
+    }
+
+    public Player getNextPlayer() {
+        int currentIndex = players.indexOf(currentPlayer);
+        return players.get((currentIndex + 1) % players.size());
     }
 }

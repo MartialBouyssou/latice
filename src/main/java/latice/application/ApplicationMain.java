@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import latice.application.listeners.LaticeGameListener;
+import latice.listeners.LaticeGameListener;
 import latice.model.game.Game;
 import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
@@ -30,16 +30,11 @@ public class ApplicationMain extends Application {
 
             GameController gameController = loader.getController();
 
-            Game game = buildGame();
-            game.addListener(new LaticeGameListener(gameController));
+
 
             primaryStage.setScene(new Scene(root, 1920, 1080));
             primaryStage.setTitle("Latice");
             primaryStage.show();
-
-            gameController.setGame(game);
-
-            game.startGame();
 
         } catch (Exception e) {
             BorderPane errorPane = new BorderPane();
@@ -47,11 +42,5 @@ public class ApplicationMain extends Application {
             primaryStage.setScene(new Scene(errorPane, 400, 200));
             primaryStage.show();
         }
-    }
-
-    private Game buildGame() {
-        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule(),
-                                    new PositionRule(), new FirstTurnRule());
-        return new Game(Referee.create(rules));
     }
 }
