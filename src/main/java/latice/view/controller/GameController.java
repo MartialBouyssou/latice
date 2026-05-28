@@ -45,6 +45,7 @@ public class GameController {
     @FXML private BorderPane gameBoardBP;
 
     @FXML private StackPane startMenuStackpane;
+    @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
@@ -72,6 +73,20 @@ public class GameController {
         playMenuVBox.setManaged(false);
         usernameMenuVBox.setVisible(true);
         usernameMenuVBox.setManaged(true);
+    }
+
+    public void showPlayMenu() {
+        rulesMenuVBox.setVisible(false);
+        rulesMenuVBox.setManaged(false);
+        playMenuVBox.setVisible(true);
+        playMenuVBox.setManaged(true);
+    }
+
+    public void showRules() {
+        playMenuVBox.setVisible(false);
+        playMenuVBox.setManaged(false);
+        rulesMenuVBox.setVisible(true);
+        rulesMenuVBox.setManaged(true);
     }
 
     public void startGame() {
