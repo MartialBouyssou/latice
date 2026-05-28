@@ -58,7 +58,7 @@ public class Referee {
             default -> 0;
         };
 
-        if (board.getCell(x, y) instanceof SunCell) score += 1;
+        if (board.getCell(x, y) instanceof SunCell) score += 2;
 
         return score;
     }
