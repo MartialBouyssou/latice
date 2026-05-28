@@ -101,9 +101,8 @@ public class GameController {
         startMenuStackpane.setVisible(false);
         startMenuStackpane.setManaged(false);
 
-        Game game = buildGame();
+        game = buildGame();
         game.addListener(new LaticeGameListener(this));
-        this.game = game;
         game.startGame();
 
         gameBoardBP.setVisible(true);
