@@ -590,7 +590,9 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" />
+            <Button mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Buy an action" translateX="-500.0" translateY="700.0" onAction="#buttonBuyAnAction" />
+            <Button mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Exchange Rack" translateX="-500.0" translateY="750.0" onAction="#buttonExchangeAll"/>
+            <Button fx:id="endTurnButton" mnemonicParsing="false" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" onAction="#buttonEndTurn"/>
          </children>
       </VBox>
    </right>

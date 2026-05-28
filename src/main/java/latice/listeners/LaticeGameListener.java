@@ -9,8 +9,8 @@ public class LaticeGameListener implements GameListener {
     private final GameController gameController;
     private boolean playTwiceActive = false;
 
-    public LaticeGameListener(GameController rackController) {
-        this.gameController = rackController;
+    public LaticeGameListener(GameController gameController) {
+        this.gameController = gameController;
     }
 
     @Override
@@ -45,15 +45,15 @@ public class LaticeGameListener implements GameListener {
                 event.getY(),
                 event.getPlayer()
         );
-        gameController.updatePlayerInfo(event.getPlayer());
+        gameController.updateScore(event.getPlayer());
         gameController.updateRack(event.getPlayer());
 
         if (playTwiceActive) {
             playTwiceActive = false;
         } else {
             gameController.hasAlreadyPlaced = true;
+            gameController.getGame().endTurn();
         }
-        gameController.getGame().endTurn();
     }
 
     @Override
@@ -79,6 +79,10 @@ public class LaticeGameListener implements GameListener {
 
     @Override
     public void onInvalidMove(InvalidMoveEvent event) {
+        gameController.showInvalidMove(event.getReason());
+    }
+
+    public void onCannotAfford(CannotAffordEvent event) {
         gameController.showInvalidMove(event.getReason());
     }
 }
