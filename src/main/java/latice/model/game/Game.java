@@ -219,12 +219,4 @@ public class Game {
         }
 
     }
-
-    public void passTurn(){
-        sendEvent(new TurnPassedEvent(getNextPlayer(), currentPlayer, playersTurnScore));
-        actionPlayedThisTurn =true;
-        endTurn();
-    }
-
-
 }

@@ -45,7 +45,7 @@ public class LaticeGameListener implements GameListener {
                 event.getY(),
                 event.getPlayer()
         );
-        gameController.updateScore(event.getPlayer());
+        gameController.updatePlayerInfo(event.getPlayer());
         gameController.updateRack(event.getPlayer());
 
         if (playTwiceActive) {

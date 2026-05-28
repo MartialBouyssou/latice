@@ -184,10 +184,6 @@ public class GameController {
         alert.show();
     }
 
-    public void buttonEndTurn(){
-        game.passTurn();
-    }
-
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
         try {
             for (Node node : board.getChildren()) {
