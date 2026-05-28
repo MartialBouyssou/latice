@@ -173,9 +173,14 @@ public class GameController {
         hideOverlay();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Game ended");
-        alert.setHeaderText("Winner: " + player.getName());
-        alert.setContentText("Player" + player.getName() + " won with a score of "
-                + player.getScore() + " points !");
+        if (player != null) {
+            alert.setHeaderText("Winner: " + player.getName());
+            alert.setContentText("Player" + player.getName() + " won with a score of "
+                    + player.getScore() + " points !");
+        } else {
+            alert.setHeaderText("Tie!");
+            alert.setContentText("It's a tie ! Both players have the same count of tile placed !");
+        }
         alert.show();
     }
 
