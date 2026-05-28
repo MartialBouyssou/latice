@@ -16,6 +16,8 @@ import java.util.Random;
 public class Game {
     public static final int MAX_TURN_COUNT = 10;
     private final List<Player> players;
+    private final String player1Username;
+    private final String player2Username;
     private Board board;
     private final Referee referee;
     private Player currentPlayer;
@@ -26,10 +28,16 @@ public class Game {
     private boolean actionPlayedThisTurn = false;
     private boolean playTwiceActive = false;
 
-    public Game(Referee referee) {
+    public Game(Referee referee, String player1Username, String player2Username) {
         this.referee = referee;
         this.players = new ArrayList<>();
         this.turnCount = 0;
+        this.player1Username = player1Username;
+        this.player2Username = player2Username;
+    }
+
+    public Game(Referee referee) {
+        this(referee, "P1", "P2");
     }
 
     public List<Player> getPlayers() {
@@ -67,8 +75,8 @@ public class Game {
             secondHalf.add(allTiles.get(i * 2 + 1));
         }
 
-        players.add(Player.create("P1", Deck.create(firstHalf)));
-        players.add(Player.create("P2", Deck.create(secondHalf)));
+        players.add(Player.create(player1Username, Deck.create(firstHalf)));
+        players.add(Player.create(player2Username, Deck.create(secondHalf)));
 
         currentPlayer = players.get(new Random().nextInt(players.size()));
 

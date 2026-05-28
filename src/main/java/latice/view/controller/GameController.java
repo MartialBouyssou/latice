@@ -5,17 +5,19 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import latice.listeners.LaticeGameListener;
 import latice.model.game.Game;
 import latice.model.game.events.TurnPassedEvent;
 import latice.model.player.Player;
+import latice.model.referee.Referee;
+import latice.model.referee.rule.*;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
 
@@ -40,6 +42,14 @@ public class GameController {
     @FXML private Label lastPlayerScoreLabel;
     @FXML private Label turnNumberLabel;
 
+    @FXML private BorderPane gameBoardBP;
+
+    @FXML private StackPane startMenuStackpane;
+    @FXML private VBox playMenuVBox;
+    @FXML private VBox usernameMenuVBox;
+    @FXML private TextField player1UsernameTf;
+    @FXML private TextField player2UsernameTf;
+
     private Game game;
     private List<ImageView> rackImageViews;
     public boolean hasAlreadyPlaced = false;
@@ -55,8 +65,42 @@ public class GameController {
         }
 
         setupBoardDropTarget();
+    }
 
-        overlayButton.setOnAction(e -> hideOverlay());
+    public void showUsernameChoiceMenu() {
+        playMenuVBox.setVisible(false);
+        playMenuVBox.setManaged(false);
+        usernameMenuVBox.setVisible(true);
+        usernameMenuVBox.setManaged(true);
+    }
+
+    public void startGame() {
+        playMenuVBox.setVisible(true);
+        playMenuVBox.setManaged(true);
+        usernameMenuVBox.setVisible(false);
+        usernameMenuVBox.setManaged(false);
+
+        startMenuStackpane.setVisible(false);
+        startMenuStackpane.setManaged(false);
+
+        Game game = buildGame();
+        game.addListener(new LaticeGameListener(this));
+        this.game = game;
+        game.startGame();
+
+        gameBoardBP.setVisible(true);
+        gameBoardBP.setManaged(true);
+    }
+
+    private Game buildGame() {
+        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule(),
+                new PositionRule(), new FirstTurnRule());
+
+        if (player1UsernameTf.getText().equals(player2UsernameTf.getText())) {
+            return new Game(Referee.create(rules));
+        }
+        return new Game(Referee.create(rules),
+                player1UsernameTf.getText(), player2UsernameTf.getText());
     }
 
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
@@ -68,7 +112,7 @@ public class GameController {
         screenOverlay.setManaged(true);
     }
 
-    private void hideOverlay() {
+    public void hideOverlay() {
         screenOverlay.setVisible(false);
         screenOverlay.setManaged(false);
     }
@@ -257,10 +301,6 @@ public class GameController {
         String mapKey = "latice/images/" + filename;
 
         return TileFactory.getTileFromImagePath(mapKey);
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     public Game getGame() {
