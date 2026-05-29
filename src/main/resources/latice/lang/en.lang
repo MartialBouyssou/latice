@@ -1,3 +1,5 @@
+app.title=Latice
+
 menu.start.title=Latice
 menu.start.play=Play
 menu.start.rules=Rules
@@ -26,5 +28,25 @@ menu.username.play=Play
 menu.game.actionButton=Buy an action
 menu.game.exchangeButton=Exchange rack
 menu.game.endTurnButton=End turn
+menu.game.player.currentPlayer={name}'s turn:
+menu.game.player.score=Score: {score}
+menu.game.player.remaining=Remaining Tiles: {count}
 
+menu.turnIndicator.turnIndicatorTitle= Turn {turnNumber}
+menu.turnIndicator.currentPlayer=It's {name}'s turn!
+menu.turnIndicator.lastPlayerScoreHeader={name}'s last turn score :
 menu.turnIndicator.readyButton=I'm ready!
+
+popup.game.over.title=Game ended
+popup.game.over.winner.header=Winner: {name}
+popup.game.over.winner.content={name} won with a score of {score} points!
+popup.game.over.tie.header=Tie!
+popup.game.over.tie.content=It's a tie! Both players have the same count of tile placed!
+
+popup.game.invalid.title=Invalid move
+popup.game.invalid.header=You can't do that..
+popup.game.invalid.reason=You already placed a tile this turn ! Buy an action or end your turn !
+
+event.invalidMove.tileError=Player don't have this tile in his rack
+event.invalidMove.moveError=Move is not valid according to game rules
+event.invalidMove.cannotAfford=Not enough point to buy extra action

@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <StackPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.view.controller.GameController">
    <StackPane fx:id="startMenuStackpane" maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: black;">
@@ -586,8 +587,14 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="actionButton" maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonBuyAnAction" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="menu.game.actionButton" translateX="-400.0" translateY="700.0" />
-            <Button maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonExchangeAll" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="menu.game.exchangeButton" translateX="-400.0" translateY="750.0" />
+            <Button fx:id="actionButton" maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonBuyAnAction" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="menu.game.actionButton" translateX="-400.0" translateY="700.0">
+                  <font>
+                     <Font size="11.0" />
+                  </font></Button>
+            <Button maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonExchangeAll" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="menu.game.exchangeButton" translateX="-400.0" translateY="750.0">
+                  <font>
+                     <Font size="11.0" />
+                  </font></Button>
             <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="menu.game.endTurnButton" translateX="-200.0" translateY="800.0" />
          </children>
       </VBox>

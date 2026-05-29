@@ -10,6 +10,7 @@ import latice.model.player.Player;
 import latice.model.player.Rack;
 import latice.model.referee.Referee;
 import latice.model.tile.Tile;
+import latice.utils.LangManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,10 +96,12 @@ public class Game {
 
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
-                    "Player don't have this tile in his rack"));
+                    LangManager.getInstance().get("event.invalidMove.tileError")
+            ));
         } else if (!referee.isValidMove(board, tile, x, y)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
-                    "Move is not valid according to game rules"));
+                    LangManager.getInstance().get("event.invalidMove.moveError")
+            ));
         } else {
             currentPlayer.getRack().getTiles().remove(tile);
             board.getCell(x, y).setTile(tile);
@@ -219,7 +222,9 @@ public class Game {
             currentPlayer.spendScore(2);
             sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
         }else{
-            sendEvent(new CannotAffordEvent( "Not enough point to buy extra action"));
+            sendEvent(new CannotAffordEvent(
+                    LangManager.getInstance().get("event.invalidMove.cannotAfford")
+            ));
         }
     }
 

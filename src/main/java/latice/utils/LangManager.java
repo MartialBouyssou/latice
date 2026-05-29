@@ -45,6 +45,23 @@ public class LangManager {
         } catch (Exception e) { /* Impossible to load => no need to flood the console*/ }
     }
 
+    public String format(String key, Map<String, String> vars) {
+        String text = get(key);
+        for (Map.Entry<String, String> entry : vars.entrySet()) {
+            text = text.replace("{" + entry.getKey() + "}", entry.getValue());
+        }
+        return text;
+    }
+
+    public String format(String key, String... keyValues) {
+        if (keyValues.length % 2 != 0) throw new IllegalArgumentException("Arguments must be key-value pairs");
+        Map<String, String> vars = new HashMap<>();
+        for (int i = 0; i < keyValues.length; i += 2) {
+            vars.put(keyValues[i], keyValues[i + 1]);
+        }
+        return format(key, vars);
+    }
+
     public String get(String key) {
         return translations.getOrDefault(key, "?unknown." + key + ".unknown?");
     }
