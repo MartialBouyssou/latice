@@ -7,6 +7,7 @@ import latice.model.deck.Deck;
 import latice.model.game.events.*;
 import latice.model.player.ActionType;
 import latice.model.player.Player;
+import latice.model.player.Rack;
 import latice.model.referee.Referee;
 import latice.model.tile.Tile;
 
@@ -204,10 +205,13 @@ public class Game {
     }
 
     public void exchangeAll() {
-        sendEvent(new RackExchangedEvent(currentPlayer, currentPlayer.getRack()));
+        Rack lastRack = currentPlayer.getRack();
         currentPlayer.getRack().exchangeAll(currentPlayer.getDeck());
-        actionPlayedThisTurn = true;
-        endTurn();
+        sendEvent(new RackExchangedEvent(currentPlayer, lastRack));
+
+        if (actionPlayedThisTurn) {
+            endTurn();
+        }
     }
 
     public void buyAnAction() {
@@ -217,6 +221,9 @@ public class Game {
         }else{
             sendEvent(new CannotAffordEvent( "Not enough point to buy extra action"));
         }
+    }
 
+    public void setActionPlayedThisTurn() {
+        actionPlayedThisTurn = true;
     }
 }

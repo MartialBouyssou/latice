@@ -46,6 +46,7 @@ public class GameController {
     @FXML private Label turnNumberLabel;
 
     @FXML private BorderPane gameBoardBP;
+    @FXML private Button actionButton;
 
     @FXML private StackPane startMenuStackpane;
     @FXML private VBox rulesMenuVBox;
@@ -90,6 +91,14 @@ public class GameController {
         playMenuVBox.setManaged(false);
         rulesMenuVBox.setVisible(true);
         rulesMenuVBox.setManaged(true);
+    }
+
+    public void toggleActionButton() {
+        actionButton.setDisable(!actionButton.isDisable());
+    }
+
+    public void toggleActionButton(boolean activate) {
+        actionButton.setDisable(activate);
     }
 
     public void startGame() {

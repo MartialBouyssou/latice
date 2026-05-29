@@ -25,6 +25,7 @@ public class LaticeGameListener implements GameListener {
 
         if (event.getActionType() == ActionType.PLAY_TWICE) {
             playTwiceActive = true;
+            gameController.toggleActionButton();
         }
     }
 
@@ -50,6 +51,7 @@ public class LaticeGameListener implements GameListener {
 
         if (playTwiceActive) {
             playTwiceActive = false;
+            gameController.toggleActionButton();
         } else {
             gameController.hasAlreadyPlaced = true;
             gameController.getGame().endTurn();
@@ -67,6 +69,13 @@ public class LaticeGameListener implements GameListener {
 
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
+        if (playTwiceActive) {
+            playTwiceActive = false;
+            gameController.toggleActionButton(false);
+        } else {
+            gameController.getGame().setActionPlayedThisTurn();
+        }
+
         gameController.updateRack(event.getPlayer());
     }
 
