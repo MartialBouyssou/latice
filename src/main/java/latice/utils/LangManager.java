@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LangManager {
 
+    public static final String LATICE_LANG_PATH = "/latice/lang/";
     private static LangManager instance;
 
     private final Map<String, String> translations = new HashMap<>();
@@ -21,28 +23,37 @@ public class LangManager {
         return instance;
     }
 
+    public Map<String, String> loadAvailableLanguages() {
+        Map<String, String> languages = new LinkedHashMap<>();
+        String path = LATICE_LANG_PATH + "lang.conf";
+
+        readFile(languages, path);
+
+        return languages;
+    }
+
     public void load(String langCode) {
         translations.clear();
 
-        String path = "/latice/lang/" + langCode + ".lang";
+        String path = LATICE_LANG_PATH + langCode + ".lang";
 
+        readFile(translations, path);
+    }
+
+    private void readFile(Map<String, String> languages, String path) {
         try (InputStream is = getClass().getResourceAsStream(path)) {
             if (is != null) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-
                     reader.lines().forEach(line -> {
-                        if (line.isBlank() || line.startsWith("#"))
-                            return;
-
+                        if (line.isBlank() || line.startsWith("#")) return;
                         String[] split = line.split("=", 2);
-
                         if (split.length == 2) {
-                            translations.put(split[0].trim(), split[1].trim());
+                            languages.put(split[0].trim(), split[1].trim());
                         }
                     });
                 }
             }
-        } catch (Exception e) { /* Impossible to load => no need to flood the console*/ }
+        } catch (Exception e) { /* No need to flood */ }
     }
 
     public String format(String key, Map<String, String> vars) {

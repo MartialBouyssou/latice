@@ -22,6 +22,7 @@ import latice.model.tile.TileFactory;
 import latice.utils.LangManager;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GameController {
@@ -47,6 +48,7 @@ public class GameController {
     @FXML private Button actionButton;
 
     @FXML private StackPane startMenuStackpane;
+    @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
     @FXML private Label startMenuTitle;
@@ -59,10 +61,13 @@ public class GameController {
     private Game game;
     private List<ImageView> rackImageViews;
     public boolean hasAlreadyPlaced = false;
+    private Map<String, String> availableLanguages;
 
     @FXML
     public void initialize() {
         rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
+
+        loadLanguageSelector();
         loadTexts();
 
         for (Node node : rackBox.getChildren()) {
@@ -74,6 +79,31 @@ public class GameController {
         setupBoardDropTarget();
     }
 
+    private void loadLanguageSelector() {
+        availableLanguages = LangManager.getInstance().loadAvailableLanguages();
+
+        languageComboBox.getItems().addAll(availableLanguages.values());
+
+        if (!availableLanguages.isEmpty()) {
+            String firstCode = availableLanguages.keySet().iterator().next();
+            LangManager.getInstance().load(firstCode);
+            languageComboBox.setValue(availableLanguages.get(firstCode));
+        }
+    }
+
+    public void onLanguageChanged() {
+        String selectedLabel = languageComboBox.getValue();
+        if (selectedLabel == null) return;
+
+        availableLanguages.entrySet().stream()
+                .filter(e -> e.getValue().equals(selectedLabel))
+                .findFirst()
+                .ifPresent(e -> {
+                    LangManager.getInstance().load(e.getKey());
+                    loadTexts();
+                });
+    }
+
     public void loadTexts() {
         applyTextsRecursively(startMenuStackpane);
         applyTextsRecursively(gameBoardBP);
@@ -83,10 +113,13 @@ public class GameController {
     private void applyTextsRecursively(Parent parent) {
         for (Node node : parent.getChildrenUnmodifiable()) {
             if (node instanceof Labeled labeled) {
-                String key = labeled.getText();
+                String key = (String) labeled.getProperties()
+                        .getOrDefault("i18n-key", labeled.getText());
+                // i18n is the used name for internationalization => Multi language support :)
+
                 if (key != null && !key.isBlank() && key.contains(".") && !key.contains(" ")) {
-                    String value = LangManager.getInstance().get(key);
-                    labeled.setText(value);
+                    labeled.getProperties().put("i18n-key", key);
+                    labeled.setText(LangManager.getInstance().get(key));
                 }
             }
             if (node instanceof Parent childParent) {
