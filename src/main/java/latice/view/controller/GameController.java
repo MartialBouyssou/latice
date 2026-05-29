@@ -21,6 +21,10 @@ import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
+import latice.model.theme.ThemeManager;
+import latice.model.theme.ThemeManager.Theme;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +58,7 @@ public class GameController {
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
+    @FXML private VBox themeMenuVBox;
 
     private Game game;
     private List<ImageView> rackImageViews;
@@ -80,6 +85,8 @@ public class GameController {
     }
 
     public void showPlayMenu() {
+        themeMenuVBox.setVisible(false);
+        themeMenuVBox.setManaged(false);
         rulesMenuVBox.setVisible(false);
         rulesMenuVBox.setManaged(false);
         playMenuVBox.setVisible(true);
@@ -339,10 +346,7 @@ public class GameController {
     }
 
     private Tile extractTileFromUrl(String fullUrl) {
-        String filename = fullUrl.substring(fullUrl.lastIndexOf('/') + 1);
-        String mapKey = "latice/images/" + filename;
-
-        return TileFactory.getTileFromImagePath(mapKey);
+        return TileFactory.getTileFromImagePath(fullUrl);
     }
 
     public void endGame() {
@@ -358,6 +362,7 @@ public class GameController {
     }
 
     public void resetBoard() {
+        ThemeManager tm = ThemeManager.getInstance();
         for (Node node : board.getChildren()) {
             if (node instanceof ImageView imageView) {
                 Integer col = GridPane.getColumnIndex(node);
@@ -365,19 +370,20 @@ public class GameController {
                 int x = (col == null) ? 0 : col;
                 int y = (row == null) ? 0 : row;
 
-                String imagePath;
-                if ((x == 4 && y == 4)) {
-                    imagePath = Objects.requireNonNull(getClass()
-                            .getResource("/latice/images/bg_moon.png")).toExternalForm();
+                String bgFile;
+                if (x == 4 && y == 4) {
+                    bgFile = "bg_moon.png";
                 } else if (game.getBoard().getCell(x, y) instanceof SunCell) {
-                    imagePath = Objects.requireNonNull(getClass()
-                            .getResource("/latice/images/bg_sun.png")).toExternalForm();
+                    bgFile = "bg_sun.png";
                 } else {
-                    imagePath = Objects.requireNonNull(getClass()
-                            .getResource("/latice/images/bg_sea.png")).toExternalForm();
+                    bgFile = "bg_sea.png";
                 }
 
-                imageView.setImage(new Image(imagePath));
+                String path = Objects.requireNonNull(
+                        getClass().getResource("/" + tm.getBoardBgPath(bgFile))
+                ).toExternalForm();
+
+                imageView.setImage(new Image(path));
                 imageView.setVisible(true);
             }
         }
@@ -387,4 +393,18 @@ public class GameController {
     public Game getGame() {
         return game;
     }
+
+    public void showThemeMenu() {
+        playMenuVBox.setVisible(false);
+        playMenuVBox.setManaged(false);
+        themeMenuVBox.setVisible(true);
+        themeMenuVBox.setManaged(true);
+    }
+
+    public void applyTheme(String themeName) {
+        ThemeManager.getInstance().setCurrentTheme(Theme.valueOf(themeName));
+        showPlayMenu();
+    }
+
 }
+
