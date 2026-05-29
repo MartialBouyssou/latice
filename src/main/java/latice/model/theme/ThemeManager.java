@@ -5,7 +5,7 @@ public class ThemeManager {
     public enum Theme {
         DEFAULT("default", "Classic"),
         ANIMAL_CROSSING("animal_crossing", "Animal Crossing"),
-        ZELDA("zelda", "zelda");
+        ZELDA("zelda", "Zelda");
 
         private final String folderName;
         private final String displayName;
