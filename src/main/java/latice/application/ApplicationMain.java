@@ -7,13 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import latice.listeners.LaticeGameListener;
-import latice.model.game.Game;
-import latice.model.referee.Referee;
-import latice.model.referee.rule.*;
-import latice.view.controller.GameController;
-
-import java.util.List;
+import latice.utils.LangManager;
 
 public class ApplicationMain extends Application {
 
@@ -26,14 +20,13 @@ public class ApplicationMain extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/latice/view/mainGame.fxml"));
+            LangManager lang = LangManager.getInstance();
+            lang.load("fr");
+
             Parent root = loader.load();
 
-            GameController gameController = loader.getController();
-
-
-
             primaryStage.setScene(new Scene(root, 1920, 1080));
-            primaryStage.setTitle("Latice");
+            primaryStage.setTitle(lang.get("app.title"));
             primaryStage.show();
 
         } catch (Exception e) {
