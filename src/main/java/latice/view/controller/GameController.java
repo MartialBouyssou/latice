@@ -401,8 +401,18 @@ public class GameController {
         themeMenuVBox.setManaged(true);
     }
 
-    public void applyTheme(String themeName) {
-        ThemeManager.getInstance().setCurrentTheme(Theme.valueOf(themeName));
+    public void applyThemeDefault() {
+        ThemeManager.getInstance().setCurrentTheme(ThemeManager.Theme.DEFAULT);
+        showPlayMenu();
+    }
+
+    public void applyThemeAnimalCrossing() {
+        ThemeManager.getInstance().setCurrentTheme(ThemeManager.Theme.ANIMAL_CROSSING);
+        showPlayMenu();
+    }
+
+    public void applyThemeZelda() {
+        ThemeManager.getInstance().setCurrentTheme(Theme.ZELDA);
         showPlayMenu();
     }
 

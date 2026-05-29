@@ -94,18 +94,17 @@
             <children>
                <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;"
                       text="Choose a Theme" />
-               <Button mnemonicParsing="false"
-                       onAction="#applyTheme('DEFAULT')"
+               <Button mnemonicParsing="false" onAction="#applyThemeDefault"
                        prefHeight="60.0" prefWidth="300.0"
                        style="-fx-font-size: 22px; -fx-background-radius: 10;"
                        text="Classic" />
-               <Button mnemonicParsing="false"
-                       onAction="#applyTheme('ANIMAL_CROSSING')"
+
+               <Button mnemonicParsing="false" onAction="#applyThemeAnimalCrossing"
                        prefHeight="60.0" prefWidth="300.0"
                        style="-fx-font-size: 22px; -fx-background-radius: 10;"
                        text="Animal Crossing" />
-               <Button mnemonicParsing="false"
-                       onAction="#applyTheme('ZELDA')"
+
+               <Button mnemonicParsing="false" onAction="#applyThemeZelda"
                        prefHeight="60.0" prefWidth="300.0"
                        style="-fx-font-size: 22px; -fx-background-radius: 10;"
                        text="Mario" />
