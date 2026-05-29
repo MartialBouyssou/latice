@@ -624,7 +624,7 @@
                   </padding>
                </Label>
                <Label fx:id="overlayPlayerLabel" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white;" text="C'est au tour de : ..." />
-               <Button fx:id="overlayButton" mnemonicParsing="false" onAction="#hideOverlay" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="I'm ready!" />
+               <Button fx:id="overlayButton" mnemonicParsing="false" onAction="#hideOverlay" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.turnIndicator.readyButton" />
             </children>
          </VBox>
       </children>
