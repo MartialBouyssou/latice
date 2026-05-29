@@ -46,6 +46,7 @@ public class GameController {
     @FXML private Label turnNumberLabel;
 
     @FXML private BorderPane gameBoardBP;
+    @FXML private Button actionButton;
 
     @FXML private StackPane startMenuStackpane;
     @FXML private VBox rulesMenuVBox;
@@ -92,6 +93,14 @@ public class GameController {
         rulesMenuVBox.setManaged(true);
     }
 
+    public void toggleActionButton() {
+        actionButton.setDisable(!actionButton.isDisable());
+    }
+
+    public void toggleActionButton(boolean activate) {
+        actionButton.setDisable(activate);
+    }
+
     public void startGame() {
         playMenuVBox.setVisible(true);
         playMenuVBox.setManaged(true);
@@ -101,9 +110,8 @@ public class GameController {
         startMenuStackpane.setVisible(false);
         startMenuStackpane.setManaged(false);
 
-        Game game = buildGame();
+        game = buildGame();
         game.addListener(new LaticeGameListener(this));
-        this.game = game;
         game.startGame();
 
         gameBoardBP.setVisible(true);
@@ -184,10 +192,6 @@ public class GameController {
         alert.show();
     }
 
-    public void buttonEndTurn(){
-        game.passTurn();
-    }
-
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
         try {
             for (Node node : board.getChildren()) {
@@ -264,6 +268,18 @@ public class GameController {
             event.setDropCompleted(success);
             event.consume();
         });
+    }
+
+    public void buttonExchangeAll(){
+        game.exchangeAll();
+    }
+
+    public void buttonBuyAnAction(){
+        game.buyAnAction();
+    }
+
+    public void buttonEndTurn(){
+        game.passTurn();
     }
 
     private void setupDropTarget(ImageView cellView) {

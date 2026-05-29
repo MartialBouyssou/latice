@@ -5,7 +5,9 @@ import latice.exception.model.NoTilePlayedException;
 import latice.model.board.Board;
 import latice.model.deck.Deck;
 import latice.model.game.events.*;
+import latice.model.player.ActionType;
 import latice.model.player.Player;
+import latice.model.player.Rack;
 import latice.model.referee.Referee;
 import latice.model.tile.Tile;
 
@@ -182,6 +184,10 @@ public class Game {
             if (event instanceof InvalidMoveEvent e) listener.onInvalidMove(e);
 
             if (event instanceof RackExchangedEvent e) listener.onRackExchanged(e);
+
+            if (event instanceof CannotAffordEvent e) listener.onCannotAfford(e);
+
+            if (event instanceof ActionBoughtEvent e) listener.onActionBought(e);
         }
     }
 
@@ -196,5 +202,28 @@ public class Game {
     public Player getNextPlayer() {
         int currentIndex = players.indexOf(currentPlayer);
         return players.get((currentIndex + 1) % players.size());
+    }
+
+    public void exchangeAll() {
+        Rack lastRack = currentPlayer.getRack();
+        currentPlayer.getRack().exchangeAll(currentPlayer.getDeck());
+        sendEvent(new RackExchangedEvent(currentPlayer, lastRack));
+
+        if (actionPlayedThisTurn) {
+            endTurn();
+        }
+    }
+
+    public void buyAnAction() {
+        if (currentPlayer.canAfford(2)){
+            currentPlayer.spendScore(2);
+            sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
+        }else{
+            sendEvent(new CannotAffordEvent( "Not enough point to buy extra action"));
+        }
+    }
+
+    public void setActionPlayedThisTurn() {
+        actionPlayedThisTurn = true;
     }
 }

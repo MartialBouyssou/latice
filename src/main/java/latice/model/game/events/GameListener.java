@@ -9,4 +9,5 @@ public interface GameListener {
     void onTurnPassed(TurnPassedEvent event);
     void onGameStarted(GameStartedEvent event);
     void onActionBought(ActionBoughtEvent event);
+    void onCannotAfford(CannotAffordEvent event);
 }
