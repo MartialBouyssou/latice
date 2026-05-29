@@ -18,10 +18,6 @@
    <StackPane fx:id="startMenuStackpane" maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: black;">
       <children>
          <VBox fx:id="playMenuVBox" alignment="CENTER" spacing="30.0">
-            <Button mnemonicParsing="false" onAction="#showThemeMenu"
-                    prefHeight="60.0" prefWidth="300.0"
-                    style="-fx-font-size: 22px; -fx-background-radius: 10;"
-                    text="Theme" />
             <children>
                <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Latice">
                   <padding>
@@ -33,6 +29,7 @@
                </Label>
                <Button mnemonicParsing="false" onAction="#showUsernameChoiceMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Play" />
                <Button mnemonicParsing="false" onAction="#showRules" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Rules" />
+               <Button mnemonicParsing="false" onAction="#showThemeMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Theme" />
             </children>
          </VBox>
          <VBox fx:id="usernameMenuVBox" alignment="CENTER" spacing="30.0" visible="false">
@@ -107,7 +104,7 @@
                <Button mnemonicParsing="false" onAction="#applyThemeZelda"
                        prefHeight="60.0" prefWidth="300.0"
                        style="-fx-font-size: 22px; -fx-background-radius: 10;"
-                       text="Mario" />
+                       text="Zelda" />
                <Button mnemonicParsing="false" onAction="#showPlayMenu"
                        prefHeight="50.0" prefWidth="200.0"
                        style="-fx-font-size: 18px; -fx-background-radius: 10;"
