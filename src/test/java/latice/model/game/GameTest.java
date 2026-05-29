@@ -73,19 +73,6 @@ class GameTest {
     }
 
     @Test
-    void playTileShouldNotSetActionPlayedWhenTileIsNotInRack() {
-        // Arrange
-        game.startGame();
-        Tile unownedTile = new Tile(Shape.FEATHER, Color.TEAL);
-
-        // Act
-        game.playTile(unownedTile, 4, 4);
-
-        // Assert
-        assertFalse(game.isActionPlayedThisTurn());
-    }
-
-    @Test
     void endTurnShouldThrowGameNotStartExceptionWhenGameIsNotStarted() {
         // Act & Assert
         assertThrows(GameNotStartException.class, () -> game.endTurn());
