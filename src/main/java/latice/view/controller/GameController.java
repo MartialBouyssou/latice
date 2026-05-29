@@ -21,6 +21,7 @@ import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
+import latice.utils.LangManager;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +40,6 @@ public class GameController {
     @FXML private ImageView rackTile5;
     @FXML private StackPane screenOverlay;
     @FXML private Label overlayPlayerLabel;
-    @FXML private Button overlayButton;
     @FXML private Button endTurnButton;
     @FXML private Label lastPlayerLabel;
     @FXML private Label lastPlayerScoreLabel;
@@ -51,6 +51,9 @@ public class GameController {
     @FXML private StackPane startMenuStackpane;
     @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
+    @FXML private Label startMenuTitle;
+    @FXML private Button startMenuPlayButton;
+    @FXML private Button startMenuRuleButton;
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
@@ -62,6 +65,7 @@ public class GameController {
     @FXML
     public void initialize() {
         rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
+        loadTexts();
 
         for (Node node : rackBox.getChildren()) {
             if (node instanceof ImageView) {
@@ -70,6 +74,12 @@ public class GameController {
         }
 
         setupBoardDropTarget();
+    }
+
+    public void loadTexts() {
+        startMenuTitle.setText(LangManager.getInstance().get("menu.start.title"));
+        startMenuPlayButton.setText(LangManager.getInstance().get("menu.start.play"));
+        startMenuRuleButton.setText(LangManager.getInstance().get("menu.start.rules"));
     }
 
     public void showUsernameChoiceMenu() {

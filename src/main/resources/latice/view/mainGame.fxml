@@ -19,7 +19,7 @@
       <children>
          <VBox fx:id="playMenuVBox" alignment="CENTER" spacing="30.0">
             <children>
-               <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Latice">
+               <Label fx:id="startMenuTitle" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Latice">
                   <padding>
                      <Insets bottom="30.0" />
                   </padding>
@@ -27,8 +27,8 @@
                      <Insets bottom="30.0" />
                   </VBox.margin>
                </Label>
-               <Button mnemonicParsing="false" onAction="#showUsernameChoiceMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Play" />
-               <Button mnemonicParsing="false" onAction="#showRules" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Rules" />
+               <Button fx:id="startMenuPlayButton" mnemonicParsing="false" onAction="#showUsernameChoiceMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Play" />
+               <Button fx:id="startMenuRuleButton" mnemonicParsing="false" onAction="#showRules" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Rules" />
             </children>
          </VBox>
          <VBox fx:id="usernameMenuVBox" alignment="CENTER" spacing="30.0" visible="false">
