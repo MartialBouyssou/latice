@@ -130,7 +130,7 @@ public class Game {
         Player lastPlayer = currentPlayer;
         nextPlayer();
 
-        if (referee.isGameOver(this)) {
+        if (isGameOver()) {
             sendEvent(new GameOverEvent(getWinner()));
         } else {
             sendEvent(new TurnEndedEvent(lastPlayer, playersTurnScore, currentPlayer));

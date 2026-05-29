@@ -1,0 +1,71 @@
+# / ! \ Aviso / ! \
+# >  Esta tradução foi feita com IA  <
+# >  Se queres submeter uma versão traduzida manualmente, podes criar um pull request ;)  <
+# / ! \ Aviso / ! \
+
+# Janela da aplicação
+app.title=Latice
+
+# Menus da aplicação:
+# # Menu inicial
+menu.start.title=Latice
+menu.start.play=Jogar
+menu.start.rules=Regras
+
+# # Menu de regras
+menu.rules.title=Regras do jogo
+menu.rules.firstCategory=Preparação
+menu.rules.firstCategory.description=As peças são embaralhadas e distribuídas igualmente entre 2 jogadores. Cada jogador retira 5 peças para o seu suporte. O primeiro jogador coloca uma peça na casa lua (centro) para começar.
+menu.rules.secondCategory=Na tua vez
+menu.rules.secondCategory.description=A primeira ação é GRATUITA. Cada ação adicional custa 2 pontos. Escolhe uma das 4 ações abaixo.
+menu.rules.secondCategory.list=4 ações possíveis
+menu.rules.secondCategory.list.first=1. Colocar uma peça — Coloca uma peça do teu suporte adjacente a uma peça existente. Cada lado em contacto deve corresponder por cor ou forma.
+menu.rules.secondCategory.list.second=2. Comprar uma ação — Gasta 2 pontos para jogar uma jogada adicional.
+menu.rules.secondCategory.list.third=3. Trocar o suporte — Substitui todas as peças do teu suporte por novas da tua reserva. Termina a tua vez.
+menu.rules.secondCategory.list.fourth=4. Passar — Salta a tua vez gratuitamente.
+menu.rules.thirdCategory=Pontuação
+menu.rules.thirdCategory.description=Duplo (2 lados iguais) => +1 pt  |  Trevo (3 lados) => +2 pts  |  Latice (4 lados) => +4 pts  |  Casa sol => +2 pts bónus
+menu.rules.fourthCategory=Fim do jogo
+menu.rules.fourthCategory.description=O jogo termina quando um jogador esvazia o seu suporte e a sua reserva, ou após 10 ciclos (1 ciclo = 1 vez por jogador). O jogador que colocou mais peças vence.
+menu.rules.back=Voltar
+
+# # Menu de escolha de nome de utilizador
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Escolhe o teu nome de utilizador:
+menu.username.secondUsernameChoiceLabel=Escolhe também um nome de utilizador:
+menu.username.play=Jogar
+
+# # Vista do jogo
+menu.game.actionButton=Comprar uma ação
+menu.game.exchangeButton=Trocar suporte
+menu.game.endTurnButton=Fim da vez
+menu.game.player.currentPlayer=Vez de {name}:
+menu.game.player.score=Pontuação: {score}
+menu.game.player.remaining=Peças restantes: {count}
+
+# # Menu indicador de vez (aparece no fim de cada vez)
+menu.turnIndicator.turnIndicatorTitle=Vez {turnNumber}
+menu.turnIndicator.currentPlayer=É a vez de {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Pontuação da última vez de {name}:
+menu.turnIndicator.readyButton=Estou pronto!
+
+# Popups:
+# # Popup de fim de jogo
+popup.game.over.title=Jogo terminado
+popup.game.over.winner.header=Vencedor: {name}
+popup.game.over.winner.content={name} ganhou com uma pontuação de {score} pontos!
+popup.game.over.tie.header=Empate!
+popup.game.over.tie.content=Empate! Ambos os jogadores colocaram o mesmo número de peças!
+
+# # Popup de jogada inválida
+popup.game.invalid.title=Jogada inválida
+popup.game.invalid.header=Não podes fazer isso..
+popup.game.invalid.reason=Já colocaste uma peça nesta vez! Compra uma ação ou termina a tua vez!
+
+# Mensagens de eventos:
+# # Jogada inválida
+event.invalidMove.tileError=O jogador não tem esta peça no seu suporte
+event.invalidMove.moveError=A jogada não é válida segundo as regras do jogo
+
+# # Pontos insuficientes
+event.invalidMove.cannotAfford=Não tens pontos suficientes para comprar uma ação adicional

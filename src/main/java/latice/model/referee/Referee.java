@@ -82,7 +82,8 @@ public class Referee {
     }
 
     public boolean isGameOver(Game game) {
-        int maxTurns = Game.MAX_TURN_COUNT * game.getPlayers().size();
+        int maxTurns = (Game.MAX_TURN_COUNT * game.getPlayers().size()) + 1;
+
         if (game.getTurnCount() >= maxTurns) {
             return true;
         }
