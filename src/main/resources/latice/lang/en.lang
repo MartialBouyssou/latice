@@ -3,3 +3,28 @@ menu.start.play=Play
 menu.start.rules=Rules
 
 menu.rules.title=Rules
+menu.rules.firstCategory=Setup
+menu.rules.firstCategory.description=Tiles are shuffled and split equally between 2 players. Each player draws 5 tiles onto their rack. The first player places one tile on the moon square (center) to start.
+menu.rules.secondCategory=On your turn
+menu.rules.secondCategory.description=The first action is FREE. Each additional action costs 2 points. Choose one of the 4 actions below.
+menu.rules.secondCategory.list=4 possible actions
+menu.rules.secondCategory.list.first=1. Play a tile — Place a tile from your rack adjacent to an existing tile. Each touching side must match by color or shape.
+menu.rules.secondCategory.list.second=2. Buy an action — Spend 2 points to play an extra move.
+menu.rules.secondCategory.list.third=3. Exchange rack — Replace all tiles on your rack with new ones from your pool. Ends your turn.
+menu.rules.secondCategory.list.fourth=4. Pass — Skip your turn for free.
+menu.rules.thirdCategory=Scoring
+menu.rules.thirdCategory.description=Double (2 matching sides) => +1 pt  |  Trefoil (3 sides) => +2 pts  |  Latice (4 sides) => +4 pts  |  Sun square => +2 pts bonus
+menu.rules.fourthCategory=End of the game
+menu.rules.fourthCategory.description=The game ends when a player empties their rack and pool, or after 10 cycles (1 cycle = 1 turn per player). The player who placed the most tiles wins.
+menu.rules.back=Back
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Choose your username:
+menu.username.secondUsernameChoiceLabel=You also choose a username:
+menu.username.play=Play
+
+menu.game.actionButton=Buy an action
+menu.game.exchangeButton=Exchange rack
+menu.game.endTurnButton=End turn
+
+menu.turnIndicator.readyButton=I'm ready!

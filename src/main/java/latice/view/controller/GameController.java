@@ -2,10 +2,8 @@ package latice.view.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -77,9 +75,24 @@ public class GameController {
     }
 
     public void loadTexts() {
-        startMenuTitle.setText(LangManager.getInstance().get("menu.start.title"));
-        startMenuPlayButton.setText(LangManager.getInstance().get("menu.start.play"));
-        startMenuRuleButton.setText(LangManager.getInstance().get("menu.start.rules"));
+        applyTextsRecursively(startMenuStackpane);
+        applyTextsRecursively(gameBoardBP);
+        applyTextsRecursively(screenOverlay);
+    }
+
+    private void applyTextsRecursively(Parent parent) {
+        for (Node node : parent.getChildrenUnmodifiable()) {
+            if (node instanceof Labeled labeled) {
+                String key = labeled.getText();
+                if (key != null && !key.isBlank()) {
+                    String value = LangManager.getInstance().get(key);
+                    labeled.setText(value);
+                }
+            }
+            if (node instanceof Parent childParent) {
+                applyTextsRecursively(childParent);
+            }
+        }
     }
 
     public void showUsernameChoiceMenu() {

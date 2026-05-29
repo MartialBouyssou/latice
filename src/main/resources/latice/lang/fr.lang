@@ -3,3 +3,9 @@ menu.start.play=Jouer
 menu.start.rules=Règles
 
 menu.rules.title=Règles
+menu.rules.firstCategory=Mise en place
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Choisissez votre nom d'utilisateur :
+menu.username.secondUsernameChoiceLabel=Vous aussi choississez un nom d'utilisateur :
+menu.username.play=Jouer

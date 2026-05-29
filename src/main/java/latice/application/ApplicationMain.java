@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import latice.utils.LangManager;
-import latice.view.controller.GameController;
 
 public class ApplicationMain extends Application {
 
@@ -21,7 +20,7 @@ public class ApplicationMain extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/latice/view/mainGame.fxml"));
-            LangManager.getInstance().load("fr");
+            LangManager.getInstance().load("en");
 
             Parent root = loader.load();
 

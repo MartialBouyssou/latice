@@ -19,7 +19,7 @@
       <children>
          <VBox fx:id="playMenuVBox" alignment="CENTER" spacing="30.0">
             <children>
-               <Label fx:id="startMenuTitle" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Latice">
+               <Label fx:id="startMenuTitle" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.start.title">
                   <padding>
                      <Insets bottom="30.0" />
                   </padding>
@@ -27,13 +27,13 @@
                      <Insets bottom="30.0" />
                   </VBox.margin>
                </Label>
-               <Button fx:id="startMenuPlayButton" mnemonicParsing="false" onAction="#showUsernameChoiceMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Play" />
-               <Button fx:id="startMenuRuleButton" mnemonicParsing="false" onAction="#showRules" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="Rules" />
+               <Button fx:id="startMenuPlayButton" mnemonicParsing="false" onAction="#showUsernameChoiceMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.start.play" />
+               <Button fx:id="startMenuRuleButton" mnemonicParsing="false" onAction="#showRules" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.start.rules" />
             </children>
          </VBox>
          <VBox fx:id="usernameMenuVBox" alignment="CENTER" spacing="30.0" visible="false">
             <children>
-               <Label style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: white;" text="Latice">
+               <Label style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.username.title">
                   <padding>
                      <Insets bottom="30.0" />
                   </padding>
@@ -41,11 +41,11 @@
                      <Insets bottom="30.0" />
                   </VBox.margin>
                </Label>
-               <Label style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="Player 1 username:" />
+               <Label style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.username.firstUsernameChoiceLabel" />
                <TextField fx:id="player1UsernameTf" maxHeight="50.0" maxWidth="175.0" minHeight="50.0" minWidth="175.0" prefHeight="50.0" prefWidth="175.0" />
-               <Label style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="Player 2 username:" />
+               <Label style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.username.secondUsernameChoiceLabel" />
                <TextField fx:id="player2UsernameTf" maxHeight="50.0" maxWidth="175.0" minHeight="50.0" minWidth="175.0" prefHeight="50.0" prefWidth="175.0" />
-               <Button maxHeight="67.0" maxWidth="300.0" minHeight="67.0" minWidth="300.0" mnemonicParsing="false" onAction="#startGame" prefHeight="67.0" prefWidth="300.0" style="-fx-font-size: 32px; -fx-background-radius: 10;" text="Play">
+               <Button maxHeight="67.0" maxWidth="300.0" minHeight="67.0" minWidth="300.0" mnemonicParsing="false" onAction="#startGame" prefHeight="67.0" prefWidth="300.0" style="-fx-font-size: 32px; -fx-background-radius: 10;" text="menu.username.play">
                   <VBox.margin>
                      <Insets top="75.0" />
                   </VBox.margin></Button>
@@ -53,7 +53,7 @@
          </VBox>
          <VBox fx:id="rulesMenuVBox" alignment="TOP_CENTER" spacing="16.0" style="-fx-padding: 60 200 60 200;" visible="false">
             <children>
-               <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" text="Rules">
+               <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.title">
                   <padding>
                      <Insets top="75.0" />
                   </padding>
@@ -61,25 +61,25 @@
                      <Insets top="75.0" />
                   </VBox.margin></Label>
 
-               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="Setup" />
-               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="Tiles are shuffled and split equally between 2 players. Each player draws 5 tiles onto their rack. The first player places one tile on the moon square (center) to start." wrapText="true" />
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.firstCategory" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.firstCategory.description" wrapText="true" />
 
-               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="On your turn" />
-               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="The first action is FREE. Each additional action costs 2 points. Choose one of the 4 actions below." wrapText="true" />
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.secondCategory" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.description" wrapText="true" />
 
-               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="4 possible actions" />
-               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="1. Play a tile — Place a tile from your rack adjacent to an existing tile. Each touching side must match by color or shape." wrapText="true" />
-               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="2. Buy an action — Spend 2 points to play an extra move." wrapText="true" />
-               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="3. Exchange rack — Replace all tiles on your rack with new ones from your pool. Ends your turn." wrapText="true" />
-               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="4. Pass — Skip your turn for free." wrapText="true" />
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.secondCategory.list" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.list.first" wrapText="true" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.list.second" wrapText="true" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.list.third" wrapText="true" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.list.fourth" wrapText="true" />
 
-               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="Scoring" />
-               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="Double (2 matching sides) → +1 pt  |  Trefoil (3 sides) → +2 pts  |  Latice (4 sides) → +4 pts  |  Sun square → +2 pts bonus" wrapText="true" />
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.thirdCategory" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.thirdCategory.description" wrapText="true" />
 
-               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="End of game" />
-               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="The game ends when a player empties their rack and pool, or after 10 cycles (1 cycle = 1 turn per player). The player who placed the most tiles wins." wrapText="true" />
+               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.fourthCategory" />
+               <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.fourthCategory.description" wrapText="true" />
 
-               <Button mnemonicParsing="false" onAction="#showPlayMenu" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-background-radius: 10;" text="Back">
+               <Button mnemonicParsing="false" onAction="#showPlayMenu" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-background-radius: 10;" text="menu.rules.back">
                   <VBox.margin>
                      <Insets top="20.0" />
                   </VBox.margin>
@@ -586,9 +586,9 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="actionButton" maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonBuyAnAction" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="Buy an action" translateX="-400.0" translateY="700.0" />
-            <Button maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonExchangeAll" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="Exchange Rack" translateX="-400.0" translateY="750.0" />
-            <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" />
+            <Button fx:id="actionButton" maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonBuyAnAction" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="menu.game.actionButton" translateX="-400.0" translateY="700.0" />
+            <Button maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonExchangeAll" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="menu.game.exchangeButton" translateX="-400.0" translateY="750.0" />
+            <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="menu.game.endTurnButton" translateX="-200.0" translateY="800.0" />
          </children>
       </VBox>
    </right>
