@@ -59,6 +59,7 @@ public class GameController {
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
     @FXML private VBox themeMenuVBox;
+    @FXML private ImageView surrenderButton;
 
     private Game game;
     private List<ImageView> rackImageViews;
@@ -416,5 +417,8 @@ public class GameController {
         showPlayMenu();
     }
 
+    public void buttonSurrender() {
+        game.surrender();
+    }
 }
 

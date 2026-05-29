@@ -614,6 +614,14 @@
             <Button fx:id="actionButton" maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonBuyAnAction" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="Buy an action" translateX="-400.0" translateY="700.0" />
             <Button maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonExchangeAll" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="Exchange Rack" translateX="-400.0" translateY="750.0" />
             <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="End Turn" translateX="-200.0" translateY="800.0" />
+            <ImageView fx:id="surrenderButton"
+                       fitHeight="80.0" fitWidth="80.0"
+                       pickOnBounds="true" preserveRatio="true"
+                       onMouseClicked="#buttonSurrender">
+               <image>
+                  <Image url="@../images/surrender.png" />
+               </image>
+            </ImageView>
          </children>
       </VBox>
    </right>

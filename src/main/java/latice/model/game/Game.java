@@ -223,6 +223,12 @@ public class Game {
         }
     }
 
+    public void surrender() {
+        Player winner = getNextPlayer();
+        actionPlayedThisTurn = true;
+        sendEvent(new GameOverEvent(winner));
+    }
+
     public void setActionPlayedThisTurn() {
         actionPlayedThisTurn = true;
     }
