@@ -105,7 +105,7 @@
                        style="-fx-font-size: 22px; -fx-background-radius: 10;"
                        text="Animal Crossing" />
                <Button mnemonicParsing="false"
-                       onAction="#applyTheme('MARIO')"
+                       onAction="#applyTheme('ZELDA')"
                        prefHeight="60.0" prefWidth="300.0"
                        style="-fx-font-size: 22px; -fx-background-radius: 10;"
                        text="Mario" />
