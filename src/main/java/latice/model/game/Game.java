@@ -92,7 +92,6 @@ public class Game {
         }
 
         playersTurnScore = referee.calculateScore(this.getBoard(), tile, x, y);
-        currentPlayer.incrementTilesPlayed();
 
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
@@ -124,6 +123,7 @@ public class Game {
             throw new NoTilePlayedException();
         }
         actionPlayedThisTurn = false;
+        turnCount++;
 
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
@@ -136,7 +136,6 @@ public class Game {
             sendEvent(new TurnEndedEvent(lastPlayer, playersTurnScore, currentPlayer));
         }
 
-        turnCount++;
         playersTurnScore = 0;
     }
 
