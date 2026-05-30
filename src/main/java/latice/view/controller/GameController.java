@@ -2,10 +2,8 @@ package latice.view.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -23,8 +21,6 @@ import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
 import latice.model.theme.ThemeManager;
 import latice.model.theme.ThemeManager.Theme;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import latice.utils.LangManager;
 
 import java.util.List;
