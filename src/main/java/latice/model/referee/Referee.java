@@ -13,6 +13,15 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Referee {
+    public static final int EXTRA_ACTION_COST = 2;
+    private static final int SCORE_DOUBLE = 1;
+    private static final int SCORE_TREFOIL = 2;
+    private static final int SCORE_LATICE = 4;
+    private static final int SCORE_SUN_BONUS = 2;
+    private static final int NEIGHBORS_FOR_DOUBLE = 2;
+    private static final int NEIGHBORS_FOR_TREFOIL = 3;
+    private static final int NEIGHBORS_FOR_LATICE = 4;
+
     private final List<IRule> rules;
 
     private Referee(List<IRule> rules) {
@@ -32,8 +41,7 @@ public class Referee {
                 if (rule.validate(board, tile, x, y)) {
                     return true;
                 }
-            }
-            else if (!rule.validate(board, tile, x, y)) {
+            } else if (!rule.validate(board, tile, x, y)) {
                 return false;
             }
         }
@@ -45,45 +53,43 @@ public class Referee {
         int matchingCount = 0;
 
         for (Cell neighbor : neighbors) {
-            if (!neighbor.isEmpty() && (neighbor.getTile().getColor() == tile.getColor() ||
-                            neighbor.getTile().getShape() == tile.getShape())) {
-                    matchingCount++;
-                }
+            if (!neighbor.isEmpty() && (neighbor.getTile().getColor() == tile.getColor()
+                    || neighbor.getTile().getShape() == tile.getShape())) {
+                matchingCount++;
+            }
         }
 
         int score = switch (matchingCount) {
-            case 2 -> 1;
-            case 3 -> 2;
-            case 4 -> 4;
+            case NEIGHBORS_FOR_DOUBLE -> SCORE_DOUBLE;
+            case NEIGHBORS_FOR_TREFOIL -> SCORE_TREFOIL;
+            case NEIGHBORS_FOR_LATICE -> SCORE_LATICE;
             default -> 0;
         };
 
-        if (board.getCell(x, y) instanceof SunCell) score += 2;
+        if (board.getCell(x, y) instanceof SunCell) {
+            score += SCORE_SUN_BONUS;
+        }
 
         return score;
     }
 
-    public boolean canBuyExtraAction(int playerScore) {
-        // TODO V7: return playerScore >= EXTRA_ACTION_COST
-        return false;
-    }
-
     public Player determineWinner(Game game) {
-        int firstPlayerPlayedCount = game.getPlayers().get(0).getTilesPlayed();
-        int secondPlayerPlayedCount = game.getPlayers().get(1).getTilesPlayed();
+        Player first = game.getPlayers().get(0);
+        Player second = game.getPlayers().get(1);
 
-        if (firstPlayerPlayedCount > secondPlayerPlayedCount) {
-            return game.getPlayers().get(0);
-        } else if (secondPlayerPlayedCount > firstPlayerPlayedCount) {
-            return game.getPlayers().get(1);
+        if (first.getTilesPlayed() > second.getTilesPlayed()) {
+            return first;
+        } else if (second.getTilesPlayed() > first.getTilesPlayed()) {
+            return second;
         }
 
         return null;
     }
 
     public boolean isGameOver(Game game) {
-        int maxTurns = Game.MAX_TURN_COUNT * game.getPlayers().size();
-        if (game.getTurnCount() >= maxTurns) {
+        int totalTurns = Game.MAX_CYCLES * game.getPlayers().size();
+
+        if (game.getTurnCount() >= totalTurns) {
             return true;
         }
 

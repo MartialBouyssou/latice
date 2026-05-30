@@ -1,14 +1,16 @@
 package latice.model.tile;
 
+import latice.utils.theme.ThemeManager;
+
+import java.util.Objects;
+
 public class Tile {
     private final Shape shape;
     private final Color color;
-    private final String imagePath;
 
     public Tile(Shape shape, Color color) {
         this.shape = shape;
         this.color = color;
-        this.imagePath = getTileImgPath();
     }
 
     public Shape getShape() {
@@ -17,10 +19,6 @@ public class Tile {
 
     public Color getColor() {
         return color;
-    }
-
-    public String getImagePath() {
-        return imagePath;
     }
 
     @Override
@@ -35,19 +33,19 @@ public class Tile {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null) return false;
         if (!(obj instanceof Tile other)) return false;
-
         return other.shape == this.shape && other.color == this.color;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(shape, color);
     }
 
     public String getTileImgPath() {
-        return "latice/images/" + shape.getShape() + "_" +  color.getColor().charAt(0) + ".png";
+        return ThemeManager.getInstance().getTileImagePath(
+                shape.getShape(),
+                color.getColor().charAt(0)
+        );
     }
-
 }

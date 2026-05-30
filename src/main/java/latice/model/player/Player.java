@@ -35,12 +35,10 @@ public class Player {
         this.score += points;
     }
 
-    // V7
     public boolean canAfford(int cost) {
         return score >= cost;
     }
 
-    // V7
     public void spendScore(int cost) {
         if (!canAfford(cost)) {
             throw new IllegalStateException("Player " + name + " cannot afford cost of " + cost);

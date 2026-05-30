@@ -87,7 +87,7 @@ class TileTest {
         Tile tile = new Tile(Shape.BIRD, Color.RED);
 
         String imagePath = tile.getTileImgPath();
-        assertEquals("latice/images/bird_r.png", imagePath);
+        assertEquals("latice/images/default/bird_r.png", imagePath);
     }
 
     @Test

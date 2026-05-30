@@ -4,8 +4,8 @@ import latice.model.player.ActionType;
 import latice.model.player.Player;
 
 public class ActionBoughtEvent implements GameEvent {
-    public Player player;
-    public ActionType actionType;
+    private final Player player;
+    private final ActionType actionType;
 
     public ActionBoughtEvent(Player player, ActionType actionType) {
         this.player = player;

@@ -8,11 +8,7 @@ public class FirstTurnRule implements IRule {
     public boolean validate(Board board, Tile tile, int x, int y) {
         int moonCellX = Board.MOON_CELL[0];
         int moonCellY = Board.MOON_CELL[1];
-
-        if (x != moonCellX || y != moonCellY) {
-            return false;
-        }
-        return true;
+        return x == moonCellX && y == moonCellY;
     }
 
     @Override

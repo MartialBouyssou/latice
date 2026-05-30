@@ -20,13 +20,11 @@ public class ApplicationMain extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/latice/view/mainGame.fxml"));
-            LangManager lang = LangManager.getInstance();
-            lang.load("fr");
 
             Parent root = loader.load();
 
             primaryStage.setScene(new Scene(root, 1920, 1080));
-            primaryStage.setTitle(lang.get("app.title"));
+            primaryStage.setTitle(LangManager.getInstance().get("app.title"));
             primaryStage.show();
 
         } catch (Exception e) {

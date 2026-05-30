@@ -8,29 +8,31 @@ import latice.model.tile.Tile;
 import latice.exception.model.InvalidPositionException;
 import latice.exception.model.CellOccupiedException;
 import latice.exception.model.InvalidTileException;
+
 import java.util.List;
 import java.util.ArrayList;
 
 public class Board {
+    public static final int GRID_SIZE = 9;
+    public static final int[] MOON_CELL = {4, 4};
 
-    private Cell[][] grid = null;
-    private static final int[][] sunCells = {
+    private final Cell[][] grid;
+
+    private static final int[][] SUN_CELLS = {
             {0, 0}, {1, 1}, {2, 2}, {8, 0}, {7, 1}, {6, 2},
             {8, 8}, {7, 7}, {6, 6}, {0, 8}, {1, 7}, {2, 6},
             {4, 0}, {0, 4}, {8, 4}, {4, 8}
     };
-
-    public static final int[] MOON_CELL = {4, 4};
 
     private Board(Cell[][] grid) {
         this.grid = grid;
     }
 
     public static Board create() {
-        Cell[][] grid = new Cell[9][9];
+        Cell[][] grid = new Cell[GRID_SIZE][GRID_SIZE];
 
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
                 if (i == MOON_CELL[0] && j == MOON_CELL[1]) {
                     grid[i][j] = new MoonCell();
                 } else if (isSunCellAt(i, j)) {
@@ -45,7 +47,7 @@ public class Board {
     }
 
     private static boolean isSunCellAt(int x, int y) {
-        for (int[] position : Board.sunCells) {
+        for (int[] position : SUN_CELLS) {
             if (position[0] == x && position[1] == y) {
                 return true;
             }
@@ -80,45 +82,38 @@ public class Board {
         List<Cell> neighbors = new ArrayList<>();
         int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
         for (int[] dir : directions) {
-            int neighbordX = x + dir[0];
-            int neighbordY = y + dir[1];
-            if (isInside(neighbordX, neighbordY)) {
-                neighbors.add(grid[neighbordX][neighbordY]);
+            int neighborX = x + dir[0];
+            int neighborY = y + dir[1];
+            if (isInside(neighborX, neighborY)) {
+                neighbors.add(grid[neighborX][neighborY]);
             }
         }
         return neighbors;
     }
 
     public boolean isInside(int x, int y) {
-        return x >= 0 && x < 9 && y >= 0 && y < 9;
+        return x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Board 9x9:\n");
+        sb.append("Board ").append(GRID_SIZE).append("x").append(GRID_SIZE).append(":\n");
         sb.append(" ┌─────────────────┐\n");
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < GRID_SIZE; i++) {
             sb.append("│");
-            for (int j = 0; j < 9; j++) {
-                if (isSunCellAt(i, j)) {
-                    if (grid[i][j].isEmpty()) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                Cell cell = grid[i][j];
+                if (cell.isEmpty()) {
+                    if (cell instanceof MoonCell) {
+                        sb.append("M ");
+                    } else if (cell instanceof SunCell) {
                         sb.append("S ");
                     } else {
-                        sb.append(grid[i][j].getTile().toEmoji()).append(" ");
-                    }
-                } else if (i == MOON_CELL[0] && j == MOON_CELL[1]) {
-                    if (grid[i][j].isEmpty()) {
-                        sb.append("M ");
-                    } else {
-                        sb.append(grid[i][j].getTile().toEmoji()).append(" ");
+                        sb.append("N ");
                     }
                 } else {
-                    if (grid[i][j].isEmpty()) {
-                        sb.append("N ");
-                    } else {
-                        sb.append(grid[i][j].getTile().toEmoji()).append(" ");
-                    }
+                    sb.append(cell.getTile().toEmoji()).append(" ");
                 }
             }
             sb.append("│\n");

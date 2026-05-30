@@ -1,5 +1,7 @@
 package latice.view.controller;
 
+import javafx.event.Event;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -13,12 +15,13 @@ import javafx.scene.layout.*;
 import latice.listeners.LaticeGameListener;
 import latice.model.board.cell.SunCell;
 import latice.model.game.Game;
-import latice.model.game.events.TurnPassedEvent;
 import latice.model.player.Player;
 import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
+import latice.utils.theme.ThemeManager;
+import latice.utils.theme.Theme;
 import latice.utils.LangManager;
 
 import java.util.List;
@@ -51,16 +54,14 @@ public class GameController {
     @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
-    @FXML private Label startMenuTitle;
-    @FXML private Button startMenuPlayButton;
-    @FXML private Button startMenuRuleButton;
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
+    @FXML private VBox themeMenuVBox;
 
     private Game game;
     private List<ImageView> rackImageViews;
-    public boolean hasAlreadyPlaced = false;
+    private boolean hasAlreadyPlaced = false;
     private Map<String, String> availableLanguages;
 
     @FXML
@@ -71,8 +72,8 @@ public class GameController {
         loadTexts();
 
         for (Node node : rackBox.getChildren()) {
-            if (node instanceof ImageView) {
-                setupDraggable((ImageView) node);
+            if (node instanceof ImageView imageNode) {
+                setupDraggable(imageNode);
             }
         }
 
@@ -136,6 +137,8 @@ public class GameController {
     }
 
     public void showPlayMenu() {
+        themeMenuVBox.setVisible(false);
+        themeMenuVBox.setManaged(false);
         rulesMenuVBox.setVisible(false);
         rulesMenuVBox.setManaged(false);
         playMenuVBox.setVisible(true);
@@ -175,14 +178,28 @@ public class GameController {
     }
 
     private Game buildGame() {
-        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule(),
-                new PositionRule(), new FirstTurnRule());
+        List<IRule> rules = List.of(
+                new MatchingRule(),
+                new AdjacencyRule(),
+                new PositionRule(),
+                new FirstTurnRule()
+        );
 
-        if (player1UsernameTf.getText().equals(player2UsernameTf.getText())) {
-            return new Game(Referee.create(rules));
+        String name1 = getPlayerName(player1UsernameTf.getText(), "P1");
+        String name2 = getPlayerName(player2UsernameTf.getText(), "P2");
+
+        if (name1.equals(name2)) {
+            name2 = name2 + "_2";
         }
-        return new Game(Referee.create(rules),
-                player1UsernameTf.getText(), player2UsernameTf.getText());
+
+        return new Game(Referee.create(rules), name1, name2);
+    }
+
+    private String getPlayerName(String input, String defaultName) {
+        if (input == null || input.isBlank()) {
+            return defaultName;
+        }
+        return input;
     }
 
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
@@ -200,7 +217,8 @@ public class GameController {
         lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
 
         turnNumberLabel.setText(lang.format("menu.turnIndicator.turnIndicatorTitle",
-                "turnNumber", (game.getTurnCount()/2 + 1) + "/" + Game.MAX_TURN_COUNT)
+                "turnNumber",
+                (game.getTurnCount() / game.getPlayers().size() + 1) + "/" + Game.MAX_CYCLES)
         );
 
         screenOverlay.setVisible(true);
@@ -283,15 +301,20 @@ public class GameController {
                 int x = (colIndex == null) ? 0 : colIndex;
                 int y = (rowIndex == null) ? 0 : rowIndex;
 
-                if (x == targetX && y == targetY && node instanceof ImageView) {
-                    ((ImageView) node).setImage(new Image(tile.getTileImgPath()));
+                if (x == targetX && y == targetY && node instanceof ImageView imageNode) {
+                    imageNode.setImage(new Image(tile.getTileImgPath()));
                     break;
                 }
             }
 
             updateRack(player);
 
-        } catch (Exception e) { /* No need to debug this catch */ }
+        } catch (Exception e) {
+            // https://docs.oracle.com/javase/8/docs/api/java/util/logging/Logger.html
+            // I've done that 'cause SonarQube absolutly wanted us to use Logger, but don't know why
+            Logger.getLogger(GameController.class.getName())
+                    .warning("Failed to place tile on board UI: " + e.getMessage());
+        }
     }
 
     private void setupDraggable(ImageView tileView) {
@@ -308,9 +331,7 @@ public class GameController {
             event.consume();
         });
 
-        tileView.setOnDragDone(event -> {
-            event.consume();
-        });
+        tileView.setOnDragDone(Event::consume);
     }
 
     private void setupBoardDropTarget() {
@@ -360,56 +381,8 @@ public class GameController {
         game.passTurn();
     }
 
-    private void setupDropTarget(ImageView cellView) {
-        cellView.setOnDragOver(event -> {
-            if (event.getGestureSource() != cellView && event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.MOVE);
-            }
-            event.consume();
-        });
-
-        cellView.setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-
-
-            if (db.hasString() && game != null) {
-                String imageUrl = db.getString();
-
-                Integer colIndex = GridPane.getColumnIndex(cellView);
-                Integer rowIndex = GridPane.getRowIndex(cellView);
-                int x = (colIndex == null) ? 0 : colIndex;
-                int y = (rowIndex == null) ? 0 : rowIndex;
-
-                Tile tileToPlace = extractTileFromUrl(imageUrl);
-
-                if (tileToPlace != null) {
-                    try {
-                        game.playTile(tileToPlace, x, y);
-                        success = true;
-                    } catch (Exception e) { /* No need to display an error */ }
-                }
-            }
-
-            event.setDropCompleted(success);
-            event.consume();
-        });
-    }
-
-    private void setupPassButton() {
-        if (!hasAlreadyPlaced) {
-            game.sendEvent(new TurnPassedEvent(game.getCurrentPlayer(),
-                    game.getNextPlayer(), game.getPlayersTurnScore()));
-        } else {
-            game.endTurn();
-        }
-    }
-
     private Tile extractTileFromUrl(String fullUrl) {
-        String filename = fullUrl.substring(fullUrl.lastIndexOf('/') + 1);
-        String mapKey = "latice/images/" + filename;
-
-        return TileFactory.getTileFromImagePath(mapKey);
+        return TileFactory.getTileFromImagePath(fullUrl);
     }
 
     public void endGame() {
@@ -432,19 +405,21 @@ public class GameController {
                 int x = (col == null) ? 0 : col;
                 int y = (row == null) ? 0 : row;
 
-                String imagePath;
-                if ((x == 4 && y == 4)) {
-                    imagePath = Objects.requireNonNull(getClass()
-                            .getResource("/latice/images/bg_moon.png")).toExternalForm();
+                String bgFile;
+                if (x == 4 && y == 4) {
+                    bgFile = "bg_moon.png";
                 } else if (game.getBoard().getCell(x, y) instanceof SunCell) {
-                    imagePath = Objects.requireNonNull(getClass()
-                            .getResource("/latice/images/bg_sun.png")).toExternalForm();
+                    bgFile = "bg_sun.png";
                 } else {
-                    imagePath = Objects.requireNonNull(getClass()
-                            .getResource("/latice/images/bg_sea.png")).toExternalForm();
+                    bgFile = "bg_sea.png";
                 }
 
-                imageView.setImage(new Image(imagePath));
+                String path = Objects.requireNonNull(
+                        getClass().getResource("/" +
+                                ThemeManager.getInstance().getBoardBgPath(bgFile))
+                ).toExternalForm();
+
+                imageView.setImage(new Image(path));
                 imageView.setVisible(true);
             }
         }
@@ -454,4 +429,35 @@ public class GameController {
     public Game getGame() {
         return game;
     }
+
+    public void showThemeMenu() {
+        playMenuVBox.setVisible(false);
+        playMenuVBox.setManaged(false);
+        themeMenuVBox.setVisible(true);
+        themeMenuVBox.setManaged(true);
+    }
+
+    public void applyThemeDefault() {
+        ThemeManager.getInstance().setCurrentTheme(Theme.DEFAULT);
+        showPlayMenu();
+    }
+
+    public void applyThemeAnimalCrossing() {
+        ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
+        showPlayMenu();
+    }
+
+    public void applyThemeZelda() {
+        ThemeManager.getInstance().setCurrentTheme(Theme.ZELDA);
+        showPlayMenu();
+    }
+
+    public void buttonSurrender() {
+        game.surrender();
+    }
+
+    public void setHasAlreadyPlaced(boolean value) {
+        hasAlreadyPlaced = value;
+    }
 }
+
