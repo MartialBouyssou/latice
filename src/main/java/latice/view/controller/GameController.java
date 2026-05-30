@@ -1,5 +1,6 @@
 package latice.view.controller;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -13,7 +14,6 @@ import javafx.scene.layout.*;
 import latice.listeners.LaticeGameListener;
 import latice.model.board.cell.SunCell;
 import latice.model.game.Game;
-import latice.model.game.events.TurnPassedEvent;
 import latice.model.player.Player;
 import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
@@ -41,7 +41,6 @@ public class GameController {
     @FXML private ImageView rackTile5;
     @FXML private StackPane screenOverlay;
     @FXML private Label overlayPlayerLabel;
-    @FXML private Button overlayButton;
     @FXML private Button endTurnButton;
     @FXML private Label lastPlayerLabel;
     @FXML private Label lastPlayerScoreLabel;
@@ -54,18 +53,14 @@ public class GameController {
     @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
-    @FXML private Label startMenuTitle;
-    @FXML private Button startMenuPlayButton;
-    @FXML private Button startMenuRuleButton;
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
     @FXML private VBox themeMenuVBox;
-    @FXML private ImageView surrenderButton;
 
     private Game game;
     private List<ImageView> rackImageViews;
-    public boolean hasAlreadyPlaced = false;
+    private boolean hasAlreadyPlaced = false;
     private Map<String, String> availableLanguages;
 
     @FXML
@@ -76,8 +71,8 @@ public class GameController {
         loadTexts();
 
         for (Node node : rackBox.getChildren()) {
-            if (node instanceof ImageView) {
-                setupDraggable((ImageView) node);
+            if (node instanceof ImageView imageNode) {
+                setupDraggable(imageNode);
             }
         }
 
@@ -290,8 +285,8 @@ public class GameController {
                 int x = (colIndex == null) ? 0 : colIndex;
                 int y = (rowIndex == null) ? 0 : rowIndex;
 
-                if (x == targetX && y == targetY && node instanceof ImageView) {
-                    ((ImageView) node).setImage(new Image(tile.getTileImgPath()));
+                if (x == targetX && y == targetY && node instanceof ImageView imageNode) {
+                    imageNode.setImage(new Image(tile.getTileImgPath()));
                     break;
                 }
             }
@@ -315,9 +310,7 @@ public class GameController {
             event.consume();
         });
 
-        tileView.setOnDragDone(event -> {
-            event.consume();
-        });
+        tileView.setOnDragDone(Event::consume);
     }
 
     private void setupBoardDropTarget() {
@@ -365,51 +358,6 @@ public class GameController {
 
     public void buttonEndTurn(){
         game.passTurn();
-    }
-
-    private void setupDropTarget(ImageView cellView) {
-        cellView.setOnDragOver(event -> {
-            if (event.getGestureSource() != cellView && event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.MOVE);
-            }
-            event.consume();
-        });
-
-        cellView.setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-
-
-            if (db.hasString() && game != null) {
-                String imageUrl = db.getString();
-
-                Integer colIndex = GridPane.getColumnIndex(cellView);
-                Integer rowIndex = GridPane.getRowIndex(cellView);
-                int x = (colIndex == null) ? 0 : colIndex;
-                int y = (rowIndex == null) ? 0 : rowIndex;
-
-                Tile tileToPlace = extractTileFromUrl(imageUrl);
-
-                if (tileToPlace != null) {
-                    try {
-                        game.playTile(tileToPlace, x, y);
-                        success = true;
-                    } catch (Exception e) { /* No need to display an error */ }
-                }
-            }
-
-            event.setDropCompleted(success);
-            event.consume();
-        });
-    }
-
-    private void setupPassButton() {
-        if (!hasAlreadyPlaced) {
-            game.sendEvent(new TurnPassedEvent(game.getCurrentPlayer(),
-                    game.getNextPlayer(), game.getPlayersTurnScore()));
-        } else {
-            game.endTurn();
-        }
     }
 
     private Tile extractTileFromUrl(String fullUrl) {
@@ -485,6 +433,10 @@ public class GameController {
 
     public void buttonSurrender() {
         game.surrender();
+    }
+
+    public void setHasAlreadyPlaced(boolean value) {
+        hasAlreadyPlaced = value;
     }
 }
 

@@ -31,7 +31,7 @@ public class LaticeGameListener implements GameListener {
 
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
-        gameController.hasAlreadyPlaced = false;
+        gameController.setHasAlreadyPlaced(false);
         gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
                 event.getLastTurnScore());
         gameController.updateRack(event.getNextPlayer());
@@ -53,14 +53,14 @@ public class LaticeGameListener implements GameListener {
             playTwiceActive = false;
             gameController.toggleActionButton();
         } else {
-            gameController.hasAlreadyPlaced = true;
+            gameController.setHasAlreadyPlaced(true);
             gameController.getGame().endTurn();
         }
     }
 
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
-        gameController.hasAlreadyPlaced = false;
+        gameController.setHasAlreadyPlaced(false);
         gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
                 event.getLastTurnScore());
         gameController.updateRack(event.getNextPlayer());
