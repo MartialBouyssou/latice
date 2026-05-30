@@ -11,6 +11,7 @@ app.title=Latice
 menu.start.title=Latice
 menu.start.play=Spelen
 menu.start.rules=Regels
+menu.start.theme=Thema
 
 # # Regelsmenu
 menu.rules.title=Spelregels
@@ -28,6 +29,13 @@ menu.rules.thirdCategory.description=Dubbel (2 gelijke zijden) => +1 pt  |  Klav
 menu.rules.fourthCategory=Einde van het spel
 menu.rules.fourthCategory.description=Het spel eindigt wanneer een speler zijn rek en voorraad leegmaakt, of na 10 rondes (1 ronde = 1 beurt per speler). De speler die de meeste tegels heeft gelegd, wint.
 menu.rules.back=Terug
+
+# # Themamenu
+menu.theme.title=Kies een thema
+menu.theme.classicTheme=Klassiek
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Terug
 
 # # Menu gebruikersnaamkeuze
 menu.username.title=Latice

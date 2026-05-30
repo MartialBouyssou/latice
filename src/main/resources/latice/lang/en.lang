@@ -6,6 +6,7 @@ app.title=Latice
 menu.start.title=Latice
 menu.start.play=Play
 menu.start.rules=Rules
+menu.start.theme=Theme
 
 # # Rules menu
 menu.rules.title=Rules
@@ -29,6 +30,13 @@ menu.username.title=Latice
 menu.username.firstUsernameChoiceLabel=Choose your username:
 menu.username.secondUsernameChoiceLabel=You also choose a username:
 menu.username.play=Play
+
+# # Theme Menu
+menu.theme.title=Choose a theme
+menu.theme.classicTheme=Classic
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Back
 
 # # Game view
 menu.game.actionButton=Buy an action

@@ -6,6 +6,7 @@ app.title=Latice
 menu.start.title=Latice
 menu.start.play=Jouer
 menu.start.rules=Règles
+menu.start.theme=Theme
 
 # # Menu des règles
 menu.rules.title=Règles du jeu
@@ -23,6 +24,13 @@ menu.rules.thirdCategory.description=Double (2 côtés identiques) => +1 pt  |  
 menu.rules.fourthCategory=Fin de partie
 menu.rules.fourthCategory.description=La partie se termine quand un joueur vide son chevalet et sa réserve, ou après 10 cycles (1 cycle = 1 tour par joueur). Le joueur ayant posé le plus de tuiles remporte la partie.
 menu.rules.back=Retour
+
+# # Theme Menu
+menu.theme.title=Choisissez un thème
+menu.theme.classicTheme=Classique
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Retour
 
 # # Menu du choix du pseudo
 menu.username.title=Latice

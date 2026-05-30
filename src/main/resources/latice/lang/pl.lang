@@ -11,6 +11,7 @@ app.title=Latice
 menu.start.title=Latice
 menu.start.play=Graj
 menu.start.rules=Zasady
+menu.start.theme=Motyw
 
 # # Menu zasad
 menu.rules.title=Zasady gry
@@ -28,6 +29,13 @@ menu.rules.thirdCategory.description=Dublet (2 pasujące strony) => +1 pkt  |  T
 menu.rules.fourthCategory=Koniec gry
 menu.rules.fourthCategory.description=Gra kończy się, gdy gracz opróżni swój stojak i rezerwę, lub po 10 rundach (1 runda = 1 tura na gracza). Wygrywa gracz, który położył najwięcej kafelków.
 menu.rules.back=Powrót
+
+# # Menu motyw
+menu.theme.title=Wybierz motyw
+menu.theme.classicTheme=Klasyczny
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Powrót
 
 # # Menu wyboru nazwy użytkownika
 menu.username.title=Latice

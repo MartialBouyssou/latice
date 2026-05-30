@@ -11,6 +11,7 @@ app.title=Latice
 menu.start.title=Latice
 menu.start.play=Spielen
 menu.start.rules=Regeln
+menu.start.theme=Thema
 
 # # Regelmenü
 menu.rules.title=Spielregeln
@@ -28,6 +29,13 @@ menu.rules.thirdCategory.description=Doppel (2 gleiche Seiten) => +1 Pkt  |  Dre
 menu.rules.fourthCategory=Spielende
 menu.rules.fourthCategory.description=Das Spiel endet, wenn ein Spieler sein Gestell und seinen Vorrat leert, oder nach 10 Runden (1 Runde = 1 Zug pro Spieler). Der Spieler, der die meisten Plättchen gelegt hat, gewinnt.
 menu.rules.back=Zurück
+
+# # Themamenü
+menu.theme.title=Wähle ein Thema
+menu.theme.classicTheme=Klassisch
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Zurück
 
 # # Benutzernamen-Auswahlmenü
 menu.username.title=Latice

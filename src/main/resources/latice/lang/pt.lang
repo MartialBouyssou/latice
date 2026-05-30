@@ -11,6 +11,7 @@ app.title=Latice
 menu.start.title=Latice
 menu.start.play=Jogar
 menu.start.rules=Regras
+menu.start.theme=Tema
 
 # # Menu de regras
 menu.rules.title=Regras do jogo
@@ -28,6 +29,13 @@ menu.rules.thirdCategory.description=Duplo (2 lados iguais) => +1 pt  |  Trevo (
 menu.rules.fourthCategory=Fim do jogo
 menu.rules.fourthCategory.description=O jogo termina quando um jogador esvazia o seu suporte e a sua reserva, ou após 10 ciclos (1 ciclo = 1 vez por jogador). O jogador que colocou mais peças vence.
 menu.rules.back=Voltar
+
+# # Menu de Tema
+menu.theme.title=Escolha um tema
+menu.theme.classicTheme=Clássico
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Voltar
 
 # # Menu de escolha de nome de utilizador
 menu.username.title=Latice
