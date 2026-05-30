@@ -25,8 +25,10 @@ import latice.model.theme.ThemeManager;
 import latice.model.theme.ThemeManager.Theme;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import latice.utils.LangManager;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GameController {
@@ -53,8 +55,12 @@ public class GameController {
     @FXML private Button actionButton;
 
     @FXML private StackPane startMenuStackpane;
+    @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
+    @FXML private Label startMenuTitle;
+    @FXML private Button startMenuPlayButton;
+    @FXML private Button startMenuRuleButton;
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
@@ -64,10 +70,14 @@ public class GameController {
     private Game game;
     private List<ImageView> rackImageViews;
     public boolean hasAlreadyPlaced = false;
+    private Map<String, String> availableLanguages;
 
     @FXML
     public void initialize() {
         rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
+
+        loadLanguageSelector();
+        loadTexts();
 
         for (Node node : rackBox.getChildren()) {
             if (node instanceof ImageView) {
@@ -76,6 +86,55 @@ public class GameController {
         }
 
         setupBoardDropTarget();
+    }
+
+    private void loadLanguageSelector() {
+        availableLanguages = LangManager.getInstance().loadAvailableLanguages();
+
+        languageComboBox.getItems().addAll(availableLanguages.values());
+
+        if (!availableLanguages.isEmpty()) {
+            String firstCode = availableLanguages.keySet().iterator().next();
+            LangManager.getInstance().load(firstCode);
+            languageComboBox.setValue(availableLanguages.get(firstCode));
+        }
+    }
+
+    public void onLanguageChanged() {
+        String selectedLabel = languageComboBox.getValue();
+        if (selectedLabel == null) return;
+
+        availableLanguages.entrySet().stream()
+                .filter(e -> e.getValue().equals(selectedLabel))
+                .findFirst()
+                .ifPresent(e -> {
+                    LangManager.getInstance().load(e.getKey());
+                    loadTexts();
+                });
+    }
+
+    public void loadTexts() {
+        applyTextsRecursively(startMenuStackpane);
+        applyTextsRecursively(gameBoardBP);
+        applyTextsRecursively(screenOverlay);
+    }
+
+    private void applyTextsRecursively(Parent parent) {
+        for (Node node : parent.getChildrenUnmodifiable()) {
+            if (node instanceof Labeled labeled) {
+                String key = (String) labeled.getProperties()
+                        .getOrDefault("i18n-key", labeled.getText());
+                // i18n is the used name for internationalization => Multi language support :)
+
+                if (key != null && !key.isBlank() && key.contains(".") && !key.contains(" ")) {
+                    labeled.getProperties().put("i18n-key", key);
+                    labeled.setText(LangManager.getInstance().get(key));
+                }
+            }
+            if (node instanceof Parent childParent) {
+                applyTextsRecursively(childParent);
+            }
+        }
     }
 
     public void showUsernameChoiceMenu() {
@@ -138,11 +197,23 @@ public class GameController {
     }
 
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
+        LangManager lang = LangManager.getInstance();
+
         endTurnButton.setDisable(true);
-        overlayPlayerLabel.setText("It's " + nextPlayer.getName() + "'s turn!");
-        lastPlayerLabel.setText(lastPlayer.getName() + "'s score :");
+
+        overlayPlayerLabel.setText(lang.format("menu.turnIndicator.currentPlayer",
+                "name", nextPlayer.getName())
+        );
+        lastPlayerLabel.setText(lang.format("menu.turnIndicator.lastPlayerScoreHeader",
+                "name", lastPlayer.getName())
+        );
+
         lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
-        turnNumberLabel.setText("Turn " + (game.getTurnCount()/2 + 1) + "/" + Game.MAX_TURN_COUNT);
+
+        turnNumberLabel.setText(lang.format("menu.turnIndicator.turnIndicatorTitle",
+                "turnNumber", (game.getTurnCount()/2 + 1) + "/" + Game.MAX_TURN_COUNT)
+        );
+
         screenOverlay.setVisible(true);
         screenOverlay.setManaged(true);
     }
@@ -171,31 +242,46 @@ public class GameController {
 
     public void updatePlayerInfo(Player player) {
         int remainingTiles = player.getDeck().size() + player.getRack().getTiles().size();
+        LangManager lang = LangManager.getInstance();
 
-        currentPlayerLabel.setText(player.getName() + "'s turn:");
-        currentPlayerScoreLabel.setText("Score: " + player.getScore());
-        playerTileRemainingLabel.setText("Remaining Tiles: " + remainingTiles);
+        currentPlayerLabel.setText(lang.format("menu.game.player.currentPlayer",
+                "name", player.getName())
+        );
+        currentPlayerScoreLabel.setText(lang.format("menu.game.player.score",
+                "score", String.valueOf(player.getScore()))
+        );
+        playerTileRemainingLabel.setText(lang.format("menu.game.player.remaining",
+                "count", String.valueOf(remainingTiles))
+        );
     }
 
     public void showInvalidMove(String reason) {
+        LangManager lang = LangManager.getInstance();
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Invalid Move");
-        alert.setHeaderText("You can't do that..");
+        alert.setTitle(lang.get("popup.game.invalid.title"));
+        alert.setHeaderText(lang.get("popup.game.invalid.header"));
         alert.setContentText(reason);
         alert.show();
     }
 
     public void showGameOver(Player player) {
         hideOverlay();
+        LangManager lang = LangManager.getInstance();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Game ended");
+
+        alert.setTitle(lang.get("popup.game.over.title"));
         if (player != null) {
-            alert.setHeaderText("Winner: " + player.getName());
-            alert.setContentText("Player" + player.getName() + " won with a score of "
-                    + player.getScore() + " points !");
+            alert.setHeaderText(lang.format("popup.game.over.winner.header",
+                    "name", player.getName())
+            );
+            alert.setContentText(lang.format("popup.game.over.winner.content",
+                    "name", player.getName(),
+                    "score", String.valueOf(player.getScore()))
+            );
         } else {
-            alert.setHeaderText("Tie!");
-            alert.setContentText("It's a tie ! Both players have the same count of tile placed !");
+            alert.setHeaderText(lang.get("popup.game.over.tie.header"));
+            alert.setContentText(lang.get("popup.game.over.tie.content"));
         }
         alert.show();
     }
@@ -263,14 +349,9 @@ public class GameController {
                     if (!hasAlreadyPlaced) {
                         game.playTile(tile, col, row);
                     } else {
-                        showInvalidMove("You already placed a tile this turn ! " +
-                                "Buy an action or end your turn !");
+                        showInvalidMove(LangManager.getInstance().get("popup.game.invalid.reason"));
                     }
-                } else {
-                    System.err.println("Tuile non reconnue depuis l'URL : " + db.getString());
                 }
-            } else {
-                System.err.println("Dragboard vide ou Game = null");
             }
 
             event.setDropCompleted(success);
@@ -305,31 +386,20 @@ public class GameController {
 
             if (db.hasString() && game != null) {
                 String imageUrl = db.getString();
-                System.out.println("URL captée depuis la souris : " + imageUrl);
 
                 Integer colIndex = GridPane.getColumnIndex(cellView);
                 Integer rowIndex = GridPane.getRowIndex(cellView);
                 int x = (colIndex == null) ? 0 : colIndex;
                 int y = (rowIndex == null) ? 0 : rowIndex;
-                System.out.println("Coordonnées ciblées : X=" + x + ", Y=" + y);
 
                 Tile tileToPlace = extractTileFromUrl(imageUrl);
 
                 if (tileToPlace != null) {
-                    System.out.println("Tuile reconnue ! Chemin de l'image : " + tileToPlace.getTileImgPath());
                     try {
                         game.playTile(tileToPlace, x, y);
                         success = true;
-                        System.out.println("Ordre playTile() envoyé au modèle avec succès.");
-                    } catch (Exception e) {
-                        System.err.println("Crash à l'intérieur du moteur de jeu (playTile) :");
-                        e.printStackTrace();
-                    }
-                } else {
-                    System.err.println("La tuile n'a pas été reconnue ! extractTileFromUrl a renvoyé null.");
+                    } catch (Exception e) { /* No need to display an error */ }
                 }
-            } else {
-                System.err.println("Dragboard vide ou objet Game = null");
             }
 
             event.setDropCompleted(success);
@@ -363,7 +433,6 @@ public class GameController {
     }
 
     public void resetBoard() {
-        ThemeManager tm = ThemeManager.getInstance();
         for (Node node : board.getChildren()) {
             if (node instanceof ImageView imageView) {
                 Integer col = GridPane.getColumnIndex(node);
@@ -381,7 +450,8 @@ public class GameController {
                 }
 
                 String path = Objects.requireNonNull(
-                        getClass().getResource("/" + tm.getBoardBgPath(bgFile))
+                        getClass().getResource("/" +
+                                ThemeManager.getInstance().getBoardBgPath(bgFile))
                 ).toExternalForm();
 
                 imageView.setImage(new Image(path));
