@@ -11,6 +11,7 @@ app.title=Latice
 menu.start.title=Latice
 menu.start.play=Jugar
 menu.start.rules=Reglas
+menu.start.theme=Tema
 
 # # Menú de reglas
 menu.rules.title=Reglas del juego
@@ -28,6 +29,13 @@ menu.rules.thirdCategory.description=Doble (2 lados iguales) => +1 pt  |  Trébo
 menu.rules.fourthCategory=Fin de la partida
 menu.rules.fourthCategory.description=La partida termina cuando un jugador vacía su atril y su reserva, o tras 10 ciclos (1 ciclo = 1 turno por jugador). El jugador que haya colocado más fichas gana.
 menu.rules.back=Volver
+
+# # Menú de tema
+menu.theme.title=Elige un tema
+menu.theme.classicTheme=Clásico
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Volver
 
 # # Menú de elección de nombre de usuario
 menu.username.title=Latice

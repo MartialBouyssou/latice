@@ -11,6 +11,7 @@ app.title=Latice
 menu.start.title=Latice
 menu.start.play=Gioca
 menu.start.rules=Regole
+menu.start.theme=Tema
 
 # # Menu delle regole
 menu.rules.title=Regole del gioco
@@ -28,6 +29,13 @@ menu.rules.thirdCategory.description=Doppio (2 lati uguali) => +1 pt  |  Trifogl
 menu.rules.fourthCategory=Fine della partita
 menu.rules.fourthCategory.description=La partita termina quando un giocatore svuota il suo portategole e la sua riserva, o dopo 10 cicli (1 ciclo = 1 turno per giocatore). Il giocatore che ha posato più tessere vince.
 menu.rules.back=Indietro
+
+# # Menu del tema
+menu.theme.title=Scegli un tema
+menu.theme.classicTheme=Classico
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Indietro
 
 # # Menu di scelta del nome utente
 menu.username.title=Latice
