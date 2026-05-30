@@ -499,7 +499,7 @@
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../images/Image%20collée.png" />
+                  <Image url="@../images/zelda/bg_moon.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
@@ -533,7 +533,7 @@
          <children>
             <ImageView fx:id="rackTile1" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
-                  <Image url="@../images/dolphin_m.png" />
+                  <Image url="@../images/zelda/bird_m.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="50.0" />
@@ -541,7 +541,7 @@
             </ImageView>
             <ImageView fx:id="rackTile2" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
-                  <Image url="@../images/dolphin_m.png" />
+                  <Image url="@../images/zelda/bird_n.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="50.0" />
@@ -549,7 +549,7 @@
             </ImageView>
             <ImageView fx:id="rackTile3" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
-                  <Image url="@../images/dolphin_m.png" />
+                  <Image url="@../images/zelda/bird_m.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="50.0" />
@@ -557,7 +557,7 @@
             </ImageView>
             <ImageView fx:id="rackTile4" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
-                  <Image url="@../images/dolphin_m.png" />
+                  <Image url="@../images/zelda/bird_n.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="50.0" />
@@ -565,7 +565,7 @@
             </ImageView>
             <ImageView fx:id="rackTile5" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT" translateY="-60.0">
                <image>
-                  <Image url="@../images/dolphin_m.png" />
+                  <Image url="@../images/zelda/bird_m.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="50.0" />
