@@ -23,9 +23,13 @@ public class Deck {
     }
 
     public static Deck create(List<Tile> tiles) {
-        Deck deck = new Deck((tiles));
+        Deck deck = new Deck(tiles);
         deck.shuffle();
         return deck;
+    }
+
+    public static Deck createNoShuffle(List<Tile> tiles) {
+        return new Deck(tiles);
     }
 
     public int size() {
