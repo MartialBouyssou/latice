@@ -73,7 +73,7 @@ public class LaticeGameListener implements GameListener {
             playTwiceActive = false;
             gameController.toggleActionButton(false);
         } else {
-            gameController.getGame().setActionPlayedThisTurn();
+            gameController.getGame().completeExchangeAsTurn();
         }
 
         gameController.updateRack(event.getPlayer());
@@ -91,6 +91,7 @@ public class LaticeGameListener implements GameListener {
         gameController.showInvalidMove(event.getReason());
     }
 
+    @Override
     public void onCannotAfford(CannotAffordEvent event) {
         gameController.showInvalidMove(event.getReason());
     }

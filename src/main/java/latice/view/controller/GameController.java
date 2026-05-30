@@ -1,6 +1,7 @@
 package latice.view.controller;
 
 import javafx.event.Event;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -19,8 +20,8 @@ import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
-import latice.model.theme.ThemeManager;
-import latice.model.theme.ThemeManager.Theme;
+import latice.utils.theme.ThemeManager;
+import latice.utils.theme.Theme;
 import latice.utils.LangManager;
 
 import java.util.List;
@@ -177,14 +178,28 @@ public class GameController {
     }
 
     private Game buildGame() {
-        List<IRule> rules = List.of(new MatchingRule(), new AdjacencyRule(),
-                new PositionRule(), new FirstTurnRule());
+        List<IRule> rules = List.of(
+                new MatchingRule(),
+                new AdjacencyRule(),
+                new PositionRule(),
+                new FirstTurnRule()
+        );
 
-        if (player1UsernameTf.getText().equals(player2UsernameTf.getText())) {
-            return new Game(Referee.create(rules));
+        String name1 = getPlayerName(player1UsernameTf.getText(), "P1");
+        String name2 = getPlayerName(player2UsernameTf.getText(), "P2");
+
+        if (name1.equals(name2)) {
+            name2 = name2 + "_2";
         }
-        return new Game(Referee.create(rules),
-                player1UsernameTf.getText(), player2UsernameTf.getText());
+
+        return new Game(Referee.create(rules), name1, name2);
+    }
+
+    private String getPlayerName(String input, String defaultName) {
+        if (input == null || input.isBlank()) {
+            return defaultName;
+        }
+        return input;
     }
 
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
@@ -202,7 +217,8 @@ public class GameController {
         lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
 
         turnNumberLabel.setText(lang.format("menu.turnIndicator.turnIndicatorTitle",
-                "turnNumber", (game.getTurnCount()/2 + 1) + "/" + Game.MAX_TURN_COUNT)
+                "turnNumber",
+                (game.getTurnCount() / game.getPlayers().size() + 1) + "/" + Game.MAX_CYCLES)
         );
 
         screenOverlay.setVisible(true);
@@ -293,7 +309,12 @@ public class GameController {
 
             updateRack(player);
 
-        } catch (Exception e) { /* No need to debug this catch */ }
+        } catch (Exception e) {
+            // https://docs.oracle.com/javase/8/docs/api/java/util/logging/Logger.html
+            // I've done that 'cause SonarQube absolutly wanted us to use Logger, but don't know why
+            Logger.getLogger(GameController.class.getName())
+                    .warning("Failed to place tile on board UI: " + e.getMessage());
+        }
     }
 
     private void setupDraggable(ImageView tileView) {
@@ -417,12 +438,12 @@ public class GameController {
     }
 
     public void applyThemeDefault() {
-        ThemeManager.getInstance().setCurrentTheme(ThemeManager.Theme.DEFAULT);
+        ThemeManager.getInstance().setCurrentTheme(Theme.DEFAULT);
         showPlayMenu();
     }
 
     public void applyThemeAnimalCrossing() {
-        ThemeManager.getInstance().setCurrentTheme(ThemeManager.Theme.ANIMAL_CROSSING);
+        ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
         showPlayMenu();
     }
 

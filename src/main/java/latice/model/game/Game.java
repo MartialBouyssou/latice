@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
-    public static final int MAX_TURN_COUNT = 10;
+    public static final int MAX_CYCLES = 10;
+
     private final List<Player> players;
     private final String player1Username;
     private final String player2Username;
@@ -63,7 +64,6 @@ public class Game {
         return referee;
     }
 
-    // V4
     public void startGame() {
         board = Board.create();
 
@@ -91,28 +91,33 @@ public class Game {
             throw new GameNotStartException();
         }
 
-        playersTurnScore = referee.calculateScore(this.getBoard(), tile, x, y);
-
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
                     LangManager.getInstance().get("event.invalidMove.tileError")
             ));
-        } else if (!referee.isValidMove(board, tile, x, y)) {
+            return;
+        }
+
+        if (!referee.isValidMove(board, tile, x, y)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
                     LangManager.getInstance().get("event.invalidMove.moveError")
             ));
-        } else {
-            currentPlayer.getRack().getTiles().remove(tile);
-            board.getCell(x, y).setTile(tile);
-
-            if (playTwiceActive) {
-                playTwiceActive = false;
-            }
-            actionPlayedThisTurn = true;
-            currentPlayer.incrementTilesPlayed();
-            currentPlayer.addScore(playersTurnScore);
-            sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
+            return;
         }
+
+        playersTurnScore = referee.calculateScore(board, tile, x, y);
+
+        currentPlayer.getRack().getTiles().remove(tile);
+        board.placeTile(tile, x, y);
+        currentPlayer.incrementTilesPlayed();
+        currentPlayer.addScore(playersTurnScore);
+
+        if (playTwiceActive) {
+            playTwiceActive = false;
+        }
+        actionPlayedThisTurn = true;
+
+        sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
     }
 
     public void endTurn() {
@@ -122,26 +127,28 @@ public class Game {
         if (!actionPlayedThisTurn) {
             throw new NoTilePlayedException();
         }
-        actionPlayedThisTurn = false;
-        turnCount++;
 
+        actionPlayedThisTurn = false;
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
         Player lastPlayer = currentPlayer;
+        int lastScore = playersTurnScore;
+        playersTurnScore = 0;
+
+        turnCount++;
         nextPlayer();
 
         if (isGameOver()) {
             sendEvent(new GameOverEvent(getWinner()));
         } else {
-            sendEvent(new TurnEndedEvent(lastPlayer, playersTurnScore, currentPlayer));
+            sendEvent(new TurnEndedEvent(lastPlayer, lastScore, currentPlayer));
         }
-
-        playersTurnScore = 0;
     }
 
-    public void passTurn(){
-        sendEvent(new TurnPassedEvent(getNextPlayer(), currentPlayer, playersTurnScore));
+    public void passTurn() {
         actionPlayedThisTurn = true;
+        Player lastPlayer = currentPlayer;
+        sendEvent(new TurnPassedEvent(getNextPlayer(), lastPlayer, playersTurnScore));
         endTurn();
     }
 
@@ -149,7 +156,6 @@ public class Game {
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
-
         return referee.isGameOver(this);
     }
 
@@ -157,7 +163,6 @@ public class Game {
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
-
         return referee.determineWinner(this);
     }
 
@@ -165,7 +170,6 @@ public class Game {
         if (currentPlayer == null) {
             throw new GameNotStartException();
         }
-
         int currentIndex = players.indexOf(currentPlayer);
         currentPlayer = players.get((currentIndex + 1) % players.size());
     }
@@ -176,20 +180,25 @@ public class Game {
 
     public void sendEvent(GameEvent event) {
         for (GameListener listener : listeners) {
-            if (event instanceof GameStartedEvent e) listener.onGameStarted(e);
-            if (event instanceof GameOverEvent e) listener.onGameOver(e);
-
-            if (event instanceof TurnPassedEvent e) listener.onTurnPassed(e);
-            if (event instanceof TurnEndedEvent e) listener.onTurnEnded(e);
-
-            if (event instanceof TilePlacedEvent e) listener.onTilePlaced(e);
-            if (event instanceof InvalidMoveEvent e) listener.onInvalidMove(e);
-
-            if (event instanceof RackExchangedEvent e) listener.onRackExchanged(e);
-
-            if (event instanceof CannotAffordEvent e) listener.onCannotAfford(e);
-
-            if (event instanceof ActionBoughtEvent e) listener.onActionBought(e);
+            if (event instanceof GameStartedEvent e) {
+                listener.onGameStarted(e);
+            } else if (event instanceof GameOverEvent e) {
+                listener.onGameOver(e);
+            } else if (event instanceof TurnPassedEvent e) {
+                listener.onTurnPassed(e);
+            } else if (event instanceof TurnEndedEvent e) {
+                listener.onTurnEnded(e);
+            } else if (event instanceof TilePlacedEvent e) {
+                listener.onTilePlaced(e);
+            } else if (event instanceof InvalidMoveEvent e) {
+                listener.onInvalidMove(e);
+            } else if (event instanceof RackExchangedEvent e) {
+                listener.onRackExchanged(e);
+            } else if (event instanceof CannotAffordEvent e) {
+                listener.onCannotAfford(e);
+            } else if (event instanceof ActionBoughtEvent e) {
+                listener.onActionBought(e);
+            }
         }
     }
 
@@ -207,20 +216,21 @@ public class Game {
     }
 
     public void exchangeAll() {
-        Rack lastRack = currentPlayer.getRack();
         currentPlayer.getRack().exchangeAll(currentPlayer.getDeck());
-        sendEvent(new RackExchangedEvent(currentPlayer, lastRack));
+        sendEvent(new RackExchangedEvent(currentPlayer, currentPlayer.getRack()));
+    }
 
-        if (actionPlayedThisTurn) {
-            endTurn();
-        }
+    public void completeExchangeAsTurn() {
+        actionPlayedThisTurn = true;
+        endTurn();
     }
 
     public void buyAnAction() {
-        if (currentPlayer.canAfford(2)){
-            currentPlayer.spendScore(2);
+        if (currentPlayer.canAfford(Referee.EXTRA_ACTION_COST)) {
+            currentPlayer.spendScore(Referee.EXTRA_ACTION_COST);
+            playTwiceActive = true;
             sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
-        }else{
+        } else {
             sendEvent(new CannotAffordEvent(
                     LangManager.getInstance().get("event.invalidMove.cannotAfford")
             ));
@@ -231,9 +241,5 @@ public class Game {
         Player winner = getNextPlayer();
         actionPlayedThisTurn = true;
         sendEvent(new GameOverEvent(winner));
-    }
-
-    public void setActionPlayedThisTurn() {
-        actionPlayedThisTurn = true;
     }
 }

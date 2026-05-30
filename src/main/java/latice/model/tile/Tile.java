@@ -1,6 +1,8 @@
 package latice.model.tile;
 
-import latice.model.theme.ThemeManager;
+import latice.utils.theme.ThemeManager;
+
+import java.util.Objects;
 
 public class Tile {
     private final Shape shape;
@@ -9,9 +11,7 @@ public class Tile {
     public Tile(Shape shape, Color color) {
         this.shape = shape;
         this.color = color;
-        // plus de champ imagePath fixe
     }
-
 
     public Shape getShape() {
         return shape;
@@ -33,15 +33,13 @@ public class Tile {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null) return false;
         if (!(obj instanceof Tile other)) return false;
-
         return other.shape == this.shape && other.color == this.color;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(shape, color);
     }
 
     public String getTileImgPath() {
@@ -50,5 +48,4 @@ public class Tile {
                 color.getColor().charAt(0)
         );
     }
-
 }
