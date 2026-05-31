@@ -1,4 +1,5 @@
 package latice.network.session;
 
-public class SessionRole {
+public enum SessionRole {
+    CLIENT, HOST, LOCAL
 }

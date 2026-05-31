@@ -1,6 +1,9 @@
 package latice.view.controller;
 
+import javafx.application.Platform;
 import javafx.event.Event;
+
+import java.io.IOException;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -12,6 +15,8 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import latice.exception.network.ConnectionRefusedException;
+import latice.exception.network.UnhandledPacketException;
 import latice.listeners.LaticeGameListener;
 import latice.model.board.cell.SunCell;
 import latice.model.game.Game;
@@ -20,6 +25,16 @@ import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
+import latice.network.NetworkConfig;
+import latice.network.packet.Packet;
+import latice.network.packet.game.*;
+import latice.network.packet.lobby.LobbyJoinPacket;
+import latice.network.packet.lobby.LobbyReadyPacket;
+import latice.network.packet.lobby.LobbyWelcomePacket;
+import latice.network.session.DiscoveredHost;
+import latice.network.session.SessionRole;
+import latice.network.tcp.TcpClient;
+import latice.network.tcp.TcpServer;
 import latice.utils.theme.ThemeManager;
 import latice.utils.theme.Theme;
 import latice.utils.LangManager;
@@ -63,6 +78,11 @@ public class GameController {
     private List<ImageView> rackImageViews;
     private boolean hasAlreadyPlaced = false;
     private Map<String, String> availableLanguages;
+
+    private SessionRole sessionRole;
+    private TcpClient tcpClient;
+    private TcpServer tcpServer;
+
 
     @FXML
     public void initialize() {
@@ -152,12 +172,26 @@ public class GameController {
         rulesMenuVBox.setManaged(true);
     }
 
-    public void toggleActionButton() {
-        actionButton.setDisable(!actionButton.isDisable());
+    public void showThemeMenu() {
+        playMenuVBox.setVisible(false);
+        playMenuVBox.setManaged(false);
+        themeMenuVBox.setVisible(true);
+        themeMenuVBox.setManaged(true);
     }
 
-    public void toggleActionButton(boolean activate) {
-        actionButton.setDisable(activate);
+    public void applyThemeDefault() {
+        ThemeManager.getInstance().setCurrentTheme(Theme.DEFAULT);
+        showPlayMenu();
+    }
+
+    public void applyThemeAnimalCrossing() {
+        ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
+        showPlayMenu();
+    }
+
+    public void applyThemeZelda() {
+        ThemeManager.getInstance().setCurrentTheme(Theme.ZELDA);
+        showPlayMenu();
     }
 
     public void startGame() {
@@ -200,6 +234,149 @@ public class GameController {
             return defaultName;
         }
         return input;
+    }
+
+    private void startAsHost() {
+        TcpServer server = new TcpServer(NetworkConfig.TCP_PORT, this::handleIncomingPacket);
+        new Thread(server).start();
+    }
+
+    public void startAsClient(DiscoveredHost host) {
+        sessionRole = SessionRole.CLIENT;
+
+        String username = getPlayerName(player1UsernameTf.getText(), "P1");
+        tcpClient = new TcpClient(username, this::handleIncomingPacket);
+
+        try {
+            tcpClient.connect(host.getAddress(), host.getTcpPort());
+        } catch (IOException e) {
+            Logger.getLogger(GameController.class.getName())
+                    .severe("Failed: " + e.getMessage());
+            showInvalidMove(LangManager.getInstance().get("network.error.connection"));
+        }
+    }
+
+    private void handleIncomingPacket(Packet packet) {
+
+        if (packet instanceof LobbyJoinPacket lobbyJoinPacket) {
+            Platform.runLater(() -> {
+                try {
+                    handleLobbyJoin(lobbyJoinPacket);
+                } catch (IOException e) {
+                    throw new ConnectionRefusedException("Client couldn't be welcomed");
+                }
+            });
+
+        } else if (packet instanceof LobbyWelcomePacket lobbyWelcomePacket) {
+            Platform.runLater(() -> handleLobbyWelcome(lobbyWelcomePacket));
+
+        } else if (packet instanceof LobbyReadyPacket lobbyReadyPacket) {
+            Platform.runLater(() -> handleLobbyReady(lobbyReadyPacket));
+
+        } else if (packet instanceof GameStartPacket gameStartPacket) {
+            Platform.runLater(() -> handleStartGame(gameStartPacket));
+
+        } else if (packet instanceof PlayTilePacket playTilePacket) {
+            Platform.runLater(() -> handlePlayTile(playTilePacket));
+
+        } else if (packet instanceof PassTurnPacket) {
+            Platform.runLater(this::handlePassTurn);
+
+        } else if (packet instanceof ExchangeRackPacket) {
+            Platform.runLater(this::handleExchangeRack);
+
+        } else if (packet instanceof BuyActionPacket) {
+            Platform.runLater(this::handleBuyAction);
+
+        } else if (packet instanceof GameOverPacket) {
+            Platform.runLater(this::handleGameOver);
+
+        } else {
+            throw new UnhandledPacketException(packet.getType().name() + " isn't handled");
+        }
+    }
+
+    private void handleLobbyJoin(LobbyJoinPacket packet) throws IOException {
+        // TODO : store client useername & display it
+        LobbyWelcomePacket response = new LobbyWelcomePacket("HOST");
+        tcpServer.send(response);
+    }
+
+    private void handleLobbyWelcome(LobbyWelcomePacket packet) {
+        // TODO : display player name in the lobby
+    }
+
+    private void handleLobbyReady(LobbyReadyPacket packet) {
+        // TODO : display a message to say that the game will start
+    }
+
+    private void handleStartGame(GameStartPacket packet) {
+        // TODO : build game with packet data
+        // game = buildGameFromPacket(packet);
+        // game.addListener(new LaticeGameListener(this));
+        // display board
+    }
+
+    private void handlePlayTile(PlayTilePacket packet) {
+        game.playTile(packet.getTile(), packet.getX(), packet.getY());
+    }
+
+    private void handlePassTurn() {
+        game.passTurn();
+    }
+
+    private void handleExchangeRack() {
+        game.exchangeAll();
+        game.completeExchangeAsTurn();
+    }
+
+    private void handleBuyAction() {
+        game.buyAnAction();
+    }
+
+    private void handleGameOver() {
+        showGameOver(game.getWinner());
+        endGame();
+        resetBoard();
+    }
+
+    private void sendPacket(Packet packet) {
+        if (sessionRole == SessionRole.LOCAL) return;
+
+        try {
+            if (sessionRole == SessionRole.HOST && tcpServer != null) {
+                tcpServer.send(packet);
+            } else if (sessionRole == SessionRole.CLIENT && tcpClient != null) {
+                tcpClient.send(packet);
+            }
+        } catch (IOException e) {
+            Logger.getLogger(GameController.class.getName())
+                    .severe("Failed: " + e.getMessage());
+        }
+    }
+
+    public void buttonExchangeAll(){
+        game.exchangeAll();
+    }
+
+    public void buttonBuyAnAction(){
+        game.buyAnAction();
+    }
+
+    public void buttonEndTurn(){
+        game.passTurn();
+    }
+
+    public void buttonSurrender() {
+        game.surrender();
+    }
+
+    public void toggleActionButton() {
+        actionButton.setDisable(!actionButton.isDisable());
+    }
+
+    public void toggleActionButton(boolean activate) {
+        actionButton.setDisable(activate);
     }
 
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
@@ -317,20 +494,58 @@ public class GameController {
         }
     }
 
+    public void endGame() {
+        playMenuVBox.setVisible(true);
+        playMenuVBox.setManaged(true);
+        usernameMenuVBox.setVisible(false);
+        usernameMenuVBox.setManaged(false);
+
+        gameBoardBP.setVisible(false);
+        gameBoardBP.setManaged(false);
+        startMenuStackpane.setVisible(true);
+        startMenuStackpane.setManaged(true);
+
+        stopNetwork();
+    }
+
+    public void resetBoard() {
+        for (Node node : board.getChildren()) {
+            if (node instanceof ImageView imageView) {
+                Integer col = GridPane.getColumnIndex(node);
+                Integer row = GridPane.getRowIndex(node);
+                int x = (col == null) ? 0 : col;
+                int y = (row == null) ? 0 : row;
+
+                String bgFile;
+                if (x == 4 && y == 4) {
+                    bgFile = "bg_moon.png";
+                } else if (game.getBoard().getCell(x, y) instanceof SunCell) {
+                    bgFile = "bg_sun.png";
+                } else {
+                    bgFile = "bg_sea.png";
+                }
+
+                String path = Objects.requireNonNull(
+                        getClass().getResource("/" + ThemeManager.getInstance().getBoardBgPath(bgFile))
+                ).toExternalForm();
+
+                imageView.setImage(new Image(path));
+                imageView.setVisible(true);
+            }
+        }
+        hasAlreadyPlaced = false;
+    }
+
+
     private void setupDraggable(ImageView tileView) {
         tileView.setOnDragDetected(event -> {
             Dragboard db = tileView.startDragAndDrop(TransferMode.MOVE);
-
             ClipboardContent content = new ClipboardContent();
-            String imageUrl = tileView.getImage().getUrl();
-            content.putString(imageUrl);
-
+            content.putString(tileView.getImage().getUrl());
             db.setContent(content);
             db.setDragView(tileView.getImage());
-
             event.consume();
         });
-
         tileView.setOnDragDone(Event::consume);
     }
 
@@ -358,6 +573,7 @@ public class GameController {
                 if (tile != null) {
                     if (!hasAlreadyPlaced) {
                         game.playTile(tile, col, row);
+                        sendPacket(new PlayTilePacket(tile, col, row));
                     } else {
                         showInvalidMove(LangManager.getInstance().get("popup.game.invalid.reason"));
                     }
@@ -369,95 +585,26 @@ public class GameController {
         });
     }
 
-    public void buttonExchangeAll(){
-        game.exchangeAll();
-    }
-
-    public void buttonBuyAnAction(){
-        game.buyAnAction();
-    }
-
-    public void buttonEndTurn(){
-        game.passTurn();
-    }
-
     private Tile extractTileFromUrl(String fullUrl) {
         return TileFactory.getTileFromImagePath(fullUrl);
     }
 
-    public void endGame() {
-        playMenuVBox.setVisible(true);
-        playMenuVBox.setManaged(true);
-        usernameMenuVBox.setVisible(false);
-        usernameMenuVBox.setManaged(false);
-
-        gameBoardBP.setVisible(false);
-        gameBoardBP.setManaged(false);
-        startMenuStackpane.setVisible(true);
-        startMenuStackpane.setManaged(true);
-    }
-
-    public void resetBoard() {
-        for (Node node : board.getChildren()) {
-            if (node instanceof ImageView imageView) {
-                Integer col = GridPane.getColumnIndex(node);
-                Integer row = GridPane.getRowIndex(node);
-                int x = (col == null) ? 0 : col;
-                int y = (row == null) ? 0 : row;
-
-                String bgFile;
-                if (x == 4 && y == 4) {
-                    bgFile = "bg_moon.png";
-                } else if (game.getBoard().getCell(x, y) instanceof SunCell) {
-                    bgFile = "bg_sun.png";
-                } else {
-                    bgFile = "bg_sea.png";
-                }
-
-                String path = Objects.requireNonNull(
-                        getClass().getResource("/" +
-                                ThemeManager.getInstance().getBoardBgPath(bgFile))
-                ).toExternalForm();
-
-                imageView.setImage(new Image(path));
-                imageView.setVisible(true);
-            }
+    private void stopNetwork() {
+        if (tcpServer != null) {
+            tcpServer.stop();
+            tcpServer = null;
         }
-        hasAlreadyPlaced = false;
+        tcpClient = null;
+        sessionRole = null;
     }
 
     public Game getGame() {
         return game;
     }
 
-    public void showThemeMenu() {
-        playMenuVBox.setVisible(false);
-        playMenuVBox.setManaged(false);
-        themeMenuVBox.setVisible(true);
-        themeMenuVBox.setManaged(true);
-    }
-
-    public void applyThemeDefault() {
-        ThemeManager.getInstance().setCurrentTheme(Theme.DEFAULT);
-        showPlayMenu();
-    }
-
-    public void applyThemeAnimalCrossing() {
-        ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
-        showPlayMenu();
-    }
-
-    public void applyThemeZelda() {
-        ThemeManager.getInstance().setCurrentTheme(Theme.ZELDA);
-        showPlayMenu();
-    }
-
-    public void buttonSurrender() {
-        game.surrender();
-    }
-
     public void setHasAlreadyPlaced(boolean value) {
         hasAlreadyPlaced = value;
     }
+
 }
 
