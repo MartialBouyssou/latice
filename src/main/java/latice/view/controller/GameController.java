@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import latice.exception.network.ConnectionRefusedException;
+import latice.exception.network.NetworkException;
 import latice.exception.network.UnhandledPacketException;
 import latice.listeners.LaticeGameListener;
 import latice.model.board.cell.SunCell;
@@ -35,6 +37,8 @@ import latice.network.session.DiscoveredHost;
 import latice.network.session.SessionRole;
 import latice.network.tcp.TcpClient;
 import latice.network.tcp.TcpServer;
+import latice.network.udp.UdpDiscoveryClient;
+import latice.network.udp.UdpDiscoveryServer;
 import latice.utils.theme.ThemeManager;
 import latice.utils.theme.Theme;
 import latice.utils.LangManager;
@@ -74,6 +78,14 @@ public class GameController {
     @FXML private TextField player2UsernameTf;
     @FXML private VBox themeMenuVBox;
 
+    @FXML private VBox lanMenuVBox;
+    @FXML private VBox searchLanMenuVBox;
+
+    @FXML private VBox lanLobbyMenuVBox;
+    @FXML private Button lanPlayButton;
+    @FXML private Label lanHostNameLabel;
+    @FXML private Label lanClientNameLabel;
+
     private Game game;
     private List<ImageView> rackImageViews;
     private boolean hasAlreadyPlaced = false;
@@ -82,6 +94,8 @@ public class GameController {
     private SessionRole sessionRole;
     private TcpClient tcpClient;
     private TcpServer tcpServer;
+    private String hostUsername;
+    private String clientUsername;
 
 
     @FXML
@@ -157,12 +171,100 @@ public class GameController {
     }
 
     public void showPlayMenu() {
+        searchLanMenuVBox.setVisible(false);
+        searchLanMenuVBox.setManaged(false);
+        lanMenuVBox.setVisible(false);
+        lanMenuVBox.setManaged(false);
+        lanLobbyMenuVBox.setVisible(false);
+        lanLobbyMenuVBox.setManaged(false);
         themeMenuVBox.setVisible(false);
         themeMenuVBox.setManaged(false);
         rulesMenuVBox.setVisible(false);
         rulesMenuVBox.setManaged(false);
         playMenuVBox.setVisible(true);
         playMenuVBox.setManaged(true);
+    }
+
+    public void showLanMenu() {
+        playMenuVBox.setVisible(false);
+        playMenuVBox.setManaged(false);
+        lanMenuVBox.setVisible(true);
+        lanMenuVBox.setManaged(true);
+    }
+
+    public void showLanSearchMenu() {
+        LangManager lang = LangManager.getInstance();
+        lanMenuVBox.setVisible(false);
+        lanMenuVBox.setManaged(false);
+        searchLanMenuVBox.setVisible(true);
+        searchLanMenuVBox.setManaged(true);
+
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle(lang.get("popup.lanUsername.title"));
+        dialog.setHeaderText(lang.get("popup.lanUsername.header"));
+        dialog.setContentText(lang.get("popup.lanUsername.context"));
+        Optional<String> result = dialog.showAndWait();
+
+        clientUsername = result.filter(s -> !s.isBlank())
+                .orElse(lang.get("default.clientName"));
+
+        searchLanMenuVBox.getChildren().removeIf(node -> node instanceof Button
+                && node.getUserData() != null
+                && node.getUserData().equals("hostButton"));
+
+        UdpDiscoveryClient discoveryClient = new UdpDiscoveryClient();
+        try {
+            List<DiscoveredHost> hosts = discoveryClient.discover();
+            if (hosts.isEmpty()) {
+                Label noHostLabel = new Label(lang.get("popup.lanSearch.noHost"));
+                noHostLabel.setUserData("hostButton");
+                searchLanMenuVBox.getChildren().add(
+                        searchLanMenuVBox.getChildren().size() - 1,
+                        noHostLabel
+                );
+            } else {
+                for (DiscoveredHost host : hosts) {
+                    Button hostButton = new Button(
+                            lang.format("menu.lanSearch.host",
+                                    "host", host.getHostName())
+                    );
+                    hostButton.setUserData("hostButton");
+                    hostButton.setOnAction(e -> startAsClient(host));
+
+                    searchLanMenuVBox.getChildren().add(
+                            searchLanMenuVBox.getChildren().size() - 1,
+                            hostButton
+                    );
+                }
+            }
+
+        } catch (IOException e) {
+            throw new NetworkException("Client failed to fetch hosts...");
+        }
+    }
+
+    public void showLanLobbyMenu() {
+        LangManager lang = LangManager.getInstance();
+
+        lanPlayButton.setDisable(true);
+        lanMenuVBox.setVisible(false);
+        lanMenuVBox.setManaged(false);
+        lanLobbyMenuVBox.setVisible(true);
+        lanLobbyMenuVBox.setManaged(true);
+
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle(lang.get("popup.lanUsername.title"));
+        dialog.setHeaderText(lang.get("popup.lanUsername.header"));
+        dialog.setContentText(lang.get("popup.lanUsername.context"));
+
+        Optional<String> result = dialog.showAndWait();
+
+        hostUsername = result.filter(s -> !s.isBlank()).orElse(lang.get("default.hostName"));
+        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
+                "host", hostUsername
+        ));
+
+        startAsHost();
     }
 
     public void showRules() {
@@ -212,6 +314,7 @@ public class GameController {
     }
 
     private Game buildGame() {
+        LangManager lang = LangManager.getInstance();
         List<IRule> rules = List.of(
                 new MatchingRule(),
                 new AdjacencyRule(),
@@ -219,8 +322,10 @@ public class GameController {
                 new FirstTurnRule()
         );
 
-        String name1 = getPlayerName(player1UsernameTf.getText(), "P1");
-        String name2 = getPlayerName(player2UsernameTf.getText(), "P2");
+        String name1 = getPlayerName(player1UsernameTf.getText(),
+                lang.get("default.firstPlayerName"));
+        String name2 = getPlayerName(player2UsernameTf.getText(),
+                lang.get("default.secondPlayerName"));
 
         if (name1.equals(name2)) {
             name2 = name2 + "_2";
@@ -237,22 +342,27 @@ public class GameController {
     }
 
     private void startAsHost() {
-        TcpServer server = new TcpServer(NetworkConfig.TCP_PORT, this::handleIncomingPacket);
-        new Thread(server).start();
+        sessionRole = SessionRole.HOST;
+
+        tcpServer = new TcpServer(NetworkConfig.TCP_PORT, this::handleIncomingPacket);
+        new Thread(tcpServer).start();
+
+        UdpDiscoveryServer udpServer = new UdpDiscoveryServer(hostUsername, NetworkConfig.TCP_PORT);
+        new Thread(udpServer).start();
     }
 
     public void startAsClient(DiscoveredHost host) {
+        LangManager lang = LangManager.getInstance();
         sessionRole = SessionRole.CLIENT;
 
-        String username = getPlayerName(player1UsernameTf.getText(), "P1");
-        tcpClient = new TcpClient(username, this::handleIncomingPacket);
+        tcpClient = new TcpClient(clientUsername, this::handleIncomingPacket);
 
         try {
             tcpClient.connect(host.getAddress(), host.getTcpPort());
         } catch (IOException e) {
             Logger.getLogger(GameController.class.getName())
                     .severe("Failed: " + e.getMessage());
-            showInvalidMove(LangManager.getInstance().get("network.error.connection"));
+            showInvalidMove(lang.get("network.error.connection"));
         }
     }
 
@@ -270,8 +380,8 @@ public class GameController {
         } else if (packet instanceof LobbyWelcomePacket lobbyWelcomePacket) {
             Platform.runLater(() -> handleLobbyWelcome(lobbyWelcomePacket));
 
-        } else if (packet instanceof LobbyReadyPacket lobbyReadyPacket) {
-            Platform.runLater(() -> handleLobbyReady(lobbyReadyPacket));
+        } else if (packet instanceof LobbyReadyPacket) {
+            Platform.runLater(this::handleLobbyReady);
 
         } else if (packet instanceof GameStartPacket gameStartPacket) {
             Platform.runLater(() -> handleStartGame(gameStartPacket));
@@ -297,17 +407,46 @@ public class GameController {
     }
 
     private void handleLobbyJoin(LobbyJoinPacket packet) throws IOException {
-        // TODO : store client useername & display it
-        LobbyWelcomePacket response = new LobbyWelcomePacket("HOST");
+        LangManager lang = LangManager.getInstance();
+        clientUsername = packet.getClientName();
+
+        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
+                "host", hostUsername
+        ));
+        lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameNotReady",
+                "client", clientUsername
+        ));
+
+        LobbyWelcomePacket response = new LobbyWelcomePacket(hostUsername);
         tcpServer.send(response);
     }
 
     private void handleLobbyWelcome(LobbyWelcomePacket packet) {
-        // TODO : display player name in the lobby
+        LangManager lang = LangManager.getInstance();
+        hostUsername = packet.getHostName();
+
+        searchLanMenuVBox.setVisible(false);
+        searchLanMenuVBox.setManaged(false);
+        lanLobbyMenuVBox.setVisible(true);
+        lanLobbyMenuVBox.setManaged(true);
+        lanPlayButton.setText(lang.get("menu.lanLobby.ready"));
+        lanPlayButton.setOnAction(e -> buttonLanReady());
+
+        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
+                "host", hostUsername
+        ));
+        lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameNotReady",
+                "client", clientUsername
+        ));
     }
 
-    private void handleLobbyReady(LobbyReadyPacket packet) {
-        // TODO : display a message to say that the game will start
+    private void handleLobbyReady() {
+        LangManager lang = LangManager.getInstance();
+        lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameReady",
+                "client", clientUsername
+        ));
+
+        lanPlayButton.setDisable(false);
     }
 
     private void handleStartGame(GameStartPacket packet) {
@@ -369,6 +508,22 @@ public class GameController {
 
     public void buttonSurrender() {
         game.surrender();
+    }
+
+    private void buttonLanReady() {
+        lanPlayButton.setDisable(true);
+        LobbyReadyPacket lobbyReadyPacket = new LobbyReadyPacket();
+
+        try {
+            tcpClient.send(lobbyReadyPacket);
+            System.out.println("LobbyReadyPacket sent");
+            lanClientNameLabel.setText(
+                    LangManager.getInstance().format("menu.lanLobby.clientUsernameReady",
+                            "client", clientUsername
+                    ));
+        } catch (IOException e) {
+            throw new NetworkException("Client couldn't say that he is ready :(");
+        }
     }
 
     public void toggleActionButton() {

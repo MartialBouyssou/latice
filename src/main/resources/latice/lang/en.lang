@@ -5,6 +5,7 @@ app.title=Latice
 # # Start menu
 menu.start.title=Latice
 menu.start.play=Play
+menu.start.lan=Play in Lan
 menu.start.rules=Rules
 menu.start.theme=Theme
 
@@ -30,6 +31,26 @@ menu.username.title=Latice
 menu.username.firstUsernameChoiceLabel=Choose your username:
 menu.username.secondUsernameChoiceLabel=You also choose a username:
 menu.username.play=Play
+
+# # Lan Menu
+menu.lan.title=Latice Lan
+menu.lan.host=Host Game
+menu.lan.search=Search Host
+menu.lan.backButton=Back
+
+# # Lan Search Menu
+menu.lanSearch.title=Searching Host
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Back
+
+# # Lan Lobby Menu
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=First Player: {host}
+menu.lanLobby.clientNotHere=Waiting for a second player...
+menu.lanLobby.clientUsernameNotReady=[Not Ready] Second Player: {client}
+menu.lanLobby.clientUsernameReady=[Ready] Second Player: {client}
+menu.lanLobby.ready=Ready
+menu.lanLobby.play=Play
 
 # # Theme Menu
 menu.theme.title=Choose a theme
@@ -65,6 +86,12 @@ popup.game.invalid.title=Invalid move
 popup.game.invalid.header=You can't do that..
 popup.game.invalid.reason=You already placed a tile this turn ! Buy an action or end your turn !
 
+# # Lan Search
+popup.lanUsername.title=Lan Username
+popup.lanUsername.header=Choose your username
+popup.lanUsername.context=Username:
+popup.lanSearch.noHost=There is no host...
+
 # Events messages:
 # # Invalid Move Event
 event.invalidMove.tileError=Player don't have this tile in his rack
@@ -72,3 +99,7 @@ event.invalidMove.moveError=Move is not valid according to game rules
 
 # # Connot Afford Event
 event.invalidMove.cannotAfford=Not enough point to buy extra action
+
+# Default
+default.hostName=Host Player
+default.clientName=Client Player

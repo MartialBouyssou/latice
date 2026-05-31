@@ -44,7 +44,7 @@ public class TcpClient implements Runnable {
         new Thread(this).start();
     }
 
-    public void send(Packet packet) throws IOException {
+    public synchronized void send(Packet packet) throws IOException {
         ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOut = new DataOutputStream(arrayOutputStream);
         packet.writeTo(dataOut);

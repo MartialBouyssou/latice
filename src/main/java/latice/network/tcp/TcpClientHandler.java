@@ -28,7 +28,9 @@ public class TcpClientHandler implements Runnable {
         try {
             DataInputStream in = new DataInputStream(socket.getInputStream());
             while (true) {
+                System.out.println("Waiting for packet...");
                 Packet packet = PacketSerializer.read(in);
+                System.out.println("Received packet: " + packet.getType());
                 onPacketReceived.accept(packet);
             }
         } catch (IOException e) {
@@ -36,7 +38,7 @@ public class TcpClientHandler implements Runnable {
         }
     }
 
-    public void send(Packet packet) throws IOException {
+    public synchronized void send(Packet packet) throws IOException {
         ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOut = new DataOutputStream(arrayOutputStream);
         packet.writeTo(dataOut);
