@@ -370,11 +370,7 @@ public class GameController {
 
         if (packet instanceof LobbyJoinPacket lobbyJoinPacket) {
             Platform.runLater(() -> {
-                try {
-                    handleLobbyJoin(lobbyJoinPacket);
-                } catch (IOException e) {
-                    throw new ConnectionRefusedException("Client couldn't be welcomed");
-                }
+                handleLobbyJoin(lobbyJoinPacket);
             });
 
         } else if (packet instanceof LobbyWelcomePacket lobbyWelcomePacket) {
@@ -406,7 +402,7 @@ public class GameController {
         }
     }
 
-    private void handleLobbyJoin(LobbyJoinPacket packet) throws IOException {
+    private void handleLobbyJoin(LobbyJoinPacket packet) {
         LangManager lang = LangManager.getInstance();
         clientUsername = packet.getClientName();
 
@@ -418,7 +414,7 @@ public class GameController {
         ));
 
         LobbyWelcomePacket response = new LobbyWelcomePacket(hostUsername);
-        tcpServer.send(response);
+        sendPacket(response);
     }
 
     private void handleLobbyWelcome(LobbyWelcomePacket packet) {
@@ -514,16 +510,12 @@ public class GameController {
         lanPlayButton.setDisable(true);
         LobbyReadyPacket lobbyReadyPacket = new LobbyReadyPacket();
 
-        try {
-            tcpClient.send(lobbyReadyPacket);
-            System.out.println("LobbyReadyPacket sent");
-            lanClientNameLabel.setText(
-                    LangManager.getInstance().format("menu.lanLobby.clientUsernameReady",
-                            "client", clientUsername
-                    ));
-        } catch (IOException e) {
-            throw new NetworkException("Client couldn't say that he is ready :(");
-        }
+        sendPacket(lobbyReadyPacket);
+        System.out.println("LobbyReadyPacket sent");
+        lanClientNameLabel.setText(
+                LangManager.getInstance().format("menu.lanLobby.clientUsernameReady",
+                        "client", clientUsername
+                ));
     }
 
     public void toggleActionButton() {
