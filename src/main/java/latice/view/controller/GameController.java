@@ -4,7 +4,8 @@ import javafx.application.Platform;
 import javafx.event.Event;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,11 +17,12 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
-import latice.exception.network.ConnectionRefusedException;
 import latice.exception.network.NetworkException;
 import latice.exception.network.UnhandledPacketException;
 import latice.listeners.LaticeGameListener;
+import latice.listeners.NetworkGameListener;
 import latice.model.board.cell.SunCell;
+import latice.model.deck.Deck;
 import latice.model.game.Game;
 import latice.model.player.Player;
 import latice.model.referee.Referee;
@@ -44,10 +46,10 @@ import latice.utils.theme.Theme;
 import latice.utils.LangManager;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class GameController {
+
+    private static final Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
     @FXML private HBox rackBox;
     @FXML private GridPane board;
@@ -65,10 +67,8 @@ public class GameController {
     @FXML private Label lastPlayerLabel;
     @FXML private Label lastPlayerScoreLabel;
     @FXML private Label turnNumberLabel;
-
     @FXML private BorderPane gameBoardBP;
     @FXML private Button actionButton;
-
     @FXML private StackPane startMenuStackpane;
     @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
@@ -77,16 +77,17 @@ public class GameController {
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
     @FXML private VBox themeMenuVBox;
-
     @FXML private VBox lanMenuVBox;
     @FXML private VBox searchLanMenuVBox;
-
     @FXML private VBox lanLobbyMenuVBox;
     @FXML private Button lanPlayButton;
     @FXML private Label lanHostNameLabel;
     @FXML private Label lanClientNameLabel;
+    @FXML private StackPane lanScreenOverlay;
+    @FXML private Label turnOfLabel;
 
     private Game game;
+    private NetworkGameListener networkGameListener;
     private List<ImageView> rackImageViews;
     private boolean hasAlreadyPlaced = false;
     private Map<String, String> availableLanguages;
@@ -94,31 +95,25 @@ public class GameController {
     private SessionRole sessionRole;
     private TcpClient tcpClient;
     private TcpServer tcpServer;
-    private String hostUsername;
-    private String clientUsername;
-
+    private String hostUsername = "Host";
+    private String clientUsername = "Client";
 
     @FXML
     public void initialize() {
         rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
-
         loadLanguageSelector();
         loadTexts();
-
         for (Node node : rackBox.getChildren()) {
             if (node instanceof ImageView imageNode) {
                 setupDraggable(imageNode);
             }
         }
-
         setupBoardDropTarget();
     }
 
     private void loadLanguageSelector() {
         availableLanguages = LangManager.getInstance().loadAvailableLanguages();
-
         languageComboBox.getItems().addAll(availableLanguages.values());
-
         if (!availableLanguages.isEmpty()) {
             String firstCode = availableLanguages.keySet().iterator().next();
             LangManager.getInstance().load(firstCode);
@@ -129,7 +124,6 @@ public class GameController {
     public void onLanguageChanged() {
         String selectedLabel = languageComboBox.getValue();
         if (selectedLabel == null) return;
-
         availableLanguages.entrySet().stream()
                 .filter(e -> e.getValue().equals(selectedLabel))
                 .findFirst()
@@ -204,13 +198,10 @@ public class GameController {
         dialog.setHeaderText(lang.get("popup.lanUsername.header"));
         dialog.setContentText(lang.get("popup.lanUsername.context"));
         Optional<String> result = dialog.showAndWait();
+        clientUsername = result.filter(s -> !s.isBlank()).orElse(lang.get("default.clientName"));
 
-        clientUsername = result.filter(s -> !s.isBlank())
-                .orElse(lang.get("default.clientName"));
-
-        searchLanMenuVBox.getChildren().removeIf(node -> node instanceof Button
-                && node.getUserData() != null
-                && node.getUserData().equals("hostButton"));
+        searchLanMenuVBox.getChildren().removeIf(node ->
+                node.getUserData() != null && node.getUserData().equals("hostButton"));
 
         UdpDiscoveryClient discoveryClient = new UdpDiscoveryClient();
         try {
@@ -219,25 +210,17 @@ public class GameController {
                 Label noHostLabel = new Label(lang.get("popup.lanSearch.noHost"));
                 noHostLabel.setUserData("hostButton");
                 searchLanMenuVBox.getChildren().add(
-                        searchLanMenuVBox.getChildren().size() - 1,
-                        noHostLabel
-                );
+                        searchLanMenuVBox.getChildren().size() - 1, noHostLabel);
             } else {
                 for (DiscoveredHost host : hosts) {
                     Button hostButton = new Button(
-                            lang.format("menu.lanSearch.host",
-                                    "host", host.getHostName())
-                    );
+                            lang.format("menu.lanSearch.host", "host", host.getHostName()));
                     hostButton.setUserData("hostButton");
                     hostButton.setOnAction(e -> startAsClient(host));
-
                     searchLanMenuVBox.getChildren().add(
-                            searchLanMenuVBox.getChildren().size() - 1,
-                            hostButton
-                    );
+                            searchLanMenuVBox.getChildren().size() - 1, hostButton);
                 }
             }
-
         } catch (IOException e) {
             throw new NetworkException("Client failed to fetch hosts...");
         }
@@ -245,7 +228,6 @@ public class GameController {
 
     public void showLanLobbyMenu() {
         LangManager lang = LangManager.getInstance();
-
         lanPlayButton.setDisable(true);
         lanMenuVBox.setVisible(false);
         lanMenuVBox.setManaged(false);
@@ -256,14 +238,10 @@ public class GameController {
         dialog.setTitle(lang.get("popup.lanUsername.title"));
         dialog.setHeaderText(lang.get("popup.lanUsername.header"));
         dialog.setContentText(lang.get("popup.lanUsername.context"));
-
         Optional<String> result = dialog.showAndWait();
-
         hostUsername = result.filter(s -> !s.isBlank()).orElse(lang.get("default.hostName"));
-        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
-                "host", hostUsername
-        ));
 
+        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
         startAsHost();
     }
 
@@ -297,106 +275,89 @@ public class GameController {
     }
 
     public void startGame() {
-        playMenuVBox.setVisible(true);
-        playMenuVBox.setManaged(true);
+        sessionRole = SessionRole.LOCAL;
         usernameMenuVBox.setVisible(false);
         usernameMenuVBox.setManaged(false);
-
         startMenuStackpane.setVisible(false);
         startMenuStackpane.setManaged(false);
-
-        game = buildGame();
-        game.addListener(new LaticeGameListener(this));
-        game.startGame();
-
         gameBoardBP.setVisible(true);
         gameBoardBP.setManaged(true);
+
+        game = buildLocalGame();
+        game.addListener(new LaticeGameListener(this));
+        game.startGame();
     }
 
-    private Game buildGame() {
+    private Game buildLocalGame() {
         LangManager lang = LangManager.getInstance();
-        List<IRule> rules = List.of(
-                new MatchingRule(),
-                new AdjacencyRule(),
-                new PositionRule(),
-                new FirstTurnRule()
-        );
-
-        String name1 = getPlayerName(player1UsernameTf.getText(),
-                lang.get("default.firstPlayerName"));
-        String name2 = getPlayerName(player2UsernameTf.getText(),
-                lang.get("default.secondPlayerName"));
-
-        if (name1.equals(name2)) {
-            name2 = name2 + "_2";
-        }
-
-        return new Game(Referee.create(rules), name1, name2);
-    }
-
-    private String getPlayerName(String input, String defaultName) {
-        if (input == null || input.isBlank()) {
-            return defaultName;
-        }
-        return input;
+        String name1 = getPlayerName(player1UsernameTf.getText(), lang.get("default.firstPlayerName"));
+        String name2 = getPlayerName(player2UsernameTf.getText(), lang.get("default.secondPlayerName"));
+        if (name1.equals(name2)) name2 = name2 + "_2";
+        return new Game(buildReferee(), name1, name2);
     }
 
     private void startAsHost() {
         sessionRole = SessionRole.HOST;
-
         tcpServer = new TcpServer(NetworkConfig.TCP_PORT, this::handleIncomingPacket);
         new Thread(tcpServer).start();
-
         UdpDiscoveryServer udpServer = new UdpDiscoveryServer(hostUsername, NetworkConfig.TCP_PORT);
         new Thread(udpServer).start();
     }
 
     public void startAsClient(DiscoveredHost host) {
-        LangManager lang = LangManager.getInstance();
         sessionRole = SessionRole.CLIENT;
-
         tcpClient = new TcpClient(clientUsername, this::handleIncomingPacket);
-
         try {
             tcpClient.connect(host.getAddress(), host.getTcpPort());
         } catch (IOException e) {
-            Logger.getLogger(GameController.class.getName())
-                    .severe("Failed: " + e.getMessage());
-            showInvalidMove(lang.get("network.error.connection"));
+            LOGGER.log(Level.SEVERE, "Connection failed: {0}", e.getMessage());
+            showInvalidMove(LangManager.getInstance().get("network.error.connection"));
         }
     }
 
+    private void startLanGame(GameStartPacket packet) {
+        Player starter = Player.create(packet.getStarterUserName(),
+                Deck.createNoShuffle(packet.getStarterDeck()));
+        Player second = Player.create(packet.getSecondUserName(),
+                Deck.createNoShuffle(packet.getSecondDeck()));
+
+        game = new Game(buildReferee(), starter, second);
+
+        networkGameListener = new NetworkGameListener(this);
+        game.addListener(new LaticeGameListener(this));
+        game.addListener(networkGameListener);
+
+        game.startFromExistingPlayers();
+
+        lanLobbyMenuVBox.setVisible(false);
+        lanLobbyMenuVBox.setManaged(false);
+        startMenuStackpane.setVisible(false);
+        startMenuStackpane.setManaged(false);
+        gameBoardBP.setVisible(true);
+        gameBoardBP.setManaged(true);
+
+        showLanOverlay(game.getCurrentPlayer().getName());
+    }
+
     private void handleIncomingPacket(Packet packet) {
-
-        if (packet instanceof LobbyJoinPacket lobbyJoinPacket) {
-            Platform.runLater(() -> {
-                handleLobbyJoin(lobbyJoinPacket);
-            });
-
-        } else if (packet instanceof LobbyWelcomePacket lobbyWelcomePacket) {
-            Platform.runLater(() -> handleLobbyWelcome(lobbyWelcomePacket));
-
+        if (packet instanceof LobbyJoinPacket p) {
+            Platform.runLater(() -> handleLobbyJoin(p));
+        } else if (packet instanceof LobbyWelcomePacket p) {
+            Platform.runLater(() -> handleLobbyWelcome(p));
         } else if (packet instanceof LobbyReadyPacket) {
             Platform.runLater(this::handleLobbyReady);
-
-        } else if (packet instanceof GameStartPacket gameStartPacket) {
-            Platform.runLater(() -> handleStartGame(gameStartPacket));
-
-        } else if (packet instanceof PlayTilePacket playTilePacket) {
-            Platform.runLater(() -> handlePlayTile(playTilePacket));
-
+        } else if (packet instanceof GameStartPacket p) {
+            Platform.runLater(() -> handleStartGame(p));
+        } else if (packet instanceof PlayTilePacket p) {
+            Platform.runLater(() -> handlePlayTile(p));
         } else if (packet instanceof PassTurnPacket) {
             Platform.runLater(this::handlePassTurn);
-
-        } else if (packet instanceof ExchangeRackPacket) {
-            Platform.runLater(this::handleExchangeRack);
-
+        } else if (packet instanceof ExchangeRackPacket p) {
+            Platform.runLater(() -> handleExchangeRack(p));
         } else if (packet instanceof BuyActionPacket) {
             Platform.runLater(this::handleBuyAction);
-
         } else if (packet instanceof GameOverPacket) {
             Platform.runLater(this::handleGameOver);
-
         } else {
             throw new UnhandledPacketException(packet.getType().name() + " isn't handled");
         }
@@ -406,15 +367,11 @@ public class GameController {
         LangManager lang = LangManager.getInstance();
         clientUsername = packet.getClientName();
 
-        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
-                "host", hostUsername
-        ));
+        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameNotReady",
-                "client", clientUsername
-        ));
+                "client", clientUsername));
 
-        LobbyWelcomePacket response = new LobbyWelcomePacket(hostUsername);
-        sendPacket(response);
+        sendPacket(new LobbyWelcomePacket(hostUsername));
     }
 
     private void handleLobbyWelcome(LobbyWelcomePacket packet) {
@@ -428,45 +385,51 @@ public class GameController {
         lanPlayButton.setText(lang.get("menu.lanLobby.ready"));
         lanPlayButton.setOnAction(e -> buttonLanReady());
 
-        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
-                "host", hostUsername
-        ));
+        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameNotReady",
-                "client", clientUsername
-        ));
+                "client", clientUsername));
     }
 
     private void handleLobbyReady() {
         LangManager lang = LangManager.getInstance();
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameReady",
-                "client", clientUsername
-        ));
-
+                "client", clientUsername));
         lanPlayButton.setDisable(false);
     }
 
     private void handleStartGame(GameStartPacket packet) {
-        // TODO : build game with packet data
-        // game = buildGameFromPacket(packet);
-        // game.addListener(new LaticeGameListener(this));
-        // display board
+        startLanGame(packet);
     }
 
     private void handlePlayTile(PlayTilePacket packet) {
+        networkGameListener.setLocalAction(false);
         game.playTile(packet.getTile(), packet.getX(), packet.getY());
+        networkGameListener.setLocalAction(false);
+        showLanOverlay(game.getCurrentPlayer().getName());
     }
 
     private void handlePassTurn() {
+        networkGameListener.setLocalAction(false);
         game.passTurn();
+        networkGameListener.setLocalAction(false);
+        showLanOverlay(game.getCurrentPlayer().getName());
     }
 
-    private void handleExchangeRack() {
-        game.exchangeAll();
+    private void handleExchangeRack(ExchangeRackPacket packet) {
+        networkGameListener.setLocalAction(false);
+        game.getCurrentPlayer().getRack().setTiles(packet.getNewRack());
+        game.getCurrentPlayer().getDeck().setDeck(
+                game.getCurrentPlayer().getDeck().getTiles()
+        );
         game.completeExchangeAsTurn();
+        networkGameListener.setLocalAction(false);
+        showLanOverlay(game.getCurrentPlayer().getName());
     }
 
     private void handleBuyAction() {
+        networkGameListener.setLocalAction(false);
         game.buyAnAction();
+        networkGameListener.setLocalAction(false);
     }
 
     private void handleGameOver() {
@@ -475,31 +438,37 @@ public class GameController {
         resetBoard();
     }
 
-    private void sendPacket(Packet packet) {
-        if (sessionRole == SessionRole.LOCAL) return;
+    private void executeLocalAction(Runnable action) {
+        networkGameListener.setLocalAction(true);
+        action.run();
+        networkGameListener.setLocalAction(false);
+    }
 
-        try {
-            if (sessionRole == SessionRole.HOST && tcpServer != null) {
-                tcpServer.send(packet);
-            } else if (sessionRole == SessionRole.CLIENT && tcpClient != null) {
-                tcpClient.send(packet);
-            }
-        } catch (IOException e) {
-            Logger.getLogger(GameController.class.getName())
-                    .severe("Failed: " + e.getMessage());
+    public void buttonExchangeAll() {
+        if (sessionRole == SessionRole.LOCAL) {
+            game.exchangeAll();
+        } else {
+            executeLocalAction(game::exchangeAll);
         }
     }
 
-    public void buttonExchangeAll(){
-        game.exchangeAll();
+    public void buttonBuyAnAction() {
+        if (sessionRole == SessionRole.LOCAL) {
+            game.buyAnAction();
+        } else {
+            executeLocalAction(game::buyAnAction);
+        }
     }
 
-    public void buttonBuyAnAction(){
-        game.buyAnAction();
-    }
-
-    public void buttonEndTurn(){
-        game.passTurn();
+    public void buttonEndTurn() {
+        if (sessionRole == SessionRole.LOCAL) {
+            game.passTurn();
+        } else {
+            executeLocalAction(() -> {
+                game.passTurn();
+                showLanOverlay(game.getCurrentPlayer().getName());
+            });
+        }
     }
 
     public void buttonSurrender() {
@@ -507,15 +476,56 @@ public class GameController {
     }
 
     private void buttonLanReady() {
+        LangManager lang = LangManager.getInstance();
         lanPlayButton.setDisable(true);
-        LobbyReadyPacket lobbyReadyPacket = new LobbyReadyPacket();
+        sendPacket(new LobbyReadyPacket());
+        lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameReady",
+                "client", clientUsername));
 
-        sendPacket(lobbyReadyPacket);
-        System.out.println("LobbyReadyPacket sent");
-        lanClientNameLabel.setText(
-                LangManager.getInstance().format("menu.lanLobby.clientUsernameReady",
-                        "client", clientUsername
-                ));
+        game = buildLanGameAsHost();
+        networkGameListener = new NetworkGameListener(this);
+        game.addListener(new LaticeGameListener(this));
+        game.addListener(networkGameListener);
+
+        executeLocalAction(() -> {
+            game.startGame();
+            sendPacket(buildGameStartPacket());
+            showLanOverlay(game.getCurrentPlayer().getName());
+        });
+
+        lanLobbyMenuVBox.setVisible(false);
+        lanLobbyMenuVBox.setManaged(false);
+        startMenuStackpane.setVisible(false);
+        startMenuStackpane.setManaged(false);
+        gameBoardBP.setVisible(true);
+        gameBoardBP.setManaged(true);
+    }
+
+    private Game buildLanGameAsHost() {
+        return new Game(buildReferee(), hostUsername, clientUsername);
+    }
+
+    private GameStartPacket buildGameStartPacket() {
+        Player starter = game.getCurrentPlayer();
+        Player second = game.getNextPlayer();
+        return new GameStartPacket(
+                starter.getName(), second.getName(),
+                starter.getDeck().getTiles(),
+                second.getDeck().getTiles()
+        );
+    }
+
+    public void sendPacket(Packet packet) {
+        if (sessionRole == SessionRole.LOCAL) return;
+        try {
+            if (sessionRole == SessionRole.HOST && tcpServer != null) {
+                tcpServer.send(packet);
+            } else if (sessionRole == SessionRole.CLIENT && tcpClient != null) {
+                tcpClient.send(packet);
+            }
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to send packet: {0}", e.getMessage());
+        }
     }
 
     public void toggleActionButton() {
@@ -528,23 +538,15 @@ public class GameController {
 
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         LangManager lang = LangManager.getInstance();
-
         endTurnButton.setDisable(true);
-
         overlayPlayerLabel.setText(lang.format("menu.turnIndicator.currentPlayer",
-                "name", nextPlayer.getName())
-        );
+                "name", nextPlayer.getName()));
         lastPlayerLabel.setText(lang.format("menu.turnIndicator.lastPlayerScoreHeader",
-                "name", lastPlayer.getName())
-        );
-
+                "name", lastPlayer.getName()));
         lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
-
         turnNumberLabel.setText(lang.format("menu.turnIndicator.turnIndicatorTitle",
                 "turnNumber",
-                (game.getTurnCount() / game.getPlayers().size() + 1) + "/" + Game.MAX_CYCLES)
-        );
-
+                (game.getTurnCount() / game.getPlayers().size() + 1) + "/" + Game.MAX_CYCLES));
         screenOverlay.setVisible(true);
         screenOverlay.setManaged(true);
     }
@@ -555,16 +557,35 @@ public class GameController {
         endTurnButton.setDisable(false);
     }
 
+    public void showOverlay() {
+        screenOverlay.setVisible(true);
+        screenOverlay.setManaged(true);
+        endTurnButton.setDisable(true);
+    }
+
+    public void showLanOverlay(String currentPlayerName) {
+        String localUsername = sessionRole == SessionRole.HOST ? hostUsername : clientUsername;
+        boolean isMyTurn = currentPlayerName.equals(localUsername);
+
+        if (isMyTurn) {
+            lanScreenOverlay.setVisible(false);
+            lanScreenOverlay.setManaged(false);
+            if (game.getTurnCount() != 0) showOverlay();
+        } else {
+            if (game.getTurnCount() != 0) hideOverlay();
+            turnOfLabel.setText(LangManager.getInstance().format("menu.lanOverlay.turnOf",
+                    "currentPlayer", currentPlayerName));
+            lanScreenOverlay.setVisible(true);
+            lanScreenOverlay.setManaged(true);
+        }
+    }
+
     public void updateRack(Player player) {
         List<Tile> tiles = player.getRack().getTiles();
-
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < rackImageViews.size(); i++) {
             if (i < tiles.size()) {
-                Tile tile = tiles.get(i);
-                String imagePath = tile.getTileImgPath();
-                ImageView imageView = rackImageViews.get(i);
-                imageView.setImage(new Image(imagePath));
-                imageView.setVisible(true);
+                rackImageViews.get(i).setImage(new Image(tiles.get(i).getTileImgPath()));
+                rackImageViews.get(i).setVisible(true);
             } else {
                 rackImageViews.get(i).setVisible(false);
             }
@@ -574,21 +595,16 @@ public class GameController {
     public void updatePlayerInfo(Player player) {
         int remainingTiles = player.getDeck().size() + player.getRack().getTiles().size();
         LangManager lang = LangManager.getInstance();
-
         currentPlayerLabel.setText(lang.format("menu.game.player.currentPlayer",
-                "name", player.getName())
-        );
+                "name", player.getName()));
         currentPlayerScoreLabel.setText(lang.format("menu.game.player.score",
-                "score", String.valueOf(player.getScore()))
-        );
+                "score", String.valueOf(player.getScore())));
         playerTileRemainingLabel.setText(lang.format("menu.game.player.remaining",
-                "count", String.valueOf(remainingTiles))
-        );
+                "count", String.valueOf(remainingTiles)));
     }
 
     public void showInvalidMove(String reason) {
         LangManager lang = LangManager.getInstance();
-
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(lang.get("popup.game.invalid.title"));
         alert.setHeaderText(lang.get("popup.game.invalid.header"));
@@ -600,16 +616,11 @@ public class GameController {
         hideOverlay();
         LangManager lang = LangManager.getInstance();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
         alert.setTitle(lang.get("popup.game.over.title"));
         if (player != null) {
-            alert.setHeaderText(lang.format("popup.game.over.winner.header",
-                    "name", player.getName())
-            );
+            alert.setHeaderText(lang.format("popup.game.over.winner.header", "name", player.getName()));
             alert.setContentText(lang.format("popup.game.over.winner.content",
-                    "name", player.getName(),
-                    "score", String.valueOf(player.getScore()))
-            );
+                    "name", player.getName(), "score", String.valueOf(player.getScore())));
         } else {
             alert.setHeaderText(lang.get("popup.game.over.tie.header"));
             alert.setContentText(lang.get("popup.game.over.tie.content"));
@@ -624,20 +635,16 @@ public class GameController {
                 Integer rowIndex = GridPane.getRowIndex(node);
                 int x = (colIndex == null) ? 0 : colIndex;
                 int y = (rowIndex == null) ? 0 : rowIndex;
-
                 if (x == targetX && y == targetY && node instanceof ImageView imageNode) {
                     imageNode.setImage(new Image(tile.getTileImgPath()));
                     break;
                 }
             }
-
             updateRack(player);
-
         } catch (Exception e) {
             // https://docs.oracle.com/javase/8/docs/api/java/util/logging/Logger.html
             // I've done that 'cause SonarQube absolutly wanted us to use Logger, but don't know why
-            Logger.getLogger(GameController.class.getName())
-                    .warning("Failed to place tile on board UI: " + e.getMessage());
+            LOGGER.log(Level.WARNING, "Failed to place tile on board UI: {0}", e.getMessage());
         }
     }
 
@@ -646,12 +653,10 @@ public class GameController {
         playMenuVBox.setManaged(true);
         usernameMenuVBox.setVisible(false);
         usernameMenuVBox.setManaged(false);
-
         gameBoardBP.setVisible(false);
         gameBoardBP.setManaged(false);
         startMenuStackpane.setVisible(true);
         startMenuStackpane.setManaged(true);
-
         stopNetwork();
     }
 
@@ -683,7 +688,6 @@ public class GameController {
         hasAlreadyPlaced = false;
     }
 
-
     private void setupDraggable(ImageView tileView) {
         tileView.setOnDragDetected(event -> {
             Dragboard db = tileView.startDragAndDrop(TransferMode.MOVE);
@@ -706,34 +710,48 @@ public class GameController {
 
         board.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
-            boolean success = false;
-
             if (db.hasString() && game != null) {
-                double cellWidth  = board.getWidth()  / 9.0;
+                double cellWidth = board.getWidth() / 9.0;
                 double cellHeight = board.getHeight() / 9.0;
-
                 int col = (int) (event.getX() / cellWidth);
                 int row = (int) (event.getY() / cellHeight);
-
                 Tile tile = extractTileFromUrl(db.getString());
 
                 if (tile != null) {
                     if (!hasAlreadyPlaced) {
-                        game.playTile(tile, col, row);
-                        sendPacket(new PlayTilePacket(tile, col, row));
+                        if (sessionRole == SessionRole.LOCAL) {
+                            game.playTile(tile, col, row);
+                        } else {
+                            executeLocalAction(() -> {
+                                game.playTile(tile, col, row);
+                                showLanOverlay(game.getCurrentPlayer().getName());
+                            });
+                        }
                     } else {
                         showInvalidMove(LangManager.getInstance().get("popup.game.invalid.reason"));
                     }
                 }
             }
-
-            event.setDropCompleted(success);
+            event.setDropCompleted(false);
             event.consume();
         });
     }
 
     private Tile extractTileFromUrl(String fullUrl) {
         return TileFactory.getTileFromImagePath(fullUrl);
+    }
+
+    private Referee buildReferee() {
+        return Referee.create(List.of(
+                new MatchingRule(),
+                new AdjacencyRule(),
+                new PositionRule(),
+                new FirstTurnRule()
+        ));
+    }
+
+    private String getPlayerName(String input, String defaultName) {
+        return (input == null || input.isBlank()) ? defaultName : input;
     }
 
     private void stopNetwork() {
@@ -743,15 +761,9 @@ public class GameController {
         }
         tcpClient = null;
         sessionRole = null;
+        networkGameListener = null;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setHasAlreadyPlaced(boolean value) {
-        hasAlreadyPlaced = value;
-    }
-
+    public Game getGame() { return game; }
+    public void setHasAlreadyPlaced(boolean value) { hasAlreadyPlaced = value; }
 }
-

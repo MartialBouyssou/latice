@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
-    private final List<Tile> tiles;
+    private List<Tile> tiles;
 
 
     private Deck(List<Tile> tiles) {
@@ -58,5 +58,9 @@ public class Deck {
 
     public boolean isEmpty() {
         return tiles.isEmpty();
+    }
+
+    public void setDeck(List<Tile> tiles) {
+        this.tiles = tiles;
     }
 }

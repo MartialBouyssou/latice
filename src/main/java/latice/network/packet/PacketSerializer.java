@@ -23,7 +23,7 @@ public class PacketSerializer {
             case LOBBY_READY -> LobbyReadyPacket.readFrom();
             case TILE_PLACED -> PlayTilePacket.readFrom(in);
             case PASS_TURN -> PassTurnPacket.readFrom();
-            case EXCHANGE -> ExchangeRackPacket.readFrom();
+            case EXCHANGE -> ExchangeRackPacket.readFrom(in);
             case BUY_ACTION -> BuyActionPacket.readFrom(in);
             case GAME_OVER -> GameOverPacket.readFrom(in);
             case GAME_START -> GameStartPacket.readFrom(in);

@@ -28,9 +28,8 @@ public class TcpClientHandler implements Runnable {
         try {
             DataInputStream in = new DataInputStream(socket.getInputStream());
             while (true) {
-                System.out.println("Waiting for packet...");
                 Packet packet = PacketSerializer.read(in);
-                System.out.println("Received packet: " + packet.getType());
+                System.out.println(packet.getType().name());
                 onPacketReceived.accept(packet);
             }
         } catch (IOException e) {

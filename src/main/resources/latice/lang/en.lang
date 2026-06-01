@@ -73,6 +73,9 @@ menu.turnIndicator.currentPlayer=It's {name}'s turn!
 menu.turnIndicator.lastPlayerScoreHeader={name}'s last turn score :
 menu.turnIndicator.readyButton=I'm ready!
 
+# # Lan Overlay
+menu.lanOverlay.turnOf=Turn of {currentPlayer}
+
 # Popups:
 # # Game over popup
 popup.game.over.title=Game ended

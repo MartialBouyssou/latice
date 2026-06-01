@@ -128,7 +128,7 @@
                </Label>
                <Label fx:id="lanHostNameLabel" style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.lanLobby.hostUsername" />
                <Label fx:id="lanClientNameLabel" style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.lanLobby.clientNotHere" />
-               <Button fx:id="lanPlayButton" maxHeight="67.0" maxWidth="300.0" minHeight="67.0" minWidth="300.0" mnemonicParsing="false" onAction="#startGame" prefHeight="67.0" prefWidth="300.0" style="-fx-font-size: 32px; -fx-background-radius: 10;" text="menu.lanLobby.play">
+               <Button fx:id="lanPlayButton" maxHeight="67.0" maxWidth="300.0" minHeight="67.0" minWidth="300.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="300.0" style="-fx-font-size: 32px; -fx-background-radius: 10;" text="menu.lanLobby.play">
                   <VBox.margin>
                      <Insets top="75.0" />
                   </VBox.margin>
@@ -676,6 +676,22 @@
                </Label>
                <Label fx:id="overlayPlayerLabel" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white;" text="C'est au tour de : ..." />
                <Button fx:id="overlayButton" mnemonicParsing="false" onAction="#hideOverlay" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.turnIndicator.readyButton" />
+            </children>
+         </VBox>
+      </children>
+   </StackPane>
+   <StackPane fx:id="lanScreenOverlay" managed="false" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: rgba(0,0,0,1);" visible="false">
+      <children>
+         <VBox alignment="CENTER" spacing="30.0">
+            <children>
+               <Label fx:id="turnOfLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.lanOverlay.turnOf">
+                  <padding>
+                     <Insets bottom="30.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="30.0" />
+                  </VBox.margin>
+               </Label>
             </children>
          </VBox>
       </children>

@@ -7,7 +7,6 @@ import latice.model.deck.Deck;
 import latice.model.game.events.*;
 import latice.model.player.ActionType;
 import latice.model.player.Player;
-import latice.model.player.Rack;
 import latice.model.referee.Referee;
 import latice.model.tile.Tile;
 import latice.utils.LangManager;
@@ -25,19 +24,24 @@ public class Game {
     private Board board;
     private final Referee referee;
     private Player currentPlayer;
-    private int turnCount;
+    private int turnCount = 0;
     private final List<GameListener> listeners = new ArrayList<>();
     private int playersTurnScore;
-
     private boolean actionPlayedThisTurn = false;
     private boolean playTwiceActive = false;
 
     public Game(Referee referee, String player1Username, String player2Username) {
         this.referee = referee;
         this.players = new ArrayList<>();
-        this.turnCount = 0;
         this.player1Username = player1Username;
         this.player2Username = player2Username;
+    }
+
+    public Game(Referee referee, Player player1, Player player2) {
+        this.referee = referee;
+        this.players = new ArrayList<>(List.of(player1, player2));
+        this.player1Username = player1.getName();
+        this.player2Username = player2.getName();
     }
 
     public Game(Referee referee) {
@@ -47,21 +51,23 @@ public class Game {
     public List<Player> getPlayers() {
         return players;
     }
-
     public Board getBoard() {
         return board;
     }
-
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
     public int getTurnCount() {
         return turnCount;
     }
-
     public Referee getReferee() {
         return referee;
+    }
+    public boolean isActionPlayedThisTurn() {
+        return actionPlayedThisTurn;
+    }
+    public int getPlayersTurnScore() {
+        return playersTurnScore;
     }
 
     public void startGame() {
@@ -82,51 +88,45 @@ public class Game {
         players.add(Player.create(player2Username, Deck.create(secondHalf)));
 
         currentPlayer = players.get(new Random().nextInt(players.size()));
+        sendEvent(new GameStartedEvent(currentPlayer));
+    }
 
+    public void startFromExistingPlayers() {
+        board = Board.create();
+        currentPlayer = players.get(0);
         sendEvent(new GameStartedEvent(currentPlayer));
     }
 
     public void playTile(Tile tile, int x, int y) {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
 
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
-                    LangManager.getInstance().get("event.invalidMove.tileError")
-            ));
+                    LangManager.getInstance().get("event.invalidMove.tileError")));
             return;
         }
 
         if (!referee.isValidMove(board, tile, x, y)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
-                    LangManager.getInstance().get("event.invalidMove.moveError")
-            ));
+                    LangManager.getInstance().get("event.invalidMove.moveError")));
             return;
         }
 
         playersTurnScore = referee.calculateScore(board, tile, x, y);
-
         currentPlayer.getRack().getTiles().remove(tile);
         board.placeTile(tile, x, y);
         currentPlayer.incrementTilesPlayed();
         currentPlayer.addScore(playersTurnScore);
 
-        if (playTwiceActive) {
-            playTwiceActive = false;
-        }
+        if (playTwiceActive) playTwiceActive = false;
         actionPlayedThisTurn = true;
 
         sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
     }
 
     public void endTurn() {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
-        if (!actionPlayedThisTurn) {
-            throw new NoTilePlayedException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
+        if (!actionPlayedThisTurn) throw new NoTilePlayedException();
 
         actionPlayedThisTurn = false;
         currentPlayer.getRack().refill(currentPlayer.getDeck());
@@ -153,32 +153,31 @@ public class Game {
     }
 
     public boolean isGameOver() {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
         return referee.isGameOver(this);
     }
 
     public Player getWinner() {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
         return referee.determineWinner(this);
     }
 
     private void nextPlayer() {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
         int currentIndex = players.indexOf(currentPlayer);
         currentPlayer = players.get((currentIndex + 1) % players.size());
+    }
+
+    public Player getNextPlayer() {
+        int currentIndex = players.indexOf(currentPlayer);
+        return players.get((currentIndex + 1) % players.size());
     }
 
     public void addListener(GameListener listener) {
         listeners.add(listener);
     }
 
-    public void sendEvent(GameEvent event) {
+    public void sendEvent(AppEvent event) {
         for (GameListener listener : listeners) {
             if (event instanceof GameStartedEvent e) {
                 listener.onGameStarted(e);
@@ -202,19 +201,6 @@ public class Game {
         }
     }
 
-    public boolean isActionPlayedThisTurn() {
-        return actionPlayedThisTurn;
-    }
-
-    public int getPlayersTurnScore() {
-        return playersTurnScore;
-    }
-
-    public Player getNextPlayer() {
-        int currentIndex = players.indexOf(currentPlayer);
-        return players.get((currentIndex + 1) % players.size());
-    }
-
     public void exchangeAll() {
         currentPlayer.getRack().exchangeAll(currentPlayer.getDeck());
         sendEvent(new RackExchangedEvent(currentPlayer, currentPlayer.getRack()));
@@ -232,14 +218,12 @@ public class Game {
             sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
         } else {
             sendEvent(new CannotAffordEvent(
-                    LangManager.getInstance().get("event.invalidMove.cannotAfford")
-            ));
+                    LangManager.getInstance().get("event.invalidMove.cannotAfford")));
         }
     }
 
     public void surrender() {
-        Player winner = getNextPlayer();
         actionPlayedThisTurn = true;
-        sendEvent(new GameOverEvent(winner));
+        sendEvent(new GameOverEvent(getNextPlayer()));
     }
 }

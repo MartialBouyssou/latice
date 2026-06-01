@@ -11,31 +11,29 @@ import java.util.List;
 public class Rack {
     public static final int MAX_SIZE = 5;
 
-    private final List<Tile> tiles;
+    private List<Tile> tiles;
 
     public Rack(List<Tile> tiles) {
-        this.tiles = tiles;
+        this.tiles = new ArrayList<>(tiles);
     }
 
     public Rack() {
         this(new ArrayList<>());
     }
 
-    public List<Tile> getTiles() {
-        return tiles;
+    public List<Tile> getTiles() { return tiles; }
+
+    public void setTiles(List<Tile> tiles) {
+        this.tiles = new ArrayList<>(tiles);
     }
 
     public void addTile(Tile tile) {
-        if (tiles.size() >= MAX_SIZE) {
-            throw new RackFullException();
-        }
-        this.tiles.add(tile);
+        if (tiles.size() >= MAX_SIZE) throw new RackFullException();
+        tiles.add(tile);
     }
 
     public void removeTile(Tile... tiles) {
-        for (Tile tile : tiles) {
-            this.tiles.remove(tile);
-        }
+        for (Tile tile : tiles) this.tiles.remove(tile);
     }
 
     public int size() {
@@ -49,29 +47,19 @@ public class Rack {
     }
 
     public void exchangeAll(Deck deck) {
-        if (deck.isEmpty()) {
-            throw new EmptyDeckException("Cannot exchange with empty deck");
-        }
-
-        for (Tile tile : tiles) {
-            deck.addTiles(tile);
-        }
-
+        if (deck.isEmpty()) throw new EmptyDeckException("Cannot exchange with empty deck");
+        for (Tile tile : tiles) deck.addTiles(tile);
         deck.shuffle();
         tiles.clear();
         refill(deck);
     }
 
+    public boolean isEmpty() { return tiles.isEmpty(); }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Tile tile : tiles) {
-            sb.append("\n   - ").append(tile);
-        }
+        for (Tile tile : tiles) sb.append("\n   - ").append(tile);
         return sb.toString();
-    }
-
-    public boolean isEmpty() {
-        return tiles.isEmpty();
     }
 }
