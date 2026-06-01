@@ -41,8 +41,8 @@ public class PlayTilePacket implements Packet {
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
         out.writeInt(getType().ordinal());
-        out.writeUTF(tile.getColor().toString());
-        out.writeUTF(tile.getShape().getShape());
+        out.writeUTF(tile.getColor().name());
+        out.writeUTF(tile.getShape().name());
         out.writeInt(x);
         out.writeInt(y);
     }
