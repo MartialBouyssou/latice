@@ -1,0 +1,88 @@
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=Играть
+menu.start.lan=Играть в LAN
+menu.start.rules=Правила
+menu.start.theme=Тема
+
+menu.rules.title=Правила
+menu.rules.firstCategory=Подготовка
+menu.rules.firstCategory.description=Фишки перемешиваются и поровну распределяются между 2 игроками. Каждый игрок берет 5 фишек на свою подставку. Первый игрок ставит одну фишку на лунную клетку (центр), чтобы начать.
+menu.rules.secondCategory=В ваш ход
+menu.rules.secondCategory.description=Первое действие БЕСПЛАТНО. Каждое дополнительное действие стоит 2 очка. Выберите одно из 4 действий ниже.
+menu.rules.secondCategory.list=4 возможных действия
+menu.rules.secondCategory.list.first=1. Положить фишку — Поместите фишку со своей подставки рядом с существующей фишкой. Каждая соприкасающаяся сторона должна совпадать по цвету или форме.
+menu.rules.secondCategory.list.second=2. Купить действие — Потратьте 2 очка, чтобы сделать дополнительный ход.
+menu.rules.secondCategory.list.third=3. Поменять подставку — Замените все фишки на своей подставке новыми из пула. Заканчивает ваш ход.
+menu.rules.secondCategory.list.fourth=4. Пропустить — Пропустите свой ход бесплатно.
+menu.rules.thirdCategory=Подсчет очков
+menu.rules.thirdCategory.description=Двойное (2 совпадающие стороны) => +1 очк  |  Треф (3 стороны) => +2 очк  |  Latice (4 стороны) => +4 очк  |  Солнечная клетка => +2 очк бонус
+menu.rules.fourthCategory=Конец игры
+menu.rules.fourthCategory.description=Игра заканчивается, когда игрок опустошит свою подставку и пул, или после 10 циклов (1 цикл = 1 ход на игрока). Побеждает игрок, который поставил больше всего фишек.
+menu.rules.back=Назад
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Выберите имя:
+menu.username.secondUsernameChoiceLabel=Вы также можете выбрать имя:
+menu.username.play=Играть
+
+menu.lan.title=Latice LAN
+menu.lan.host=Создать игру
+menu.lan.search=Поиск хоста
+menu.lan.backButton=Назад
+
+menu.lanSearch.title=Поиск хоста
+menu.lanSearch.host=Хост: {host}
+menu.lanSearch.backButton=Назад
+
+menu.lanLobby.title=Лобби
+menu.lanLobby.hostUsername=Первый игрок: {host}
+menu.lanLobby.clientNotHere=Ожидание второго игрока...
+menu.lanLobby.clientUsernameNotReady=[Не готов] Второй игрок: {client}
+menu.lanLobby.clientUsernameReady=[Готов] Второй игрок: {client}
+menu.lanLobby.ready=Готов
+menu.lanLobby.play=Играть
+
+menu.theme.title=Выберите тему
+menu.theme.classicTheme=Классика
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Назад
+
+menu.game.actionButton=Купить действие
+menu.game.exchangeButton=Обменять подставку
+menu.game.endTurnButton=Закончить ход
+menu.game.player.currentPlayer=Ход {name}:
+menu.game.player.score=Счет: {score}
+menu.game.player.remaining=Осталось фишек: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Ход {turnNumber}
+menu.turnIndicator.currentPlayer=Ходит {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Счет за последний ход {name} :
+menu.turnIndicator.readyButton=Я готов!
+
+menu.lanOverlay.turnOf=Ход {currentPlayer}
+
+popup.game.over.title=Игра окончена
+popup.game.over.winner.header=Победитель: {name}
+popup.game.over.winner.content={name} выиграл с {score} очками!
+popup.game.over.tie.header=Ничья!
+popup.game.over.tie.content=Ничья! Оба игрока поставили одинаковое количество фишек!
+
+popup.game.invalid.title=Неверный ход
+popup.game.invalid.header=Ты не можешь так сделать..
+popup.game.invalid.reason=Вы уже положили фишку в этом ходу! Купите действие или завершите ход!
+
+popup.lanUsername.title=LAN Имя
+popup.lanUsername.header=Выберите имя пользователя
+popup.lanUsername.context=Имя:
+popup.lanSearch.noHost=Хоста нет...
+
+event.invalidMove.tileError=У игрока нет этой фишки на его подставке
+event.invalidMove.moveError=Ход не действителен согласно правилам игры
+
+event.invalidMove.cannotAfford=Недостаточно очков, чтобы купить дополнительное действие
+
+default.hostName=Хост Игрок
+default.clientName=Клиент Игрок

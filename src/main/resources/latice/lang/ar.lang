@@ -1,0 +1,88 @@
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=العب
+menu.start.lan=اللعب عبر الشبكة المحلية
+menu.start.rules=القواعد
+menu.start.theme=الثيم
+
+menu.rules.title=القواعد
+menu.rules.firstCategory=الإعداد
+menu.rules.firstCategory.description=يتم خلط القطع وتقسيمها بالتساوي بين لاعبين. يسحب كل لاعب 5 قطع إلى رفّه. يضع اللاعب الأول قطعة على مربع القمر (الوسط) للبدء.
+menu.rules.secondCategory=في دورك
+menu.rules.secondCategory.description=الإجراء الأول مجاني. كل إجراء إضافي يكلف 2 نقاط. اختر أحد الإجراءات الأربعة أدناه.
+menu.rules.secondCategory.list=4 إجراءات ممكنة
+menu.rules.secondCategory.list.first=1. لعب قطعة — ضع قطعة من رفّك بجوار قطعة موجودة. يجب أن تتطابق كل جهة ملامسة باللون أو الشكل.
+menu.rules.secondCategory.list.second=2. شراء إجراء — أنفق 2 نقطة للقيام بتحريك إضافي.
+menu.rules.secondCategory.list.third=3. تبديل الرف — استبدل كل القطع على رفّك بأخرى جديدة من المجموعة. ينهي دورك.
+menu.rules.secondCategory.list.fourth=4. تمرير — تخطَّ دورك مجانًا.
+menu.rules.thirdCategory=التسجيل
+menu.rules.thirdCategory.description=مزدوج (جهتان متطابقتان) => +1 نقطة  |  ثلاثي (3 جهات) => +2 نقاط  |  Latice (4 جهات) => +4 نقاط  |  مربع الشمس => +2 نقطة مكافأة
+menu.rules.fourthCategory=نهاية اللعبة
+menu.rules.fourthCategory.description=تنتهي اللعبة عندما يفرغ لاعب رفّه والمجموعة، أو بعد 10 دورات (1 دورة = دور واحد لكل لاعب). يفوز اللاعب الذي وضع أكبر عدد من القطع.
+menu.rules.back=عودة
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=اختر اسم المستخدم:
+menu.username.secondUsernameChoiceLabel=يمكنك أيضًا اختيار اسم مستخدم:
+menu.username.play=العب
+
+menu.lan.title=Latice LAN
+menu.lan.host=استضافة اللعبة
+menu.lan.search=بحث عن المضيف
+menu.lan.backButton=عودة
+
+menu.lanSearch.title=جارٍ البحث عن المضيف
+menu.lanSearch.host=المضيف: {host}
+menu.lanSearch.backButton=عودة
+
+menu.lanLobby.title=الردهة
+menu.lanLobby.hostUsername=اللاعب الأول: {host}
+menu.lanLobby.clientNotHere=انتظار لاعب ثانٍ...
+menu.lanLobby.clientUsernameNotReady=[غير جاهز] اللاعب الثاني: {client}
+menu.lanLobby.clientUsernameReady=[جاهز] اللاعب الثاني: {client}
+menu.lanLobby.ready=جاهز
+menu.lanLobby.play=العب
+
+menu.theme.title=اختر ثيمًا
+menu.theme.classicTheme=كلاسيكي
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=عودة
+
+menu.game.actionButton=شراء إجراء
+menu.game.exchangeButton=تبديل الرف
+menu.game.endTurnButton=إنهاء الدور
+menu.game.player.currentPlayer=دور {name}:
+menu.game.player.score=النقاط: {score}
+menu.game.player.remaining=القطع المتبقية: {count}
+
+menu.turnIndicator.turnIndicatorTitle= الدور {turnNumber}
+menu.turnIndicator.currentPlayer=دور {name}!
+menu.turnIndicator.lastPlayerScoreHeader=نتيجة {name} في الدور الأخير :
+menu.turnIndicator.readyButton=أنا جاهز!
+
+menu.lanOverlay.turnOf=دور {currentPlayer}
+
+popup.game.over.title=انتهت اللعبة
+popup.game.over.winner.header=الفائز: {name}
+popup.game.over.winner.content={name} فاز بنتيجة {score} نقاط!
+popup.game.over.tie.header=تعادل!
+popup.game.over.tie.content=تعادل! كلا اللاعبين وضعا نفس عدد القطع!
+
+popup.game.invalid.title=حركة غير صالحة
+popup.game.invalid.header=لا يمكنك فعل ذلك..
+popup.game.invalid.reason=لقد قمت بوضع قطعة بالفعل في هذا الدور! اشترِ إجراءً أو أنهِ دورك!
+
+popup.lanUsername.title=اسم المستخدم LAN
+popup.lanUsername.header=اختر اسم المستخدم
+popup.lanUsername.context=اسم المستخدم:
+popup.lanSearch.noHost=لا يوجد مضيف...
+
+event.invalidMove.tileError=لا يمتلك اللاعب هذه القطعة على رفّه
+event.invalidMove.moveError=الحركة غير صالحة وفقًا لقواعد اللعبة
+
+event.invalidMove.cannotAfford=لا توجد نقاط كافية لشراء إجراء إضافي
+
+default.hostName=لاعب المضيف
+default.clientName=لاعب العميل

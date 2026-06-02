@@ -1,74 +1,108 @@
-# Fenêtre principale
+# messages_fr.properties
 app.title=Latice
 
-# Menus de l'application :
-# # Menu de démarrage
+# App Menus:
+# # Start menu
 menu.start.title=Latice
 menu.start.play=Jouer
+menu.start.lan=Jouer en LAN
 menu.start.rules=Règles
-menu.start.theme=Theme
+menu.start.theme=Thème
 
-# # Menu des règles
-menu.rules.title=Règles du jeu
-menu.rules.firstCategory=Mise en place
-menu.rules.firstCategory.description=Les tuiles sont mélangées et réparties équitablement entre 2 joueurs. Chaque joueur pioche 5 tuiles sur son chevalet. Le premier joueur pose une tuile sur la case lune (centre) pour commencer.
+# # Rules menu
+menu.rules.title=Règles
+menu.rules.firstCategory=Installation
+menu.rules.firstCategory.description=Les tuiles sont mélangées et réparties également entre 2 joueurs. Chaque joueur pioche 5 tuiles sur son chevalet. Le premier joueur place une tuile sur la case lune (centre) pour commencer.
 menu.rules.secondCategory=À votre tour
-menu.rules.secondCategory.description=La première action est GRATUITE. Chaque action supplémentaire coûte 2 points. Choisissez l'une des 4 actions ci-dessous.
+menu.rules.secondCategory.description=La première action est GRATUITE. Chaque action supplémentaire coûte 2 points. Choisissez une des 4 actions ci‑dessous.
 menu.rules.secondCategory.list=4 actions possibles
-menu.rules.secondCategory.list.first=1. Poser une tuile — Placez une tuile de votre chevalet adjacente à une tuile existante. Chaque côté en contact doit correspondre par couleur ou par forme.
+menu.rules.secondCategory.list.first=1. Jouer une tuile — Déposez une tuile de votre chevalet adjacente à une tuile existante. Chaque côté en contact doit correspondre par couleur ou forme.
 menu.rules.secondCategory.list.second=2. Acheter une action — Dépensez 2 points pour jouer un coup supplémentaire.
-menu.rules.secondCategory.list.third=3. Échanger le chevalet — Remplacez toutes les tuiles de votre chevalet par de nouvelles tuiles de votre réserve. Met fin à votre tour.
+menu.rules.secondCategory.list.third=3. Échanger le chevalet — Remplacez toutes les tuiles de votre chevalet par de nouvelles provenant de la pioche. Termine votre tour.
 menu.rules.secondCategory.list.fourth=4. Passer — Passez votre tour gratuitement.
-menu.rules.thirdCategory=Score
-menu.rules.thirdCategory.description=Double (2 côtés identiques) => +1 pt  |  Trèfle (3 côtés) => +2 pts  |  Latice (4 côtés) => +4 pts  |  Case soleil => +2 pts bonus
-menu.rules.fourthCategory=Fin de partie
-menu.rules.fourthCategory.description=La partie se termine quand un joueur vide son chevalet et sa réserve, ou après 10 cycles (1 cycle = 1 tour par joueur). Le joueur ayant posé le plus de tuiles remporte la partie.
+menu.rules.thirdCategory=Scores
+menu.rules.thirdCategory.description=Double (2 côtés correspondants) => +1 pt  |  Trèfle (3 côtés) => +2 pts  |  Latice (4 côtés) => +4 pts  |  Case Soleil => +2 pts bonus
+menu.rules.fourthCategory=Fin de la partie
+menu.rules.fourthCategory.description=La partie se termine lorsqu'un joueur vide son chevalet et la pioche, ou après 10 cycles (1 cycle = 1 tour par joueur). Le joueur ayant placé le plus de tuiles gagne.
 menu.rules.back=Retour
 
+# # Username Choice menu
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Choisissez votre pseudo :
+menu.username.secondUsernameChoiceLabel=Vous pouvez aussi choisir un pseudo :
+menu.username.play=Jouer
+
+# # Lan Menu
+menu.lan.title=Latice LAN
+menu.lan.host=Héberger une partie
+menu.lan.search=Rechercher un hôte
+menu.lan.backButton=Retour
+
+# # Lan Search Menu
+menu.lanSearch.title=Recherche d'hôte
+menu.lanSearch.host=Hôte : {host}
+menu.lanSearch.backButton=Retour
+
+# # Lan Lobby Menu
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Premier joueur : {host}
+menu.lanLobby.clientNotHere=En attente d'un second joueur...
+menu.lanLobby.clientUsernameNotReady=[Non prêt] Second joueur : {client}
+menu.lanLobby.clientUsernameReady=[Prêt] Second joueur : {client}
+menu.lanLobby.ready=Prêt
+menu.lanLobby.play=Jouer
+
 # # Theme Menu
-menu.theme.title=Choisissez un thème
+menu.theme.title=Choisir un thème
 menu.theme.classicTheme=Classique
 menu.theme.animalCrossingTheme=Animal Crossing
 menu.theme.zeldaTheme=Zelda
 menu.theme.backButton=Retour
 
-# # Menu du choix du pseudo
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Choisissez votre pseudo :
-menu.username.secondUsernameChoiceLabel=Choisissez aussi un pseudo :
-menu.username.play=Jouer
-
-# # Affichage en jeu
+# # Game view
 menu.game.actionButton=Acheter une action
 menu.game.exchangeButton=Échanger le chevalet
-menu.game.endTurnButton=Fin du tour
+menu.game.endTurnButton=Terminer le tour
 menu.game.player.currentPlayer=Tour de {name} :
 menu.game.player.score=Score : {score}
 menu.game.player.remaining=Tuiles restantes : {count}
 
-# # Menu de l'indicateur de tour (fenêtre tampon qui apparaît à la fin de chaque tour)
-menu.turnIndicator.turnIndicatorTitle=Tour {turnNumber}
-menu.turnIndicator.currentPlayer=C'est au tour de {name} !
+# # Turn indicator menu (appears at the end of each turn)
+menu.turnIndicator.turnIndicatorTitle= Tour {turnNumber}
+menu.turnIndicator.currentPlayer=C'est le tour de {name} !
 menu.turnIndicator.lastPlayerScoreHeader=Score du dernier tour de {name} :
 menu.turnIndicator.readyButton=Je suis prêt !
 
-# Popups :
-# # Popup de fin de partie
-popup.game.over.title=Fin de partie
-popup.game.over.winner.header=Vainqueur : {name}
+# # Lan Overlay
+menu.lanOverlay.turnOf=Tour de {currentPlayer}
+
+# Popups:
+# # Game over popup
+popup.game.over.title=Partie terminée
+popup.game.over.winner.header=Gagnant : {name}
 popup.game.over.winner.content={name} a gagné avec un score de {score} points !
 popup.game.over.tie.header=Égalité !
-popup.game.over.tie.content=Égalité ! Les deux joueurs ont posé le même nombre de tuiles !
+popup.game.over.tie.content=C'est une égalité ! Les deux joueurs ont placé le même nombre de tuiles !
 
-# # Popup de coup invalide
+# # Invalid move popup
 popup.game.invalid.title=Coup invalide
 popup.game.invalid.header=Vous ne pouvez pas faire ça..
-popup.game.invalid.reason=Vous avez déjà posé une tuile ce tour ! Achetez une action ou terminez votre tour !
+popup.game.invalid.reason=Vous avez déjà placé une tuile ce tour ! Achetez une action ou terminez votre tour !
 
-# Messages d'événements :
-# # Coup invalide:
-event.invalidMove.tileError=Le joueur n'a pas cette tuile dans son chevalet
-event.invalidMove.moveError=Le placement n'est pas valide selon les règles du jeu
+# # Lan Search
+popup.lanUsername.title=Pseudo LAN
+popup.lanUsername.header=Choisissez votre pseudo
+popup.lanUsername.context=Pseudo :
+popup.lanSearch.noHost=Il n'y a pas d'hôte...
 
-# # Event d'achat d'action invalide
-event.invalidMove.cannotAfford=Vous n'avez pas assez de points pour acheter une action supplémentaire
+# Events messages:
+# # Invalid Move Event
+event.invalidMove.tileError=Le joueur n'a pas cette tuile sur son chevalet
+event.invalidMove.moveError=Le coup n'est pas valide selon les règles du jeu
+
+# # Cannot Afford Event
+event.invalidMove.cannotAfford=Pas assez de points pour acheter une action supplémentaire
+
+# Default
+default.hostName=Joueur Hôte
+default.clientName=Joueur Client

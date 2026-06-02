@@ -7,10 +7,12 @@ import latice.view.controller.GameController;
 public class LaticeGameListener implements GameListener {
 
     private final GameController gameController;
+    private final boolean isLanMode;
     private boolean playTwiceActive = false;
 
-    public LaticeGameListener(GameController gameController) {
+    public LaticeGameListener(GameController gameController, boolean isLanMode) {
         this.gameController = gameController;
+        this.isLanMode = isLanMode;
     }
 
     @Override
@@ -48,6 +50,8 @@ public class LaticeGameListener implements GameListener {
         );
         gameController.updatePlayerInfo(event.getPlayer());
         gameController.updateRack(event.getPlayer());
+
+        if (isLanMode) return;
 
         if (playTwiceActive) {
             playTwiceActive = false;

@@ -3,77 +3,91 @@
 # >  Als je een handgemaakte versie wilt indienen, kun je een pull request aanmaken ;)  <
 # / ! \ Waarschuwing / ! \
 
-# App-venster
 app.title=Latice
 
-# App-menu's:
-# # Startmenu
 menu.start.title=Latice
 menu.start.play=Spelen
+menu.start.lan=Spelen in LAN
 menu.start.rules=Regels
 menu.start.theme=Thema
 
-# # Regelsmenu
-menu.rules.title=Spelregels
+menu.rules.title=Regels
 menu.rules.firstCategory=Opstelling
-menu.rules.firstCategory.description=De tegels worden geschud en gelijkmatig verdeeld tussen 2 spelers. Elke speler trekt 5 tegels op zijn rek. De eerste speler legt een tegel op het maanvak (midden) om te beginnen.
-menu.rules.secondCategory=Jouw beurt
+menu.rules.firstCategory.description=De tegels worden geschud en gelijk verdeeld over 2 spelers. Elke speler trekt 5 tegels op zijn rek. De eerste speler legt een tegel op het maanveld (midden) om te beginnen.
+menu.rules.secondCategory=Tijdens jouw beurt
 menu.rules.secondCategory.description=De eerste actie is GRATIS. Elke extra actie kost 2 punten. Kies een van de 4 acties hieronder.
 menu.rules.secondCategory.list=4 mogelijke acties
-menu.rules.secondCategory.list.first=1. Tegel leggen — Leg een tegel van je rek naast een bestaande tegel. Elke aanrakende zijde moet overeenkomen op kleur of vorm.
-menu.rules.secondCategory.list.second=2. Actie kopen — Geef 2 punten uit om een extra zet te spelen.
-menu.rules.secondCategory.list.third=3. Rek wisselen — Vervang alle tegels op je rek door nieuwe uit je voorraad. Beëindigt je beurt.
-menu.rules.secondCategory.list.fourth=4. Passen — Sla je beurt over voor gratis.
-menu.rules.thirdCategory=Score
-menu.rules.thirdCategory.description=Dubbel (2 gelijke zijden) => +1 pt  |  Klaverblad (3 zijden) => +2 pts  |  Latice (4 zijden) => +4 pts  |  Zonvak => +2 pts bonus
+menu.rules.secondCategory.list.first=1. Speel een tegel — Plaats een tegel van je rek naast een bestaande tegel. Elke aangrenzende zijde moet overeenkomen in kleur of vorm.
+menu.rules.secondCategory.list.second=2. Koop een actie — Besteed 2 punten om een extra zet te doen.
+menu.rules.secondCategory.list.third=3. Vervang rek — Vervang alle tegels op je rek door nieuwe uit de stapel. Beëindigt je beurt.
+menu.rules.secondCategory.list.fourth=4. Pas — Sla je beurt gratis over.
+menu.rules.thirdCategory=Puntentelling
+menu.rules.thirdCategory.description=Dubbel (2 overeenkomende zijden) => +1 pt  |  Klaver (3 zijden) => +2 pts  |  Latice (4 zijden) => +4 pts  |  Zonveld => +2 pts bonus
 menu.rules.fourthCategory=Einde van het spel
-menu.rules.fourthCategory.description=Het spel eindigt wanneer een speler zijn rek en voorraad leegmaakt, of na 10 rondes (1 ronde = 1 beurt per speler). De speler die de meeste tegels heeft gelegd, wint.
+menu.rules.fourthCategory.description=Het spel eindigt wanneer een speler zijn rek en stapel leegt, of na 10 cycli (1 cyclus = 1 beurt per speler). De speler die de meeste tegels heeft geplaatst wint.
 menu.rules.back=Terug
 
-# # Themamenu
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Kies je gebruikersnaam:
+menu.username.secondUsernameChoiceLabel=Je kunt ook een gebruikersnaam kiezen:
+menu.username.play=Spelen
+
+menu.lan.title=Latice LAN
+menu.lan.host=Host spel
+menu.lan.search=Zoek host
+menu.lan.backButton=Terug
+
+menu.lanSearch.title=Host zoeken
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Terug
+
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Eerste speler: {host}
+menu.lanLobby.clientNotHere=Wachten op een tweede speler...
+menu.lanLobby.clientUsernameNotReady=[Niet klaar] Tweede speler: {client}
+menu.lanLobby.clientUsernameReady=[Klaar] Tweede speler: {client}
+menu.lanLobby.ready=Klaar
+menu.lanLobby.play=Spelen
+
 menu.theme.title=Kies een thema
 menu.theme.classicTheme=Klassiek
 menu.theme.animalCrossingTheme=Animal Crossing
 menu.theme.zeldaTheme=Zelda
 menu.theme.backButton=Terug
 
-# # Menu gebruikersnaamkeuze
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Kies je gebruikersnaam:
-menu.username.secondUsernameChoiceLabel=Kies ook een gebruikersnaam:
-menu.username.play=Spelen
-
-# # Spelweergave
-menu.game.actionButton=Actie kopen
-menu.game.exchangeButton=Rek wisselen
-menu.game.endTurnButton=Beurt beëindigen
+menu.game.actionButton=Koop een actie
+menu.game.exchangeButton=Vervang rek
+menu.game.endTurnButton=Beëindig beurt
 menu.game.player.currentPlayer=Beurt van {name}:
 menu.game.player.score=Score: {score}
 menu.game.player.remaining=Resterende tegels: {count}
 
-# # Beurtaanduidermenu (verschijnt aan het einde van elke beurt)
-menu.turnIndicator.turnIndicatorTitle=Beurt {turnNumber}
-menu.turnIndicator.currentPlayer=Het is de beurt van {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Score van de laatste beurt van {name}:
+menu.turnIndicator.turnIndicatorTitle= Beurt {turnNumber}
+menu.turnIndicator.currentPlayer=Het is {name}'s beurt!
+menu.turnIndicator.lastPlayerScoreHeader={name}'s score van de laatste beurt :
 menu.turnIndicator.readyButton=Ik ben klaar!
 
-# Popups:
-# # Spelafgelopen-popup
+menu.lanOverlay.turnOf=Beurt van {currentPlayer}
+
 popup.game.over.title=Spel beëindigd
 popup.game.over.winner.header=Winnaar: {name}
-popup.game.over.winner.content={name} heeft gewonnen met een score van {score} punten!
+popup.game.over.winner.content={name} heeft gewonnen met {score} punten!
 popup.game.over.tie.header=Gelijkspel!
-popup.game.over.tie.content=Gelijkspel! Beide spelers hebben evenveel tegels gelegd!
+popup.game.over.tie.content=Het is gelijkspel! Beide spelers hebben hetzelfde aantal tegels geplaatst!
 
-# # Ongeldige-zet-popup
 popup.game.invalid.title=Ongeldige zet
-popup.game.invalid.header=Dat kan je niet doen..
-popup.game.invalid.reason=Je hebt al een tegel gelegd deze beurt! Koop een actie of beëindig je beurt!
+popup.game.invalid.header=Dat kun je niet doen..
+popup.game.invalid.reason=Je hebt deze beurt al een tegel geplaatst! Koop een actie of beëindig je beurt!
 
-# Gebeurtenisberichten:
-# # Ongeldige zet
-event.invalidMove.tileError=De speler heeft deze tegel niet op zijn rek
-event.invalidMove.moveError=De zet is niet geldig volgens de spelregels
+popup.lanUsername.title=LAN Gebruikersnaam
+popup.lanUsername.header=Kies je gebruikersnaam
+popup.lanUsername.context=Gebruikersnaam:
+popup.lanSearch.noHost=Er is geen host...
 
-# # Niet genoeg punten
+event.invalidMove.tileError=Speler heeft deze tegel niet op zijn rek
+event.invalidMove.moveError=Zet is niet geldig volgens de spelregels
+
 event.invalidMove.cannotAfford=Niet genoeg punten om een extra actie te kopen
+
+default.hostName=Host Speler
+default.clientName=Client Speler

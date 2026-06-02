@@ -3,77 +3,91 @@
 # >  Se vuoi inviare una versione tradotta a mano, puoi creare una pull request ;)  <
 # / ! \ Attenzione / ! \
 
-# Finestra dell'applicazione
 app.title=Latice
 
-# Menu dell'applicazione:
-# # Menu di avvio
 menu.start.title=Latice
 menu.start.play=Gioca
+menu.start.lan=Gioca in LAN
 menu.start.rules=Regole
 menu.start.theme=Tema
 
-# # Menu delle regole
-menu.rules.title=Regole del gioco
+menu.rules.title=Regole
 menu.rules.firstCategory=Preparazione
-menu.rules.firstCategory.description=Le tessere vengono mischiate e distribuite equamente tra 2 giocatori. Ogni giocatore pesca 5 tessere sul proprio portategole. Il primo giocatore pone una tessera sulla casella luna (centro) per iniziare.
-menu.rules.secondCategory=Il tuo turno
-menu.rules.secondCategory.description=La prima azione è GRATUITA. Ogni azione aggiuntiva costa 2 punti. Scegli una delle 4 azioni qui sotto.
+menu.rules.firstCategory.description=Le tessere vengono mescolate e divise equamente tra 2 giocatori. Ogni giocatore pesca 5 tessere nel proprio supporto. Il primo giocatore posiziona una tessera sulla casella luna (centro) per iniziare.
+menu.rules.secondCategory=Nel tuo turno
+menu.rules.secondCategory.description=La prima azione è GRATUITA. Ogni azione aggiuntiva costa 2 punti. Scegli una delle 4 azioni sotto.
 menu.rules.secondCategory.list=4 azioni possibili
-menu.rules.secondCategory.list.first=1. Posare una tessera — Posiziona una tessera dal tuo portategole adiacente a una tessera esistente. Ogni lato a contatto deve corrispondere per colore o forma.
-menu.rules.secondCategory.list.second=2. Acquistare un'azione — Spendi 2 punti per giocare una mossa aggiuntiva.
-menu.rules.secondCategory.list.third=3. Scambiare il portategole — Sostituisci tutte le tessere sul tuo portategole con nuove dalla tua riserva. Termina il tuo turno.
-menu.rules.secondCategory.list.fourth=4. Passare — Salta il tuo turno gratuitamente.
+menu.rules.secondCategory.list.first=1. Gioca una tessera — Posiziona una tessera dal tuo supporto adiacente a una tessera esistente. Ogni lato a contatto deve corrispondere per colore o forma.
+menu.rules.secondCategory.list.second=2. Compra un'azione — Spendi 2 punti per effettuare una mossa extra.
+menu.rules.secondCategory.list.third=3. Scambia supporto — Sostituisci tutte le tessere del tuo supporto con nuove dal mazzo. Termina il tuo turno.
+menu.rules.secondCategory.list.fourth=4. Passa — Salta il tuo turno gratuitamente.
 menu.rules.thirdCategory=Punteggio
-menu.rules.thirdCategory.description=Doppio (2 lati uguali) => +1 pt  |  Trifoglio (3 lati) => +2 pts  |  Latice (4 lati) => +4 pts  |  Casella sole => +2 pts bonus
-menu.rules.fourthCategory=Fine della partita
-menu.rules.fourthCategory.description=La partita termina quando un giocatore svuota il suo portategole e la sua riserva, o dopo 10 cicli (1 ciclo = 1 turno per giocatore). Il giocatore che ha posato più tessere vince.
+menu.rules.thirdCategory.description=Doppio (2 lati corrispondenti) => +1 pt  |  Trifoglio (3 lati) => +2 pts  |  Latice (4 lati) => +4 pts  |  Casella Sole => +2 pts bonus
+menu.rules.fourthCategory=Fine del gioco
+menu.rules.fourthCategory.description=La partita termina quando un giocatore svuota il proprio supporto e il mazzo, oppure dopo 10 cicli (1 ciclo = 1 turno per giocatore). Vince il giocatore che ha piazzato il maggior numero di tessere.
 menu.rules.back=Indietro
 
-# # Menu del tema
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Scegli il tuo nome utente:
+menu.username.secondUsernameChoiceLabel=Puoi anche scegliere un nome utente:
+menu.username.play=Gioca
+
+menu.lan.title=Latice LAN
+menu.lan.host=Ospita partita
+menu.lan.search=Cerca host
+menu.lan.backButton=Indietro
+
+menu.lanSearch.title=Ricerca host
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Indietro
+
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Primo giocatore: {host}
+menu.lanLobby.clientNotHere=In attesa di un secondo giocatore...
+menu.lanLobby.clientUsernameNotReady=[Non pronto] Secondo giocatore: {client}
+menu.lanLobby.clientUsernameReady=[Pronto] Secondo giocatore: {client}
+menu.lanLobby.ready=Pronto
+menu.lanLobby.play=Gioca
+
 menu.theme.title=Scegli un tema
 menu.theme.classicTheme=Classico
 menu.theme.animalCrossingTheme=Animal Crossing
 menu.theme.zeldaTheme=Zelda
 menu.theme.backButton=Indietro
 
-# # Menu di scelta del nome utente
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Scegli il tuo nome utente:
-menu.username.secondUsernameChoiceLabel=Scegli anche un nome utente:
-menu.username.play=Gioca
-
-# # Vista di gioco
-menu.game.actionButton=Acquista un'azione
-menu.game.exchangeButton=Scambia portategole
-menu.game.endTurnButton=Fine del turno
+menu.game.actionButton=Compra un'azione
+menu.game.exchangeButton=Scambia supporto
+menu.game.endTurnButton=Termina turno
 menu.game.player.currentPlayer=Turno di {name}:
 menu.game.player.score=Punteggio: {score}
 menu.game.player.remaining=Tessere rimanenti: {count}
 
-# # Menu indicatore di turno (appare alla fine di ogni turno)
-menu.turnIndicator.turnIndicatorTitle=Turno {turnNumber}
+menu.turnIndicator.turnIndicatorTitle= Turno {turnNumber}
 menu.turnIndicator.currentPlayer=È il turno di {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Punteggio dell'ultimo turno di {name}:
+menu.turnIndicator.lastPlayerScoreHeader=punteggio dell'ultimo turno di {name} :
 menu.turnIndicator.readyButton=Sono pronto!
 
-# Popup:
-# # Popup di fine partita
+menu.lanOverlay.turnOf=Turno di {currentPlayer}
+
 popup.game.over.title=Partita terminata
 popup.game.over.winner.header=Vincitore: {name}
-popup.game.over.winner.content={name} ha vinto con un punteggio di {score} punti!
+popup.game.over.winner.content={name} ha vinto con {score} punti!
 popup.game.over.tie.header=Pareggio!
-popup.game.over.tie.content=Pareggio! Entrambi i giocatori hanno posato lo stesso numero di tessere!
+popup.game.over.tie.content=È un pareggio! Entrambi i giocatori hanno piazzato lo stesso numero di tessere!
 
-# # Popup mossa non valida
 popup.game.invalid.title=Mossa non valida
 popup.game.invalid.header=Non puoi farlo..
-popup.game.invalid.reason=Hai già posato una tessera in questo turno! Acquista un'azione o termina il tuo turno!
+popup.game.invalid.reason=Hai già posizionato una tessera in questo turno! Compra un'azione o termina il tuo turno!
 
-# Messaggi di eventi:
-# # Mossa non valida
-event.invalidMove.tileError=Il giocatore non ha questa tessera nel suo portategole
+popup.lanUsername.title=Nome LAN
+popup.lanUsername.header=Scegli il tuo nome utente
+popup.lanUsername.context=Nome utente:
+popup.lanSearch.noHost=Non ci sono host...
+
+event.invalidMove.tileError=Il giocatore non ha questa tessera nel suo supporto
 event.invalidMove.moveError=La mossa non è valida secondo le regole del gioco
 
-# # Non abbastanza punti
-event.invalidMove.cannotAfford=Non hai abbastanza punti per acquistare un'azione aggiuntiva
+event.invalidMove.cannotAfford=Punti insufficienti per comprare un'azione extra
+
+default.hostName=Giocatore Host
+default.clientName=Giocatore Client

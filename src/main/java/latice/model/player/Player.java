@@ -23,6 +23,10 @@ public class Player {
         return new Player(name, 0, deck, rack);
     }
 
+    public static Player create(String name, Rack rack, Deck deck) {
+        return new Player(name, 0, deck, rack);
+    }
+
     public String getName() {
         return name;
     }

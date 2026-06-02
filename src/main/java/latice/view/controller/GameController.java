@@ -25,6 +25,7 @@ import latice.model.board.cell.SunCell;
 import latice.model.deck.Deck;
 import latice.model.game.Game;
 import latice.model.player.Player;
+import latice.model.player.Rack;
 import latice.model.referee.Referee;
 import latice.model.referee.rule.*;
 import latice.model.tile.Tile;
@@ -284,7 +285,7 @@ public class GameController {
         gameBoardBP.setManaged(true);
 
         game = buildLocalGame();
-        game.addListener(new LaticeGameListener(this));
+        game.addListener(new LaticeGameListener(this, false));
         game.startGame();
     }
 
@@ -310,21 +311,22 @@ public class GameController {
         try {
             tcpClient.connect(host.getAddress(), host.getTcpPort());
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Connection failed: {0}", e.getMessage());
             showInvalidMove(LangManager.getInstance().get("network.error.connection"));
         }
     }
 
     private void startLanGame(GameStartPacket packet) {
         Player starter = Player.create(packet.getStarterUserName(),
+                new Rack(packet.getStarterRack()),
                 Deck.createNoShuffle(packet.getStarterDeck()));
         Player second = Player.create(packet.getSecondUserName(),
+                new Rack(packet.getSecondRack()),
                 Deck.createNoShuffle(packet.getSecondDeck()));
 
         game = new Game(buildReferee(), starter, second);
 
         networkGameListener = new NetworkGameListener(this);
-        game.addListener(new LaticeGameListener(this));
+        game.addListener(new LaticeGameListener(this, true));
         game.addListener(networkGameListener);
 
         game.startFromExistingPlayers();
@@ -356,8 +358,8 @@ public class GameController {
             Platform.runLater(() -> handleExchangeRack(p));
         } else if (packet instanceof BuyActionPacket) {
             Platform.runLater(this::handleBuyAction);
-        } else if (packet instanceof GameOverPacket) {
-            Platform.runLater(this::handleGameOver);
+        } else if (packet instanceof GameOverPacket p) {
+            Platform.runLater(() -> handleGameOver(p));
         } else {
             throw new UnhandledPacketException(packet.getType().name() + " isn't handled");
         }
@@ -395,6 +397,28 @@ public class GameController {
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameReady",
                 "client", clientUsername));
         lanPlayButton.setDisable(false);
+        lanPlayButton.setOnAction(e -> startLanGameAsHost());
+    }
+
+    private void startLanGameAsHost() {
+        lanPlayButton.setDisable(true);
+        game = buildLanGameAsHost();
+        networkGameListener = new NetworkGameListener(this);
+        game.addListener(new LaticeGameListener(this, true));
+        game.addListener(networkGameListener);
+
+        executeLocalAction(() -> {
+            game.startGame();
+            sendPacket(buildGameStartPacket());
+            showLanOverlay(game.getCurrentPlayer().getName());
+        });
+
+        lanLobbyMenuVBox.setVisible(false);
+        lanLobbyMenuVBox.setManaged(false);
+        startMenuStackpane.setVisible(false);
+        startMenuStackpane.setManaged(false);
+        gameBoardBP.setVisible(true);
+        gameBoardBP.setManaged(true);
     }
 
     private void handleStartGame(GameStartPacket packet) {
@@ -403,7 +427,11 @@ public class GameController {
 
     private void handlePlayTile(PlayTilePacket packet) {
         networkGameListener.setLocalAction(false);
+        boolean wasPlayTwice = game.isPlayTwiceActive();
         game.playTile(packet.getTile(), packet.getX(), packet.getY());
+        if (!wasPlayTwice) {
+            game.endTurn();
+        }
         networkGameListener.setLocalAction(false);
         showLanOverlay(game.getCurrentPlayer().getName());
     }
@@ -432,8 +460,12 @@ public class GameController {
         networkGameListener.setLocalAction(false);
     }
 
-    private void handleGameOver() {
-        showGameOver(game.getWinner());
+    private void handleGameOver(GameOverPacket packet) {
+        Player winner = game.getPlayers().stream()
+                .filter(p -> p.getName().equals(packet.getWinnerUsername()))
+                .findFirst()
+                .orElse(null);
+        showGameOver(winner);
         endGame();
         resetBoard();
     }
@@ -472,7 +504,11 @@ public class GameController {
     }
 
     public void buttonSurrender() {
-        game.surrender();
+        if (sessionRole == SessionRole.LOCAL) {
+            game.surrender();
+        } else {
+            executeLocalAction(game::surrender);
+        }
     }
 
     private void buttonLanReady() {
@@ -481,24 +517,6 @@ public class GameController {
         sendPacket(new LobbyReadyPacket());
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameReady",
                 "client", clientUsername));
-
-        game = buildLanGameAsHost();
-        networkGameListener = new NetworkGameListener(this);
-        game.addListener(new LaticeGameListener(this));
-        game.addListener(networkGameListener);
-
-        executeLocalAction(() -> {
-            game.startGame();
-            sendPacket(buildGameStartPacket());
-            showLanOverlay(game.getCurrentPlayer().getName());
-        });
-
-        lanLobbyMenuVBox.setVisible(false);
-        lanLobbyMenuVBox.setManaged(false);
-        startMenuStackpane.setVisible(false);
-        startMenuStackpane.setManaged(false);
-        gameBoardBP.setVisible(true);
-        gameBoardBP.setManaged(true);
     }
 
     private Game buildLanGameAsHost() {
@@ -510,8 +528,8 @@ public class GameController {
         Player second = game.getNextPlayer();
         return new GameStartPacket(
                 starter.getName(), second.getName(),
-                starter.getDeck().getTiles(),
-                second.getDeck().getTiles()
+                starter.getRack().getTiles(), starter.getDeck().getTiles(),
+                second.getRack().getTiles(), second.getDeck().getTiles()
         );
     }
 
@@ -723,7 +741,11 @@ public class GameController {
                             game.playTile(tile, col, row);
                         } else {
                             executeLocalAction(() -> {
+                                boolean wasPlayTwice = game.isPlayTwiceActive();
                                 game.playTile(tile, col, row);
+                                if (!wasPlayTwice) {
+                                    game.endTurn();
+                                }
                                 showLanOverlay(game.getCurrentPlayer().getName());
                             });
                         }
@@ -761,7 +783,6 @@ public class GameController {
         }
         tcpClient = null;
         sessionRole = null;
-        networkGameListener = null;
     }
 
     public Game getGame() { return game; }

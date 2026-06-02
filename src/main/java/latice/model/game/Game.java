@@ -66,6 +66,9 @@ public class Game {
     public boolean isActionPlayedThisTurn() {
         return actionPlayedThisTurn;
     }
+    public boolean isPlayTwiceActive() {
+        return playTwiceActive;
+    }
     public int getPlayersTurnScore() {
         return playersTurnScore;
     }

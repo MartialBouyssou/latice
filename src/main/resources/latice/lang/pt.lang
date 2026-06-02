@@ -3,77 +3,91 @@
 # >  Se queres submeter uma versão traduzida manualmente, podes criar um pull request ;)  <
 # / ! \ Aviso / ! \
 
-# Janela da aplicação
 app.title=Latice
 
-# Menus da aplicação:
-# # Menu inicial
 menu.start.title=Latice
 menu.start.play=Jogar
+menu.start.lan=Jogar em LAN
 menu.start.rules=Regras
 menu.start.theme=Tema
 
-# # Menu de regras
-menu.rules.title=Regras do jogo
+menu.rules.title=Regras
 menu.rules.firstCategory=Preparação
-menu.rules.firstCategory.description=As peças são embaralhadas e distribuídas igualmente entre 2 jogadores. Cada jogador retira 5 peças para o seu suporte. O primeiro jogador coloca uma peça na casa lua (centro) para começar.
-menu.rules.secondCategory=Na tua vez
-menu.rules.secondCategory.description=A primeira ação é GRATUITA. Cada ação adicional custa 2 pontos. Escolhe uma das 4 ações abaixo.
+menu.rules.firstCategory.description=As peças são embaralhadas e divididas igualmente entre 2 jogadores. Cada jogador retira 5 peças para o seu suporte. O primeiro jogador coloca uma peça na casa lua (centro) para começar.
+menu.rules.secondCategory=No teu turno
+menu.rules.secondCategory.description=A primeira ação é GRÁTIS. Cada ação adicional custa 2 pontos. Escolhe uma das 4 ações abaixo.
 menu.rules.secondCategory.list=4 ações possíveis
-menu.rules.secondCategory.list.first=1. Colocar uma peça — Coloca uma peça do teu suporte adjacente a uma peça existente. Cada lado em contacto deve corresponder por cor ou forma.
-menu.rules.secondCategory.list.second=2. Comprar uma ação — Gasta 2 pontos para jogar uma jogada adicional.
-menu.rules.secondCategory.list.third=3. Trocar o suporte — Substitui todas as peças do teu suporte por novas da tua reserva. Termina a tua vez.
-menu.rules.secondCategory.list.fourth=4. Passar — Salta a tua vez gratuitamente.
+menu.rules.secondCategory.list.first=1. Jogar uma peça — Coloca uma peça do teu suporte adjacente a uma peça existente. Cada lado em contacto deve corresponder por cor ou forma.
+menu.rules.secondCategory.list.second=2. Comprar uma ação — Gasta 2 pontos para jogar um movimento extra.
+menu.rules.secondCategory.list.third=3. Trocar suporte — Substitui todas as peças no teu suporte por novas do monte. Termina o teu turno.
+menu.rules.secondCategory.list.fourth=4. Passar — Passa o teu turno gratuitamente.
 menu.rules.thirdCategory=Pontuação
-menu.rules.thirdCategory.description=Duplo (2 lados iguais) => +1 pt  |  Trevo (3 lados) => +2 pts  |  Latice (4 lados) => +4 pts  |  Casa sol => +2 pts bónus
+menu.rules.thirdCategory.description=Duplo (2 lados correspondentes) => +1 pt  |  Trevo (3 lados) => +2 pts  |  Latice (4 lados) => +4 pts  |  Casa Sol => +2 pts bónus
 menu.rules.fourthCategory=Fim do jogo
-menu.rules.fourthCategory.description=O jogo termina quando um jogador esvazia o seu suporte e a sua reserva, ou após 10 ciclos (1 ciclo = 1 vez por jogador). O jogador que colocou mais peças vence.
+menu.rules.fourthCategory.description=O jogo termina quando um jogador esvazia o seu suporte e o monte, ou após 10 ciclos (1 ciclo = 1 turno por jogador). Ganha o jogador que colocou mais peças.
 menu.rules.back=Voltar
 
-# # Menu de Tema
-menu.theme.title=Escolha um tema
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Escolhe o teu nome:
+menu.username.secondUsernameChoiceLabel=Podes também escolher um nome:
+menu.username.play=Jogar
+
+menu.lan.title=Latice LAN
+menu.lan.host=Hospedar jogo
+menu.lan.search=Procurar host
+menu.lan.backButton=Voltar
+
+menu.lanSearch.title=Procurando host
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Voltar
+
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Primeiro jogador: {host}
+menu.lanLobby.clientNotHere=Aguardando um segundo jogador...
+menu.lanLobby.clientUsernameNotReady=[Não pronto] Segundo jogador: {client}
+menu.lanLobby.clientUsernameReady=[Pronto] Segundo jogador: {client}
+menu.lanLobby.ready=Pronto
+menu.lanLobby.play=Jogar
+
+menu.theme.title=Escolhe um tema
 menu.theme.classicTheme=Clássico
 menu.theme.animalCrossingTheme=Animal Crossing
 menu.theme.zeldaTheme=Zelda
 menu.theme.backButton=Voltar
 
-# # Menu de escolha de nome de utilizador
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Escolhe o teu nome de utilizador:
-menu.username.secondUsernameChoiceLabel=Escolhe também um nome de utilizador:
-menu.username.play=Jogar
-
-# # Vista do jogo
 menu.game.actionButton=Comprar uma ação
 menu.game.exchangeButton=Trocar suporte
-menu.game.endTurnButton=Fim da vez
-menu.game.player.currentPlayer=Vez de {name}:
+menu.game.endTurnButton=Terminar turno
+menu.game.player.currentPlayer=Turno de {name}:
 menu.game.player.score=Pontuação: {score}
 menu.game.player.remaining=Peças restantes: {count}
 
-# # Menu indicador de vez (aparece no fim de cada vez)
-menu.turnIndicator.turnIndicatorTitle=Vez {turnNumber}
-menu.turnIndicator.currentPlayer=É a vez de {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Pontuação da última vez de {name}:
+menu.turnIndicator.turnIndicatorTitle= Turno {turnNumber}
+menu.turnIndicator.currentPlayer=É o turno de {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Pontuação do último turno de {name} :
 menu.turnIndicator.readyButton=Estou pronto!
 
-# Popups:
-# # Popup de fim de jogo
+menu.lanOverlay.turnOf=Turno de {currentPlayer}
+
 popup.game.over.title=Jogo terminado
 popup.game.over.winner.header=Vencedor: {name}
-popup.game.over.winner.content={name} ganhou com uma pontuação de {score} pontos!
+popup.game.over.winner.content={name} ganhou com {score} pontos!
 popup.game.over.tie.header=Empate!
 popup.game.over.tie.content=Empate! Ambos os jogadores colocaram o mesmo número de peças!
 
-# # Popup de jogada inválida
-popup.game.invalid.title=Jogada inválida
+popup.game.invalid.title=Movimento inválido
 popup.game.invalid.header=Não podes fazer isso..
-popup.game.invalid.reason=Já colocaste uma peça nesta vez! Compra uma ação ou termina a tua vez!
+popup.game.invalid.reason=Já colocaste uma peça neste turno! Compra uma ação ou termina o teu turno!
 
-# Mensagens de eventos:
-# # Jogada inválida
+popup.lanUsername.title=Nome LAN
+popup.lanUsername.header=Escolhe o teu nome
+popup.lanUsername.context=Nome:
+popup.lanSearch.noHost=Não há host...
+
 event.invalidMove.tileError=O jogador não tem esta peça no seu suporte
-event.invalidMove.moveError=A jogada não é válida segundo as regras do jogo
+event.invalidMove.moveError=O movimento não é válido segundo as regras do jogo
 
-# # Pontos insuficientes
-event.invalidMove.cannotAfford=Não tens pontos suficientes para comprar uma ação adicional
+event.invalidMove.cannotAfford=Não tens pontos suficientes para comprar uma ação extra
+
+default.hostName=Jogador Host
+default.clientName=Jogador Cliente
