@@ -20,8 +20,16 @@ public class ThemeManager {
     private static volatile ThemeManager instance;
     private Theme currentTheme = Theme.DEFAULT;
 
+    /**
+     * Prevents external instantiation to strictly enforce the Singleton pattern.
+     */
     private ThemeManager() {}
 
+    /**
+     * Retrieves the single, thread-safe instance of the ThemeManager.
+     *
+     * @return The singleton instance of ThemeManager.
+     */
     public static ThemeManager getInstance() {
         if (instance == null) {
             synchronized (ThemeManager.class) {
@@ -33,18 +41,54 @@ public class ThemeManager {
         return instance;
     }
 
-    public Theme getCurrentTheme() { return currentTheme; }
+    /**
+     * Retrieves the currently active theme.
+     *
+     * @return The current Theme enum value.
+     */
+    public Theme getCurrentTheme() {
+        return currentTheme;
+    }
 
-    public void setCurrentTheme(Theme theme) { this.currentTheme = theme; }
+    /**
+     * Sets a new active theme for the application.
+     *
+     * @param theme The new Theme to apply.
+     */
+    public void setCurrentTheme(Theme theme) {
+        this.currentTheme = theme;
+    }
 
+    /**
+     * Constructs the full file path for an image based on the current theme.
+     *
+     * @param filename The name of the image file (including extension).
+     *
+     * @return The formatted path string pointing to the themed image.
+     */
     public String getImagePath(String filename) {
         return "latice/images/" + currentTheme.getFolderName() + "/" + filename;
     }
 
+    /**
+     * Constructs the specific file path for a tile image based on its shape and color.
+     *
+     * @param shapeName The name of the tile's shape.
+     * @param colorInitial The initial character representing the tile's color.
+     *
+     * @return The formatted path string for the specific tile image.
+     */
     public String getTileImagePath(String shapeName, char colorInitial) {
         return getImagePath(shapeName + "_" + colorInitial + ".png");
     }
 
+    /**
+     * Constructs the file path for the board's background image.
+     *
+     * @param bgName The filename of the background image.
+     *
+     * @return The formatted path string pointing to the board background.
+     */
     public String getBoardBgPath(String bgName) {
         return getImagePath(bgName);
     }

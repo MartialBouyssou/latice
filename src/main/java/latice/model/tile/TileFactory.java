@@ -13,8 +13,14 @@ public final class TileFactory {
         rebuildMap();
     }
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
     private TileFactory() {}
 
+    /**
+     * Rebuilds the internal map associating image filenames to their corresponding tiles.
+     */
     public static void rebuildMap() {
         filenameToTileMap.clear();
         for (Color color : Color.values()) {

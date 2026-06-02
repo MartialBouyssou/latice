@@ -22,12 +22,18 @@ class BoardTest {
     private Board board;
     private Tile birdRedTile;
 
+    /**
+     * Initializes a fresh board and a sample tile before each test.
+     */
     @BeforeEach
     void setUp() {
         board = Board.create();
         birdRedTile = new Tile(Shape.BIRD, Color.RED);
     }
 
+    /**
+     * Verifies that the board places a moon cell at the center position (4, 4).
+     */
     @Test
     void createShouldPlaceMoonCellAtCenterPosition4And4() {
         // Arrange & Act
@@ -37,6 +43,9 @@ class BoardTest {
         assertInstanceOf(MoonCell.class, centerCell);
     }
 
+    /**
+     * Verifies that the board places a sun cell at a known sun position.
+     */
     @Test
     void createShouldPlaceSunCellAtKnownSunPosition() {
         // Arrange & Act
@@ -46,6 +55,9 @@ class BoardTest {
         assertInstanceOf(SunCell.class, sunCorner);
     }
 
+    /**
+     * Verifies that the board places a normal cell at a non-special position.
+     */
     @Test
     void createShouldPlaceNormalCellAtNonSpecialPosition() {
         // Arrange & act
@@ -55,6 +67,9 @@ class BoardTest {
         assertInstanceOf(NormalCell.class, normalCell);
     }
 
+    /**
+     * Verifies that a newly created board has all of its cells empty.
+     */
     @Test
     void createShouldProduceABoardWithAllCellsInitiallyEmpty() {
         // All in one : AAA
@@ -65,6 +80,9 @@ class BoardTest {
         }
     }
 
+    /**
+     * Verifies that the top-left corner position is considered inside the board.
+     */
     @Test
     void isInsideShouldReturnTrueForTopLeftCorner() {
         // Arrange & Act
@@ -74,6 +92,9 @@ class BoardTest {
         assertTrue(inside);
     }
 
+    /**
+     * Verifies that the bottom-right corner position is considered inside the board.
+     */
     @Test
     void isInsideShouldReturnTrueForBottomRightCorner() {
         // Arrange & Act
@@ -83,6 +104,9 @@ class BoardTest {
         assertTrue(inside);
     }
 
+    /**
+     * Verifies that a negative row is considered outside the board.
+     */
     @Test
     void isInsideShouldReturnFalseForNegativeRow() {
         // Arrange & Act
@@ -92,6 +116,9 @@ class BoardTest {
         assertFalse(inside);
     }
 
+    /**
+     * Verifies that a negative column is considered outside the board.
+     */
     @Test
     void isInsideShouldReturnFalseForNegativeColumn() {
         // Arrnge & Act
@@ -101,6 +128,9 @@ class BoardTest {
         assertFalse(inside);
     }
 
+    /**
+     * Verifies that a row equal to the grid size is considered outside the board.
+     */
     @Test
     void isInsideShouldReturnFalseForRowEqualToGridSize() {
         // Arrange & Act
@@ -110,6 +140,9 @@ class BoardTest {
         assertFalse(inside);
     }
 
+    /**
+     * Verifies that a column equal to the grid size is considered outside the board.
+     */
     @Test
     void isInsideShouldReturnFalseForColumnEqualToGridSize() {
         // Arrange & Act
@@ -119,6 +152,9 @@ class BoardTest {
         assertFalse(inside);
     }
 
+    /**
+     * Verifies that placing a tile makes the target cell non-empty.
+     */
     @Test
     void placeTileShouldMakeCellNonEmpty() {
         // arrange
@@ -132,6 +168,9 @@ class BoardTest {
         assertFalse(board.getCell(row, column).isEmpty());
     }
 
+    /**
+     * Verifies that placing a tile stores the correct tile in the cell.
+     */
     @Test
     void placeTileShouldStoreTheCorrectTileInTheCell() {
         // Arrange
@@ -145,12 +184,18 @@ class BoardTest {
         assertEquals(birdRedTile, board.getCell(row, column).getTile());
     }
 
+    /**
+     * Verifies that placing a null tile throws an InvalidTileException.
+     */
     @Test
     void placeTileShouldThrowInvalidTileExceptionWhenTileIsNull() {
         // everything's in one line : AAA
         assertThrows(InvalidTileException.class, () -> board.placeTile(null, 0, 0));
     }
 
+    /**
+     * Verifies that placing a tile at an out-of-bounds position throws an InvalidPositionException.
+     */
     @Test
     void placeTileShouldThrowInvalidPositionExceptionWhenPositionIsOutOfBounds() {
         // AAA
@@ -158,6 +203,9 @@ class BoardTest {
                 () -> board.placeTile(birdRedTile, 10, 0));
     }
 
+    /**
+     * Verifies that placing a tile on an already occupied cell throws a CellOccupiedException.
+     */
     @Test
     void placeTileShouldThrowCellOccupiedExceptionWhenCellAlreadyHasATile() {
         // Arrange
@@ -168,12 +216,18 @@ class BoardTest {
         assertThrows(CellOccupiedException.class, () -> board.placeTile(secondTile, 3, 3));
     }
 
+    /**
+     * Verifies that getting a cell at an out-of-bounds position throws an InvalidPositionException.
+     */
     @Test
     void getCellShouldThrowInvalidPositionExceptionForOutOfBoundsPosition() {
         // AAA
         assertThrows(InvalidPositionException.class, () -> board.getCell(-1, 0));
     }
 
+    /**
+     * Verifies that getting a cell returns the cell located at the given position.
+     */
     @Test
     void getCellShouldReturnTheCellAtTheGivenPosition() {
         // Arrange
@@ -186,6 +240,9 @@ class BoardTest {
         assertEquals(birdRedTile, cell.getTile());
     }
 
+    /**
+     * Verifies that a corner cell has exactly two neighbors.
+     */
     @Test
     void getNeighborsShouldReturnTwoNeighborsForCornerCell() {
         // Arrange & Act
@@ -195,6 +252,9 @@ class BoardTest {
         assertEquals(2, neighbors.size());
     }
 
+    /**
+     * Verifies that an edge cell has exactly three neighbors.
+     */
     @Test
     void getNeighborsShouldReturnThreeNeighborsForEdgeCell() {
         // Arrange & Act
@@ -204,6 +264,9 @@ class BoardTest {
         assertEquals(3, neighbors.size());
     }
 
+    /**
+     * Verifies that a center cell has exactly four neighbors.
+     */
     @Test
     void getNeighborsShouldReturnFourNeighborsForCenterCell() {
         // Arrange & Act
@@ -213,6 +276,9 @@ class BoardTest {
         assertEquals(4, neighbors.size());
     }
 
+    /**
+     * Verifies that getting neighbors of an out-of-bounds position throws an InvalidPositionException.
+     */
     @Test
     void getNeighborsShouldThrowInvalidPositionExceptionForOutOfBoundsPosition() {
         // AAA

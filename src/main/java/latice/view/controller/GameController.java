@@ -64,6 +64,9 @@ public class GameController {
     private boolean hasAlreadyPlaced = false;
     private Map<String, String> availableLanguages;
 
+    /**
+     * Initializes the JavaFX controller, setting up views, languages, and drag-and-drop events.
+     */
     @FXML
     public void initialize() {
         rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
@@ -80,6 +83,9 @@ public class GameController {
         setupBoardDropTarget();
     }
 
+    /**
+     * Loads available languages from the LangManager and populates the selection ComboBox.
+     */
     private void loadLanguageSelector() {
         availableLanguages = LangManager.getInstance().loadAvailableLanguages();
 
@@ -92,6 +98,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the event triggered when the user selects a new language in the ComboBox.
+     */
     public void onLanguageChanged() {
         String selectedLabel = languageComboBox.getValue();
         if (selectedLabel == null) return;
@@ -105,12 +114,20 @@ public class GameController {
                 });
     }
 
+    /**
+     * Reloads and applies internationalization texts across all main UI components.
+     */
     public void loadTexts() {
         applyTextsRecursively(startMenuStackpane);
         applyTextsRecursively(gameBoardBP);
         applyTextsRecursively(screenOverlay);
     }
 
+    /**
+     * Recursively traverses a JavaFX Parent node to find and translate Labeled components.
+     *
+     * @param parent The root JavaFX node to start the recursive search from.
+     */
     private void applyTextsRecursively(Parent parent) {
         for (Node node : parent.getChildrenUnmodifiable()) {
             if (node instanceof Labeled labeled) {
@@ -129,6 +146,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Displays the menu for choosing player usernames and hides other menus.
+     */
     public void showUsernameChoiceMenu() {
         playMenuVBox.setVisible(false);
         playMenuVBox.setManaged(false);
@@ -136,6 +156,9 @@ public class GameController {
         usernameMenuVBox.setManaged(true);
     }
 
+    /**
+     * Displays the main play menu and hides the rules and theme menus.
+     */
     public void showPlayMenu() {
         themeMenuVBox.setVisible(false);
         themeMenuVBox.setManaged(false);
@@ -145,6 +168,9 @@ public class GameController {
         playMenuVBox.setManaged(true);
     }
 
+    /**
+     * Displays the rules menu and hides the main play menu.
+     */
     public void showRules() {
         playMenuVBox.setVisible(false);
         playMenuVBox.setManaged(false);
@@ -152,14 +178,25 @@ public class GameController {
         rulesMenuVBox.setManaged(true);
     }
 
+    /**
+     * Toggles the interactive state of the action button.
+     */
     public void toggleActionButton() {
         actionButton.setDisable(!actionButton.isDisable());
     }
 
+    /**
+     * Sets the active state of the action button explicitly.
+     *
+     * @param activate A boolean indicating if the button should be disabled (true) or enabled (false).
+     */
     public void toggleActionButton(boolean activate) {
         actionButton.setDisable(activate);
     }
 
+    /**
+     * Hides the starting menus, initializes the game components, and brings up the game board.
+     */
     public void startGame() {
         playMenuVBox.setVisible(true);
         playMenuVBox.setManaged(true);
@@ -177,6 +214,11 @@ public class GameController {
         gameBoardBP.setManaged(true);
     }
 
+    /**
+     * Constructs the Game object, injecting rules and player names.
+     *
+     * @return The newly instantiated Game object.
+     */
     private Game buildGame() {
         List<IRule> rules = List.of(
                 new MatchingRule(),
@@ -195,6 +237,14 @@ public class GameController {
         return new Game(Referee.create(rules), name1, name2);
     }
 
+    /**
+     * Validates and returns a player's name, falling back to a default if empty.
+     *
+     * @param input The raw input string from the username text field.
+     * @param defaultName The default string to use if the input is blank or null.
+     *
+     * @return The finalized player name.
+     */
     private String getPlayerName(String input, String defaultName) {
         if (input == null || input.isBlank()) {
             return defaultName;
@@ -202,6 +252,13 @@ public class GameController {
         return input;
     }
 
+    /**
+     * Displays the transition overlay between player turns with score summaries.
+     *
+     * @param nextPlayer The player whose turn is starting.
+     * @param lastPlayer The player whose turn just ended.
+     * @param lastTurnScore The score acquired by the last player during their turn.
+     */
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         LangManager lang = LangManager.getInstance();
 
@@ -225,12 +282,20 @@ public class GameController {
         screenOverlay.setManaged(true);
     }
 
+    /**
+     * Hides the transition overlay and re-enables the end turn button.
+     */
     public void hideOverlay() {
         screenOverlay.setVisible(false);
         screenOverlay.setManaged(false);
         endTurnButton.setDisable(false);
     }
 
+    /**
+     * Updates the UI images representing the current player's rack of tiles.
+     *
+     * @param player The player whose rack should be displayed.
+     */
     public void updateRack(Player player) {
         List<Tile> tiles = player.getRack().getTiles();
 
@@ -247,6 +312,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Refreshes the score, name, and remaining tile count displayed for the current player.
+     *
+     * @param player The current active player.
+     */
     public void updatePlayerInfo(Player player) {
         int remainingTiles = player.getDeck().size() + player.getRack().getTiles().size();
         LangManager lang = LangManager.getInstance();
@@ -262,6 +332,11 @@ public class GameController {
         );
     }
 
+    /**
+     * Displays an error alert popup to the user detailing why their move was invalid.
+     *
+     * @param reason The specific rule violation or error message.
+     */
     public void showInvalidMove(String reason) {
         LangManager lang = LangManager.getInstance();
 
@@ -272,6 +347,11 @@ public class GameController {
         alert.show();
     }
 
+    /**
+     * Displays the end-of-game alert showing the winner and their score, or a tie message.
+     *
+     * @param player The winning player, or null if the game resulted in a tie.
+     */
     public void showGameOver(Player player) {
         hideOverlay();
         LangManager lang = LangManager.getInstance();
@@ -293,6 +373,14 @@ public class GameController {
         alert.show();
     }
 
+    /**
+     * Visually places a tile onto the board grid and updates the player's rack view.
+     *
+     * @param tile The tile object being placed.
+     * @param targetX The X coordinate (column) on the grid.
+     * @param targetY The Y coordinate (row) on the grid.
+     * @param player The player performing the placement.
+     */
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
         try {
             for (Node node : board.getChildren()) {
@@ -317,6 +405,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Configures a JavaFX ImageView to support drag operations using its image URL.
+     *
+     * @param tileView The ImageView representing the draggable tile.
+     */
     private void setupDraggable(ImageView tileView) {
         tileView.setOnDragDetected(event -> {
             Dragboard db = tileView.startDragAndDrop(TransferMode.MOVE);
@@ -334,6 +427,9 @@ public class GameController {
         tileView.setOnDragDone(Event::consume);
     }
 
+    /**
+     * Configures the main board grid to accept drag-and-drop actions and trigger game logic.
+     */
     private void setupBoardDropTarget() {
         board.setOnDragOver(event -> {
             if (event.getGestureSource() != board && event.getDragboard().hasString()) {
@@ -369,22 +465,41 @@ public class GameController {
         });
     }
 
-    public void buttonExchangeAll(){
+    /**
+     * Triggers the logic to exchange all tiles in the current player's rack.
+     */
+    public void buttonExchangeAll() {
         game.exchangeAll();
     }
 
-    public void buttonBuyAnAction(){
+    /**
+     * Triggers the logic to buy an extra action using sun points.
+     */
+    public void buttonBuyAnAction() {
         game.buyAnAction();
     }
 
-    public void buttonEndTurn(){
+    /**
+     * Passes the current player's turn to the next player.
+     */
+    public void buttonEndTurn() {
         game.passTurn();
     }
 
+    /**
+     * Resolves the corresponding Tile model object from the provided image file path.
+     *
+     * @param fullUrl The absolute file path of the image being parsed.
+     *
+     * @return The corresponding Tile instance.
+     */
     private Tile extractTileFromUrl(String fullUrl) {
         return TileFactory.getTileFromImagePath(fullUrl);
     }
 
+    /**
+     * Terminates the active game session and returns the user to the starting menus.
+     */
     public void endGame() {
         playMenuVBox.setVisible(true);
         playMenuVBox.setManaged(true);
@@ -397,6 +512,9 @@ public class GameController {
         startMenuStackpane.setManaged(true);
     }
 
+    /**
+     * Resets the graphical state of the board to its empty, initial configuration.
+     */
     public void resetBoard() {
         for (Node node : board.getChildren()) {
             if (node instanceof ImageView imageView) {
@@ -426,10 +544,18 @@ public class GameController {
         hasAlreadyPlaced = false;
     }
 
+    /**
+     * Gets the active Game instance managed by this controller.
+     *
+     * @return The active Game object.
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Displays the menu allowing the user to select the visual theme of the game.
+     */
     public void showThemeMenu() {
         playMenuVBox.setVisible(false);
         playMenuVBox.setManaged(false);
@@ -437,27 +563,43 @@ public class GameController {
         themeMenuVBox.setManaged(true);
     }
 
+    /**
+     * Applies the default Latice visual theme and returns to the play menu.
+     */
     public void applyThemeDefault() {
         ThemeManager.getInstance().setCurrentTheme(Theme.DEFAULT);
         showPlayMenu();
     }
 
+    /**
+     * Applies the Animal Crossing visual theme and returns to the play menu.
+     */
     public void applyThemeAnimalCrossing() {
         ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
         showPlayMenu();
     }
 
+    /**
+     * Applies the Legend of Zelda visual theme and returns to the play menu.
+     */
     public void applyThemeZelda() {
         ThemeManager.getInstance().setCurrentTheme(Theme.ZELDA);
         showPlayMenu();
     }
 
+    /**
+     * Executes the surrender logic for the currently active player.
+     */
     public void buttonSurrender() {
         game.surrender();
     }
 
+    /**
+     * Updates the status of whether a tile has already been placed in the current turn.
+     *
+     * @param value Boolean true if a tile has been placed, false otherwise.
+     */
     public void setHasAlreadyPlaced(boolean value) {
         hasAlreadyPlaced = value;
     }
 }
-

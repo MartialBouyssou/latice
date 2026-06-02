@@ -32,6 +32,12 @@ public class Game {
     private boolean actionPlayedThisTurn = false;
     private boolean playTwiceActive = false;
 
+    /**
+     * Creates a new game with the given referee and player usernames.
+     * @param referee The referee used to validate moves and compute scores.
+     * @param player1Username The username of the first player.
+     * @param player2Username The username of the second player.
+     */
     public Game(Referee referee, String player1Username, String player2Username) {
         this.referee = referee;
         this.players = new ArrayList<>();
@@ -40,30 +46,58 @@ public class Game {
         this.player2Username = player2Username;
     }
 
+    /**
+     * Creates a new game with the given referee and default player usernames.
+     * @param referee The referee used to validate moves and compute scores.
+     */
     public Game(Referee referee) {
         this(referee, "P1", "P2");
     }
 
+    /**
+     * Returns the list of players in the game.
+     * @return The list of players.
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * Returns the game board.
+     * @return The current board.
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Returns the player whose turn it currently is.
+     * @return The current player.
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Returns the number of turns played so far.
+     * @return The turn count.
+     */
     public int getTurnCount() {
         return turnCount;
     }
 
+    /**
+     * Returns the referee of the game.
+     * @return The referee.
+     */
     public Referee getReferee() {
         return referee;
     }
 
+    /**
+     * Starts the game by creating the board, splitting the deck between the two
+     * players, choosing a random starting player and notifying listeners.
+     */
     public void startGame() {
         board = Board.create();
 
@@ -86,6 +120,14 @@ public class Game {
         sendEvent(new GameStartedEvent(currentPlayer));
     }
 
+    /**
+     * Attempts to play the given tile at the given coordinates for the current
+     * player, validating the move, updating the board and score, and notifying
+     * listeners of the result.
+     * @param tile The tile to play.
+     * @param x The x coordinate where the tile is placed.
+     * @param y The y coordinate where the tile is placed.
+     */
     public void playTile(Tile tile, int x, int y) {
         if (currentPlayer == null) {
             throw new GameNotStartException();
@@ -120,6 +162,11 @@ public class Game {
         sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
     }
 
+    /**
+     * Ends the current player's turn by refilling their rack, advancing to the
+     * next player, and notifying listeners whether the game is over or the turn
+     * simply ended.
+     */
     public void endTurn() {
         if (currentPlayer == null) {
             throw new GameNotStartException();
@@ -145,6 +192,9 @@ public class Game {
         }
     }
 
+    /**
+     * Passes the current player's turn without playing a tile and ends the turn.
+     */
     public void passTurn() {
         actionPlayedThisTurn = true;
         Player lastPlayer = currentPlayer;
@@ -152,6 +202,10 @@ public class Game {
         endTurn();
     }
 
+    /**
+     * Indicates whether the game has reached an end condition.
+     * @return True if the game is over, false otherwise.
+     */
     public boolean isGameOver() {
         if (currentPlayer == null) {
             throw new GameNotStartException();
@@ -159,6 +213,10 @@ public class Game {
         return referee.isGameOver(this);
     }
 
+    /**
+     * Determines and returns the winner of the game.
+     * @return The winning player.
+     */
     public Player getWinner() {
         if (currentPlayer == null) {
             throw new GameNotStartException();
@@ -166,6 +224,9 @@ public class Game {
         return referee.determineWinner(this);
     }
 
+    /**
+     * Advances the current player to the next player in turn order.
+     */
     private void nextPlayer() {
         if (currentPlayer == null) {
             throw new GameNotStartException();
@@ -174,10 +235,19 @@ public class Game {
         currentPlayer = players.get((currentIndex + 1) % players.size());
     }
 
+    /**
+     * Registers a listener to be notified of game events.
+     * @param listener The listener to add.
+     */
     public void addListener(GameListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Dispatches the given game event to all registered listeners by calling the
+     * appropriate callback based on the event's concrete type.
+     * @param event The game event to dispatch.
+     */
     public void sendEvent(GameEvent event) {
         for (GameListener listener : listeners) {
             if (event instanceof GameStartedEvent e) {
@@ -202,29 +272,53 @@ public class Game {
         }
     }
 
+    /**
+     * Indicates whether an action has already been played during the current turn.
+     * @return True if an action was played this turn, false otherwise.
+     */
     public boolean isActionPlayedThisTurn() {
         return actionPlayedThisTurn;
     }
 
+    /**
+     * Returns the score earned by the current player during this turn.
+     * @return The current turn score.
+     */
     public int getPlayersTurnScore() {
         return playersTurnScore;
     }
 
+    /**
+     * Returns the player who will play after the current player.
+     * @return The next player.
+     */
     public Player getNextPlayer() {
         int currentIndex = players.indexOf(currentPlayer);
         return players.get((currentIndex + 1) % players.size());
     }
 
+    /**
+     * Exchanges all tiles on the current player's rack with new tiles from their
+     * deck and notifies listeners.
+     */
     public void exchangeAll() {
         currentPlayer.getRack().exchangeAll(currentPlayer.getDeck());
         sendEvent(new RackExchangedEvent(currentPlayer, currentPlayer.getRack()));
     }
 
+    /**
+     * Marks the rack exchange as the player's action for the turn and ends the turn.
+     */
     public void completeExchangeAsTurn() {
         actionPlayedThisTurn = true;
         endTurn();
     }
 
+    /**
+     * Lets the current player buy an extra action if they can afford it,
+     * spending the required score and activating the play-twice ability, or
+     * notifying listeners that the player cannot afford it.
+     */
     public void buyAnAction() {
         if (currentPlayer.canAfford(Referee.EXTRA_ACTION_COST)) {
             currentPlayer.spendScore(Referee.EXTRA_ACTION_COST);
@@ -237,6 +331,10 @@ public class Game {
         }
     }
 
+    /**
+     * Makes the current player surrender, declaring the other player the winner
+     * and notifying listeners that the game is over.
+     */
     public void surrender() {
         Player winner = getNextPlayer();
         actionPlayedThisTurn = true;

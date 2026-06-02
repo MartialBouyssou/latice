@@ -24,10 +24,18 @@ public class Board {
             {4, 0}, {0, 4}, {8, 4}, {4, 8}
     };
 
+    /**
+     * Creates a board with the given grid of cells.
+     * @param grid The two-dimensional array of cells representing the board.
+     */
     private Board(Cell[][] grid) {
         this.grid = grid;
     }
 
+    /**
+     * Creates a new board with all cells initialized as moon, sun, or normal cells.
+     * @return A new board with its cells placed according to the game layout.
+     */
     public static Board create() {
         Cell[][] grid = new Cell[GRID_SIZE][GRID_SIZE];
 
@@ -46,6 +54,12 @@ public class Board {
         return new Board(grid);
     }
 
+    /**
+     * Checks whether a sun cell is located at the given coordinates.
+     * @param x The row coordinate to check.
+     * @param y The column coordinate to check.
+     * @return True if a sun cell is at the given coordinates, false otherwise.
+     */
     private static boolean isSunCellAt(int x, int y) {
         for (int[] position : SUN_CELLS) {
             if (position[0] == x && position[1] == y) {
@@ -55,6 +69,12 @@ public class Board {
         return false;
     }
 
+    /**
+     * Places a tile on the cell at the given coordinates.
+     * @param tile The tile to place on the board.
+     * @param x The row coordinate where the tile is placed.
+     * @param y The column coordinate where the tile is placed.
+     */
     public void placeTile(Tile tile, int x, int y) {
         if (tile == null) {
             throw new InvalidTileException();
@@ -68,6 +88,12 @@ public class Board {
         grid[x][y].setTile(tile);
     }
 
+    /**
+     * Returns the cell located at the given coordinates.
+     * @param x The row coordinate of the cell.
+     * @param y The column coordinate of the cell.
+     * @return The cell at the given coordinates.
+     */
     public Cell getCell(int x, int y) {
         if (!isInside(x, y)) {
             throw new InvalidPositionException();
@@ -75,6 +101,12 @@ public class Board {
         return grid[x][y];
     }
 
+    /**
+     * Returns the orthogonal neighboring cells of the cell at the given coordinates.
+     * @param x The row coordinate of the cell.
+     * @param y The column coordinate of the cell.
+     * @return The list of neighboring cells that are inside the board.
+     */
     public List<Cell> getNeighbors(int x, int y) {
         if (!isInside(x, y)) {
             throw new InvalidPositionException();
@@ -91,10 +123,20 @@ public class Board {
         return neighbors;
     }
 
+    /**
+     * Checks whether the given coordinates are within the board boundaries.
+     * @param x The row coordinate to check.
+     * @param y The column coordinate to check.
+     * @return True if the coordinates are inside the board, false otherwise.
+     */
     public boolean isInside(int x, int y) {
         return x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE;
     }
 
+    /**
+     * Returns a textual representation of the board and its cells.
+     * @return A string showing the grid with cell types and placed tiles.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
