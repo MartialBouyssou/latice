@@ -8,7 +8,6 @@ public class LaticeGameListener implements GameListener {
 
     private final GameController gameController;
     private final boolean isLanMode;
-    private boolean playTwiceActive = false;
 
     /**
      * Creates the listener bound to the given game controller used to update the UI.
@@ -31,7 +30,7 @@ public class LaticeGameListener implements GameListener {
     }
 
     /**
-     * Handles the action bought event by updating the player info and enabling the play-twice mode when relevant.
+     * Handles the action bought event by updating the player info and disabling the action button until the bought action is used.
      * @param event The event describing the bought action and its type.
      */
     @Override
@@ -39,7 +38,6 @@ public class LaticeGameListener implements GameListener {
         gameController.updatePlayerInfo(event.getPlayer());
 
         if (event.getActionType() == ActionType.PLAY_TWICE) {
-            if (!isLanMode) playTwiceActive = true;
             gameController.toggleActionButton(true);
         }
     }
@@ -63,7 +61,7 @@ public class LaticeGameListener implements GameListener {
     }
 
     /**
-     * Handles the tile placed event by drawing the tile on the board, refreshing the UI and ending the turn unless play-twice is active.
+     * Handles the tile placed event by drawing the tile on the board and refreshing the UI.
      * @param event The event holding the placed tile, its coordinates and the player.
      */
     @Override
@@ -77,13 +75,11 @@ public class LaticeGameListener implements GameListener {
         gameController.updatePlayerInfo(event.getPlayer());
         gameController.updateRack(event.getPlayer());
 
-        if (!isLanMode) {
-            if (playTwiceActive) {
-                playTwiceActive = false;
-                gameController.toggleActionButton();
-            } else {
-                gameController.setHasAlreadyPlaced(true);
-                gameController.getGame().endTurn();
+        if (!isLanMode && gameController.getGame() != null) {
+            boolean hasRemainingAction = gameController.getGame().hasRemainingAction();
+            gameController.setHasAlreadyPlaced(!hasRemainingAction);
+            if (hasRemainingAction) {
+                gameController.toggleActionButton(false);
             }
         }
     }
@@ -95,6 +91,7 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
         gameController.setHasAlreadyPlaced(false);
+        gameController.toggleActionButton(false);
         if (isLanMode) {
             gameController.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
         } else {
@@ -106,17 +103,19 @@ public class LaticeGameListener implements GameListener {
     }
 
     /**
-     * Handles the rack exchanged event by either cancelling play-twice or completing the exchange as a turn, then refreshing the rack.
+     * Handles the rack exchanged event by refreshing the rack and action state.
      * @param event The event holding the player whose rack was exchanged.
      */
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
-        if (!isLanMode && playTwiceActive) {
-            playTwiceActive = false;
-        } else {
-            gameController.getGame().completeExchangeAsTurn();
-        }
         gameController.updateRack(event.getPlayer());
+        if (!isLanMode && gameController.getGame() != null) {
+            boolean hasRemainingAction = gameController.getGame().hasRemainingAction();
+            gameController.setHasAlreadyPlaced(!hasRemainingAction);
+            if (hasRemainingAction) {
+                gameController.toggleActionButton(false);
+            }
+        }
     }
 
     /**

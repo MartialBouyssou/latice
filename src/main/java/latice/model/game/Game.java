@@ -17,6 +17,7 @@ import java.util.Random;
 
 public class Game {
     public static final int MAX_CYCLES = 10;
+    private static final int STARTING_ACTIONS_PER_TURN = 1;
 
     private final List<Player> players;
     private final String player1Username;
@@ -29,7 +30,7 @@ public class Game {
     private int playersTurnScore;
 
     private boolean actionPlayedThisTurn = false;
-    private boolean playTwiceActive = false;
+    private int remainingActions = STARTING_ACTIONS_PER_TURN;
 
     /**
      * Creates a new game with the given referee and player usernames.
@@ -114,8 +115,20 @@ public class Game {
         return actionPlayedThisTurn;
     }
 
+    /**
+     * Indicates whether the current player has bought an additional action.
+     * @return True if more than one action is currently available, false otherwise.
+     */
     public boolean isPlayTwiceActive() {
-        return playTwiceActive;
+        return remainingActions > STARTING_ACTIONS_PER_TURN;
+    }
+
+    /**
+     * Indicates whether the current player can still perform an action this turn.
+     * @return True if at least one action remains for the current turn.
+     */
+    public boolean hasRemainingAction() {
+        return remainingActions > 0;
     }
 
     /**
@@ -132,6 +145,8 @@ public class Game {
      */
     public void startGame() {
         board = Board.create();
+        remainingActions = STARTING_ACTIONS_PER_TURN;
+        actionPlayedThisTurn = false;
 
         Deck fullDeck = Deck.create();
         List<Tile> allTiles = fullDeck.getTiles();
@@ -158,6 +173,8 @@ public class Game {
     public void startFromExistingPlayers() {
         board = Board.create();
         currentPlayer = players.get(0);
+        remainingActions = STARTING_ACTIONS_PER_TURN;
+        actionPlayedThisTurn = false;
         sendEvent(new GameStartedEvent(currentPlayer));
     }
 
@@ -176,27 +193,22 @@ public class Game {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
                     LangManager.getInstance().get("event.invalidMove.tileError")
             ));
-            return;
-        }
-
-        if (!referee.isValidMove(board, tile, x, y)) {
+        } else if (!referee.isValidMove(board, tile, x, y)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
                     LangManager.getInstance().get("event.invalidMove.moveError")
             ));
-            return;
+        } else {
+            playersTurnScore = referee.calculateScore(board, tile, x, y);
+
+            currentPlayer.getRack().getTiles().remove(tile);
+            board.placeTile(tile, x, y);
+            currentPlayer.incrementTilesPlayed();
+            currentPlayer.addScore(playersTurnScore);
+            useAction();
+
+            sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
+            endTurnIfNoActionRemains();
         }
-
-        playersTurnScore = referee.calculateScore(board, tile, x, y);
-
-        currentPlayer.getRack().getTiles().remove(tile);
-        board.placeTile(tile, x, y);
-        currentPlayer.incrementTilesPlayed();
-        currentPlayer.addScore(playersTurnScore);
-
-        if (playTwiceActive) playTwiceActive = false;
-        actionPlayedThisTurn = true;
-
-        sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
     }
 
     /**
@@ -208,15 +220,14 @@ public class Game {
         if (currentPlayer == null) throw new GameNotStartException();
         if (!actionPlayedThisTurn) throw new NoTilePlayedException();
 
-        actionPlayedThisTurn = false;
         currentPlayer.getRack().refill(currentPlayer.getDeck());
 
         Player lastPlayer = currentPlayer;
         int lastScore = playersTurnScore;
-        playersTurnScore = 0;
 
         turnCount++;
         nextPlayer();
+        prepareNextTurn();
 
         if (isGameOver()) {
             sendEvent(new GameOverEvent(getWinner()));
@@ -229,10 +240,21 @@ public class Game {
      * Passes the current player's turn without playing a tile and ends the turn.
      */
     public void passTurn() {
-        actionPlayedThisTurn = true;
+        if (currentPlayer == null) throw new GameNotStartException();
+        useAllActions();
         Player lastPlayer = currentPlayer;
-        sendEvent(new TurnPassedEvent(getNextPlayer(), lastPlayer, playersTurnScore));
-        endTurn();
+        int lastScore = playersTurnScore;
+
+        currentPlayer.getRack().refill(currentPlayer.getDeck());
+        turnCount++;
+        nextPlayer();
+        prepareNextTurn();
+
+        if (isGameOver()) {
+            sendEvent(new GameOverEvent(getWinner()));
+        } else {
+            sendEvent(new TurnPassedEvent(currentPlayer, lastPlayer, lastScore));
+        }
     }
 
     /**
@@ -309,20 +331,25 @@ public class Game {
     }
 
     /**
-     * Exchanges all tiles on the current player's rack with new tiles from their
-     * deck and notifies listeners.
+     * Exchanges all tiles on the current player's rack, use one action and
+     * ends the turn when no action remains.
      */
     public void exchangeAll() {
+        if (currentPlayer == null) throw new GameNotStartException();
         currentPlayer.getRack().exchangeAll(currentPlayer.getDeck());
+        useAction();
         sendEvent(new RackExchangedEvent(currentPlayer, currentPlayer.getRack()));
+        endTurnIfNoActionRemains();
     }
 
     /**
-     * Marks the rack exchange as the player's action for the turn and ends the turn.
+     * Use one action after an externally synchronized rack exchange and
+     * ends the turn when no action remains.
      */
     public void completeExchangeAsTurn() {
-        actionPlayedThisTurn = true;
-        endTurn();
+        if (currentPlayer == null) throw new GameNotStartException();
+        useAction();
+        endTurnIfNoActionRemains();
     }
 
     /**
@@ -331,9 +358,11 @@ public class Game {
      * notifying listeners that the player cannot afford it.
      */
     public void buyAnAction() {
+        if (currentPlayer == null) throw new GameNotStartException();
+
         if (currentPlayer.canAfford(Referee.EXTRA_ACTION_COST)) {
             currentPlayer.spendScore(Referee.EXTRA_ACTION_COST);
-            playTwiceActive = true;
+            remainingActions++;
             sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
         } else {
             sendEvent(new CannotAffordEvent(
@@ -347,7 +376,43 @@ public class Game {
      * and notifying listeners that the game is over.
      */
     public void surrender() {
-        actionPlayedThisTurn = true;
+        useAllActions();
         sendEvent(new GameOverEvent(getNextPlayer()));
+    }
+
+    /**
+     * Use one available action and marks the current turn as played.
+     */
+    private void useAction() {
+        actionPlayedThisTurn = true;
+        if (remainingActions > 0) {
+            remainingActions--;
+        }
+    }
+
+    /**
+     * Use every remaining action and marks the current turn as played.
+     */
+    private void useAllActions() {
+        actionPlayedThisTurn = true;
+        remainingActions = 0;
+    }
+
+    /**
+     * Ends the current turn if the active player cannot perform another action.
+     */
+    private void endTurnIfNoActionRemains() {
+        if (!hasRemainingAction()) {
+            endTurn();
+        }
+    }
+
+    /**
+     * Resets turn-specific counters for the next player.
+     */
+    private void prepareNextTurn() {
+        actionPlayedThisTurn = false;
+        playersTurnScore = 0;
+        remainingActions = STARTING_ACTIONS_PER_TURN;
     }
 }

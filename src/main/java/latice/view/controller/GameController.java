@@ -46,9 +46,6 @@ import latice.utils.theme.ThemeManager;
 import latice.utils.theme.Theme;
 import latice.utils.LangManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameController {
 
     private static final Logger LOGGER = Logger.getLogger(GameController.class.getName());
@@ -144,15 +141,16 @@ public class GameController {
      */
     public void onLanguageChanged() {
         String selectedLabel = languageComboBox.getValue();
-        if (selectedLabel == null) return;
 
-        availableLanguages.entrySet().stream()
-                .filter(e -> e.getValue().equals(selectedLabel))
-                .findFirst()
-                .ifPresent(e -> {
-                    LangManager.getInstance().load(e.getKey());
-                    loadTexts();
-                });
+        if (selectedLabel != null) {
+            availableLanguages.entrySet().stream()
+                    .filter(e -> e.getValue().equals(selectedLabel))
+                    .findFirst()
+                    .ifPresent(e -> {
+                        LangManager.getInstance().load(e.getKey());
+                        loadTexts();
+                    });
+        }
     }
 
     /**
@@ -372,8 +370,10 @@ public class GameController {
      */
     private Game buildLocalGame() {
         LangManager lang = LangManager.getInstance();
-        String name1 = getPlayerName(player1UsernameTf.getText(), lang.get("default.firstPlayerName"));
-        String name2 = getPlayerName(player2UsernameTf.getText(), lang.get("default.secondPlayerName"));
+        String name1 = getPlayerName(player1UsernameTf.getText(),
+                lang.get("default.firstPlayerName"));
+        String name2 = getPlayerName(player2UsernameTf.getText(),
+                lang.get("default.secondPlayerName"));
         if (name1.equals(name2)) name2 = name2 + "_2";
         return new Game(buildReferee(), name1, name2);
     }
@@ -438,7 +438,11 @@ public class GameController {
         showLanOverlay(game.getCurrentPlayer().getName());
     }
 
-    // TODO: Docstring
+    /**
+     * Routes an incoming network packet to the appropriate handler on the JavaFX thread.
+     *
+     * @param packet The packet received from the remote player.
+     */
     private void handleIncomingPacket(Packet packet) {
         if (packet instanceof LobbyJoinPacket p) {
             Platform.runLater(() -> handleLobbyJoin(p));
@@ -463,7 +467,9 @@ public class GameController {
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Handles the remote client disconnection while hosting a LAN game.
+     */
     private void handleClientDisconnected() {
         if (game != null && gameBoardBP.isVisible()) {
             showGameOver(null);
@@ -475,7 +481,9 @@ public class GameController {
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Handles the host disconnection while connected as a LAN client.
+     */
     private void handleHostDisconnected() {
         if (game != null && gameBoardBP.isVisible()) {
             showGameOver(null);
@@ -486,7 +494,11 @@ public class GameController {
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Handles a client joining the hosted LAN lobby.
+     *
+     * @param packet The lobby join packet containing the client name.
+     */
     private void handleLobbyJoin(LobbyJoinPacket packet) {
         LangManager lang = LangManager.getInstance();
         clientUsername = packet.getClientName();
@@ -498,7 +510,11 @@ public class GameController {
         sendPacket(new LobbyWelcomePacket(hostUsername));
     }
 
-    // TODO: Docstring
+    /**
+     * Handles the host welcome packet received by a LAN client.
+     *
+     * @param packet The welcome packet containing the host name.
+     */
     private void handleLobbyWelcome(LobbyWelcomePacket packet) {
         LangManager lang = LangManager.getInstance();
         hostUsername = packet.getHostName();
@@ -516,7 +532,9 @@ public class GameController {
                 "client", clientUsername));
     }
 
-    // TODO: Docstring
+    /**
+     * Marks the LAN client as ready and enables the host start button.
+     */
     private void handleLobbyReady() {
         LangManager lang = LangManager.getInstance();
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameReady",
@@ -525,7 +543,9 @@ public class GameController {
         lanPlayButton.setOnAction(e -> startLanGameAsHost());
     }
 
-    // TODO: Docstring
+    /**
+     * Starts the LAN game from the host side and sends the initial game state to the client.
+     */
     private void startLanGameAsHost() {
         lanPlayButton.setDisable(true);
         game = buildLanGameAsHost();
@@ -547,29 +567,37 @@ public class GameController {
         gameBoardBP.setManaged(true);
     }
 
-    // TODO: Docstring
+    /**
+     * Starts a LAN game from a game start packet.
+     *
+     * @param packet The packet containing both players' initial state.
+     */
     private void handleStartGame(GameStartPacket packet) {
         startLanGame(packet);
     }
 
-    // TODO: Docstring
+    /**
+     * Applies a tile placement received from the remote player.
+     *
+     * @param packet The packet containing the tile and target coordinates.
+     */
     private void handlePlayTile(PlayTilePacket packet) {
         if (networkGameListener != null) {
             networkGameListener.setLocalAction(false);
-            boolean wasPlayTwice = game.isPlayTwiceActive();
-            List<Tile> rackBefore = new ArrayList<>(game.getCurrentPlayer().getRack().getTiles());
+            Player playerBeforeMove = game.getCurrentPlayer();
+            int tilesPlayedBeforeMove = playerBeforeMove.getTilesPlayed();
             game.playTile(packet.getTile(), packet.getX(), packet.getY());
-            boolean moveFailed = game.getCurrentPlayer().getRack().getTiles().containsAll(rackBefore)
-                    && rackBefore.containsAll(game.getCurrentPlayer().getRack().getTiles());
-            if (!moveFailed && !wasPlayTwice) {
-                game.endTurn();
+            boolean moveSucceeded = playerBeforeMove.getTilesPlayed() > tilesPlayedBeforeMove;
+            if (moveSucceeded && game != null) {
                 showLanOverlay(game.getCurrentPlayer().getName());
             }
             networkGameListener.setLocalAction(false);
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Applies a pass turn action received from the remote player.
+     */
     private void handlePassTurn() {
         if (networkGameListener != null) {
             networkGameListener.setLocalAction(false);
@@ -579,7 +607,11 @@ public class GameController {
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Applies a rack exchange received from the remote player.
+     *
+     * @param packet The packet containing the synchronized rack and deck state.
+     */
     private void handleExchangeRack(ExchangeRackPacket packet) {
         if (networkGameListener != null) {
             networkGameListener.setLocalAction(false);
@@ -591,7 +623,9 @@ public class GameController {
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Applies an action purchase received from the remote player.
+     */
     private void handleBuyAction() {
         if (networkGameListener != null) {
             networkGameListener.setLocalAction(false);
@@ -600,7 +634,11 @@ public class GameController {
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Handles a remote game over notification.
+     *
+     * @param packet The packet containing the remote winner information.
+     */
     private void handleGameOver(GameOverPacket packet) {
         if (game != null) {
             Player winner = game.getPlayers().stream()
@@ -613,7 +651,11 @@ public class GameController {
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Runs a local game action while allowing the network listener to relay its events.
+     *
+     * @param action The local action to execute.
+     */
     private void executeLocalAction(Runnable action) {
         networkGameListener.setLocalAction(true);
         action.run();
@@ -672,7 +714,9 @@ public class GameController {
         }
     }
 
-    // TODO: Docstring
+    /**
+     * Sends the client ready state to the host in a LAN lobby.
+     */
     private void buttonLanReady() {
         LangManager lang = LangManager.getInstance();
         lanPlayButton.setDisable(true);
@@ -681,18 +725,28 @@ public class GameController {
                 "client", clientUsername));
     }
 
-    // TODO: Docstring
+    /**
+     * Stops active network resources and exits the application.
+     */
     public void quitApp() {
         stopNetwork();
         System.exit(0);
     }
 
-    // TODO: Docstring
+    /**
+     * Builds a LAN game for the host using the selected player names.
+     *
+     * @return A new LAN game instance.
+     */
     private Game buildLanGameAsHost() {
         return new Game(buildReferee(), hostUsername, clientUsername);
     }
 
-    // TODO: Docstring
+    /**
+     * Builds the packet used to synchronize the initial LAN game state.
+     *
+     * @return The game start packet to send to the client.
+     */
     private GameStartPacket buildGameStartPacket() {
         Player starter = game.getCurrentPlayer();
         Player second = game.getNextPlayer();
@@ -703,17 +757,22 @@ public class GameController {
         );
     }
 
-    // TODO: Docstring
+    /**
+     * Sends a packet through the active LAN connection.
+     *
+     * @param packet The packet to send.
+     */
     public void sendPacket(Packet packet) {
-        if (sessionRole == SessionRole.LOCAL) return;
-        try {
-            if (sessionRole == SessionRole.HOST && tcpServer != null) {
-                tcpServer.send(packet);
-            } else if (sessionRole == SessionRole.CLIENT && tcpClient != null) {
-                tcpClient.send(packet);
+        if (sessionRole != SessionRole.LOCAL) {
+            try {
+                if (sessionRole == SessionRole.HOST && tcpServer != null) {
+                    tcpServer.send(packet);
+                } else if (sessionRole == SessionRole.CLIENT && tcpClient != null) {
+                    tcpClient.send(packet);
+                }
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Failed to send packet: {0}", e.getMessage());
             }
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to send packet: {0}", e.getMessage());
         }
     }
 
@@ -727,7 +786,7 @@ public class GameController {
     /**
      * Sets the active state of the action button explicitly.
      *
-     * @param activate A boolean indicating if the button should be disabled (true) or enabled (false).
+     * @param activate A boolean indicating if the button is disabled (true) or enabled (false).
      */
     public void toggleActionButton(boolean activate) {
         actionButton.setDisable(activate);
@@ -772,14 +831,20 @@ public class GameController {
         endTurnButton.setDisable(false);
     }
 
-    // TODO: docstring
+    /**
+     * Shows the generic turn transition overlay.
+     */
     public void showOverlay() {
         screenOverlay.setVisible(true);
         screenOverlay.setManaged(true);
         endTurnButton.setDisable(true);
     }
 
-    // TODO: docstring
+    /**
+     * Updates the LAN overlay depending on whether the current turn belongs to the local player.
+     *
+     * @param currentPlayerName The name of the player whose turn is active.
+     */
     public void showLanOverlay(String currentPlayerName) {
         String localUsername = sessionRole == SessionRole.HOST ? hostUsername : clientUsername;
         boolean isMyTurn = currentPlayerName.equals(localUsername);
@@ -790,7 +855,8 @@ public class GameController {
             updateRack(game.getCurrentPlayer());
             updatePlayerInfo(game.getCurrentPlayer());
             if (game.getTurnCount() != 0 && pendingLastPlayer != null) {
-                showOverlayForPlayer(game.getCurrentPlayer(), pendingLastPlayer, pendingLastTurnScore);
+                showOverlayForPlayer(game.getCurrentPlayer(), pendingLastPlayer,
+                        pendingLastTurnScore);
             }
             pendingLastPlayer = null;
             pendingLastTurnScore = 0;
@@ -947,7 +1013,8 @@ public class GameController {
                 }
 
                 String path = Objects.requireNonNull(
-                        getClass().getResource("/" + ThemeManager.getInstance().getBoardBgPath(bgFile))
+                        getClass().getResource("/" +
+                                ThemeManager.getInstance().getBoardBgPath(bgFile))
                 ).toExternalForm();
 
                 imageView.setImage(new Image(path));
@@ -1006,16 +1073,12 @@ public class GameController {
                             game.playTile(tile, col, row);
                         } else {
                             executeLocalAction(() -> {
-                                boolean wasPlayTwice = game.isPlayTwiceActive();
-                                List<Tile> rackBefore = new ArrayList<>(game.getCurrentPlayer().getRack().getTiles());
+                                Player playerBeforeMove = game.getCurrentPlayer();
+                                int tilesPlayedBeforeMove = playerBeforeMove.getTilesPlayed();
                                 game.playTile(tile, col, row);
-                                boolean moveFailed = game.getCurrentPlayer().getRack().getTiles().containsAll(rackBefore)
-                                        && rackBefore.containsAll(game.getCurrentPlayer().getRack().getTiles());
-                                if (moveFailed) return;
-                                if (wasPlayTwice) {
-                                    actionButton.setDisable(false);
-                                } else {
-                                    game.endTurn();
+                                boolean moveSucceeded =
+                                        playerBeforeMove.getTilesPlayed() > tilesPlayedBeforeMove;
+                                if (moveSucceeded && game != null) {
                                     showLanOverlay(game.getCurrentPlayer().getName());
                                 }
                             });
