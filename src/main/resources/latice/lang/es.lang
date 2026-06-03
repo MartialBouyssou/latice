@@ -77,3 +77,11 @@ event.invalidMove.moveError=El movimiento no es válido según las reglas del ju
 
 # # No se puede pagar
 event.invalidMove.cannotAfford=No tienes suficientes puntos para comprar una acción adicional
+
+# # Menú de selección de modo
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (próximamente)
+menu.start.modeVsAI=Vs IA
+
+# # Nombre de la IA
+menu.username.aiPlayerName=Ordenador

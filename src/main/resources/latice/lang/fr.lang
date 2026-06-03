@@ -72,3 +72,10 @@ event.invalidMove.moveError=Le placement n'est pas valide selon les règles du j
 
 # # Event d'achat d'action invalide
 event.invalidMove.cannotAfford=Vous n'avez pas assez de points pour acheter une action supplémentaire
+# # Menu de sélection de mode
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (bientôt)
+menu.start.modeVsAI=Contre l'IA
+
+# # Nom de l'IA
+menu.username.aiPlayerName=Ordinateur

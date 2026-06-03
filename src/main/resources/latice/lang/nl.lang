@@ -77,3 +77,11 @@ event.invalidMove.moveError=De zet is niet geldig volgens de spelregels
 
 # # Niet genoeg punten
 event.invalidMove.cannotAfford=Niet genoeg punten om een extra actie te kopen
+
+# # Modusselectiemenu
+menu.start.modeLocal=Lokaal
+menu.start.modeLan=LAN (binnenkort)
+menu.start.modeVsAI=Vs AI
+
+# # Naam van de AI
+menu.username.aiPlayerName=Computer

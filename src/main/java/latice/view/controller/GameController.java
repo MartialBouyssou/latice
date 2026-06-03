@@ -1,5 +1,6 @@
 package latice.view.controller;
 
+import javafx.application.Platform;
 import javafx.event.Event;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -13,6 +14,9 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import latice.listeners.LaticeGameListener;
+import latice.model.ai.AIDifficulty;
+import latice.model.ai.AIMove;
+import latice.model.ai.AIPlayer;
 import latice.model.board.cell.SunCell;
 import latice.model.game.Game;
 import latice.model.player.Player;
@@ -59,10 +63,17 @@ public class GameController {
     @FXML private TextField player2UsernameTf;
     @FXML private VBox themeMenuVBox;
 
+    @FXML private VBox modeMenuVBox;
+    @FXML private VBox usernameVsAIMenuVBox;
+    @FXML private TextField player1UsernameVsAITf;
+
     private Game game;
     private List<ImageView> rackImageViews;
     private boolean hasAlreadyPlaced = false;
     private Map<String, String> availableLanguages;
+
+    private Player aiControlledPlayer;
+    private AIPlayer aiPlayer;
 
     /**
      * Initializes the JavaFX controller, setting up views, languages, and drag-and-drop events.
@@ -133,7 +144,6 @@ public class GameController {
             if (node instanceof Labeled labeled) {
                 String key = (String) labeled.getProperties()
                         .getOrDefault("i18n-key", labeled.getText());
-                // i18n is the used name for internationalization => Multi language support :)
 
                 if (key != null && !key.isBlank() && key.contains(".") && !key.contains(" ")) {
                     labeled.getProperties().put("i18n-key", key);
@@ -147,23 +157,47 @@ public class GameController {
     }
 
     /**
+     * Displays the game mode selection menu (local, LAN, vs AI).
+     */
+    public void showModeMenu() {
+        playMenuVBox.setVisible(false);
+        playMenuVBox.setManaged(false);
+        modeMenuVBox.setVisible(true);
+        modeMenuVBox.setManaged(true);
+    }
+
+    /**
      * Displays the menu for choosing player usernames and hides other menus.
      */
     public void showUsernameChoiceMenu() {
-        playMenuVBox.setVisible(false);
-        playMenuVBox.setManaged(false);
+        modeMenuVBox.setVisible(false);
+        modeMenuVBox.setManaged(false);
         usernameMenuVBox.setVisible(true);
         usernameMenuVBox.setManaged(true);
     }
 
     /**
-     * Displays the main play menu and hides the rules and theme menus.
+     * Displays the username menu for player-vs-AI mode.
+     */
+    public void showUsernameVsAIMenu() {
+        modeMenuVBox.setVisible(false);
+        modeMenuVBox.setManaged(false);
+        usernameVsAIMenuVBox.setVisible(true);
+        usernameVsAIMenuVBox.setManaged(true);
+    }
+
+    /**
+     * Displays the main play menu and hides the rules, theme and other menus.
      */
     public void showPlayMenu() {
         themeMenuVBox.setVisible(false);
         themeMenuVBox.setManaged(false);
         rulesMenuVBox.setVisible(false);
         rulesMenuVBox.setManaged(false);
+        modeMenuVBox.setVisible(false);
+        modeMenuVBox.setManaged(false);
+        usernameVsAIMenuVBox.setVisible(false);
+        usernameVsAIMenuVBox.setManaged(false);
         playMenuVBox.setVisible(true);
         playMenuVBox.setManaged(true);
     }
@@ -215,7 +249,74 @@ public class GameController {
     }
 
     /**
-     * Constructs the Game object, injecting rules and player names.
+     * Hides the starting menus, initializes a player-vs-AI game, and brings up the game board.
+     * The AI player is always assigned as player 2 (index 1).
+     * If the AI starts first, its turn is triggered automatically via the game started event.
+     */
+    public void startGameVsAI() {
+        playMenuVBox.setVisible(true);
+        playMenuVBox.setManaged(true);
+        usernameVsAIMenuVBox.setVisible(false);
+        usernameVsAIMenuVBox.setManaged(false);
+        startMenuStackpane.setVisible(false);
+        startMenuStackpane.setManaged(false);
+
+        String humanName = getPlayerName(player1UsernameVsAITf.getText(), "P1");
+        String aiName = LangManager.getInstance().get("menu.username.aiPlayerName");
+
+        List<IRule> rules = List.of(
+                new MatchingRule(),
+                new AdjacencyRule(),
+                new PositionRule(),
+                new FirstTurnRule()
+        );
+        game = new Game(Referee.create(rules), humanName, aiName);
+        game.addListener(new LaticeGameListener(this));
+
+        aiPlayer = new AIPlayer(game.getReferee(), AIDifficulty.HARD);
+
+        game.startGame();
+
+        aiControlledPlayer = game.getPlayers().get(1);
+
+        gameBoardBP.setVisible(true);
+        gameBoardBP.setManaged(true);
+    }
+
+    /**
+     * Executes the AI's turn: finds the best move and plays it, or exchanges all tiles if no move
+     * is available, or passes if the deck is also empty.
+     * Must always be called on the JavaFX Application Thread.
+     */
+    public void playAITurn() {
+        if (aiControlledPlayer == null || aiPlayer == null) {
+            return;
+        }
+        AIMove move = aiPlayer.findBestMove(game.getBoard(), aiControlledPlayer.getRack());
+        if (move != null) {
+            game.playTile(move.getTile(), move.getX(), move.getY());
+        } else {
+            game.exchangeAll();
+        }
+    }
+
+    /**
+     * Triggers the AI turn if the current player is the AI-controlled player.
+     * Called by the listener after every turn change and after the overlay is dismissed.
+     * No-op in local/LAN mode where aiControlledPlayer is null.
+     */
+    public void triggerAITurnIfNeeded() {
+        if (aiControlledPlayer != null
+                && aiPlayer != null
+                && game != null
+                && game.getCurrentPlayer() != null
+                && game.getCurrentPlayer().equals(aiControlledPlayer)) {
+            playAITurn();
+        }
+    }
+
+    /**
+     * Constructs the Game object for a local two-player game, injecting rules and player names.
      *
      * @return The newly instantiated Game object.
      */
@@ -284,11 +385,15 @@ public class GameController {
 
     /**
      * Hides the transition overlay and re-enables the end turn button.
+     * If the next current player is the AI, its turn is triggered after the overlay closes.
      */
     public void hideOverlay() {
         screenOverlay.setVisible(false);
         screenOverlay.setManaged(false);
         endTurnButton.setDisable(false);
+
+
+        Platform.runLater(this::triggerAITurnIfNeeded);
     }
 
     /**
@@ -398,8 +503,6 @@ public class GameController {
             updateRack(player);
 
         } catch (Exception e) {
-            // https://docs.oracle.com/javase/8/docs/api/java/util/logging/Logger.html
-            // I've done that 'cause SonarQube absolutly wanted us to use Logger, but don't know why
             Logger.getLogger(GameController.class.getName())
                     .warning("Failed to place tile on board UI: " + e.getMessage());
         }
@@ -505,6 +608,9 @@ public class GameController {
         playMenuVBox.setManaged(true);
         usernameMenuVBox.setVisible(false);
         usernameMenuVBox.setManaged(false);
+
+        aiControlledPlayer = null;
+        aiPlayer = null;
 
         gameBoardBP.setVisible(false);
         gameBoardBP.setManaged(false);

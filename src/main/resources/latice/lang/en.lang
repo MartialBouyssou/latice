@@ -72,3 +72,10 @@ event.invalidMove.moveError=Move is not valid according to game rules
 
 # # Connot Afford Event
 event.invalidMove.cannotAfford=Not enough point to buy extra action
+# # Mode selection menu
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (coming soon)
+menu.start.modeVsAI=Vs AI
+
+# # AI player name
+menu.username.aiPlayerName=Computer

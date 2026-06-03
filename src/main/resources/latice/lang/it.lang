@@ -77,3 +77,11 @@ event.invalidMove.moveError=La mossa non è valida secondo le regole del gioco
 
 # # Non abbastanza punti
 event.invalidMove.cannotAfford=Non hai abbastanza punti per acquistare un'azione aggiuntiva
+
+# # Menu selezione modalità
+menu.start.modeLocal=Locale
+menu.start.modeLan=LAN (prossimamente)
+menu.start.modeVsAI=Vs IA
+
+# # Nome dell'IA
+menu.username.aiPlayerName=Computer

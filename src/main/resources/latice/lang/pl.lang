@@ -77,3 +77,11 @@ event.invalidMove.moveError=Ruch jest nieprawidłowy zgodnie z zasadami gry
 
 # # Brak punktów
 event.invalidMove.cannotAfford=Niewystarczająca liczba punktów, aby kupić dodatkową akcję
+
+# # Menu wyboru trybu
+menu.start.modeLocal=Lokalny
+menu.start.modeLan=LAN (wkrótce)
+menu.start.modeVsAI=Vs AI
+
+# # Nazwa gracza AI
+menu.username.aiPlayerName=Komputer

@@ -77,3 +77,11 @@ event.invalidMove.moveError=Der Zug ist laut Spielregeln nicht gültig
 
 # # Nicht genug Punkte
 event.invalidMove.cannotAfford=Nicht genug Punkte, um eine zusätzliche Aktion zu kaufen
+
+# # Modusauswahlmenü
+menu.start.modeLocal=Lokal
+menu.start.modeLan=LAN (demnächst)
+menu.start.modeVsAI=Gegen KI
+
+# # Name der KI
+menu.username.aiPlayerName=Computer
