@@ -74,12 +74,12 @@ public class BoardView {
         ).toExternalForm();
     }
 
-    // TODO: docstring
     /**
-     * @param board
-     * @param x
-     * @param y
-     * @return
+     * Determines the filename of the background image of a board cell
+     * @param board the game board used to check the cell types
+     * @param x horizontal coordinate (column) of the cell
+     * @param y vertical coordinate (row) of the cell
+     * @return The filename of the background image
      */
     private String getBackgroundFile(Board board, int x, int y) {
         String backgroundFile = "bg_sea.png";

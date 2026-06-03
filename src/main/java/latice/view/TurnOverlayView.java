@@ -148,10 +148,12 @@ public class TurnOverlayView {
         alert.show();
     }
 
-    // TODO: docstring
+    // this docstring is done with AI
     /**
-     * @param overlay
-     * @param visible
+     * Toggles the visibility of a full-screen or contextual UI overlay pane.
+     * @param overlay The {@code StackPane} serving as the UI overlay.
+     * @param visible {@code true} to display the overlay and block/cover the background;
+     * {@code false} to hide it completely.
      */
     private void setOverlayVisible(StackPane overlay, boolean visible) {
         overlay.setVisible(visible);

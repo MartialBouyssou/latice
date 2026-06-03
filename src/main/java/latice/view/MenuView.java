@@ -107,9 +107,11 @@ public class MenuView {
         setVisibleManaged(startMenuStackpane, true);
     }
 
-    // TODO: docstring
+    // this docstring is done with AI
     /**
-     * @param selectedMenu
+     * Toggles the visibility and layout management of the UI menus to display only the selected one
+     * @param selectedMenu selectedMenu The specific {@code VBox} menu pane that should be
+     * brought into focus.
      */
     private void showOnly(VBox selectedMenu) {
         setVisibleManaged(playMenu, playMenu == selectedMenu);
@@ -121,10 +123,12 @@ public class MenuView {
         setVisibleManaged(lanLobbyMenu, lanLobbyMenu == selectedMenu);
     }
 
-    // TODO: docstring
+    // this docstring is done with AI
     /**
-     * @param node
-     * @param visible
+     * Updates both the visibility and layout management status of a UI node.
+     * @param node The UI component to update (safely ignores {@code null}).
+     * @param visible visible {@code true} to render and include the node in the layout;
+     * {@code false} to hide it and reclaim its layout space.
      */
     private void setVisibleManaged(Node node, boolean visible) {
         if (node != null) {

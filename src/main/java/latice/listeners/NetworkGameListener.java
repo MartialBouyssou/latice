@@ -53,12 +53,19 @@ public class NetworkGameListener implements GameListener {
 
     @Override
     public void onGameOver(GameOverEvent event) {
-        if (isLocalAction && event.getWinner() != null) {
-            packetSender.sendPacket(new GameOverPacket(
-                    event.getWinner().getName(),
-                    event.getWinner().getScore()
-            ));
+        if (!isLocalAction) {
+            return;
         }
+
+        if (event.getWinner() == null) {
+            packetSender.sendPacket(GameOverPacket.draw());
+            return;
+        }
+
+        packetSender.sendPacket(new GameOverPacket(
+                event.getWinner().getName(),
+                event.getWinner().getScore()
+        ));
     }
 
     @Override

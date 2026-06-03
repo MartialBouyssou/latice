@@ -615,17 +615,25 @@ public class GameController implements GameView, PacketSender {
     /**
      * Handles a remote game over notification.
      *
-     * @param packet The packet containing the remote winner information.
+     * @param packet The packet containing the remote end game informations.
      */
     private void handleGameOver(GameOverPacket packet) {
-        if (game != null) {
-            Player winner = game.getPlayers().stream()
-                    .filter(p -> p.getName().equals(packet.getWinnerUsername()))
-                    .findFirst()
-                    .orElse(null);
-            showGameOver(winner);
-            endGame();
+        if (game == null) {
+            return;
         }
+
+        if (packet.isDraw()) {
+            showGameOver(null);
+            endGame();
+            return;
+        }
+
+        Player winner = game.getPlayers().stream()
+                .filter(p -> p.getName().equals(packet.getWinnerUsername()))
+                .findFirst()
+                .orElse(null);
+        showGameOver(winner);
+        endGame();
     }
 
     /**
