@@ -307,7 +307,7 @@ public class GameController {
     }
 
     /**
-     * Displays the theme menu and hides the main play menu.
+     * Displays the menu allowing the user to select the visual theme of the game.
      */
     public void showThemeMenu() {
         playMenuVBox.setVisible(false);
@@ -610,6 +610,15 @@ public class GameController {
             showGameOver(winner);
             endGame();
             resetBoard();
+        }
+    }
+
+    // TODO: Docstring
+    private void executeLocalAction(Runnable action) {
+        networkGameListener.setLocalAction(true);
+        action.run();
+        if (networkGameListener != null) {
+            networkGameListener.setLocalAction(false);
         }
     }
 
@@ -1021,10 +1030,6 @@ public class GameController {
         });
     }
 
-    public void buttonExchangeAll() {
-        game.exchangeAll();
-    }
-
     /**
      * Resolves the corresponding Tile model object from the provided image file path.
      *
@@ -1043,16 +1048,6 @@ public class GameController {
                 new PositionRule(),
                 new FirstTurnRule()
         ));
-    }
-
-    /**
-     * Displays the menu allowing the user to select the visual theme of the game.
-     */
-    public void showThemeMenu() {
-        playMenuVBox.setVisible(false);
-        playMenuVBox.setManaged(false);
-        themeMenuVBox.setVisible(true);
-        themeMenuVBox.setManaged(true);
     }
 
     /**
