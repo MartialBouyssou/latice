@@ -29,7 +29,7 @@ public class MatchingRule implements IRule {
                 boolean sameColor = neighbor.getColor() == tile.getColor();
                 boolean sameShape = neighbor.getShape() == tile.getShape();
 
-                if (!sameColor || !sameShape) {
+                if (!sameColor && !sameShape) {
                     valid = false;
                 }
             }
