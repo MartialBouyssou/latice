@@ -31,8 +31,7 @@ public class TcpClientHandler implements Runnable {
                 Packet packet = PacketSerializer.read(in);
                 onPacketReceived.accept(packet);
             }
-        } catch (IOException e) {
-            throw new ClientDisconnectedException("Client was disconnected during TCP handling");
+        } catch (IOException ignored) {
         }
     }
 

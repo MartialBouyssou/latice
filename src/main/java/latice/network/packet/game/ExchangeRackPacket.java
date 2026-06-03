@@ -14,31 +14,41 @@ import java.util.List;
 
 public class ExchangeRackPacket implements Packet {
     private final List<Tile> newRack;
+    private final List<Tile> remainingDeck;
 
-    public ExchangeRackPacket(List<Tile> newRack) {
+    public ExchangeRackPacket(List<Tile> newRack, List<Tile> remainingDeck) {
         this.newRack = newRack;
+        this.remainingDeck = remainingDeck;
     }
 
-    public List<Tile> getNewRack() {
-        return newRack;
-    }
+    public List<Tile> getNewRack() { return newRack; }
+    public List<Tile> getRemainingDeck() { return remainingDeck; }
 
     @Override
-    public PacketType getType() {
-        return PacketType.EXCHANGE;
-    }
+    public PacketType getType() { return PacketType.EXCHANGE; }
 
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
         out.writeInt(getType().ordinal());
-        out.writeInt(newRack.size());
-        for (Tile tile : newRack) {
+        writeTiles(out, newRack);
+        writeTiles(out, remainingDeck);
+    }
+
+    private void writeTiles(DataOutputStream out, List<Tile> tiles) throws IOException {
+        out.writeInt(tiles.size());
+        for (Tile tile : tiles) {
             out.writeUTF(tile.getColor().name());
             out.writeUTF(tile.getShape().name());
         }
     }
 
     public static ExchangeRackPacket readFrom(DataInputStream in) throws IOException {
+        List<Tile> rack = readTiles(in);
+        List<Tile> deck = readTiles(in);
+        return new ExchangeRackPacket(rack, deck);
+    }
+
+    private static List<Tile> readTiles(DataInputStream in) throws IOException {
         int size = in.readInt();
         List<Tile> tiles = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -46,6 +56,6 @@ public class ExchangeRackPacket implements Packet {
             Shape shape = Shape.valueOf(in.readUTF());
             tiles.add(new Tile(shape, color));
         }
-        return new ExchangeRackPacket(tiles);
+        return tiles;
     }
 }

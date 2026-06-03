@@ -30,7 +30,9 @@ public class TcpServer implements Runnable {
                 try {
                     TcpClientHandler handler = new TcpClientHandler(clientSocket, onPacketReceived);
                     client = handler;
-                    new Thread(handler).start();
+                    Thread t = new Thread(handler);
+                    t.setDaemon(true);
+                    t.start();
                     running = false;
                 } catch (IOException e) {
                     throw new ConnectionRefusedException("Failed to create the client handler");

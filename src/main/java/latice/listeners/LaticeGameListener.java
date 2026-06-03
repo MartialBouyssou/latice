@@ -24,20 +24,24 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onActionBought(ActionBoughtEvent event) {
         gameController.updatePlayerInfo(event.getPlayer());
-
         if (event.getActionType() == ActionType.PLAY_TWICE) {
-            playTwiceActive = true;
-            gameController.toggleActionButton();
+            if (!isLanMode) playTwiceActive = true;
+            gameController.toggleActionButton(true);
         }
     }
 
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
         gameController.setHasAlreadyPlaced(false);
-        gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
-                event.getLastTurnScore());
-        gameController.updateRack(event.getNextPlayer());
-        gameController.updatePlayerInfo(event.getNextPlayer());
+        gameController.toggleActionButton(false);
+        if (isLanMode) {
+            gameController.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
+        } else {
+            gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+                    event.getLastTurnScore());
+            gameController.updateRack(event.getNextPlayer());
+            gameController.updatePlayerInfo(event.getNextPlayer());
+        }
     }
 
     @Override
@@ -55,7 +59,7 @@ public class LaticeGameListener implements GameListener {
 
         if (playTwiceActive) {
             playTwiceActive = false;
-            gameController.toggleActionButton();
+            gameController.toggleActionButton(false);
         } else {
             gameController.setHasAlreadyPlaced(true);
             gameController.getGame().endTurn();
@@ -65,21 +69,23 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
         gameController.setHasAlreadyPlaced(false);
-        gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
-                event.getLastTurnScore());
-        gameController.updateRack(event.getNextPlayer());
-        gameController.updatePlayerInfo(event.getNextPlayer());
+        if (isLanMode) {
+            gameController.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
+        } else {
+            gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+                    event.getLastTurnScore());
+            gameController.updateRack(event.getNextPlayer());
+            gameController.updatePlayerInfo(event.getNextPlayer());
+        }
     }
 
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
-        if (playTwiceActive) {
+        if (!isLanMode && playTwiceActive) {
             playTwiceActive = false;
-            gameController.toggleActionButton(false);
         } else {
             gameController.getGame().completeExchangeAsTurn();
         }
-
         gameController.updateRack(event.getPlayer());
     }
 

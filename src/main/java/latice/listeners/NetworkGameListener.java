@@ -1,6 +1,7 @@
 package latice.listeners;
 
 import latice.model.game.events.*;
+import latice.model.player.ActionType;
 import latice.network.packet.game.*;
 import latice.view.controller.GameController;
 
@@ -37,7 +38,10 @@ public class NetworkGameListener implements GameListener {
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
         if (isLocalAction) {
-            gameController.sendPacket(new ExchangeRackPacket(event.getLastRack().getTiles()));
+            gameController.sendPacket(new ExchangeRackPacket(
+                    event.getLastRack().getTiles(),
+                    event.getPlayer().getDeck().getTiles()
+            ));
         }
     }
 

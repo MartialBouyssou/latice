@@ -25,6 +25,7 @@ public class ApplicationMain extends Application {
 
             primaryStage.setScene(new Scene(root, 1920, 1080));
             primaryStage.setTitle(LangManager.getInstance().get("app.title"));
+            primaryStage.setOnCloseRequest(event -> System.exit(0));
             primaryStage.show();
 
         } catch (Exception e) {

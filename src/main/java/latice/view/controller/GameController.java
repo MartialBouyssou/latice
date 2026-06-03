@@ -46,6 +46,7 @@ import latice.utils.theme.ThemeManager;
 import latice.utils.theme.Theme;
 import latice.utils.LangManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
@@ -98,6 +99,8 @@ public class GameController {
     private TcpServer tcpServer;
     private String hostUsername = "Host";
     private String clientUsername = "Client";
+    private Player pendingLastPlayer;
+    private int pendingLastTurnScore;
 
     @FXML
     public void initialize() {
@@ -311,6 +314,7 @@ public class GameController {
         try {
             tcpClient.connect(host.getAddress(), host.getTcpPort());
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Connection failed: {0}", e.getMessage());
             showInvalidMove(LangManager.getInstance().get("network.error.connection"));
         }
     }
@@ -326,8 +330,8 @@ public class GameController {
         game = new Game(buildReferee(), starter, second);
 
         networkGameListener = new NetworkGameListener(this);
-        game.addListener(new LaticeGameListener(this, true));
         game.addListener(networkGameListener);
+        game.addListener(new LaticeGameListener(this, true));
 
         game.startFromExistingPlayers();
 
@@ -404,8 +408,8 @@ public class GameController {
         lanPlayButton.setDisable(true);
         game = buildLanGameAsHost();
         networkGameListener = new NetworkGameListener(this);
-        game.addListener(new LaticeGameListener(this, true));
         game.addListener(networkGameListener);
+        game.addListener(new LaticeGameListener(this, true));
 
         executeLocalAction(() -> {
             game.startGame();
@@ -428,12 +432,15 @@ public class GameController {
     private void handlePlayTile(PlayTilePacket packet) {
         networkGameListener.setLocalAction(false);
         boolean wasPlayTwice = game.isPlayTwiceActive();
+        List<Tile> rackBefore = new ArrayList<>(game.getCurrentPlayer().getRack().getTiles());
         game.playTile(packet.getTile(), packet.getX(), packet.getY());
-        if (!wasPlayTwice) {
+        boolean moveFailed = game.getCurrentPlayer().getRack().getTiles().containsAll(rackBefore)
+                && rackBefore.containsAll(game.getCurrentPlayer().getRack().getTiles());
+        if (!moveFailed && !wasPlayTwice) {
             game.endTurn();
+            showLanOverlay(game.getCurrentPlayer().getName());
         }
         networkGameListener.setLocalAction(false);
-        showLanOverlay(game.getCurrentPlayer().getName());
     }
 
     private void handlePassTurn() {
@@ -446,9 +453,7 @@ public class GameController {
     private void handleExchangeRack(ExchangeRackPacket packet) {
         networkGameListener.setLocalAction(false);
         game.getCurrentPlayer().getRack().setTiles(packet.getNewRack());
-        game.getCurrentPlayer().getDeck().setDeck(
-                game.getCurrentPlayer().getDeck().getTiles()
-        );
+        game.getCurrentPlayer().getDeck().setDeck(packet.getRemainingDeck());
         game.completeExchangeAsTurn();
         networkGameListener.setLocalAction(false);
         showLanOverlay(game.getCurrentPlayer().getName());
@@ -473,14 +478,19 @@ public class GameController {
     private void executeLocalAction(Runnable action) {
         networkGameListener.setLocalAction(true);
         action.run();
-        networkGameListener.setLocalAction(false);
+        if (networkGameListener != null) {
+            networkGameListener.setLocalAction(false);
+        }
     }
 
     public void buttonExchangeAll() {
         if (sessionRole == SessionRole.LOCAL) {
             game.exchangeAll();
         } else {
-            executeLocalAction(game::exchangeAll);
+            executeLocalAction(() -> {
+                game.exchangeAll();
+                showLanOverlay(game.getCurrentPlayer().getName());
+            });
         }
     }
 
@@ -588,7 +598,13 @@ public class GameController {
         if (isMyTurn) {
             lanScreenOverlay.setVisible(false);
             lanScreenOverlay.setManaged(false);
-            if (game.getTurnCount() != 0) showOverlay();
+            updateRack(game.getCurrentPlayer());
+            updatePlayerInfo(game.getCurrentPlayer());
+            if (game.getTurnCount() != 0 && pendingLastPlayer != null) {
+                showOverlayForPlayer(game.getCurrentPlayer(), pendingLastPlayer, pendingLastTurnScore);
+            }
+            pendingLastPlayer = null;
+            pendingLastTurnScore = 0;
         } else {
             if (game.getTurnCount() != 0) hideOverlay();
             turnOfLabel.setText(LangManager.getInstance().format("menu.lanOverlay.turnOf",
@@ -667,6 +683,8 @@ public class GameController {
     }
 
     public void endGame() {
+        lanScreenOverlay.setVisible(false);
+        lanScreenOverlay.setManaged(false);
         playMenuVBox.setVisible(true);
         playMenuVBox.setManaged(true);
         usernameMenuVBox.setVisible(false);
@@ -742,11 +760,17 @@ public class GameController {
                         } else {
                             executeLocalAction(() -> {
                                 boolean wasPlayTwice = game.isPlayTwiceActive();
+                                List<Tile> rackBefore = new ArrayList<>(game.getCurrentPlayer().getRack().getTiles());
                                 game.playTile(tile, col, row);
-                                if (!wasPlayTwice) {
+                                boolean moveFailed = game.getCurrentPlayer().getRack().getTiles().containsAll(rackBefore)
+                                        && rackBefore.containsAll(game.getCurrentPlayer().getRack().getTiles());
+                                if (moveFailed) return;
+                                if (wasPlayTwice) {
+                                    actionButton.setDisable(false);
+                                } else {
                                     game.endTurn();
+                                    showLanOverlay(game.getCurrentPlayer().getName());
                                 }
-                                showLanOverlay(game.getCurrentPlayer().getName());
                             });
                         }
                     } else {
@@ -783,8 +807,13 @@ public class GameController {
         }
         tcpClient = null;
         sessionRole = null;
+        networkGameListener = null;
     }
 
     public Game getGame() { return game; }
     public void setHasAlreadyPlaced(boolean value) { hasAlreadyPlaced = value; }
+    public void setPendingOverlayInfo(Player lastPlayer, int lastTurnScore) {
+        this.pendingLastPlayer = lastPlayer;
+        this.pendingLastTurnScore = lastTurnScore;
+    }
 }

@@ -41,7 +41,9 @@ public class TcpClient implements Runnable {
         socket = new Socket(address, port);
         outputStream = new DataOutputStream(socket.getOutputStream());
         send(new LobbyJoinPacket(playerUsername));
-        new Thread(this).start();
+        Thread t = new Thread(this);
+        t.setDaemon(true);
+        t.start();
     }
 
     public synchronized void send(Packet packet) throws IOException {
