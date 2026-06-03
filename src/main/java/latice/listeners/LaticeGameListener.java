@@ -2,20 +2,20 @@ package latice.listeners;
 
 import latice.model.game.events.*;
 import latice.model.player.ActionType;
-import latice.view.controller.GameController;
+import latice.view.GameView;
 
 public class LaticeGameListener implements GameListener {
 
-    private final GameController gameController;
+    private final GameView gameView;
     private final boolean isLanMode;
 
     /**
-     * Creates the listener bound to the given game controller used to update the UI.
-     * @param gameController The controller used to reflect game events on the interface.
+     * Creates the listener bound to a game view used to update the UI.
+     * @param gameView The view used to reflect game events on the interface.
      * @param isLanMode A boolean to define if you want to execute it in local or not
      */
-    public LaticeGameListener(GameController gameController, boolean isLanMode) {
-        this.gameController = gameController;
+    public LaticeGameListener(GameView gameView, boolean isLanMode) {
+        this.gameView = gameView;
         this.isLanMode = isLanMode;
     }
 
@@ -25,38 +25,40 @@ public class LaticeGameListener implements GameListener {
      */
     @Override
     public void onGameStarted(GameStartedEvent event) {
-        gameController.updateRack(event.getPlayer());
-        gameController.updatePlayerInfo(event.getPlayer());
+        gameView.updateRack(event.getPlayer());
+        gameView.updatePlayerInfo(event.getPlayer());
     }
 
     /**
-     * Handles the action bought event by updating the player info and disabling the action button until the bought action is used.
+     * Handles the action bought event by updating the player info and disabling the action button
+     * until the bought action is used.
      * @param event The event describing the bought action and its type.
      */
     @Override
     public void onActionBought(ActionBoughtEvent event) {
-        gameController.updatePlayerInfo(event.getPlayer());
+        gameView.updatePlayerInfo(event.getPlayer());
 
         if (event.getActionType() == ActionType.PLAY_TWICE) {
-            gameController.toggleActionButton(true);
+            gameView.setActionButtonDisabled(true);
         }
     }
 
     /**
-     * Handles the turn ended event by showing the next player overlay and refreshing their rack and info.
+     * Handles the turn ended event by showing the next player overlay and refreshing
+     * their rack and info.
      * @param event The event holding the next player, last player and last turn score.
      */
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
-        gameController.setHasAlreadyPlaced(false);
-        gameController.toggleActionButton(false);
+        gameView.setHasAlreadyPlaced(false);
+        gameView.setActionButtonDisabled(false);
         if (isLanMode) {
-            gameController.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
+            gameView.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
         } else {
-            gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+            gameView.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
                     event.getLastTurnScore());
-            gameController.updateRack(event.getNextPlayer());
-            gameController.updatePlayerInfo(event.getNextPlayer());
+            gameView.updateRack(event.getNextPlayer());
+            gameView.updatePlayerInfo(event.getNextPlayer());
         }
     }
 
@@ -66,20 +68,20 @@ public class LaticeGameListener implements GameListener {
      */
     @Override
     public void onTilePlaced(TilePlacedEvent event) {
-        gameController.placeTileOnBoard(
+        gameView.placeTileOnBoard(
                 event.getTile(),
                 event.getX(),
                 event.getY(),
                 event.getPlayer()
         );
-        gameController.updatePlayerInfo(event.getPlayer());
-        gameController.updateRack(event.getPlayer());
+        gameView.updatePlayerInfo(event.getPlayer());
+        gameView.updateRack(event.getPlayer());
 
-        if (!isLanMode && gameController.getGame() != null) {
-            boolean hasRemainingAction = gameController.getGame().hasRemainingAction();
-            gameController.setHasAlreadyPlaced(!hasRemainingAction);
+        if (!isLanMode) {
+            boolean hasRemainingAction = gameView.hasRemainingAction();
+            gameView.setHasAlreadyPlaced(!hasRemainingAction);
             if (hasRemainingAction) {
-                gameController.toggleActionButton(false);
+                gameView.setActionButtonDisabled(false);
             }
         }
     }
@@ -90,15 +92,15 @@ public class LaticeGameListener implements GameListener {
      */
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
-        gameController.setHasAlreadyPlaced(false);
-        gameController.toggleActionButton(false);
+        gameView.setHasAlreadyPlaced(false);
+        gameView.setActionButtonDisabled(false);
         if (isLanMode) {
-            gameController.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
+            gameView.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
         } else {
-            gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+            gameView.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
                     event.getLastTurnScore());
-            gameController.updateRack(event.getNextPlayer());
-            gameController.updatePlayerInfo(event.getNextPlayer());
+            gameView.updateRack(event.getNextPlayer());
+            gameView.updatePlayerInfo(event.getNextPlayer());
         }
     }
 
@@ -108,12 +110,12 @@ public class LaticeGameListener implements GameListener {
      */
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
-        gameController.updateRack(event.getPlayer());
-        if (!isLanMode && gameController.getGame() != null) {
-            boolean hasRemainingAction = gameController.getGame().hasRemainingAction();
-            gameController.setHasAlreadyPlaced(!hasRemainingAction);
+        gameView.updateRack(event.getPlayer());
+        if (!isLanMode) {
+            boolean hasRemainingAction = gameView.hasRemainingAction();
+            gameView.setHasAlreadyPlaced(!hasRemainingAction);
             if (hasRemainingAction) {
-                gameController.toggleActionButton(false);
+                gameView.setActionButtonDisabled(false);
             }
         }
     }
@@ -124,8 +126,8 @@ public class LaticeGameListener implements GameListener {
      */
     @Override
     public void onGameOver(GameOverEvent event) {
-        gameController.showGameOver(event.getWinner());
-        gameController.endGame();
+        gameView.showGameOver(event.getWinner());
+        gameView.endGame();
     }
 
     /**
@@ -134,7 +136,7 @@ public class LaticeGameListener implements GameListener {
      */
     @Override
     public void onInvalidMove(InvalidMoveEvent event) {
-        gameController.showInvalidMove(event.getReason());
+        gameView.showInvalidMove(event.getReason());
     }
 
     /**
@@ -143,6 +145,6 @@ public class LaticeGameListener implements GameListener {
      */
     @Override
     public void onCannotAfford(CannotAffordEvent event) {
-        gameController.showInvalidMove(event.getReason());
+        gameView.showInvalidMove(event.getReason());
     }
 }

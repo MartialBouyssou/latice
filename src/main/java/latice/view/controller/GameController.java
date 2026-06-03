@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -21,16 +20,15 @@ import latice.exception.network.NetworkException;
 import latice.exception.network.UnhandledPacketException;
 import latice.listeners.LaticeGameListener;
 import latice.listeners.NetworkGameListener;
-import latice.model.board.cell.SunCell;
 import latice.model.deck.Deck;
 import latice.model.game.Game;
+import latice.model.game.GameFactory;
 import latice.model.player.Player;
 import latice.model.player.Rack;
-import latice.model.referee.Referee;
-import latice.model.referee.rule.*;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
 import latice.network.NetworkConfig;
+import latice.network.PacketSender;
 import latice.network.packet.Packet;
 import latice.network.packet.game.*;
 import latice.network.packet.lobby.LobbyJoinPacket;
@@ -45,8 +43,13 @@ import latice.network.udp.UdpDiscoveryServer;
 import latice.utils.theme.ThemeManager;
 import latice.utils.theme.Theme;
 import latice.utils.LangManager;
+import latice.view.BoardView;
+import latice.view.GameView;
+import latice.view.MenuView;
+import latice.view.PlayerPanelView;
+import latice.view.TurnOverlayView;
 
-public class GameController {
+public class GameController implements GameView, PacketSender {
 
     private static final Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
@@ -102,12 +105,18 @@ public class GameController {
     private Player pendingLastPlayer;
     private int pendingLastTurnScore;
 
+    private BoardView boardView;
+    private PlayerPanelView playerPanelView;
+    private TurnOverlayView turnOverlayView;
+    private MenuView menuView;
+
     /**
      * Initializes the JavaFX controller, setting up views, languages, and drag-and-drop events.
      */
     @FXML
     public void initialize() {
         rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
+        createViewHelpers();
 
         loadLanguageSelector();
         loadTexts();
@@ -119,6 +128,19 @@ public class GameController {
         }
 
         setupBoardDropTarget();
+    }
+
+    /**
+     * Creates lightweight view helpers around the JavaFX nodes injected by FXML.
+     */
+    private void createViewHelpers() {
+        boardView = new BoardView(board);
+        playerPanelView = new PlayerPanelView(rackImageViews, currentPlayerLabel,
+                currentPlayerScoreLabel, playerTileRemainingLabel, actionButton);
+        turnOverlayView = new TurnOverlayView(screenOverlay, overlayPlayerLabel, endTurnButton,
+                lastPlayerLabel, lastPlayerScoreLabel, turnNumberLabel, lanScreenOverlay, turnOfLabel);
+        menuView = new MenuView(startMenuStackpane, gameBoardBP, playMenuVBox, usernameMenuVBox,
+                rulesMenuVBox, themeMenuVBox, lanMenuVBox, searchLanMenuVBox, lanLobbyMenuVBox);
     }
 
     /**
@@ -168,6 +190,10 @@ public class GameController {
      * @param parent The root JavaFX node to start the recursive search from.
      */
     private void applyTextsRecursively(Parent parent) {
+        if (parent == null) {
+            return;
+        }
+
         for (Node node : parent.getChildrenUnmodifiable()) {
             if (node instanceof Labeled labeled) {
                 String key = (String) labeled.getProperties()
@@ -189,10 +215,7 @@ public class GameController {
      * Displays the menu for choosing player usernames and hides other menus.
      */
     public void showUsernameChoiceMenu() {
-        playMenuVBox.setVisible(false);
-        playMenuVBox.setManaged(false);
-        usernameMenuVBox.setVisible(true);
-        usernameMenuVBox.setManaged(true);
+        menuView.showUsernameChoiceMenu();
     }
 
     /**
@@ -200,30 +223,14 @@ public class GameController {
      */
     public void showPlayMenu() {
         stopNetwork();
-        searchLanMenuVBox.setVisible(false);
-        searchLanMenuVBox.setManaged(false);
-        lanMenuVBox.setVisible(false);
-        lanMenuVBox.setManaged(false);
-        lanLobbyMenuVBox.setVisible(false);
-        lanLobbyMenuVBox.setManaged(false);
-        themeMenuVBox.setVisible(false);
-        themeMenuVBox.setManaged(false);
-        rulesMenuVBox.setVisible(false);
-        rulesMenuVBox.setManaged(false);
-        usernameMenuVBox.setVisible(false);
-        usernameMenuVBox.setManaged(false);
-        playMenuVBox.setVisible(true);
-        playMenuVBox.setManaged(true);
+        menuView.showPlayMenu();
     }
 
     /**
      * Displays the lan menu and hides the main play menu.
      */
     public void showLanMenu() {
-        playMenuVBox.setVisible(false);
-        playMenuVBox.setManaged(false);
-        lanMenuVBox.setVisible(true);
-        lanMenuVBox.setManaged(true);
+        menuView.showLanMenu();
     }
 
     /**
@@ -232,10 +239,7 @@ public class GameController {
      */
     public void showLanSearchMenu() {
         LangManager lang = LangManager.getInstance();
-        lanMenuVBox.setVisible(false);
-        lanMenuVBox.setManaged(false);
-        searchLanMenuVBox.setVisible(true);
-        searchLanMenuVBox.setManaged(true);
+        menuView.showLanSearchMenu();
 
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle(lang.get("popup.lanUsername.title"));
@@ -276,10 +280,7 @@ public class GameController {
     public void showLanLobbyMenu() {
         LangManager lang = LangManager.getInstance();
         lanPlayButton.setDisable(true);
-        lanMenuVBox.setVisible(false);
-        lanMenuVBox.setManaged(false);
-        lanLobbyMenuVBox.setVisible(true);
-        lanLobbyMenuVBox.setManaged(true);
+        menuView.showLanLobbyMenu();
 
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle(lang.get("popup.lanUsername.title"));
@@ -298,20 +299,14 @@ public class GameController {
      * Displays the rules menu and hides the main play menu.
      */
     public void showRules() {
-        playMenuVBox.setVisible(false);
-        playMenuVBox.setManaged(false);
-        rulesMenuVBox.setVisible(true);
-        rulesMenuVBox.setManaged(true);
+        menuView.showRulesMenu();
     }
 
     /**
      * Displays the menu allowing the user to select the visual theme of the game.
      */
     public void showThemeMenu() {
-        playMenuVBox.setVisible(false);
-        playMenuVBox.setManaged(false);
-        themeMenuVBox.setVisible(true);
-        themeMenuVBox.setManaged(true);
+        menuView.showThemeMenu();
     }
 
     /**
@@ -350,12 +345,7 @@ public class GameController {
      */
     public void startGame() {
         sessionRole = SessionRole.LOCAL;
-        usernameMenuVBox.setVisible(false);
-        usernameMenuVBox.setManaged(false);
-        startMenuStackpane.setVisible(false);
-        startMenuStackpane.setManaged(false);
-        gameBoardBP.setVisible(true);
-        gameBoardBP.setManaged(true);
+        menuView.showGameBoard();
 
         game = buildLocalGame();
         game.addListener(new LaticeGameListener(this, false));
@@ -375,7 +365,7 @@ public class GameController {
         String name2 = getPlayerName(player2UsernameTf.getText(),
                 lang.get("default.secondPlayerName"));
         if (name1.equals(name2)) name2 = name2 + "_2";
-        return new Game(buildReferee(), name1, name2);
+        return GameFactory.createGame(name1, name2);
     }
 
     /**
@@ -420,7 +410,7 @@ public class GameController {
                 new Rack(packet.getSecondRack()),
                 Deck.createNoShuffle(packet.getSecondDeck()));
 
-        game = new Game(buildReferee(), starter, second);
+        game = GameFactory.createGame(starter, second);
 
         networkGameListener = new NetworkGameListener(this);
         game.addListener(networkGameListener);
@@ -428,12 +418,7 @@ public class GameController {
 
         game.startFromExistingPlayers();
 
-        lanLobbyMenuVBox.setVisible(false);
-        lanLobbyMenuVBox.setManaged(false);
-        startMenuStackpane.setVisible(false);
-        startMenuStackpane.setManaged(false);
-        gameBoardBP.setVisible(true);
-        gameBoardBP.setManaged(true);
+        menuView.showGameBoard();
 
         showLanOverlay(game.getCurrentPlayer().getName());
     }
@@ -474,7 +459,6 @@ public class GameController {
         if (game != null && gameBoardBP.isVisible()) {
             showGameOver(null);
             endGame();
-            resetBoard();
         } else {
             stopNetwork();
             showLanLobbyMenu();
@@ -488,7 +472,6 @@ public class GameController {
         if (game != null && gameBoardBP.isVisible()) {
             showGameOver(null);
             endGame();
-            resetBoard();
         } else {
             showPlayMenu();
         }
@@ -559,12 +542,7 @@ public class GameController {
             showLanOverlay(game.getCurrentPlayer().getName());
         });
 
-        lanLobbyMenuVBox.setVisible(false);
-        lanLobbyMenuVBox.setManaged(false);
-        startMenuStackpane.setVisible(false);
-        startMenuStackpane.setManaged(false);
-        gameBoardBP.setVisible(true);
-        gameBoardBP.setManaged(true);
+        menuView.showGameBoard();
     }
 
     /**
@@ -647,7 +625,6 @@ public class GameController {
                     .orElse(null);
             showGameOver(winner);
             endGame();
-            resetBoard();
         }
     }
 
@@ -657,9 +634,15 @@ public class GameController {
      * @param action The local action to execute.
      */
     private void executeLocalAction(Runnable action) {
+        if (networkGameListener == null) {
+            action.run();
+            return;
+        }
+
         networkGameListener.setLocalAction(true);
-        action.run();
-        if (networkGameListener != null) {
+        try {
+            action.run();
+        } finally {
             networkGameListener.setLocalAction(false);
         }
     }
@@ -739,7 +722,7 @@ public class GameController {
      * @return A new LAN game instance.
      */
     private Game buildLanGameAsHost() {
-        return new Game(buildReferee(), hostUsername, clientUsername);
+        return GameFactory.createGame(hostUsername, clientUsername);
     }
 
     /**
@@ -762,6 +745,7 @@ public class GameController {
      *
      * @param packet The packet to send.
      */
+    @Override
     public void sendPacket(Packet packet) {
         if (sessionRole != SessionRole.LOCAL) {
             try {
@@ -780,7 +764,7 @@ public class GameController {
      * Toggles the interactive state of the action button.
      */
     public void toggleActionButton() {
-        actionButton.setDisable(!actionButton.isDisable());
+        setActionButtonDisabled(!actionButton.isDisable());
     }
 
     /**
@@ -789,7 +773,7 @@ public class GameController {
      * @param activate A boolean indicating if the button is disabled (true) or enabled (false).
      */
     public void toggleActionButton(boolean activate) {
-        actionButton.setDisable(activate);
+        setActionButtonDisabled(activate);
     }
 
     /**
@@ -799,45 +783,23 @@ public class GameController {
      * @param lastPlayer The player whose turn just ended.
      * @param lastTurnScore The score acquired by the last player during their turn.
      */
+    @Override
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
-        LangManager lang = LangManager.getInstance();
-
-        endTurnButton.setDisable(true);
-
-        overlayPlayerLabel.setText(lang.format("menu.turnIndicator.currentPlayer",
-                "name", nextPlayer.getName())
-        );
-        lastPlayerLabel.setText(lang.format("menu.turnIndicator.lastPlayerScoreHeader",
-                "name", lastPlayer.getName())
-        );
-
-        lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
-
-        turnNumberLabel.setText(lang.format("menu.turnIndicator.turnIndicatorTitle",
-                "turnNumber",
-                (game.getTurnCount() / game.getPlayers().size() + 1) + "/" + Game.MAX_CYCLES)
-        );
-
-        screenOverlay.setVisible(true);
-        screenOverlay.setManaged(true);
+        turnOverlayView.showTurnOverlay(game, nextPlayer, lastPlayer, lastTurnScore);
     }
 
     /**
      * Hides the transition overlay and re-enables the end turn button.
      */
     public void hideOverlay() {
-        screenOverlay.setVisible(false);
-        screenOverlay.setManaged(false);
-        endTurnButton.setDisable(false);
+        turnOverlayView.hideTurnOverlay();
     }
 
     /**
      * Shows the generic turn transition overlay.
      */
     public void showOverlay() {
-        screenOverlay.setVisible(true);
-        screenOverlay.setManaged(true);
-        endTurnButton.setDisable(true);
+        turnOverlayView.showTurnOverlay();
     }
 
     /**
@@ -850,8 +812,7 @@ public class GameController {
         boolean isMyTurn = currentPlayerName.equals(localUsername);
 
         if (isMyTurn) {
-            lanScreenOverlay.setVisible(false);
-            lanScreenOverlay.setManaged(false);
+            turnOverlayView.hideLanWaitingOverlay();
             updateRack(game.getCurrentPlayer());
             updatePlayerInfo(game.getCurrentPlayer());
             if (game.getTurnCount() != 0 && pendingLastPlayer != null) {
@@ -861,11 +822,10 @@ public class GameController {
             pendingLastPlayer = null;
             pendingLastTurnScore = 0;
         } else {
-            if (game.getTurnCount() != 0) hideOverlay();
-            turnOfLabel.setText(LangManager.getInstance().format("menu.lanOverlay.turnOf",
-                    "currentPlayer", currentPlayerName));
-            lanScreenOverlay.setVisible(true);
-            lanScreenOverlay.setManaged(true);
+            if (game.getTurnCount() != 0) {
+                hideOverlay();
+            }
+            turnOverlayView.showLanWaitingOverlay(currentPlayerName);
         }
     }
 
@@ -874,16 +834,9 @@ public class GameController {
      *
      * @param player The player whose rack should be displayed.
      */
+    @Override
     public void updateRack(Player player) {
-        List<Tile> tiles = player.getRack().getTiles();
-        for (int i = 0; i < rackImageViews.size(); i++) {
-            if (i < tiles.size()) {
-                rackImageViews.get(i).setImage(new Image(tiles.get(i).getTileImgPath()));
-                rackImageViews.get(i).setVisible(true);
-            } else {
-                rackImageViews.get(i).setVisible(false);
-            }
-        }
+        playerPanelView.updateRack(player);
     }
 
     /**
@@ -891,18 +844,9 @@ public class GameController {
      *
      * @param player The current active player.
      */
+    @Override
     public void updatePlayerInfo(Player player) {
-        int remainingTiles = player.getDeck().size() + player.getRack().getTiles().size();
-        LangManager lang = LangManager.getInstance();
-
-        currentPlayerLabel.setText(lang.format("menu.game.player.currentPlayer",
-                "name", player.getName()));
-        currentPlayerScoreLabel.setText(lang.format("menu.game.player.score",
-                "score", String.valueOf(player.getScore()))
-        );
-        playerTileRemainingLabel.setText(lang.format("menu.game.player.remaining",
-                "count", String.valueOf(remainingTiles))
-        );
+        playerPanelView.updatePlayerInfo(player);
     }
 
     /**
@@ -910,14 +854,9 @@ public class GameController {
      *
      * @param reason The specific rule violation or error message.
      */
+    @Override
     public void showInvalidMove(String reason) {
-        LangManager lang = LangManager.getInstance();
-
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(lang.get("popup.game.invalid.title"));
-        alert.setHeaderText(lang.get("popup.game.invalid.header"));
-        alert.setContentText(reason);
-        alert.show();
+        turnOverlayView.showInvalidMove(reason);
     }
 
     /**
@@ -925,25 +864,9 @@ public class GameController {
      *
      * @param player The winning player, or null if the game resulted in a tie.
      */
+    @Override
     public void showGameOver(Player player) {
-        hideOverlay();
-        LangManager lang = LangManager.getInstance();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        alert.setTitle(lang.get("popup.game.over.title"));
-        if (player != null) {
-            alert.setHeaderText(lang.format("popup.game.over.winner.header",
-                    "name", player.getName())
-            );
-            alert.setContentText(lang.format("popup.game.over.winner.content",
-                    "name", player.getName(),
-                    "score", String.valueOf(player.getScore()))
-            );
-        } else {
-            alert.setHeaderText(lang.get("popup.game.over.tie.header"));
-            alert.setContentText(lang.get("popup.game.over.tie.content"));
-        }
-        alert.show();
+        turnOverlayView.showGameOver(player);
     }
 
     /**
@@ -954,72 +877,35 @@ public class GameController {
      * @param targetY The Y coordinate (row) on the grid.
      * @param player The player performing the placement.
      */
+    @Override
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
-        try {
-            for (Node node : board.getChildren()) {
-                Integer colIndex = GridPane.getColumnIndex(node);
-                Integer rowIndex = GridPane.getRowIndex(node);
-                int x = (colIndex == null) ? 0 : colIndex;
-                int y = (rowIndex == null) ? 0 : rowIndex;
-
-                if (x == targetX && y == targetY && node instanceof ImageView imageNode) {
-                    imageNode.setImage(new Image(tile.getTileImgPath()));
-                    break;
-                }
-            }
-
-            updateRack(player);
-
-        } catch (Exception e) { /* Nothing here */ }
+        boardView.placeTile(tile, targetX, targetY);
     }
 
     /**
      * Terminates the active game session and returns the user to the starting menus.
      */
+    @Override
     public void endGame() {
-        lanScreenOverlay.setVisible(false);
-        lanScreenOverlay.setManaged(false);
-        playMenuVBox.setVisible(true);
-        playMenuVBox.setManaged(true);
-        usernameMenuVBox.setVisible(false);
-        usernameMenuVBox.setManaged(false);
-        gameBoardBP.setVisible(false);
-        gameBoardBP.setManaged(false);
-        startMenuStackpane.setVisible(true);
-        startMenuStackpane.setManaged(true);
-        if (game != null) resetBoard();
+        if (turnOverlayView != null) {
+            turnOverlayView.hideTurnOverlay();
+            turnOverlayView.hideLanWaitingOverlay();
+        }
+        if (game != null && game.getBoard() != null) {
+            resetBoard();
+        }
         game = null;
         stopNetwork();
+        menuView.showStartMenu();
+        menuView.showPlayMenu();
     }
 
     /**
      * Resets the graphical state of the board to its empty, initial configuration.
      */
     public void resetBoard() {
-        for (Node node : board.getChildren()) {
-            if (node instanceof ImageView imageView) {
-                Integer col = GridPane.getColumnIndex(node);
-                Integer row = GridPane.getRowIndex(node);
-                int x = (col == null) ? 0 : col;
-                int y = (row == null) ? 0 : row;
-
-                String bgFile;
-                if (x == 4 && y == 4) {
-                    bgFile = "bg_moon.png";
-                } else if (game.getBoard().getCell(x, y) instanceof SunCell) {
-                    bgFile = "bg_sun.png";
-                } else {
-                    bgFile = "bg_sea.png";
-                }
-
-                String path = Objects.requireNonNull(
-                        getClass().getResource("/" +
-                                ThemeManager.getInstance().getBoardBgPath(bgFile))
-                ).toExternalForm();
-
-                imageView.setImage(new Image(path));
-                imageView.setVisible(true);
-            }
+        if (game != null && game.getBoard() != null) {
+            boardView.reset(game.getBoard());
         }
         hasAlreadyPlaced = false;
     }
@@ -1104,14 +990,6 @@ public class GameController {
         return TileFactory.getTileFromImagePath(fullUrl);
     }
 
-    private Referee buildReferee() {
-        return Referee.create(List.of(
-                new MatchingRule(),
-                new AdjacencyRule(),
-                new PositionRule(),
-                new FirstTurnRule()
-        ));
-    }
 
     /**
      * Validates and returns a player's name, falling back to a default if empty.
@@ -1142,6 +1020,27 @@ public class GameController {
         networkGameListener = null;
     }
 
+
+    /**
+     * Sets the action button disabled state through the player panel view.
+     *
+     * @param disabled True when the button must be disabled.
+     */
+    @Override
+    public void setActionButtonDisabled(boolean disabled) {
+        playerPanelView.setActionButtonDisabled(disabled);
+    }
+
+    /**
+     * Indicates if the active game still allows one more action this turn.
+     *
+     * @return True when an action remains.
+     */
+    @Override
+    public boolean hasRemainingAction() {
+        return game != null && game.hasRemainingAction();
+    }
+
     /**
      * Gets the active Game instance managed by this controller.
      *
@@ -1156,6 +1055,7 @@ public class GameController {
      *
      * @param value Boolean true if a tile has been placed, false otherwise.
      */
+    @Override
     public void setHasAlreadyPlaced(boolean value) {
         hasAlreadyPlaced = value;
     }
@@ -1166,6 +1066,7 @@ public class GameController {
      * @param lastPlayer the last Player who has played
      * @param lastTurnScore the last Player score
      */
+    @Override
     public void setPendingOverlayInfo(Player lastPlayer, int lastTurnScore) {
         this.pendingLastPlayer = lastPlayer;
         this.pendingLastTurnScore = lastTurnScore;
