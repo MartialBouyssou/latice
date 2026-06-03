@@ -271,16 +271,20 @@ public class GameController {
 
     public void applyThemeDefault() {
         ThemeManager.getInstance().setCurrentTheme(Theme.DEFAULT);
-        showPlayMenu();
+        applyTheme();
     }
 
     public void applyThemeAnimalCrossing() {
         ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
-        showPlayMenu();
+        applyTheme();
     }
 
     public void applyThemeZelda() {
         ThemeManager.getInstance().setCurrentTheme(Theme.ZELDA);
+        applyTheme();
+    }
+
+    private void applyTheme() {
         showPlayMenu();
     }
 
@@ -296,6 +300,7 @@ public class GameController {
         game = buildLocalGame();
         game.addListener(new LaticeGameListener(this, false));
         game.startGame();
+        resetBoard();
     }
 
     private Game buildLocalGame() {

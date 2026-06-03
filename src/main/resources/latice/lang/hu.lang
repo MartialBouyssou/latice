@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Nincs elég pont az extra akció megvásárlásá
 
 default.hostName=Host játékos
 default.clientName=Kliens játékos
+default.secondPlayerName=2. játékos
+default.firstPlayerName=1. játékos
+
+menu.start.quit=Kilépés
+menu.username.back=Vissza
+menu.lanLobby.back=Vissza

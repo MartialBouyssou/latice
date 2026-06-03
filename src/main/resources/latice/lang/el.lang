@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Δεν έχεις αρκετούς πόντους
 
 default.hostName=Host Παίκτης
 default.clientName=Client Παίκτης
+default.secondPlayerName=Παίκτης 2
+default.firstPlayerName=Παίκτης 1
+
+menu.start.quit=Έξοδος
+menu.username.back=Πίσω
+menu.lanLobby.back=Πίσω

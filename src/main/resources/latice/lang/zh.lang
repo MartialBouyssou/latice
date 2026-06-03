@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=没有足够的积分购买额外操作
 
 default.hostName=主机 玩家
 default.clientName=客户端 玩家
+default.secondPlayerName=玩家 2
+default.firstPlayerName=玩家 1
+
+menu.start.quit=退出
+menu.username.back=返回
+menu.lanLobby.back=返回

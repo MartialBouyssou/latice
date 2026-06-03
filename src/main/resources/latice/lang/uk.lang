@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Недостатньо очок для купів
 
 default.hostName=Хост Гравець
 default.clientName=Клієнт Гравець
+default.secondPlayerName=Гравець 2
+default.firstPlayerName=Гравець 1
+
+menu.start.quit=Вийти
+menu.username.back=Назад
+menu.lanLobby.back=Назад

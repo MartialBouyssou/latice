@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Nicht genügend Punkte, um eine zusätzliche Akti
 
 default.hostName=Host Spieler
 default.clientName=Client Spieler
+default.secondPlayerName=Spieler 2
+default.firstPlayerName=Spieler 1
+
+menu.start.quit=Beenden
+menu.username.back=Zurück
+menu.lanLobby.back=Zurück

@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Недостаточно очков, чтобы �
 
 default.hostName=Хост Игрок
 default.clientName=Клиент Игрок
+default.secondPlayerName=Игрок 2
+default.firstPlayerName=Игрок 1
+
+menu.start.quit=Выйти
+menu.username.back=Назад
+menu.lanLobby.back=Назад

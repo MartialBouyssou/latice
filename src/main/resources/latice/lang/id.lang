@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Tidak cukup poin untuk membeli aksi tambahan
 
 default.hostName=Host Pemain
 default.clientName=Klien Pemain
+default.secondPlayerName=Pemain 2
+default.firstPlayerName=Pemain 1
+
+menu.start.quit=Keluar
+menu.username.back=Kembali
+menu.lanLobby.back=Kembali

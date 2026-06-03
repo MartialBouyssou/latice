@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Нямаш достатъчно точки да �
 
 default.hostName=Host играч
 default.clientName=Клиент играч
+default.secondPlayerName=Играч 2
+default.firstPlayerName=Играч 1
+
+menu.start.quit=Изход
+menu.username.back=Назад
+menu.lanLobby.back=Назад

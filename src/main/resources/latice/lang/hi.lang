@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=अतिरिक्त क्रिया ख�
 
 default.hostName=होस्ट खिलाड़ी
 default.clientName=क्लाइंट खिलाड़ी
+default.secondPlayerName=खिलाड़ी 2
+default.firstPlayerName=खिलाड़ी 1
+
+menu.start.quit=बाहर निकलें
+menu.username.back=पीछे
+menu.lanLobby.back=पीछे

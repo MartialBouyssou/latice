@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=No tienes suficientes puntos para comprar una acc
 
 default.hostName=Jugador Host
 default.clientName=Jugador Cliente
+default.secondPlayerName=Jugador 2
+default.firstPlayerName=Jugador 1
+
+menu.start.quit=Salir
+menu.username.back=Atrás
+menu.lanLobby.back=Atrás

@@ -92,3 +92,9 @@ event.invalidMove.cannotAfford=Hakuna pointi za kutosha kununua hatua ya ziada
 
 default.hostName=Mwenyeji Mchezaji
 default.clientName=Mteja Mchezaji
+default.secondPlayerName=Mchezaji 2
+default.firstPlayerName=Mchezaji 1
+
+menu.start.quit=Toka
+menu.username.back=Nyuma
+menu.lanLobby.back=Nyuma

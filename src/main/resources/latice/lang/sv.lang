@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Nu ai puncte suficiente pentru a cumpăra o acți
 
 default.hostName=Jucător Gazdă
 default.clientName=Jucător Client
+default.secondPlayerName=Spelare 2
+default.firstPlayerName=Spelare 1
+
+menu.start.quit=Avsluta
+menu.username.back=Bakåt
+menu.lanLobby.back=Bakåt

@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Premalo točk za nakup dodatne akcije
 
 default.hostName=Gostitelj Igralec
 default.clientName=Stranka Igralec
+default.secondPlayerName=Igralec 2
+default.firstPlayerName=Igralec 1
+
+menu.start.quit=Izhod
+menu.username.back=Nazaj
+menu.lanLobby.back=Nazaj

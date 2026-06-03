@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Ek eylem satın almak için yeterli puan yok
 
 default.hostName=Sunucu Oyuncu
 default.clientName=İstemci Oyuncu
+default.secondPlayerName=Oyuncu 2
+default.firstPlayerName=Oyuncu 1
+
+menu.start.quit=Çıkış
+menu.username.back=Geri
+menu.lanLobby.back=Geri

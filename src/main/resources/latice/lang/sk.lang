@@ -91,3 +91,7 @@ event.invalidMove.cannotAfford=Nedostatok bodov na kúpu ďalšej akcie
 
 default.hostName=Host Hráč
 default.clientName=Klient Hráč
+
+menu.start.quit=Ukončiť
+menu.username.back=Späť
+menu.lanLobby.back=Späť

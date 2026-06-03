@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Punti insufficienti per comprare un'azione extra
 
 default.hostName=Giocatore Host
 default.clientName=Giocatore Client
+default.secondPlayerName=Giocatore 2
+default.firstPlayerName=Giocatore 1
+
+menu.start.quit=Esci
+menu.username.back=Indietro
+menu.lanLobby.back=Indietro

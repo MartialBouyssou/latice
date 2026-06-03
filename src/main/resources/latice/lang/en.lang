@@ -114,3 +114,5 @@ event.invalidMove.cannotAfford=Not enough point to buy extra action
 # Default
 default.hostName=Host Player
 default.clientName=Client Player
+default.secondPlayerName=Player 2
+default.firstPlayerName=Player 1

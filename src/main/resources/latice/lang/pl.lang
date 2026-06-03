@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Brak wystarczającej liczby punktów, aby kupić 
 
 default.hostName=Gracz Host
 default.clientName=Gracz Klient
+default.secondPlayerName=Gracz 2
+default.firstPlayerName=Gracz 1
+
+menu.start.quit=Wyjdź
+menu.username.back=Wstecz
+menu.lanLobby.back=Wstecz

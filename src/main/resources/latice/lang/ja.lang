@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=追加のアクションを購入するのに十�
 
 default.hostName=ホスト プレイヤー
 default.clientName=クライアント プレイヤー
+default.secondPlayerName=プレイヤー2
+default.firstPlayerName=プレイヤー1
+
+menu.start.quit=終了
+menu.username.back=戻る
+menu.lanLobby.back=戻る

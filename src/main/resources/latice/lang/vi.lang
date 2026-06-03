@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Không đủ điểm để mua hành động bổ
 
 default.hostName=Người chơi Host
 default.clientName=Người chơi Client
+default.secondPlayerName=Người chơi 2
+default.firstPlayerName=Người chơi 1
+
+menu.start.quit=Thoát
+menu.username.back=Quay lại
+menu.lanLobby.back=Quay lại

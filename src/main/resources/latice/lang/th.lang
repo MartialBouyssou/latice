@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=ไม่มีคะแนนเพียงพ�
 
 default.hostName=ผู้เล่นโฮสต์
 default.clientName=ผู้เล่นไคลเอนต์
+default.secondPlayerName=ผู้เล่น 2
+default.firstPlayerName=ผู้เล่น 1
+
+menu.start.quit=ออกจากเกม
+menu.username.back=ย้อนกลับ
+menu.lanLobby.back=ย้อนกลับ

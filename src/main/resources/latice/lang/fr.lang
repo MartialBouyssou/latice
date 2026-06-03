@@ -114,3 +114,5 @@ event.invalidMove.cannotAfford=Pas assez de points pour acheter une action suppl
 # Default
 default.hostName=Joueur Hôte
 default.clientName=Joueur Client
+default.secondPlayerName=Joueur 2
+default.firstPlayerName=Joueur 1

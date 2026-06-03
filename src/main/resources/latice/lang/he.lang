@@ -92,3 +92,9 @@ event.invalidMove.cannotAfford=אין נקודות מספיקות לקניית �
 
 default.hostName=שחקן מארח
 default.clientName=שחקן לקוח
+default.secondPlayerName=שחקן 2
+default.firstPlayerName=שחקן 1
+
+menu.start.quit=יציאה
+menu.username.back=חזרה
+menu.lanLobby.back=חזרה

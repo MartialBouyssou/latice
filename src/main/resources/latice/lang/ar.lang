@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=لا توجد نقاط كافية لشراء إج
 
 default.hostName=لاعب المضيف
 default.clientName=لاعب العميل
+default.secondPlayerName=اللاعب 2
+default.firstPlayerName=اللاعب 1
+
+menu.start.quit=خروج
+menu.username.back=رجوع
+menu.lanLobby.back=رجوع

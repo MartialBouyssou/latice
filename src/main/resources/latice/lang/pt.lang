@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Não tens pontos suficientes para comprar uma aç
 
 default.hostName=Jogador Host
 default.clientName=Jogador Cliente
+default.secondPlayerName=Jogador 2
+default.firstPlayerName=Jogador 1
+
+menu.start.quit=Sair
+menu.username.back=Voltar
+menu.lanLobby.back=Voltar

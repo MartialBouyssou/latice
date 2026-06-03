@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=Nu ai puncte suficiente pentru a cumpăra o acți
 
 default.hostName=Jucător Gazdă
 default.clientName=Jucător Client
+default.secondPlayerName=Pelaaja 2
+default.firstPlayerName=Pelaaja 1
+
+menu.start.quit=Lopeta
+menu.username.back=Takaisin
+menu.lanLobby.back=Takaisin

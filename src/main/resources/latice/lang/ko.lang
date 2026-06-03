@@ -91,3 +91,9 @@ event.invalidMove.cannotAfford=추가 액션을 구매할 포인트가 부족합
 
 default.hostName=호스트 플레이어
 default.clientName=클라이언트 플레이어
+default.secondPlayerName=플레이어 2
+default.firstPlayerName=플레이어 1
+
+menu.start.quit=종료
+menu.username.back=뒤로
+menu.lanLobby.back=뒤로
