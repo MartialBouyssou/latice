@@ -249,7 +249,9 @@ public class GameController {
         Optional<String> result = dialog.showAndWait();
         hostUsername = result.filter(s -> !s.isBlank()).orElse(lang.get("default.hostName"));
 
-        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
+        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
+                "host", hostUsername));
+        lanClientNameLabel.setText(lang.get("menu.lanLobby.clientNotHere"));
         startAsHost();
     }
 
@@ -306,7 +308,8 @@ public class GameController {
 
     private void startAsHost() {
         sessionRole = SessionRole.HOST;
-        tcpServer = new TcpServer(NetworkConfig.TCP_PORT, this::handleIncomingPacket);
+        tcpServer = new TcpServer(NetworkConfig.TCP_PORT, this::handleIncomingPacket,
+                () -> Platform.runLater(this::handleClientDisconnected));
         Thread tcpThread = new Thread(tcpServer);
         tcpThread.setDaemon(true);
         tcpThread.start();
@@ -318,7 +321,8 @@ public class GameController {
 
     public void startAsClient(DiscoveredHost host) {
         sessionRole = SessionRole.CLIENT;
-        tcpClient = new TcpClient(clientUsername, this::handleIncomingPacket);
+        tcpClient = new TcpClient(clientUsername, this::handleIncomingPacket,
+                () -> Platform.runLater(this::handleHostDisconnected));
         try {
             tcpClient.connect(host.getAddress(), host.getTcpPort());
         } catch (IOException e) {
@@ -377,6 +381,27 @@ public class GameController {
         }
     }
 
+    private void handleClientDisconnected() {
+        if (game != null && gameBoardBP.isVisible()) {
+            showGameOver(null);
+            endGame();
+            resetBoard();
+        } else {
+            stopNetwork();
+            showLanLobbyMenu();
+        }
+    }
+
+    private void handleHostDisconnected() {
+        if (game != null && gameBoardBP.isVisible()) {
+            showGameOver(null);
+            endGame();
+            resetBoard();
+        } else {
+            showPlayMenu();
+        }
+    }
+
     private void handleLobbyJoin(LobbyJoinPacket packet) {
         LangManager lang = LangManager.getInstance();
         clientUsername = packet.getClientName();
@@ -398,6 +423,7 @@ public class GameController {
         lanLobbyMenuVBox.setManaged(true);
         lanPlayButton.setText(lang.get("menu.lanLobby.ready"));
         lanPlayButton.setOnAction(e -> buttonLanReady());
+        lanPlayButton.setDisable(false);
 
         lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameNotReady",
@@ -438,49 +464,59 @@ public class GameController {
     }
 
     private void handlePlayTile(PlayTilePacket packet) {
-        networkGameListener.setLocalAction(false);
-        boolean wasPlayTwice = game.isPlayTwiceActive();
-        List<Tile> rackBefore = new ArrayList<>(game.getCurrentPlayer().getRack().getTiles());
-        game.playTile(packet.getTile(), packet.getX(), packet.getY());
-        boolean moveFailed = game.getCurrentPlayer().getRack().getTiles().containsAll(rackBefore)
-                && rackBefore.containsAll(game.getCurrentPlayer().getRack().getTiles());
-        if (!moveFailed && !wasPlayTwice) {
-            game.endTurn();
-            showLanOverlay(game.getCurrentPlayer().getName());
+        if (networkGameListener != null) {
+            networkGameListener.setLocalAction(false);
+            boolean wasPlayTwice = game.isPlayTwiceActive();
+            List<Tile> rackBefore = new ArrayList<>(game.getCurrentPlayer().getRack().getTiles());
+            game.playTile(packet.getTile(), packet.getX(), packet.getY());
+            boolean moveFailed = game.getCurrentPlayer().getRack().getTiles().containsAll(rackBefore)
+                    && rackBefore.containsAll(game.getCurrentPlayer().getRack().getTiles());
+            if (!moveFailed && !wasPlayTwice) {
+                game.endTurn();
+                showLanOverlay(game.getCurrentPlayer().getName());
+            }
+            networkGameListener.setLocalAction(false);
         }
-        networkGameListener.setLocalAction(false);
     }
 
     private void handlePassTurn() {
-        networkGameListener.setLocalAction(false);
-        game.passTurn();
-        networkGameListener.setLocalAction(false);
-        showLanOverlay(game.getCurrentPlayer().getName());
+        if (networkGameListener != null) {
+            networkGameListener.setLocalAction(false);
+            game.passTurn();
+            networkGameListener.setLocalAction(false);
+            showLanOverlay(game.getCurrentPlayer().getName());
+        }
     }
 
     private void handleExchangeRack(ExchangeRackPacket packet) {
-        networkGameListener.setLocalAction(false);
-        game.getCurrentPlayer().getRack().setTiles(packet.getNewRack());
-        game.getCurrentPlayer().getDeck().setDeck(packet.getRemainingDeck());
-        game.completeExchangeAsTurn();
-        networkGameListener.setLocalAction(false);
-        showLanOverlay(game.getCurrentPlayer().getName());
+        if (networkGameListener != null) {
+            networkGameListener.setLocalAction(false);
+            game.getCurrentPlayer().getRack().setTiles(packet.getNewRack());
+            game.getCurrentPlayer().getDeck().setDeck(packet.getRemainingDeck());
+            game.completeExchangeAsTurn();
+            networkGameListener.setLocalAction(false);
+            showLanOverlay(game.getCurrentPlayer().getName());
+        }
     }
 
     private void handleBuyAction() {
-        networkGameListener.setLocalAction(false);
-        game.buyAnAction();
-        networkGameListener.setLocalAction(false);
+        if (networkGameListener != null) {
+            networkGameListener.setLocalAction(false);
+            game.buyAnAction();
+            networkGameListener.setLocalAction(false);
+        }
     }
 
     private void handleGameOver(GameOverPacket packet) {
-        Player winner = game.getPlayers().stream()
-                .filter(p -> p.getName().equals(packet.getWinnerUsername()))
-                .findFirst()
-                .orElse(null);
-        showGameOver(winner);
-        endGame();
-        resetBoard();
+        if (game != null) {
+            Player winner = game.getPlayers().stream()
+                    .filter(p -> p.getName().equals(packet.getWinnerUsername()))
+                    .findFirst()
+                    .orElse(null);
+            showGameOver(winner);
+            endGame();
+            resetBoard();
+        }
     }
 
     private void executeLocalAction(Runnable action) {
@@ -706,6 +742,8 @@ public class GameController {
         gameBoardBP.setManaged(false);
         startMenuStackpane.setVisible(true);
         startMenuStackpane.setManaged(true);
+        if (game != null) resetBoard();
+        game = null;
         stopNetwork();
     }
 

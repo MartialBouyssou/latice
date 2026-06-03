@@ -18,10 +18,12 @@ public class TcpClient implements Runnable {
     private DataOutputStream outputStream;
     private final String playerUsername;
     private final Consumer<Packet> onPacketReceived;
+    private final Runnable onDisconnected;
 
-    public TcpClient(String playerUsername, Consumer<Packet> packetConsumer) {
+    public TcpClient(String playerUsername, Consumer<Packet> packetConsumer, Runnable onDisconnected) {
         this.playerUsername = playerUsername;
         this.onPacketReceived = packetConsumer;
+        this.onDisconnected = onDisconnected;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class TcpClient implements Runnable {
                 onPacketReceived.accept(packet);
             }
         } catch (IOException e) {
-            throw new ClientDisconnectedException("Client was disconnected during TCP");
+            onDisconnected.run();
         }
     }
 

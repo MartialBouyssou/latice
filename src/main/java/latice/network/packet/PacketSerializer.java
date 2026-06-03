@@ -16,7 +16,7 @@ public class PacketSerializer {
         PacketType type = PacketType.values()[typeOrdinal];
 
         return switch (type) {
-            case DISCOVERY_REQUEST -> DiscoveryRequestPacket.readFrom();
+            case DISCOVERY_REQUEST -> DiscoveryRequestPacket.readFrom(in);
             case DISCOVERY_RESPONSE -> DiscoveryResponsePacket.readFrom(in);
             case LOBBY_JOIN -> LobbyJoinPacket.readFrom(in);
             case LOBBY_WELCOME -> LobbyWelcomePacket.readFrom(in);

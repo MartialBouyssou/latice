@@ -93,7 +93,6 @@ public class LaticeGameListener implements GameListener {
     public void onGameOver(GameOverEvent event) {
         gameController.showGameOver(event.getWinner());
         gameController.endGame();
-        gameController.resetBoard();
     }
 
     @Override

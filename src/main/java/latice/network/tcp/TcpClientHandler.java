@@ -15,11 +15,13 @@ import java.util.function.Consumer;
 public class TcpClientHandler implements Runnable {
     private final Socket socket;
     private final Consumer<Packet> onPacketReceived;
+    private final Runnable onDisconnected;
     private final DataOutputStream outputStream;
 
-    public TcpClientHandler(Socket socket, Consumer<Packet> onPacketReceived) throws IOException {
+    public TcpClientHandler(Socket socket, Consumer<Packet> onPacketReceived, Runnable onDisconnected) throws IOException {
         this.socket = socket;
         this.onPacketReceived = onPacketReceived;
+        this.onDisconnected = onDisconnected;
         this.outputStream = new DataOutputStream(socket.getOutputStream());
     }
 
@@ -31,7 +33,8 @@ public class TcpClientHandler implements Runnable {
                 Packet packet = PacketSerializer.read(in);
                 onPacketReceived.accept(packet);
             }
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            onDisconnected.run();
         }
     }
 

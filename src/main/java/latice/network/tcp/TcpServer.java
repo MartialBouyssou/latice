@@ -14,12 +14,14 @@ import java.util.function.Consumer;
 public class TcpServer implements Runnable {
     private final int port;
     private final Consumer<Packet> onPacketReceived;
+    private final Runnable onDisconnected;
     private TcpClientHandler client;
     private volatile boolean running = true;
 
-    public TcpServer(int port, Consumer<Packet> onPacketReceived) {
+    public TcpServer(int port, Consumer<Packet> onPacketReceived, Runnable onDisconnected) {
         this.port = port;
         this.onPacketReceived = onPacketReceived;
+        this.onDisconnected = onDisconnected;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class TcpServer implements Runnable {
             while (running) {
                 Socket clientSocket = serverSocket.accept();
                 try {
-                    TcpClientHandler handler = new TcpClientHandler(clientSocket, onPacketReceived);
+                    TcpClientHandler handler = new TcpClientHandler(clientSocket, onPacketReceived, onDisconnected);
                     client = handler;
                     Thread t = new Thread(handler);
                     t.setDaemon(true);
