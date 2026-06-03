@@ -1,6 +1,5 @@
 package latice.network.udp;
 
-import latice.exception.network.NetworkException;
 import latice.network.NetworkConfig;
 import latice.network.packet.Packet;
 import latice.network.packet.PacketSerializer;
@@ -11,12 +10,12 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 
 public class UdpDiscoveryServer implements Runnable {
     private final int port;
     private final String hostName;
     private volatile boolean running = true;
+    private DatagramSocket socket;
 
     public UdpDiscoveryServer(String hostName, int port) {
         this.hostName = hostName;
@@ -25,9 +24,9 @@ public class UdpDiscoveryServer implements Runnable {
 
     @Override
     public void run() {
-        try (DatagramSocket socket = new DatagramSocket(NetworkConfig.UDP_DISCOVERY_PORT)) {
+        try {
+            socket = new DatagramSocket(NetworkConfig.UDP_DISCOVERY_PORT);
             while (running) {
-                // That's the broadcast (if I'm right AND I HOPEE) !
                 byte[] receiveData = new byte[1024];
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 socket.receive(receivePacket);
@@ -37,7 +36,8 @@ public class UdpDiscoveryServer implements Runnable {
 
                 Packet packet = PacketSerializer.read(dataInputStream);
 
-                if (packet instanceof DiscoveryRequestPacket) {
+                if (packet instanceof DiscoveryRequestPacket requestPacket &&
+                        requestPacket.getProtocolVersion() == NetworkConfig.PROTOCOL_VERSION) {
                     InetAddress clientAddr = receivePacket.getAddress();
                     int clientPort = receivePacket.getPort();
 
@@ -50,21 +50,20 @@ public class UdpDiscoveryServer implements Runnable {
                     responsePacket.writeTo(dataOutputStream);
 
                     byte[] responseData = byteArrayOut.toByteArray();
-
                     DatagramPacket sendPacket = new DatagramPacket(
                             responseData, responseData.length, clientAddr, clientPort
                     );
-
                     socket.send(sendPacket);
                 }
             }
-
-        } catch (IOException e) {
-            throw new NetworkException("We have some issues with lan multiplayer discovery");
+        } catch (IOException ignored) {
         }
     }
 
     public void stop() {
         running = false;
+        if (socket != null && !socket.isClosed()) {
+            socket.close();
+        }
     }
 }

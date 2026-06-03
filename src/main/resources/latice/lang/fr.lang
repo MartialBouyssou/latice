@@ -1,3 +1,8 @@
+# / ! \ Avertissement / ! \
+# >  Cette traduction a été créée avec l'IA  <
+# >  Si vous souhaitez soumettre une version faite à la main, vous pouvez créer une demande de tirage ;)  <
+# / ! \ Avertissement / ! \
+
 # messages_fr.properties
 app.title=Latice
 
@@ -8,6 +13,7 @@ menu.start.play=Jouer
 menu.start.lan=Jouer en LAN
 menu.start.rules=Règles
 menu.start.theme=Thème
+menu.start.quit=Quitter
 
 # # Rules menu
 menu.rules.title=Règles
@@ -31,6 +37,7 @@ menu.username.title=Latice
 menu.username.firstUsernameChoiceLabel=Choisissez votre pseudo :
 menu.username.secondUsernameChoiceLabel=Vous pouvez aussi choisir un pseudo :
 menu.username.play=Jouer
+menu.username.back=Retour
 
 # # Lan Menu
 menu.lan.title=Latice LAN
@@ -51,6 +58,7 @@ menu.lanLobby.clientUsernameNotReady=[Non prêt] Second joueur : {client}
 menu.lanLobby.clientUsernameReady=[Prêt] Second joueur : {client}
 menu.lanLobby.ready=Prêt
 menu.lanLobby.play=Jouer
+menu.lanLobby.back=Retour
 
 # # Theme Menu
 menu.theme.title=Choisir un thème

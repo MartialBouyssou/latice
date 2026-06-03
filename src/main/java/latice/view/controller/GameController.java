@@ -95,6 +95,7 @@ public class GameController {
     private Map<String, String> availableLanguages;
 
     private SessionRole sessionRole;
+    private UdpDiscoveryServer udpDiscoveryServer;
     private TcpClient tcpClient;
     private TcpServer tcpServer;
     private String hostUsername = "Host";
@@ -169,6 +170,7 @@ public class GameController {
     }
 
     public void showPlayMenu() {
+        stopNetwork();
         searchLanMenuVBox.setVisible(false);
         searchLanMenuVBox.setManaged(false);
         lanMenuVBox.setVisible(false);
@@ -179,6 +181,8 @@ public class GameController {
         themeMenuVBox.setManaged(false);
         rulesMenuVBox.setVisible(false);
         rulesMenuVBox.setManaged(false);
+        usernameMenuVBox.setVisible(false);
+        usernameMenuVBox.setManaged(false);
         playMenuVBox.setVisible(true);
         playMenuVBox.setManaged(true);
     }
@@ -303,9 +307,13 @@ public class GameController {
     private void startAsHost() {
         sessionRole = SessionRole.HOST;
         tcpServer = new TcpServer(NetworkConfig.TCP_PORT, this::handleIncomingPacket);
-        new Thread(tcpServer).start();
-        UdpDiscoveryServer udpServer = new UdpDiscoveryServer(hostUsername, NetworkConfig.TCP_PORT);
-        new Thread(udpServer).start();
+        Thread tcpThread = new Thread(tcpServer);
+        tcpThread.setDaemon(true);
+        tcpThread.start();
+        udpDiscoveryServer = new UdpDiscoveryServer(hostUsername, NetworkConfig.TCP_PORT);
+        Thread udpThread = new Thread(udpDiscoveryServer);
+        udpThread.setDaemon(true);
+        udpThread.start();
     }
 
     public void startAsClient(DiscoveredHost host) {
@@ -527,6 +535,11 @@ public class GameController {
         sendPacket(new LobbyReadyPacket());
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameReady",
                 "client", clientUsername));
+    }
+
+    public void quitApp() {
+        stopNetwork();
+        System.exit(0);
     }
 
     private Game buildLanGameAsHost() {
@@ -801,6 +814,10 @@ public class GameController {
     }
 
     private void stopNetwork() {
+        if (udpDiscoveryServer != null) {
+            udpDiscoveryServer.stop();
+            udpDiscoveryServer = null;
+        }
         if (tcpServer != null) {
             tcpServer.stop();
             tcpServer = null;

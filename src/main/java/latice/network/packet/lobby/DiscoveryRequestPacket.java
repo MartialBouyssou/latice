@@ -3,12 +3,15 @@ package latice.network.packet.lobby;
 import latice.network.packet.Packet;
 import latice.network.packet.PacketType;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class DiscoveryRequestPacket implements Packet {
-    public DiscoveryRequestPacket() {
-        /* It's just an informational packet saying "HEY" to everyone */
+    private int protocolVersion;
+
+    public DiscoveryRequestPacket(int protocolVersion) {
+        this.protocolVersion = protocolVersion;
     }
 
     @Override
@@ -16,12 +19,18 @@ public class DiscoveryRequestPacket implements Packet {
         return PacketType.DISCOVERY_REQUEST;
     }
 
+    public int getProtocolVersion() {
+        return protocolVersion;
+    }
+
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
         out.writeInt(getType().ordinal());
+        out.writeInt(protocolVersion);
     }
 
-    public static DiscoveryRequestPacket readFrom() {
-        return new DiscoveryRequestPacket();
+    public static DiscoveryRequestPacket readFrom(DataInputStream in) throws IOException {
+        int protocolVersion = in.readInt();
+        return new DiscoveryRequestPacket(protocolVersion);
     }
 }

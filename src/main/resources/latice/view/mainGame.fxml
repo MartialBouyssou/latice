@@ -34,6 +34,7 @@
                <Button mnemonicParsing="false" onAction="#showLanMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.start.lan" />
                <Button fx:id="startMenuRuleButton" mnemonicParsing="false" onAction="#showRules" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.start.rules" />
                <Button mnemonicParsing="false" onAction="#showThemeMenu" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.start.theme" />
+               <Button mnemonicParsing="false" onAction="#quitApp" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-background-radius: 10;" text="menu.start.quit" />
             </children>
          </VBox>
          <VBox fx:id="usernameMenuVBox" alignment="CENTER" spacing="30.0" visible="false">
@@ -54,6 +55,7 @@
                   <VBox.margin>
                      <Insets top="75.0" />
                   </VBox.margin></Button>
+               <Button mnemonicParsing="false" onAction="#showPlayMenu" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-background-radius: 10;" text="menu.username.back" />
             </children>
          </VBox>
          <VBox fx:id="rulesMenuVBox" alignment="TOP_CENTER" spacing="16.0" style="-fx-padding: 60 200 60 200;" visible="false">
@@ -133,6 +135,7 @@
                      <Insets top="75.0" />
                   </VBox.margin>
                </Button>
+               <Button mnemonicParsing="false" onAction="#showPlayMenu" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-background-radius: 10;" text="menu.lanLobby.back" />
             </children>
          </VBox>
       </children>

@@ -1,3 +1,8 @@
+# / ! \ Warning / ! \
+# >  This translation was created with AI  <
+# >  If you want to submit a hand-made version, you can create a pull request ;)  <
+# / ! \ Warning / ! \
+
 # App window
 app.title=Latice
 
@@ -8,6 +13,7 @@ menu.start.play=Play
 menu.start.lan=Play in Lan
 menu.start.rules=Rules
 menu.start.theme=Theme
+menu.start.quit=Quit
 
 # # Rules menu
 menu.rules.title=Rules
@@ -31,6 +37,7 @@ menu.username.title=Latice
 menu.username.firstUsernameChoiceLabel=Choose your username:
 menu.username.secondUsernameChoiceLabel=You also choose a username:
 menu.username.play=Play
+menu.username.back=Back
 
 # # Lan Menu
 menu.lan.title=Latice Lan
@@ -51,6 +58,7 @@ menu.lanLobby.clientUsernameNotReady=[Not Ready] Second Player: {client}
 menu.lanLobby.clientUsernameReady=[Ready] Second Player: {client}
 menu.lanLobby.ready=Ready
 menu.lanLobby.play=Play
+menu.lanLobby.back=Back
 
 # # Theme Menu
 menu.theme.title=Choose a theme

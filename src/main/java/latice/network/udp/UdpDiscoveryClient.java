@@ -25,7 +25,7 @@ public class UdpDiscoveryClient {
             socket.setBroadcast(true);
             socket.setSoTimeout(LISTENING_TIME);
 
-            DiscoveryRequestPacket requestPacket = new DiscoveryRequestPacket();
+            DiscoveryRequestPacket requestPacket = new DiscoveryRequestPacket(NetworkConfig.PROTOCOL_VERSION);
             ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
             DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOut);
 
