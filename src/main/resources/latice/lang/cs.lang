@@ -1,0 +1,99 @@
+# / ! \ Varování / ! \
+# >  Tento překlad byl vytvořen pomocí AI  <
+# >  Pokud chcete odeslat ručně vytvořenou verzi, můžete vytvořit pull request ;)  <
+# / ! \ Varování / ! \
+
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=Hrát
+menu.start.lan=Hrát v LAN
+menu.start.rules=Pravidla
+menu.start.theme=Téma
+
+menu.rules.title=Pravidla
+menu.rules.firstCategory=Příprava
+menu.rules.firstCategory.description=Kameny (dlaždice) jsou zamíchány a rovnoměrně rozděleny mezi 2 hráče. Každý hráč si vezme 5 dlaždic na svoji polici. První hráč položí jednu dlaždici na políčko měsíc (střed) pro začátek.
+menu.rules.secondCategory=V tvém tahu
+menu.rules.secondCategory.description=První akce je ZDARMA. Každá další akce stojí 2 body. Vyber jednu ze 4 akcí níže.
+menu.rules.secondCategory.list=4 možné akce
+menu.rules.secondCategory.list.first=1. Položit dlaždici — Umístěte dlaždici z vaší police vedle existující dlaždice. Každá dotýkající se strana musí sedět barvou nebo tvarem.
+menu.rules.secondCategory.list.second=2. Koupit akci — Utratíte 2 body pro provedení dalšího tahu.
+menu.rules.secondCategory.list.third=3. Vyměnit polici — Vyměňte všechny dlaždice na své polici za nové z poolu. Končí váš tah.
+menu.rules.secondCategory.list.fourth=4. Pas — Přeskočte svůj tah zdarma.
+menu.rules.thirdCategory=Skórování
+menu.rules.thirdCategory.description=Dvojnásobek (2 shodné strany) => +1 b  |  Jetel (3 strany) => +2 b  |  Latice (4 strany) => +4 b  |  Sluneční políčko => +2 b bonus
+menu.rules.fourthCategory=Konec hry
+menu.rules.fourthCategory.description=Hra končí, když hráč vyprázdní svou polici a pool, nebo po 10 cyklech (1 cyklus = 1 tah na hráče). Hráč, který položil nejvíce dlaždic, vyhrává.
+menu.rules.back=Zpět
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Vyberte si uživatelské jméno:
+menu.username.secondUsernameChoiceLabel=Také si můžete vybrat uživatelské jméno:
+menu.username.play=Hrát
+
+menu.lan.title=Latice LAN
+menu.lan.host=Hostit hru
+menu.lan.search=Hledat hosta
+menu.lan.backButton=Zpět
+
+menu.lanSearch.title=Hledání hosta
+menu.lanSearch.host=Hostitel: {host}
+menu.lanSearch.backButton=Zpět
+
+menu.lanLobby.title=Lobování
+menu.lanLobby.hostUsername=První hráč: {host}
+menu.lanLobby.clientNotHere=Čeká na druhého hráče...
+menu.lanLobby.clientUsernameNotReady=[Ne připraven] Druhý hráč: {client}
+menu.lanLobby.clientUsernameReady=[Připraven] Druhý hráč: {client}
+menu.lanLobby.ready=Připraven
+menu.lanLobby.play=Hrát
+
+menu.theme.title=Vyberte téma
+menu.theme.classicTheme=Klasické
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Zpět
+
+menu.game.actionButton=Koupit akci
+menu.game.exchangeButton=Vyměnit polici
+menu.game.endTurnButton=Ukončit tah
+menu.game.player.currentPlayer=Na tahu: {name}
+menu.game.player.score=Skóre: {score}
+menu.game.player.remaining=Zbývající dlaždice: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Tah {turnNumber}
+menu.turnIndicator.currentPlayer=Je na tahu {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Skóre posledního tahu hráče {name} :
+menu.turnIndicator.readyButton=Jsem připraven!
+
+menu.lanOverlay.turnOf=Tah hráče {currentPlayer}
+
+popup.game.over.title=Hra skončila
+popup.game.over.winner.header=Vítěz: {name}
+popup.game.over.winner.content={name} vyhrál s {score} body!
+popup.game.over.tie.header=Remíza!
+popup.game.over.tie.content=Je to remíza! Oba hráči položili stejné množství dlaždic!
+
+popup.game.invalid.title=Neplatný tah
+popup.game.invalid.header=To nemůžeš udělat..
+popup.game.invalid.reason=V tomto tahu jsi už položil dlaždici! Kup akci nebo ukonči svůj tah!
+
+popup.lanUsername.title=LAN uživatelské jméno
+popup.lanUsername.header=Vyberte uživatelské jméno
+popup.lanUsername.context=Uživatelské jméno:
+popup.lanSearch.noHost=Neexistuje žádný host...
+
+event.invalidMove.tileError=Hráč nemá tuto dlaždici na své polici
+event.invalidMove.moveError=Tah není platný podle pravidel hry
+
+event.invalidMove.cannotAfford=Nedostatek bodů pro koupi další akce
+
+default.hostName=Host Hráč
+default.clientName=Klient Hráč
+default.secondPlayerName=Hráč 2
+default.firstPlayerName=Hráč 1
+
+menu.start.quit=Ukončit
+menu.username.back=Zpět
+menu.lanLobby.back=Zpět

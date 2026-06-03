@@ -1,0 +1,100 @@
+# messages_he.properties
+# / ! \ אזהרה / ! \
+# >  תרגום זה נוצר על ידי AI  <
+# >  אם ברצונך להגיש גרסה בעבודה ידנית, אתה יכול ליצור בקשת משיכה ;)  <
+# / ! \ אזהרה / ! \
+
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=שחק
+menu.start.lan=שחק ברשת מקומית
+menu.start.rules=חוקים
+menu.start.theme=ערכת עיצוב
+
+menu.rules.title=חוקים
+menu.rules.firstCategory=הכנה
+menu.rules.firstCategory.description=האריחים מעורבבים ומחולקים שווה בין 2 שחקנים. כל שחקן מושך 5 אריחים למדף שלו. השחקן הראשון מניח אריח על משבצת הירח (מרכז) כדי להתחיל.
+menu.rules.secondCategory=בתורך
+menu.rules.secondCategory.description=הפעולה הראשונה חינם. כל פעולה נוספת עולה 2 נקודות. בחר אחת מה-4 פעולות מטה.
+menu.rules.secondCategory.list=4 פעולות אפשריות
+menu.rules.secondCategory.list.first=1. שחק אריח — הנח אריח מהמדף שלך ליד אריח קיים. כל צד נוגע חייב להתאים בצבע או בצורה.
+menu.rules.secondCategory.list.second=2. קנה פעולה — הוצא 2 נקודות כדי לבצע מהלך נוסף.
+menu.rules.secondCategory.list.third=3. החלף מדף — החלף את כל האריחים על המדף באריחים חדשים מהערימה. מסיים את תורך.
+menu.rules.secondCategory.list.fourth=4. פס — דלג על תורך בחינם.
+menu.rules.thirdCategory=ניקוד
+menu.rules.thirdCategory.description=דאבל (2 צדדים תואמים) => +1 נק'  |  תלתן (3 צדדים) => +2 נק'  |  Latice (4 צדדים) => +4 נק'  |  משבצת שמש => +2 נק' בונוס
+menu.rules.fourthCategory=סיום המשחק
+menu.rules.fourthCategory.description=המשחק מסתיים כאשר שחקן מרוקן את המדף והערימה שלו, או לאחר 10 מחזורים (1 מחזור = 1 תור לכל שחקן). השחקן שהניח את מרבית האריחים מנצח.
+menu.rules.back=חזור
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=בחר שם משתמש:
+menu.username.secondUsernameChoiceLabel=אתה יכול גם לבחור שם משתמש:
+menu.username.play=שחק
+
+menu.lan.title=Latice LAN
+menu.lan.host=אירח משחק
+menu.lan.search=חפש מארח
+menu.lan.backButton=חזור
+
+menu.lanSearch.title=מחפש מארח
+menu.lanSearch.host=מארח: {host}
+menu.lanSearch.backButton=חזור
+
+menu.lanLobby.title=לובי
+menu.lanLobby.hostUsername=שחקן ראשון: {host}
+menu.lanLobby.clientNotHere=ממתין לשחקן שני...
+menu.lanLobby.clientUsernameNotReady=[לא מוכן] שחקן שני: {client}
+menu.lanLobby.clientUsernameReady=[מוכן] שחקן שני: {client}
+menu.lanLobby.ready=מוכן
+menu.lanLobby.play=שחק
+
+menu.theme.title=בחר ערכת עיצוב
+menu.theme.classicTheme=קלאסי
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=חזור
+
+menu.game.actionButton=קנה פעולה
+menu.game.exchangeButton=החלף מדף
+menu.game.endTurnButton=סיים תור
+menu.game.player.currentPlayer=תורו של {name}:
+menu.game.player.score=נקודות: {score}
+menu.game.player.remaining=אריחים נותרו: {count}
+
+menu.turnIndicator.turnIndicatorTitle= תור {turnNumber}
+menu.turnIndicator.currentPlayer=זהו תורו של {name}!
+menu.turnIndicator.lastPlayerScoreHeader=ניקוד בסיבוב האחרון של {name} :
+menu.turnIndicator.readyButton=אני מוכן!
+
+menu.lanOverlay.turnOf=תור של {currentPlayer}
+
+popup.game.over.title=המשחק הסתיים
+popup.game.over.winner.header=מנצח: {name}
+popup.game.over.winner.content={name} זכה עם {score} נקודות!
+popup.game.over.tie.header=תיקו!
+popup.game.over.tie.content=תיקו! שני השחקנים הניחו את אותו מספר אריחים!
+
+popup.game.invalid.title=מהלך לא תקין
+popup.game.invalid.header=אתה לא יכול לעשות זאת..
+popup.game.invalid.reason=כבר הנחת אריח בסיבוב זה! קנה פעולה או סיים את תורך!
+
+popup.lanUsername.title=שם משתמש LAN
+popup.lanUsername.header=בחר שם משתמש
+popup.lanUsername.context=שם משתמש:
+popup.lanSearch.noHost=אין מארח...
+
+event.invalidMove.tileError=השחקן לא מחזיק את האריח הזה על המדף שלו
+event.invalidMove.moveError=המהלך אינו תקף לפי חוקי המשחק
+
+event.invalidMove.cannotAfford=אין נקודות מספיקות לקניית פעולה נוספת
+
+default.hostName=שחקן מארח
+default.clientName=שחקן לקוח
+default.secondPlayerName=שחקן 2
+default.firstPlayerName=שחקן 1
+
+menu.start.quit=יציאה
+menu.username.back=חזרה
+menu.lanLobby.back=חזרה

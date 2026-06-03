@@ -7,14 +7,17 @@ import latice.view.controller.GameController;
 public class LaticeGameListener implements GameListener {
 
     private final GameController gameController;
+    private final boolean isLanMode;
     private boolean playTwiceActive = false;
 
     /**
      * Creates the listener bound to the given game controller used to update the UI.
      * @param gameController The controller used to reflect game events on the interface.
+     * @param isLanMode A boolean to define if you want to execute it in local or not
      */
-    public LaticeGameListener(GameController gameController) {
+    public LaticeGameListener(GameController gameController, boolean isLanMode) {
         this.gameController = gameController;
+        this.isLanMode = isLanMode;
     }
 
     /**
@@ -36,8 +39,8 @@ public class LaticeGameListener implements GameListener {
         gameController.updatePlayerInfo(event.getPlayer());
 
         if (event.getActionType() == ActionType.PLAY_TWICE) {
-            playTwiceActive = true;
-            gameController.toggleActionButton();
+            if (!isLanMode) playTwiceActive = true;
+            gameController.toggleActionButton(true);
         }
     }
 
@@ -48,10 +51,15 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
         gameController.setHasAlreadyPlaced(false);
-        gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
-                event.getLastTurnScore());
-        gameController.updateRack(event.getNextPlayer());
-        gameController.updatePlayerInfo(event.getNextPlayer());
+        gameController.toggleActionButton(false);
+        if (isLanMode) {
+            gameController.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
+        } else {
+            gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+                    event.getLastTurnScore());
+            gameController.updateRack(event.getNextPlayer());
+            gameController.updatePlayerInfo(event.getNextPlayer());
+        }
     }
 
     /**
@@ -69,12 +77,14 @@ public class LaticeGameListener implements GameListener {
         gameController.updatePlayerInfo(event.getPlayer());
         gameController.updateRack(event.getPlayer());
 
-        if (playTwiceActive) {
-            playTwiceActive = false;
-            gameController.toggleActionButton();
-        } else {
-            gameController.setHasAlreadyPlaced(true);
-            gameController.getGame().endTurn();
+        if (!isLanMode) {
+            if (playTwiceActive) {
+                playTwiceActive = false;
+                gameController.toggleActionButton();
+            } else {
+                gameController.setHasAlreadyPlaced(true);
+                gameController.getGame().endTurn();
+            }
         }
     }
 
@@ -85,10 +95,14 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
         gameController.setHasAlreadyPlaced(false);
-        gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
-                event.getLastTurnScore());
-        gameController.updateRack(event.getNextPlayer());
-        gameController.updatePlayerInfo(event.getNextPlayer());
+        if (isLanMode) {
+            gameController.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
+        } else {
+            gameController.showOverlayForPlayer(event.getNextPlayer(), event.getLastPlayer(),
+                    event.getLastTurnScore());
+            gameController.updateRack(event.getNextPlayer());
+            gameController.updatePlayerInfo(event.getNextPlayer());
+        }
     }
 
     /**
@@ -97,13 +111,11 @@ public class LaticeGameListener implements GameListener {
      */
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
-        if (playTwiceActive) {
+        if (!isLanMode && playTwiceActive) {
             playTwiceActive = false;
-            gameController.toggleActionButton(false);
         } else {
             gameController.getGame().completeExchangeAsTurn();
         }
-
         gameController.updateRack(event.getPlayer());
     }
 
@@ -115,7 +127,6 @@ public class LaticeGameListener implements GameListener {
     public void onGameOver(GameOverEvent event) {
         gameController.showGameOver(event.getWinner());
         gameController.endGame();
-        gameController.resetBoard();
     }
 
     /**

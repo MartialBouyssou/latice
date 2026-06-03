@@ -37,6 +37,17 @@ public class Player {
     }
 
     /**
+     * Creates a new player with a starting score of zero.
+     * @param name The name of the player.
+     * @param rack The rack of the player.
+     * @param deck The deck used to fill the player's rack.
+     * @return A new player initialized with the given name and deck.
+     */
+    public static Player create(String name, Rack rack, Deck deck) {
+        return new Player(name, 0, deck, rack);
+    }
+
+    /**
      * Returns the name of the player.
      * @return The player's name.
      */

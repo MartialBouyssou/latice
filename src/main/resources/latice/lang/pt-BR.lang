@@ -1,0 +1,99 @@
+# / ! \ Aviso / ! \
+# >  Esta tradução foi feita com IA  <
+# >  Se você quer enviar uma versão feita à mão, você pode criar um pull request ;)  <
+# / ! \ Aviso / ! \
+
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=Jogar
+menu.start.lan=Jogar em LAN
+menu.start.rules=Regras
+menu.start.theme=Tema
+
+menu.rules.title=Regras
+menu.rules.firstCategory=Preparação
+menu.rules.firstCategory.description=As peças são embaralhadas e distribuídas igualmente entre 2 jogadores. Cada jogador compra 5 peças para seu suporte. O primeiro jogador coloca uma peça na casa da lua (centro) para começar.
+menu.rules.secondCategory=No seu turno
+menu.rules.secondCategory.description=A primeira ação é GRÁTIS. Cada ação adicional custa 2 pontos. Escolha uma das 4 ações abaixo.
+menu.rules.secondCategory.list=4 ações possíveis
+menu.rules.secondCategory.list.first=1. Jogar uma peça — Coloque uma peça do seu suporte ao lado de uma peça existente. Cada lado em contato deve combinar por cor ou forma.
+menu.rules.secondCategory.list.second=2. Comprar uma ação — Gaste 2 pontos para jogar uma jogada extra.
+menu.rules.secondCategory.list.third=3. Trocar suporte — Substitua todas as peças do seu suporte por novas do monte. Encerra seu turno.
+menu.rules.secondCategory.list.fourth=4. Passar — Pule seu turno gratuitamente.
+menu.rules.thirdCategory=Pontuação
+menu.rules.thirdCategory.description=Duplo (2 lados correspondentes) => +1 pt  |  Trevo (3 lados) => +2 pts  |  Latice (4 lados) => +4 pts  |  Casa Sol => +2 pts bônus
+menu.rules.fourthCategory=Fim do jogo
+menu.rules.fourthCategory.description=O jogo termina quando um jogador esvazia seu suporte e o monte, ou após 10 ciclos (1 ciclo = 1 turno por jogador). O jogador que colocou mais peças vence.
+menu.rules.back=Voltar
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Escolha seu nome de usuário:
+menu.username.secondUsernameChoiceLabel=Você também pode escolher um nome de usuário:
+menu.username.play=Jogar
+
+menu.lan.title=Latice LAN
+menu.lan.host=Hospedar jogo
+menu.lan.search=Procurar host
+menu.lan.backButton=Voltar
+
+menu.lanSearch.title=Procurando host
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Voltar
+
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Primeiro jogador: {host}
+menu.lanLobby.clientNotHere=Aguardando um segundo jogador...
+menu.lanLobby.clientUsernameNotReady=[Não pronto] Segundo jogador: {client}
+menu.lanLobby.clientUsernameReady=[Pronto] Segundo jogador: {client}
+menu.lanLobby.ready=Pronto
+menu.lanLobby.play=Jogar
+
+menu.theme.title=Escolha um tema
+menu.theme.classicTheme=Clássico
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Voltar
+
+menu.game.actionButton=Comprar uma ação
+menu.game.exchangeButton=Trocar suporte
+menu.game.endTurnButton=Encerrar turno
+menu.game.player.currentPlayer=Vez de {name}:
+menu.game.player.score=Pontuação: {score}
+menu.game.player.remaining=Peças restantes: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Turno {turnNumber}
+menu.turnIndicator.currentPlayer=É a vez de {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Pontuação do último turno de {name} :
+menu.turnIndicator.readyButton=Estou pronto!
+
+menu.lanOverlay.turnOf=Vez de {currentPlayer}
+
+popup.game.over.title=Jogo encerrado
+popup.game.over.winner.header=Vencedor: {name}
+popup.game.over.winner.content={name} venceu com {score} pontos!
+popup.game.over.tie.header=Empate!
+popup.game.over.tie.content=Empate! Ambos os jogadores colocaram a mesma quantidade de peças!
+
+popup.game.invalid.title=Movimento inválido
+popup.game.invalid.header=Você não pode fazer isso..
+popup.game.invalid.reason=Você já colocou uma peça neste turno! Compre uma ação ou encerre seu turno!
+
+popup.lanUsername.title=Nome LAN
+popup.lanUsername.header=Escolha seu nome de usuário
+popup.lanUsername.context=Nome:
+popup.lanSearch.noHost=Não há host...
+
+event.invalidMove.tileError=O jogador não tem esta peça em seu suporte
+event.invalidMove.moveError=O movimento não é válido de acordo com as regras do jogo
+
+event.invalidMove.cannotAfford=Não há pontos suficientes para comprar ação extra
+
+default.hostName=Jogador Host
+default.clientName=Jogador Cliente
+default.secondPlayerName=Jogador 2
+default.firstPlayerName=Jogador 1
+
+menu.start.quit=Sair
+menu.username.back=Voltar
+menu.lanLobby.back=Voltar

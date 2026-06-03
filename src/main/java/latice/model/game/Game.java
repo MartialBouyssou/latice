@@ -7,7 +7,6 @@ import latice.model.deck.Deck;
 import latice.model.game.events.*;
 import latice.model.player.ActionType;
 import latice.model.player.Player;
-import latice.model.player.Rack;
 import latice.model.referee.Referee;
 import latice.model.tile.Tile;
 import latice.utils.LangManager;
@@ -25,7 +24,7 @@ public class Game {
     private Board board;
     private final Referee referee;
     private Player currentPlayer;
-    private int turnCount;
+    private int turnCount = 0;
     private final List<GameListener> listeners = new ArrayList<>();
     private int playersTurnScore;
 
@@ -41,9 +40,21 @@ public class Game {
     public Game(Referee referee, String player1Username, String player2Username) {
         this.referee = referee;
         this.players = new ArrayList<>();
-        this.turnCount = 0;
         this.player1Username = player1Username;
         this.player2Username = player2Username;
+    }
+
+    /**
+     * Creates a new game with the given referee and players object.
+     * @param referee The referee used to validate moves and compute scores.
+     * @param player1 The first player as an object.
+     * @param player2 The second player as an object.
+     */
+    public Game(Referee referee, Player player1, Player player2) {
+        this.referee = referee;
+        this.players = new ArrayList<>(List.of(player1, player2));
+        this.player1Username = player1.getName();
+        this.player2Username = player2.getName();
     }
 
     /**
@@ -61,6 +72,7 @@ public class Game {
     public List<Player> getPlayers() {
         return players;
     }
+
 
     /**
      * Returns the game board.
@@ -95,6 +107,26 @@ public class Game {
     }
 
     /**
+     * Indicates whether an action has already been played during the current turn.
+     * @return True if an action was played this turn, false otherwise.
+     */
+    public boolean isActionPlayedThisTurn() {
+        return actionPlayedThisTurn;
+    }
+
+    public boolean isPlayTwiceActive() {
+        return playTwiceActive;
+    }
+
+    /**
+     * Returns the score earned by the current player during this turn.
+     * @return The current turn score.
+     */
+    public int getPlayersTurnScore() {
+        return playersTurnScore;
+    }
+
+    /**
      * Starts the game by creating the board, splitting the deck between the two
      * players, choosing a random starting player and notifying listeners.
      */
@@ -116,7 +148,16 @@ public class Game {
         players.add(Player.create(player2Username, Deck.create(secondHalf)));
 
         currentPlayer = players.get(new Random().nextInt(players.size()));
+        sendEvent(new GameStartedEvent(currentPlayer));
+    }
 
+    /**
+     * Starts the game without creating anything, but by using packets
+     * data, choosing a random starting player and notifying listeners.
+     */
+    public void startFromExistingPlayers() {
+        board = Board.create();
+        currentPlayer = players.get(0);
         sendEvent(new GameStartedEvent(currentPlayer));
     }
 
@@ -129,9 +170,7 @@ public class Game {
      * @param y The y coordinate where the tile is placed.
      */
     public void playTile(Tile tile, int x, int y) {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
 
         if (!currentPlayer.getRack().getTiles().contains(tile)) {
             sendEvent(new InvalidMoveEvent(currentPlayer, tile, x, y,
@@ -154,9 +193,7 @@ public class Game {
         currentPlayer.incrementTilesPlayed();
         currentPlayer.addScore(playersTurnScore);
 
-        if (playTwiceActive) {
-            playTwiceActive = false;
-        }
+        if (playTwiceActive) playTwiceActive = false;
         actionPlayedThisTurn = true;
 
         sendEvent(new TilePlacedEvent(currentPlayer, tile, x, y, playersTurnScore));
@@ -168,12 +205,8 @@ public class Game {
      * simply ended.
      */
     public void endTurn() {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
-        if (!actionPlayedThisTurn) {
-            throw new NoTilePlayedException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
+        if (!actionPlayedThisTurn) throw new NoTilePlayedException();
 
         actionPlayedThisTurn = false;
         currentPlayer.getRack().refill(currentPlayer.getDeck());
@@ -207,9 +240,7 @@ public class Game {
      * @return True if the game is over, false otherwise.
      */
     public boolean isGameOver() {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
         return referee.isGameOver(this);
     }
 
@@ -218,9 +249,7 @@ public class Game {
      * @return The winning player.
      */
     public Player getWinner() {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
         return referee.determineWinner(this);
     }
 
@@ -228,11 +257,18 @@ public class Game {
      * Advances the current player to the next player in turn order.
      */
     private void nextPlayer() {
-        if (currentPlayer == null) {
-            throw new GameNotStartException();
-        }
+        if (currentPlayer == null) throw new GameNotStartException();
         int currentIndex = players.indexOf(currentPlayer);
         currentPlayer = players.get((currentIndex + 1) % players.size());
+    }
+
+    /**
+     * Returns the player who will play after the current player.
+     * @return The next player.
+     */
+    public Player getNextPlayer() {
+        int currentIndex = players.indexOf(currentPlayer);
+        return players.get((currentIndex + 1) % players.size());
     }
 
     /**
@@ -270,31 +306,6 @@ public class Game {
                 listener.onActionBought(e);
             }
         }
-    }
-
-    /**
-     * Indicates whether an action has already been played during the current turn.
-     * @return True if an action was played this turn, false otherwise.
-     */
-    public boolean isActionPlayedThisTurn() {
-        return actionPlayedThisTurn;
-    }
-
-    /**
-     * Returns the score earned by the current player during this turn.
-     * @return The current turn score.
-     */
-    public int getPlayersTurnScore() {
-        return playersTurnScore;
-    }
-
-    /**
-     * Returns the player who will play after the current player.
-     * @return The next player.
-     */
-    public Player getNextPlayer() {
-        int currentIndex = players.indexOf(currentPlayer);
-        return players.get((currentIndex + 1) % players.size());
     }
 
     /**
@@ -336,8 +347,7 @@ public class Game {
      * and notifying listeners that the game is over.
      */
     public void surrender() {
-        Player winner = getNextPlayer();
         actionPlayedThisTurn = true;
-        sendEvent(new GameOverEvent(winner));
+        sendEvent(new GameOverEvent(getNextPlayer()));
     }
 }

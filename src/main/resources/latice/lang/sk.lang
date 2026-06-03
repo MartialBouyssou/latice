@@ -1,0 +1,97 @@
+# / ! \ Upozornenie / ! \
+# >  Tento preklad bol vytvorený s AI  <
+# >  Ak chcete poslať ručne vytvárať verziu, môžete vytvoriť pull request ;)  <
+# / ! \ Upozornenie / ! \
+
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=Hrať
+menu.start.lan=Hrať v LAN
+menu.start.rules=Pravidlá
+menu.start.theme=Téma
+
+menu.rules.title=Pravidlá
+menu.rules.firstCategory=Príprava
+menu.rules.firstCategory.description=Karty sú zamiešané a rozdelené rovnako medzi 2 hráčov. Každý hráč si ťahá 5 kariet na svoj stojan. Prvý hráč umiestni kartu na políčko mesiac (stred), aby začal.
+menu.rules.secondCategory=V tvojom ťahu
+menu.rules.secondCategory.description=Prvá akcia je ZADARMO. Každá ďalšia akcia stojí 2 body. Vyber jednu zo 4 akcií nižšie.
+menu.rules.secondCategory.list=4 možné akcie
+menu.rules.secondCategory.list.first=1. Zahraj kartu — Umiestni kartu zo svojho stojanu vedľa existujúcej karty. Každá dotýkajúca strana musí zhodovať farbou alebo tvarom.
+menu.rules.secondCategory.list.second=2. Kúpiť akciu — Min 2 body na extra ťah.
+menu.rules.secondCategory.list.third=3. Vymeniť stojan — Vyměň všetky karty na svojom stojane za nové z balíčka. Končí tvoj ťah.
+menu.rules.secondCategory.list.fourth=4. Prejsť — Preskoč svoj ťah zadarmo.
+menu.rules.thirdCategory=Skórovanie
+menu.rules.thirdCategory.description=Dvojité (2 zhodné strany) => +1 bod  |  Trojlístok (3 strany) => +2 body  |  Latice (4 strany) => +4 body  |  Slnečné políčko => +2 body bonus
+menu.rules.fourthCategory=Koniec hry
+menu.rules.fourthCategory.description=Hra končí, keď hráč vyprázdni svoj stojan a balíček, alebo po 10 cykloch (1 cyklus = 1 ťah na hráča). Víťazom je hráč, ktorý položil najviac kariet.
+menu.rules.back=Späť
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Vyber si svoje používateľské meno:
+menu.username.secondUsernameChoiceLabel=Môžeš si tiež vybrať používateľské meno:
+menu.username.play=Hrať
+
+menu.lan.title=Latice LAN
+menu.lan.host=Hostiť hru
+menu.lan.search=Hľadať hostiteľa
+menu.lan.backButton=Späť
+
+menu.lanSearch.title=Hľadanie hostiteľa
+menu.lanSearch.host=Hostiteľ: {host}
+menu.lanSearch.backButton=Späť
+
+menu.lanLobby.title=Lobovanie
+menu.lanLobby.hostUsername=Prvý hráč: {host}
+menu.lanLobby.clientNotHere=Čakáme na druhého hráča...
+menu.lanLobby.clientUsernameNotReady=[Nie pripravený] Druhý hráč: {client}
+menu.lanLobby.clientUsernameReady=[Pripravený] Druhý hráč: {client}
+menu.lanLobby.ready=Pripravený
+menu.lanLobby.play=Hrať
+
+menu.theme.title=Vyber tému
+menu.theme.classicTheme=Klasický
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Späť
+
+menu.game.actionButton=Kúpiť akciu
+menu.game.exchangeButton=Vymeniť stojan
+menu.game.endTurnButton=Ukončiť ťah
+menu.game.player.currentPlayer=Na ťahu: {name}
+menu.game.player.score=Skóre: {score}
+menu.game.player.remaining=Zostávajúce karty: {count}
+
+menu.turnIndicator.turnIndicatorTitle= ťah {turnNumber}
+menu.turnIndicator.currentPlayer=Je to ťah {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Skóre posledného ťahu {name} :
+menu.turnIndicator.readyButton=Som pripravený!
+
+menu.lanOverlay.turnOf=Ťah {currentPlayer}
+
+popup.game.over.title=Hra skončila
+popup.game.over.winner.header=Víťaz: {name}
+popup.game.over.winner.content={name} vyhral s {score} bodmi!
+popup.game.over.tie.header=Remíza!
+popup.game.over.tie.content=Je to remíza! Obaja hráči položili rovnaký počet kariet!
+
+popup.game.invalid.title=Neplatný ťah
+popup.game.invalid.header=To nemôžeš urobiť..
+popup.game.invalid.reason=V tomto ťahu si už položil kartu! Kúp akciu alebo ukonči svoj ťah!
+
+popup.lanUsername.title=LAN Meno
+popup.lanUsername.header=Vyber si používateľské meno
+popup.lanUsername.context=Meno:
+popup.lanSearch.noHost=Nie je žiadny hostiteľ...
+
+event.invalidMove.tileError=Hráč nemá túto kartu na svojom stojane
+event.invalidMove.moveError=Ťah nie je platný podľa pravidiel hry
+
+event.invalidMove.cannotAfford=Nedostatok bodov na kúpu ďalšej akcie
+
+default.hostName=Host Hráč
+default.clientName=Klient Hráč
+
+menu.start.quit=Ukončiť
+menu.username.back=Späť
+menu.lanLobby.back=Späť

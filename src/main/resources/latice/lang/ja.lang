@@ -1,0 +1,99 @@
+# / ! \ 警告 / ! \
+# >  この翻訳はAIで作成されました  <
+# >  手作りの版を提出したい場合は、プルリクエストを作成できます ;)  <
+# / ! \ 警告 / ! \
+
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=プレイ
+menu.start.lan=LANでプレイ
+menu.start.rules=ルール
+menu.start.theme=テーマ
+
+menu.rules.title=ルール
+menu.rules.firstCategory=準備
+menu.rules.firstCategory.description=タイルをシャッフルして2人のプレイヤーに均等に配ります。各プレイヤーはラックに5枚のタイルを引きます。先手はムーンマス（中央）に1枚置いて開始します。
+menu.rules.secondCategory=あなたのターン
+menu.rules.secondCategory.description=最初のアクションは無料です。追加のアクションはそれぞれ2ポイントかかります。以下の4つのアクションから1つ選んでください。
+menu.rules.secondCategory.list=4つの可能なアクション
+menu.rules.secondCategory.list.first=1. タイルを置く — ラックから既存のタイルに隣接してタイルを置きます。接する各辺は色または形が一致している必要があります。
+menu.rules.secondCategory.list.second=2. アクションを購入 — 追加の手を行うために2ポイントを使います。
+menu.rules.secondCategory.list.third=3. ラックを交換 — ラック上のすべてのタイルを山から新しいものに交換します。ターンが終了します。
+menu.rules.secondCategory.list.fourth=4. パス — ターンを無料でスキップします。
+menu.rules.thirdCategory=得点
+menu.rules.thirdCategory.description=ダブル（2辺一致） => +1点  |  トリフォイル（3辺） => +2点  |  Latice（4辺） => +4点  |  サンマス => +2点ボーナス
+menu.rules.fourthCategory=ゲーム終了
+menu.rules.fourthCategory.description=プレイヤーがラックと山を空にしたとき、または10サイクル後（1サイクル＝各プレイヤーの1ターン）にゲームは終了します。最も多くタイルを置いたプレイヤーが勝ちます。
+menu.rules.back=戻る
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=ユーザー名を選択：
+menu.username.secondUsernameChoiceLabel=ユーザー名を選ぶこともできます：
+menu.username.play=プレイ
+
+menu.lan.title=Latice LAN
+menu.lan.host=ホストする
+menu.lan.search=ホストを検索
+menu.lan.backButton=戻る
+
+menu.lanSearch.title=ホストを検索中
+menu.lanSearch.host=ホスト：{host}
+menu.lanSearch.backButton=戻る
+
+menu.lanLobby.title=ロビー
+menu.lanLobby.hostUsername=先手プレイヤー：{host}
+menu.lanLobby.clientNotHere=2人目のプレイヤーを待っています...
+menu.lanLobby.clientUsernameNotReady=[準備できていない] 2人目のプレイヤー：{client}
+menu.lanLobby.clientUsernameReady=[準備完了] 2人目のプレイヤー：{client}
+menu.lanLobby.ready=準備完了
+menu.lanLobby.play=プレイ
+
+menu.theme.title=テーマを選択
+menu.theme.classicTheme=クラシック
+menu.theme.animalCrossingTheme=どうぶつの森
+menu.theme.zeldaTheme=ゼルダ
+menu.theme.backButton=戻る
+
+menu.game.actionButton=アクションを購入
+menu.game.exchangeButton=ラックを交換
+menu.game.endTurnButton=ターン終了
+menu.game.player.currentPlayer={name}のターン：
+menu.game.player.score=スコア：{score}
+menu.game.player.remaining=残りタイル：{count}
+
+menu.turnIndicator.turnIndicatorTitle= ターン {turnNumber}
+menu.turnIndicator.currentPlayer={name}の番です！
+menu.turnIndicator.lastPlayerScoreHeader={name}の前のターンのスコア：
+menu.turnIndicator.readyButton=準備完了！
+
+menu.lanOverlay.turnOf={currentPlayer}のターン
+
+popup.game.over.title=ゲーム終了
+popup.game.over.winner.header=勝者：{name}
+popup.game.over.winner.content={name}は{score}ポイントで勝利しました！
+popup.game.over.tie.header=引き分け！
+popup.game.over.tie.content=引き分けです！両プレイヤーとも同じ枚数のタイルを置きました！
+
+popup.game.invalid.title=無効な手
+popup.game.invalid.header=それはできません..
+popup.game.invalid.reason=このターンですでにタイルを置きました！アクションを購入するかターンを終了してください！
+
+popup.lanUsername.title=LAN ユーザー名
+popup.lanUsername.header=ユーザー名を選択
+popup.lanUsername.context=ユーザー名：
+popup.lanSearch.noHost=ホストがいません...
+
+event.invalidMove.tileError=プレイヤーはこのタイルをラックに持っていません
+event.invalidMove.moveError=この手はルールに従って無効です
+
+event.invalidMove.cannotAfford=追加のアクションを購入するのに十分なポイントがありません
+
+default.hostName=ホスト プレイヤー
+default.clientName=クライアント プレイヤー
+default.secondPlayerName=プレイヤー2
+default.firstPlayerName=プレイヤー1
+
+menu.start.quit=終了
+menu.username.back=戻る
+menu.lanLobby.back=戻る

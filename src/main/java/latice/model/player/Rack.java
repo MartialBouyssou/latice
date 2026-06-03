@@ -11,14 +11,14 @@ import java.util.List;
 public class Rack {
     public static final int MAX_SIZE = 5;
 
-    private final List<Tile> tiles;
+    private List<Tile> tiles;
 
     /**
      * Creates a rack backed by the given list of tiles.
      * @param tiles The list of tiles to use as the rack's contents.
      */
     public Rack(List<Tile> tiles) {
-        this.tiles = tiles;
+        this.tiles = new ArrayList<>(tiles);
     }
 
     /**
@@ -37,14 +37,20 @@ public class Rack {
     }
 
     /**
+     * Set the list of tiles currently in the rack.
+     * @param tiles ArrayList to set to the rack.
+     */
+    public void setTiles(List<Tile> tiles) {
+        this.tiles = new ArrayList<>(tiles);
+    }
+
+    /**
      * Adds a tile to the rack if it is not already full.
      * @param tile The tile to add to the rack.
      */
     public void addTile(Tile tile) {
-        if (tiles.size() >= MAX_SIZE) {
-            throw new RackFullException();
-        }
-        this.tiles.add(tile);
+        if (tiles.size() >= MAX_SIZE) throw new RackFullException();
+        tiles.add(tile);
     }
 
     /**
@@ -52,9 +58,7 @@ public class Rack {
      * @param tiles The tiles to remove from the rack.
      */
     public void removeTile(Tile... tiles) {
-        for (Tile tile : tiles) {
-            this.tiles.remove(tile);
-        }
+        for (Tile tile : tiles) this.tiles.remove(tile);
     }
 
     /**
@@ -80,17 +84,19 @@ public class Rack {
      * @param deck The deck to exchange tiles with.
      */
     public void exchangeAll(Deck deck) {
-        if (deck.isEmpty()) {
-            throw new EmptyDeckException("Cannot exchange with empty deck");
-        }
-
-        for (Tile tile : tiles) {
-            deck.addTiles(tile);
-        }
-
+        if (deck.isEmpty()) throw new EmptyDeckException("Cannot exchange with empty deck");
+        for (Tile tile : tiles) deck.addTiles(tile);
         deck.shuffle();
         tiles.clear();
         refill(deck);
+    }
+
+    /**
+     * Checks whether the rack contains no tiles.
+     * @return True if the rack is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return tiles.isEmpty();
     }
 
     /**
@@ -100,17 +106,7 @@ public class Rack {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Tile tile : tiles) {
-            sb.append("\n   - ").append(tile);
-        }
+        for (Tile tile : tiles) sb.append("\n   - ").append(tile);
         return sb.toString();
-    }
-
-    /**
-     * Checks whether the rack contains no tiles.
-     * @return True if the rack is empty, false otherwise.
-     */
-    public boolean isEmpty() {
-        return tiles.isEmpty();
     }
 }

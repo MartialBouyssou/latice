@@ -1,0 +1,99 @@
+# / ! \ 警告 / ! \
+# >  此翻译由AI创建  <
+# >  如果您想提交手工制作的版本，您可以创建拉取请求 ;)  <
+# / ! \ 警告 / ! \
+
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=开始游戏
+menu.start.lan=局域网游戏
+menu.start.rules=规则
+menu.start.theme=主题
+
+menu.rules.title=规则
+menu.rules.firstCategory=准备
+menu.rules.firstCategory.description=将牌洗匀并在2名玩家之间平均分配。每位玩家从牌库抽5张到自己的架子。第一位玩家在月亮格（中央）放一张牌开始游戏。
+menu.rules.secondCategory=轮到你时
+menu.rules.secondCategory.description=第一项操作为免费。每增加一次操作需支付2分。请选择以下四种操作之一。
+menu.rules.secondCategory.list=4 种可能的操作
+menu.rules.secondCategory.list.first=1. 放置牌 — 将架子上的一张牌放在已有牌的相邻位置。每个接触的边必须在颜色或形状上匹配。
+menu.rules.secondCategory.list.second=2. 购买操作 — 花费2分以进行额外移动。
+menu.rules.secondCategory.list.third=3. 交换架子 — 用牌堆中的新牌替换架子上的所有牌。结束你的回合。
+menu.rules.secondCategory.list.fourth=4. 跳过 — 免费跳过你的回合。
+menu.rules.thirdCategory=计分
+menu.rules.thirdCategory.description=双（2 条匹配边） => +1 分  |  三叶（3 条边） => +2 分  |  Latice（4 条边） => +4 分  |  太阳格 => +2 分 奖励
+menu.rules.fourthCategory=游戏结束
+menu.rules.fourthCategory.description=当某位玩家清空其架子和牌堆，或经过10个循环（1 个循环 = 每位玩家各一回合）时游戏结束。放置牌最多的玩家获胜。
+menu.rules.back=返回
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=选择你的用户名：
+menu.username.secondUsernameChoiceLabel=你也可以选择一个用户名：
+menu.username.play=开始
+
+menu.lan.title=Latice 局域网
+menu.lan.host=主机游戏
+menu.lan.search=搜索主机
+menu.lan.backButton=返回
+
+menu.lanSearch.title=正在搜索主机
+menu.lanSearch.host=主机：{host}
+menu.lanSearch.backButton=返回
+
+menu.lanLobby.title=大厅
+menu.lanLobby.hostUsername=第一位玩家：{host}
+menu.lanLobby.clientNotHere=等待第二位玩家...
+menu.lanLobby.clientUsernameNotReady=[未准备] 第二位玩家：{client}
+menu.lanLobby.clientUsernameReady=[已准备] 第二位玩家：{client}
+menu.lanLobby.ready=准备好了
+menu.lanLobby.play=开始
+
+menu.theme.title=选择主题
+menu.theme.classicTheme=经典
+menu.theme.animalCrossingTheme=动物之森
+menu.theme.zeldaTheme=塞尔达
+menu.theme.backButton=返回
+
+menu.game.actionButton=购买一次操作
+menu.game.exchangeButton=交换架子
+menu.game.endTurnButton=结束回合
+menu.game.player.currentPlayer={name} 的回合：
+menu.game.player.score=分数：{score}
+menu.game.player.remaining=剩余牌数：{count}
+
+menu.turnIndicator.turnIndicatorTitle= 回合 {turnNumber}
+menu.turnIndicator.currentPlayer=轮到 {name} 了！
+menu.turnIndicator.lastPlayerScoreHeader={name} 上一回合得分：
+menu.turnIndicator.readyButton=我准备好了！
+
+menu.lanOverlay.turnOf={currentPlayer} 的回合
+
+popup.game.over.title=游戏结束
+popup.game.over.winner.header=获胜者：{name}
+popup.game.over.winner.content={name} 以 {score} 分获胜！
+popup.game.over.tie.header=平局！
+popup.game.over.tie.content=平局！两名玩家放置的牌数量相同！
+
+popup.game.invalid.title=无效操作
+popup.game.invalid.header=你不能这样做..
+popup.game.invalid.reason=你本回合已经放置了一张牌！购买一次操作或结束你的回合！
+
+popup.lanUsername.title=局域网用户名
+popup.lanUsername.header=选择你的用户名
+popup.lanUsername.context=用户名：
+popup.lanSearch.noHost=没有主机...
+
+event.invalidMove.tileError=玩家的架子中没有这张牌
+event.invalidMove.moveError=该移动不符合游戏规则
+
+event.invalidMove.cannotAfford=没有足够的积分购买额外操作
+
+default.hostName=主机 玩家
+default.clientName=客户端 玩家
+default.secondPlayerName=玩家 2
+default.firstPlayerName=玩家 1
+
+menu.start.quit=退出
+menu.username.back=返回
+menu.lanLobby.back=返回

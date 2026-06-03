@@ -1,0 +1,99 @@
+# / ! \ Figyelmeztetés / ! \
+# >  Ez a fordítás AI-val készült  <
+# >  Ha manuálisan gyártott verziót szeretnél benyújtani, létrehozhatsz egy pull requestet ;)  <
+# / ! \ Figyelmeztetés / ! \
+
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=Játék
+menu.start.lan=LAN játék
+menu.start.rules=Szabályok
+menu.start.theme=Téma
+
+menu.rules.title=Szabályok
+menu.rules.firstCategory=Beállítás
+menu.rules.firstCategory.description=A lapok megkeverednek és egyenlően eloszlanak 2 játékos között. Minden játékos húz 5 lapot a tartójára. Az első játékos letesz egy lapot a hold mezőre (középen), hogy elkezdje.
+menu.rules.secondCategory=A te fordulód
+menu.rules.secondCategory.description=Az első akció INGYENES. Minden további akció 2 pontba kerül. Válassz az alábbi 4 akció közül.
+menu.rules.secondCategory.list=4 lehetséges akció
+menu.rules.secondCategory.list.first=1. Játssz egy lapot — Helyezz el egy lapot a tartódról egy meglévő lap mellé. Minden érintkező oldalnak színben vagy alakban egyeznie kell.
+menu.rules.secondCategory.list.second=2. Akció vásárlása — Költs 2 pontot egy extra lépéshez.
+menu.rules.secondCategory.list.third=3. Tartó cseréje — Cseréld ki az összes lapot a tartódon újakkal a pakliból. Vége a körödnek.
+menu.rules.secondCategory.list.fourth=4. Passz — Ugrd át a köröd ingyen.
+menu.rules.thirdCategory=Pontozás
+menu.rules.thirdCategory.description=Dupla (2 illeszkedő oldal) => +1 p  |  Háromlevelű (3 oldal) => +2 p  |  Latice (4 oldal) => +4 p  |  Nap mező => +2 p bónusz
+menu.rules.fourthCategory=Játék vége
+menu.rules.fourthCategory.description=A játék akkor ér véget, amikor egy játékos kiüríti a tartóját és a paklit, vagy 10 kör után (1 kör = minden játékos 1 köre). Az a játékos nyer, aki a legtöbb lapot helyezte le.
+menu.rules.back=Vissza
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Válaszd ki a felhasználóneved:
+menu.username.secondUsernameChoiceLabel=Választhatsz más felhasználónevet is:
+menu.username.play=Játék
+
+menu.lan.title=Latice LAN
+menu.lan.host=Játék indítása
+menu.lan.search=Hoszt keresése
+menu.lan.backButton=Vissza
+
+menu.lanSearch.title=Hoszt keresése
+menu.lanSearch.host=Hoszt: {host}
+menu.lanSearch.backButton=Vissza
+
+menu.lanLobby.title=Váróterem
+menu.lanLobby.hostUsername=Első játékos: {host}
+menu.lanLobby.clientNotHere=Várakozás a második játékosra...
+menu.lanLobby.clientUsernameNotReady=[Nem kész] Második játékos: {client}
+menu.lanLobby.clientUsernameReady=[Kész] Második játékos: {client}
+menu.lanLobby.ready=Kész
+menu.lanLobby.play=Játék
+
+menu.theme.title=Válassz témát
+menu.theme.classicTheme=Klasszikus
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Vissza
+
+menu.game.actionButton=Akció vásárlása
+menu.game.exchangeButton=Tartó cseréje
+menu.game.endTurnButton=Kör vége
+menu.game.player.currentPlayer={name} köre:
+menu.game.player.score=Pontszám: {score}
+menu.game.player.remaining=Maradék lapok: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Kör {turnNumber}
+menu.turnIndicator.currentPlayer={name} következik!
+menu.turnIndicator.lastPlayerScoreHeader={name} utolsó körének pontszáma :
+menu.turnIndicator.readyButton=Kész vagyok!
+
+menu.lanOverlay.turnOf={currentPlayer} köre
+
+popup.game.over.title=Játék vége
+popup.game.over.winner.header=Győztes: {name}
+popup.game.over.winner.content={name} nyert {score} ponttal!
+popup.game.over.tie.header=Döntetlen!
+popup.game.over.tie.content=Döntetlen! Mindkét játékos ugyanannyi lapot helyezett le!
+
+popup.game.invalid.title=Érvénytelen lépés
+popup.game.invalid.header=Ezt nem teheted meg..
+popup.game.invalid.reason=Már letettél egy lapot ebben a körben! Vásárolj akciót vagy fejezd be a köröd!
+
+popup.lanUsername.title=LAN Felhasználónév
+popup.lanUsername.header=Válaszd ki a felhasználóneved
+popup.lanUsername.context=Felhasználónév:
+popup.lanSearch.noHost=Nincs hoszt...
+
+event.invalidMove.tileError=A játékosnak nincs meg ez a lap a tartóján
+event.invalidMove.moveError=A lépés nem érvényes a játékszabályok szerint
+
+event.invalidMove.cannotAfford=Nincs elég pont az extra akció megvásárlásához
+
+default.hostName=Host játékos
+default.clientName=Kliens játékos
+default.secondPlayerName=2. játékos
+default.firstPlayerName=1. játékos
+
+menu.start.quit=Kilépés
+menu.username.back=Vissza
+menu.lanLobby.back=Vissza

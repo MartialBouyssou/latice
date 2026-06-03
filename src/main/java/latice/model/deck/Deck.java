@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
-    private final List<Tile> tiles;
+    private List<Tile> tiles;
 
 
     /**
@@ -36,9 +36,18 @@ public class Deck {
      * @return A new shuffled deck containing the given tiles.
      */
     public static Deck create(List<Tile> tiles) {
-        Deck deck = new Deck((tiles));
+        Deck deck = new Deck(tiles);
         deck.shuffle();
         return deck;
+    }
+
+    /**
+     * Creates a new not shuffled deck from the given list of tiles.
+     * @param tiles The tiles used to build the deck.
+     * @return A new shuffled deck containing the given tiles.
+     */
+    public static Deck createNoShuffle(List<Tile> tiles) {
+        return new Deck(tiles);
     }
 
     /**
@@ -90,5 +99,13 @@ public class Deck {
      */
     public boolean isEmpty() {
         return tiles.isEmpty();
+    }
+
+    /**
+     *  Assign to the deck given tiles
+     *  @param tiles The tiles to set to the deck.
+     */
+    public void setDeck(List<Tile> tiles) {
+        this.tiles = tiles;
     }
 }
