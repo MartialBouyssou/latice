@@ -14,7 +14,6 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import latice.listeners.LaticeGameListener;
-import latice.model.ai.AIDifficulty;
 import latice.model.ai.AIMove;
 import latice.model.ai.AIPlayer;
 import latice.model.board.cell.SunCell;
@@ -136,7 +135,6 @@ public class GameController {
 
     /**
      * Recursively traverses a JavaFX Parent node to find and translate Labeled components.
-     *
      * @param parent The root JavaFX node to start the recursive search from.
      */
     private void applyTextsRecursively(Parent parent) {
@@ -221,7 +219,6 @@ public class GameController {
 
     /**
      * Sets the active state of the action button explicitly.
-     *
      * @param activate A boolean indicating if the button should be disabled (true) or enabled (false).
      */
     public void toggleActionButton(boolean activate) {
@@ -250,8 +247,6 @@ public class GameController {
 
     /**
      * Hides the starting menus, initializes a player-vs-AI game, and brings up the game board.
-     * The AI player is always assigned as player 2 (index 1).
-     * If the AI starts first, its turn is triggered automatically via the game started event.
      */
     public void startGameVsAI() {
         playMenuVBox.setVisible(true);
@@ -273,37 +268,60 @@ public class GameController {
         game = new Game(Referee.create(rules), humanName, aiName);
         game.addListener(new LaticeGameListener(this));
 
-        aiPlayer = new AIPlayer(game.getReferee(), AIDifficulty.HARD);
+        aiPlayer = new AIPlayer(game.getReferee());
 
         game.startGame();
 
-        aiControlledPlayer = game.getPlayers().get(1);
+        for (Player p : game.getPlayers()) {
+            if (p.getName().equals(aiName)) {
+                aiControlledPlayer = p;
+                break;
+            }
+        }
 
         gameBoardBP.setVisible(true);
         gameBoardBP.setManaged(true);
+
+        Platform.runLater(this::triggerAITurnIfNeeded);
     }
 
     /**
-     * Executes the AI's turn: finds the best move and plays it, or exchanges all tiles if no move
-     * is available, or passes if the deck is also empty.
-     * Must always be called on the JavaFX Application Thread.
+     * Executes the AI's turn, including the capability to buy additional actions if the AI gains enough points.
      */
     public void playAITurn() {
         if (aiControlledPlayer == null || aiPlayer == null) {
             return;
         }
-        AIMove move = aiPlayer.findBestMove(game.getBoard(), aiControlledPlayer.getRack());
+
+        int turnsRemaining = Game.MAX_CYCLES - (game.getTurnCount() / game.getPlayers().size());
+
+        if (hasAlreadyPlaced) {
+            if (aiControlledPlayer.canAfford(Referee.EXTRA_ACTION_COST) && !aiControlledPlayer.getRack().isEmpty()) {
+                AIMove extraMove = aiPlayer.findBestMove(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore() - Referee.EXTRA_ACTION_COST, turnsRemaining);
+                if (extraMove != null) {
+                    game.buyAnAction();
+                    game.playTile(extraMove.getTile(), extraMove.getX(), extraMove.getY());
+                    return;
+                }
+            }
+            game.endTurn();
+            return;
+        }
+
+        AIMove move = aiPlayer.findBestMove(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore(), turnsRemaining);
         if (move != null) {
             game.playTile(move.getTile(), move.getX(), move.getY());
         } else {
-            game.exchangeAll();
+            if (aiControlledPlayer.getDeck().isEmpty()) {
+                game.passTurn();
+            } else {
+                game.exchangeAll();
+            }
         }
     }
 
     /**
      * Triggers the AI turn if the current player is the AI-controlled player.
-     * Called by the listener after every turn change and after the overlay is dismissed.
-     * No-op in local/LAN mode where aiControlledPlayer is null.
      */
     public void triggerAITurnIfNeeded() {
         if (aiControlledPlayer != null
@@ -317,7 +335,6 @@ public class GameController {
 
     /**
      * Constructs the Game object for a local two-player game, injecting rules and player names.
-     *
      * @return The newly instantiated Game object.
      */
     private Game buildGame() {
@@ -340,11 +357,9 @@ public class GameController {
 
     /**
      * Validates and returns a player's name, falling back to a default if empty.
-     *
-     * @param input The raw input string from the username text field.
-     * @param defaultName The default string to use if the input is blank or null.
-     *
-     * @return The finalized player name.
+     * @param input The user input to validate.
+     * @param defaultName The default name to apply if the input is empty.
+     * @return A valid player name.
      */
     private String getPlayerName(String input, String defaultName) {
         if (input == null || input.isBlank()) {
@@ -355,10 +370,9 @@ public class GameController {
 
     /**
      * Displays the transition overlay between player turns with score summaries.
-     *
-     * @param nextPlayer The player whose turn is starting.
+     * @param nextPlayer The player who will play next.
      * @param lastPlayer The player whose turn just ended.
-     * @param lastTurnScore The score acquired by the last player during their turn.
+     * @param lastTurnScore The score acquired during the last turn.
      */
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         LangManager lang = LangManager.getInstance();
@@ -385,21 +399,18 @@ public class GameController {
 
     /**
      * Hides the transition overlay and re-enables the end turn button.
-     * If the next current player is the AI, its turn is triggered after the overlay closes.
      */
     public void hideOverlay() {
         screenOverlay.setVisible(false);
         screenOverlay.setManaged(false);
         endTurnButton.setDisable(false);
 
-
         Platform.runLater(this::triggerAITurnIfNeeded);
     }
 
     /**
      * Updates the UI images representing the current player's rack of tiles.
-     *
-     * @param player The player whose rack should be displayed.
+     * @param player The player whose rack is being updated.
      */
     public void updateRack(Player player) {
         List<Tile> tiles = player.getRack().getTiles();
@@ -419,8 +430,7 @@ public class GameController {
 
     /**
      * Refreshes the score, name, and remaining tile count displayed for the current player.
-     *
-     * @param player The current active player.
+     * @param player The current player.
      */
     public void updatePlayerInfo(Player player) {
         int remainingTiles = player.getDeck().size() + player.getRack().getTiles().size();
@@ -439,7 +449,6 @@ public class GameController {
 
     /**
      * Displays an error alert popup to the user detailing why their move was invalid.
-     *
      * @param reason The specific rule violation or error message.
      */
     public void showInvalidMove(String reason) {
@@ -454,7 +463,6 @@ public class GameController {
 
     /**
      * Displays the end-of-game alert showing the winner and their score, or a tie message.
-     *
      * @param player The winning player, or null if the game resulted in a tie.
      */
     public void showGameOver(Player player) {
@@ -480,10 +488,9 @@ public class GameController {
 
     /**
      * Visually places a tile onto the board grid and updates the player's rack view.
-     *
      * @param tile The tile object being placed.
-     * @param targetX The X coordinate (column) on the grid.
-     * @param targetY The Y coordinate (row) on the grid.
+     * @param targetX The X coordinate on the grid.
+     * @param targetY The Y coordinate on the grid.
      * @param player The player performing the placement.
      */
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
@@ -510,7 +517,6 @@ public class GameController {
 
     /**
      * Configures a JavaFX ImageView to support drag operations using its image URL.
-     *
      * @param tileView The ImageView representing the draggable tile.
      */
     private void setupDraggable(ImageView tileView) {
@@ -583,17 +589,19 @@ public class GameController {
     }
 
     /**
-     * Passes the current player's turn to the next player.
+     * Passes the current player's turn to the next player, or ends the turn if an action was played.
      */
     public void buttonEndTurn() {
-        game.passTurn();
+        if (hasAlreadyPlaced) {
+            game.endTurn();
+        } else {
+            game.passTurn();
+        }
     }
 
     /**
      * Resolves the corresponding Tile model object from the provided image file path.
-     *
      * @param fullUrl The absolute file path of the image being parsed.
-     *
      * @return The corresponding Tile instance.
      */
     private Tile extractTileFromUrl(String fullUrl) {
@@ -652,7 +660,6 @@ public class GameController {
 
     /**
      * Gets the active Game instance managed by this controller.
-     *
      * @return The active Game object.
      */
     public Game getGame() {
@@ -702,7 +709,6 @@ public class GameController {
 
     /**
      * Updates the status of whether a tile has already been placed in the current turn.
-     *
      * @param value Boolean true if a tile has been placed, false otherwise.
      */
     public void setHasAlreadyPlaced(boolean value) {
