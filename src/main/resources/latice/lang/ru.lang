@@ -95,6 +95,10 @@ default.secondPlayerName=Игрок 2
 default.firstPlayerName=Игрок 1
 
 menu.start.quit=Выйти
+menu.start.modeLocal=Локальная
+menu.start.modeLan=LAN (скоро)
+menu.start.modeVsAI=Против ИИ
 menu.username.back=Назад
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Помощь новичкам
+menu.username.aiPlayerName=Компьютер
 menu.lanLobby.back=Назад

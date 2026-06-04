@@ -91,8 +91,14 @@ event.invalidMove.cannotAfford=Nedostatok bodov na kúpu ďalšej akcie
 
 default.hostName=Host Hráč
 default.clientName=Klient Hráč
+default.secondPlayerName=Hráč 2
+default.firstPlayerName=Hráč 1
 
 menu.start.quit=Ukončiť
+menu.start.modeLocal=Miestne
+menu.start.modeLan=LAN (čoskoro)
+menu.start.modeVsAI=Proti AI
 menu.username.back=Späť
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Pomoc pre začiatočníkov
+menu.username.aiPlayerName=Počítač
 menu.lanLobby.back=Späť

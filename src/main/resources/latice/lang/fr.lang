@@ -14,6 +14,9 @@ menu.start.lan=Jouer en LAN
 menu.start.rules=Règles
 menu.start.theme=Thème
 menu.start.quit=Quitter
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (bientôt)
+menu.start.modeVsAI=Contre l'IA
 
 # # Rules menu
 menu.rules.title=Règles
@@ -38,7 +41,8 @@ menu.username.firstUsernameChoiceLabel=Choisissez votre pseudo :
 menu.username.secondUsernameChoiceLabel=Vous pouvez aussi choisir un pseudo :
 menu.username.play=Jouer
 menu.username.back=Retour
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Aide aux débutants
+menu.username.aiPlayerName=Ordinateur
 
 # # Lan Menu
 menu.lan.title=Latice LAN

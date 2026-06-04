@@ -95,6 +95,10 @@ default.secondPlayerName=Играч 2
 default.firstPlayerName=Играч 1
 
 menu.start.quit=Изход
+menu.start.modeLocal=Локално
+menu.start.modeLan=LAN (очаквайте скоро)
+menu.start.modeVsAI=Срещу ИИ
 menu.username.back=Назад
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Помощ за начинаещи
+menu.username.aiPlayerName=Компютър
 menu.lanLobby.back=Назад

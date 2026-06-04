@@ -95,6 +95,10 @@ default.secondPlayerName=Παίκτης 2
 default.firstPlayerName=Παίκτης 1
 
 menu.start.quit=Έξοδος
+menu.start.modeLocal=Τοπικό
+menu.start.modeLan=LAN (σύντομα)
+menu.start.modeVsAI=Εναντίον AI
 menu.username.back=Πίσω
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Βοήθεια για αρχάριους
+menu.username.aiPlayerName=Υπολογιστής
 menu.lanLobby.back=Πίσω

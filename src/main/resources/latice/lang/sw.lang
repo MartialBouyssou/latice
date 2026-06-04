@@ -96,6 +96,10 @@ default.secondPlayerName=Mchezaji 2
 default.firstPlayerName=Mchezaji 1
 
 menu.start.quit=Toka
+menu.start.modeLocal=Ndani
+menu.start.modeLan=LAN (inakuja hivi karibuni)
+menu.start.modeVsAI=Dhidi ya AI
 menu.username.back=Nyuma
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Msaada kwa wanaoanza
+menu.username.aiPlayerName=Kompyuta
 menu.lanLobby.back=Nyuma

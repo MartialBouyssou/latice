@@ -95,6 +95,10 @@ default.secondPlayerName=ผู้เล่น 2
 default.firstPlayerName=ผู้เล่น 1
 
 menu.start.quit=ออกจากเกม
+menu.start.modeLocal=ภายในเครื่อง
+menu.start.modeLan=LAN (เร็ว ๆ นี้)
+menu.start.modeVsAI=พบกับ AI
 menu.username.back=ย้อนกลับ
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=ความช่วยเหลือสำหรับผู้เริ่มต้น
+menu.username.aiPlayerName=คอมพิวเตอร์
 menu.lanLobby.back=ย้อนกลับ

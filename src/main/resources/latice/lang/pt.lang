@@ -95,6 +95,10 @@ default.secondPlayerName=Jogador 2
 default.firstPlayerName=Jogador 1
 
 menu.start.quit=Sair
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (em breve)
+menu.start.modeVsAI=Contra IA
 menu.username.back=Voltar
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Ajuda para iniciantes
+menu.username.aiPlayerName=Computador
 menu.lanLobby.back=Voltar

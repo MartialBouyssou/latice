@@ -95,6 +95,10 @@ default.secondPlayerName=Играч 2
 default.firstPlayerName=Играч 1
 
 menu.start.quit=Изађи
+menu.start.modeLocal=Lokalno
+menu.start.modeLan=LAN (uskoro)
+menu.start.modeVsAI=Protiv VI
 menu.username.back=Назад
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Pomoć za početnike
+menu.username.aiPlayerName=Računar
 menu.lanLobby.back=Назад

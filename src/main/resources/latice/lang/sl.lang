@@ -95,6 +95,10 @@ default.secondPlayerName=Igralec 2
 default.firstPlayerName=Igralec 1
 
 menu.start.quit=Izhod
+menu.start.modeLocal=Lokalno
+menu.start.modeLan=LAN (kmalu)
+menu.start.modeVsAI=Proti UI
 menu.username.back=Nazaj
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Pomoč za začetnike
+menu.username.aiPlayerName=Računalnik
 menu.lanLobby.back=Nazaj

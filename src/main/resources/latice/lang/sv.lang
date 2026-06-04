@@ -95,6 +95,10 @@ default.secondPlayerName=Spelare 2
 default.firstPlayerName=Spelare 1
 
 menu.start.quit=Avsluta
+menu.start.modeLocal=Lokalt
+menu.start.modeLan=LAN (kommer snart)
+menu.start.modeVsAI=Mot AI
 menu.username.back=Bakåt
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Nybörjarhjälp
+menu.username.aiPlayerName=Dator
 menu.lanLobby.back=Bakåt

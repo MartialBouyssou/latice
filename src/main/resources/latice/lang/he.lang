@@ -96,6 +96,10 @@ default.secondPlayerName=שחקן 2
 default.firstPlayerName=שחקן 1
 
 menu.start.quit=יציאה
+menu.start.modeLocal=מקומי
+menu.start.modeLan=LAN (בקרוב)
+menu.start.modeVsAI=נגד בינה מלאכותית
 menu.username.back=חזרה
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=עזרה למתחילים
+menu.username.aiPlayerName=מחשב
 menu.lanLobby.back=חזרה

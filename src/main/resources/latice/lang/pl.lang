@@ -13,6 +13,7 @@ menu.start.theme=Motyw
 
 menu.rules.title=Zasady
 menu.rules.firstCategory=Przygotowanie
+menu.rules.firstCategory.description=Płytki są tasowane i dzielone po równo między 2 graczy. Każdy gracz dobiera 5 płytek na swój stojak. Pierwszy gracz kładzie jedną płytkę na polu księżyca (środek), aby rozpocząć.
 menu.rules.firstCategory.description,Kafelki są potasowane i równo podzielone między 2 graczy. Każdy gracz dobiera 5 kafelków na swoją półkę. Pierwszy gracz umieszcza kafelek na polu księżyca (środek), aby rozpocząć.
 menu.rules.secondCategory=W twojej turze
 menu.rules.secondCategory.description=Pierwsza akcja jest DARMOWA. Każda dodatkowa akcja kosztuje 2 punkty. Wybierz jedną z 4 akcji poniżej.
@@ -95,6 +96,10 @@ default.secondPlayerName=Gracz 2
 default.firstPlayerName=Gracz 1
 
 menu.start.quit=Wyjdź
+menu.start.modeLocal=Lokalnie
+menu.start.modeLan=LAN (wkrótce)
+menu.start.modeVsAI=Przeciw AI
 menu.username.back=Wstecz
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Pomoc dla początkujących
+menu.username.aiPlayerName=Komputer
 menu.lanLobby.back=Wstecz

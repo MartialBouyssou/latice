@@ -95,6 +95,10 @@ default.secondPlayerName=Гравець 2
 default.firstPlayerName=Гравець 1
 
 menu.start.quit=Вийти
+menu.start.modeLocal=Локальна
+menu.start.modeLan=LAN (незабаром)
+menu.start.modeVsAI=Проти ШІ
 menu.username.back=Назад
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Допомога для початківців
+menu.username.aiPlayerName=Комп'ютер
 menu.lanLobby.back=Назад

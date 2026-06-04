@@ -12,6 +12,7 @@
     -fx-background-radius: 5;
 }
 
+/* https://uiverse.io/CrazyChips34/shaggy-rat-70 */
 .btn-latice {
     -fx-padding: 8 32 8 32;
     -fx-font-size: 18px;
@@ -19,12 +20,12 @@
     -fx-text-fill: white;
 
     -fx-background-color: transparent;
-    -fx-background-radius: 20;
+    -fx-background-radius: 999;
 
     -fx-border-color: white;
     -fx-border-width: 2px;
     -fx-border-style: solid;
-    -fx-border-radius: 20;
+    -fx-border-radius: 999;
 
     -fx-cursor: hand;
 
@@ -40,6 +41,192 @@
 }
 
 .btn-less-round {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+}
+
+.combo-latice {
+    -fx-padding: 4 12 4 12;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 999;
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.18), 15, 0.25, 0, 6);
+}
+
+.combo-latice .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 0 25;
+}
+
+.combo-latice .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-latice .arrow {
+    -fx-background-color: white;
+}
+
+.combo-latice:hover {
+    -fx-border-color: #16a34a;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.5), 25, 0.7, 0, 0);
+}
+
+.combo-latice:hover .arrow {
+    -fx-background-color: #16a34a;
+}
+
+.combo-latice .combo-box-popup .list-view {
+    -fx-background-color: rgba(0, 0, 0, 0.85);
     -fx-background-radius: 12;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
     -fx-border-radius: 12;
+}
+
+.combo-latice .combo-box-popup .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-padding: 8 16 8 16;
+}
+
+.combo-latice .combo-box-popup .list-cell:hover {
+    -fx-background-color: rgba(34, 197, 94, 0.35);
+}
+
+.combo-latice .combo-box-popup .list-cell:selected {
+    -fx-background-color: rgba(34, 197, 94, 0.55);
+}
+
+/* AI Code */
+.combo-box-popup .list-view .scroll-bar:vertical {
+    -fx-background-color: rgba(0, 0, 0, 0.35);
+    -fx-background-radius: 999;
+    -fx-padding: 3;
+    -fx-pref-width: 14;
+}
+
+.combo-box-popup .list-view .scroll-bar:vertical .track {
+    -fx-background-color: rgba(255, 255, 255, 0.22);
+    -fx-background-radius: 999;
+}
+
+.combo-box-popup .list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.85);
+    -fx-background-radius: 999;
+    -fx-min-width: 8;
+    -fx-min-height: 30;
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 8, 0.35, 0, 2);
+}
+
+.combo-box-popup .list-view .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #16a34a;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.7), 15, 0.7, 0, 0);
+}
+
+.combo-box-popup .list-view .scroll-bar:vertical .increment-button,
+.combo-box-popup .list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 2;
+}
+
+.combo-box-popup .list-view .scroll-bar:vertical .increment-arrow,
+.combo-box-popup .list-view .scroll-bar:vertical .decrement-arrow {
+    -fx-background-color: white;
+    -fx-padding: 3;
+}
+
+/* End AI code */
+
+.radio-latice {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.radio-latice .radio {
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 999;
+
+    -fx-padding: 4;
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.18), 10, 0.25, 0, 3);
+}
+
+.radio-latice .dot {
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+    -fx-padding: 5;
+}
+
+.radio-latice:hover {
+    -fx-text-fill: #16a34a;
+}
+
+.radio-latice:hover .radio {
+    -fx-border-color: #16a34a;
+
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.5), 18, 0.7, 0, 0);
+}
+
+.radio-latice:selected .radio {
+    -fx-border-color: #16a34a;
+}
+
+.radio-latice:selected .dot {
+    -fx-background-color: #16a34a;
+
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.7), 12, 0.7, 0, 0);
+}
+
+.input-latice {
+    -fx-padding: 8 16 8 16;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.55);
+
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 999;
+
+    -fx-cursor: text;
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.18), 15, 0.25, 0, 6);
+}
+
+.input-latice:focused {
+    -fx-border-color: #16a34a;
+
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.5), 25, 0.7, 0, 0);
+}
+
+.input-latice:hover {
+    -fx-border-color: #16a34a;
+}
+
+.input-less-round {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
 }

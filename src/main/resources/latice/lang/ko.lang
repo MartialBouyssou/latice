@@ -95,6 +95,10 @@ default.secondPlayerName=플레이어 2
 default.firstPlayerName=플레이어 1
 
 menu.start.quit=종료
+menu.start.modeLocal=로컬
+menu.start.modeLan=LAN (곧 지원)
+menu.start.modeVsAI=AI 상대
 menu.username.back=뒤로
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=초보자 도움말
+menu.username.aiPlayerName=컴퓨터
 menu.lanLobby.back=뒤로

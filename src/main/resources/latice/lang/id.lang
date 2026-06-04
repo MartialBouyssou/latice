@@ -56,6 +56,7 @@ menu.theme.zeldaTheme=Zelda
 menu.theme.backButton=Kembali
 
 menu.game.actionButton=Beli aksi
+menu.game.exchangeButton=Tukar rak
 menu.game.exchangeButton>Tukar rak
 menu.game.endTurnButton=Selesai giliran
 menu.game.player.currentPlayer=Giliran {name}:
@@ -95,6 +96,10 @@ default.secondPlayerName=Pemain 2
 default.firstPlayerName=Pemain 1
 
 menu.start.quit=Keluar
+menu.start.modeLocal=Lokal
+menu.start.modeLan=LAN (segera hadir)
+menu.start.modeVsAI=Melawan AI
 menu.username.back=Kembali
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Bantuan pemula
+menu.username.aiPlayerName=Komputer
 menu.lanLobby.back=Kembali

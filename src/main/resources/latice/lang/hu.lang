@@ -95,6 +95,10 @@ default.secondPlayerName=2. játékos
 default.firstPlayerName=1. játékos
 
 menu.start.quit=Kilépés
+menu.start.modeLocal=Helyi
+menu.start.modeLan=LAN (hamarosan)
+menu.start.modeVsAI=MI ellen
 menu.username.back=Vissza
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Segítség kezdőknek
+menu.username.aiPlayerName=Számítógép
 menu.lanLobby.back=Vissza

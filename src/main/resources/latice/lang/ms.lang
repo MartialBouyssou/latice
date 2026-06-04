@@ -96,6 +96,10 @@ default.secondPlayerName=Pemain 2
 default.firstPlayerName=Pemain 1
 
 menu.start.quit=Keluar
+menu.start.modeLocal=Tempatan
+menu.start.modeLan=LAN (akan datang)
+menu.start.modeVsAI=Lawan AI
 menu.username.back=Kembali
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Bantuan pemula
+menu.username.aiPlayerName=Komputer
 menu.lanLobby.back=Kembali

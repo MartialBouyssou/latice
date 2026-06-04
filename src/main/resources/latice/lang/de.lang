@@ -95,6 +95,10 @@ default.secondPlayerName=Spieler 2
 default.firstPlayerName=Spieler 1
 
 menu.start.quit=Beenden
+menu.start.modeLocal=Lokal
+menu.start.modeLan=LAN (bald verfügbar)
+menu.start.modeVsAI=Gegen KI
 menu.username.back=Zurück
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Einsteigerhilfe
+menu.username.aiPlayerName=Computer
 menu.lanLobby.back=Zurück

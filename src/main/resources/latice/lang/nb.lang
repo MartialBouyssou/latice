@@ -95,6 +95,10 @@ default.secondPlayerName=Spiller 2
 default.firstPlayerName=Spiller 1
 
 menu.start.quit=Avslutt
+menu.start.modeLocal=Lokal
+menu.start.modeLan=LAN (kommer snart)
+menu.start.modeVsAI=Mot KI
 menu.username.back=Tilbake
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Nybegynnerhjelp
+menu.username.aiPlayerName=Datamaskin
 menu.lanLobby.back=Tilbake

@@ -95,6 +95,10 @@ default.secondPlayerName=Speler 2
 default.firstPlayerName=Speler 1
 
 menu.start.quit=Stoppen
+menu.start.modeLocal=Lokaal
+menu.start.modeLan=LAN (binnenkort)
+menu.start.modeVsAI=Tegen AI
 menu.username.back=Terug
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Beginnershulp
+menu.username.aiPlayerName=Computer
 menu.lanLobby.back=Terug

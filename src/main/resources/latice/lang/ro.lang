@@ -95,6 +95,10 @@ default.secondPlayerName=Jucător 2
 default.firstPlayerName=Jucător 1
 
 menu.start.quit=Ieșire
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (în curând)
+menu.start.modeVsAI=Contra IA
 menu.username.back=Înapoi
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Ajutor pentru începători
+menu.username.aiPlayerName=Calculator
 menu.lanLobby.back=Înapoi

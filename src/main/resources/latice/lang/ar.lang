@@ -95,6 +95,10 @@ default.secondPlayerName=اللاعب 2
 default.firstPlayerName=اللاعب 1
 
 menu.start.quit=خروج
+menu.start.modeLocal=محلي
+menu.start.modeLan=LAN (قريبًا)
+menu.start.modeVsAI=ضد الذكاء الاصطناعي
 menu.username.back=رجوع
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=مساعدة المبتدئين
+menu.username.aiPlayerName=الكمبيوتر
 menu.lanLobby.back=رجوع

@@ -95,6 +95,10 @@ default.secondPlayerName=Hráč 2
 default.firstPlayerName=Hráč 1
 
 menu.start.quit=Ukončit
+menu.start.modeLocal=Místní
+menu.start.modeLan=LAN (již brzy)
+menu.start.modeVsAI=Proti AI
 menu.username.back=Zpět
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Pomoc pro začátečníky
+menu.username.aiPlayerName=Počítač
 menu.lanLobby.back=Zpět

@@ -95,6 +95,10 @@ default.secondPlayerName=Người chơi 2
 default.firstPlayerName=Người chơi 1
 
 menu.start.quit=Thoát
+menu.start.modeLocal=Cục bộ
+menu.start.modeLan=LAN (sắp ra mắt)
+menu.start.modeVsAI=Đấu với AI
 menu.username.back=Quay lại
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Trợ giúp người mới
+menu.username.aiPlayerName=Máy tính
 menu.lanLobby.back=Quay lại

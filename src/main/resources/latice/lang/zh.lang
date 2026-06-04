@@ -95,6 +95,10 @@ default.secondPlayerName=玩家 2
 default.firstPlayerName=玩家 1
 
 menu.start.quit=退出
+menu.start.modeLocal=本地
+menu.start.modeLan=LAN（即将推出）
+menu.start.modeVsAI=对战 AI
 menu.username.back=返回
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=新手帮助
+menu.username.aiPlayerName=电脑
 menu.lanLobby.back=返回

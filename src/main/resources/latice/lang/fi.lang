@@ -95,6 +95,10 @@ default.secondPlayerName=Pelaaja 2
 default.firstPlayerName=Pelaaja 1
 
 menu.start.quit=Lopeta
+menu.start.modeLocal=Paikallinen
+menu.start.modeLan=LAN (tulossa pian)
+menu.start.modeVsAI=Tekoälyä vastaan
 menu.username.back=Takaisin
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Aloittelijan apu
+menu.username.aiPlayerName=Tietokone
 menu.lanLobby.back=Takaisin

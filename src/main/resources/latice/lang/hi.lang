@@ -95,6 +95,10 @@ default.secondPlayerName=खिलाड़ी 2
 default.firstPlayerName=खिलाड़ी 1
 
 menu.start.quit=बाहर निकलें
+menu.start.modeLocal=स्थानीय
+menu.start.modeLan=LAN (जल्द आ रहा है)
+menu.start.modeVsAI=AI के विरुद्ध
 menu.username.back=पीछे
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=शुरुआती सहायता
+menu.username.aiPlayerName=कंप्यूटर
 menu.lanLobby.back=पीछे

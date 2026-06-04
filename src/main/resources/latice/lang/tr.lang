@@ -95,6 +95,10 @@ default.secondPlayerName=Oyuncu 2
 default.firstPlayerName=Oyuncu 1
 
 menu.start.quit=Çıkış
+menu.start.modeLocal=Yerel
+menu.start.modeLan=LAN (yakında)
+menu.start.modeVsAI=Yapay zekaya karşı
 menu.username.back=Geri
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=Başlangıç yardımı
+menu.username.aiPlayerName=Bilgisayar
 menu.lanLobby.back=Geri

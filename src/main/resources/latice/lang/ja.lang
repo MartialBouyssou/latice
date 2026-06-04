@@ -95,6 +95,10 @@ default.secondPlayerName=プレイヤー2
 default.firstPlayerName=プレイヤー1
 
 menu.start.quit=終了
+menu.start.modeLocal=ローカル
+menu.start.modeLan=LAN（近日対応）
+menu.start.modeVsAI=AI対戦
 menu.username.back=戻る
-menu.username.beginnerHint=Aide au débutant
+menu.username.beginnerHint=初心者ヘルプ
+menu.username.aiPlayerName=コンピューター
 menu.lanLobby.back=戻る
