@@ -16,6 +16,7 @@ import java.util.Objects;
 
 public class BoardView {
     private static final int BOARD_CENTER_INDEX = 4;
+    public static final String HIGHLIGHTS_CELL_CSS = "valid-move-cell";
 
     private final List<Node> highlightedCells = new ArrayList<>();
     private final GridPane boardGrid;
@@ -35,6 +36,8 @@ public class BoardView {
      * @param board The board model
      */
     public void reset(Board board) {
+        clearHighlights();
+
         for (Node node : boardGrid.getChildren()) {
             if (node instanceof ImageView imageView) {
                 int x = getColumn(node);
@@ -70,15 +73,15 @@ public class BoardView {
             return;
         }
 
-        if (!cell.getStyleClass().contains("valid-move-cell")) {
-            cell.getStyleClass().add("valid-move-cell");
+        if (!cell.getStyleClass().contains(HIGHLIGHTS_CELL_CSS)) {
+            cell.getStyleClass().add(HIGHLIGHTS_CELL_CSS);
             highlightedCells.add(cell);
         }
     }
 
     public void clearHighlights() {
         for (Node cell : highlightedCells) {
-            cell.getStyleClass().remove("valid-move-cell");
+            cell.getStyleClass().remove(HIGHLIGHTS_CELL_CSS);
         }
 
         highlightedCells.clear();

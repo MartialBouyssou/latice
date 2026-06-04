@@ -2,7 +2,6 @@ package latice.view.controller;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.event.Event;
 
 import java.io.IOException;
 import java.util.*;
@@ -20,6 +19,7 @@ import latice.exception.network.NetworkException;
 import latice.exception.network.UnhandledPacketException;
 import latice.listeners.LaticeGameListener;
 import latice.listeners.NetworkGameListener;
+import latice.listeners.AiTurnHandler;
 import latice.model.deck.Deck;
 import latice.model.game.Game;
 import latice.model.game.GameFactory;
@@ -52,7 +52,7 @@ import latice.view.MenuView;
 import latice.view.PlayerPanelView;
 import latice.view.TurnOverlayView;
 
-public class GameController implements GameView, PacketSender {
+public class GameController implements GameView, PacketSender, AiTurnHandler {
 
     @FXML private HBox rackBox;
     @FXML private GridPane board;
@@ -119,6 +119,7 @@ public class GameController implements GameView, PacketSender {
     private Player aiControlledPlayer;
     private AIPlayer aiPlayer;
     private boolean aiActionBoughtThisTurn = false;
+    private int lastAiTurnCount = -1;
 
     /**
      * Initializes the JavaFX controller, setting up views, languages, and drag-and-drop events.
@@ -388,8 +389,10 @@ public class GameController implements GameView, PacketSender {
         String aiName = lang.get("menu.username.aiPlayerName");
 
         game = GameFactory.createGame(humanName, aiName);
-        game.addListener(new LaticeGameListener(this, false));
+        game.addListener(new LaticeGameListener(this, false, this));
         aiPlayer = new AIPlayer(game.getReferee());
+        aiActionBoughtThisTurn = false;
+        lastAiTurnCount = -1;
         game.startGame();
 
         for (Player p : game.getPlayers()) {
@@ -416,11 +419,15 @@ public class GameController implements GameView, PacketSender {
             return;
         }
 
-        if (!aiActionBoughtThisTurn && aiControlledPlayer.canAfford(Referee.EXTRA_ACTION_COST) && aiControlledPlayer.getRack().getTiles().size() >= 2) {
-            if (aiPlayer.isDoublePlayWorthIt(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore(), turnsRemaining)) {
+        // TODO: Improve lisibility
+        if (!aiActionBoughtThisTurn && aiControlledPlayer.canAfford(Referee.EXTRA_ACTION_COST)
+                && aiControlledPlayer.getRack().getTiles().size() >= 2
+                && aiPlayer.isDoublePlayWorthIt(
+                        game.getBoard(), aiControlledPlayer.getRack(),
+                        aiControlledPlayer.getScore(), turnsRemaining)) {
+
                 aiActionBoughtThisTurn = true;
                 game.buyAnAction();
-            }
         }
 
         AIMove move = aiPlayer.findBestMove(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore(), turnsRemaining);
@@ -439,13 +446,22 @@ public class GameController implements GameView, PacketSender {
      * Checks if the active player is the AI, and triggers its turn asynchronously.
      */
     public void triggerAITurnIfNeeded() {
-        if (aiControlledPlayer != null
-                && aiPlayer != null
-                && game != null
-                && game.getCurrentPlayer() != null
+        if (aiPlayer != null && game != null && game.getCurrentPlayer() != null
                 && game.getCurrentPlayer().equals(aiControlledPlayer)) {
-            Platform.runLater(() -> playAITurn());
+            if (lastAiTurnCount != game.getTurnCount()) {
+                aiActionBoughtThisTurn = false;
+                lastAiTurnCount = game.getTurnCount();
+            }
+            Platform.runLater(this::playAITurn);
         }
+    }
+
+    /**
+     * Implementation of AiTurnHandler used by LaticeGameListener.
+     */
+    @Override
+    public void playAiTurnIfNeeded() {
+        triggerAITurnIfNeeded();
     }
 
     /**
@@ -661,7 +677,7 @@ public class GameController implements GameView, PacketSender {
             int tilesPlayedBeforeMove = playerBeforeMove.getTilesPlayed();
             game.playTile(packet.getTile(), packet.getX(), packet.getY());
             boolean moveSucceeded = playerBeforeMove.getTilesPlayed() > tilesPlayedBeforeMove;
-            if (moveSucceeded && game != null) {
+            if (moveSucceeded) {
                 showLanOverlay(game.getCurrentPlayer().getName());
             }
             networkGameListener.setLocalAction(false);
@@ -868,22 +884,6 @@ public class GameController implements GameView, PacketSender {
     }
 
     /**
-     * Toggles the interactive state of the action button.
-     */
-    public void toggleActionButton() {
-        setActionButtonDisabled(!actionButton.isDisable());
-    }
-
-    /**
-     * Sets the active state of the action button explicitly.
-     *
-     * @param activate A boolean indicating if the button is disabled (true) or enabled (false).
-     */
-    public void toggleActionButton(boolean activate) {
-        setActionButtonDisabled(activate);
-    }
-
-    /**
      * Displays the transition overlay between player turns with score summaries.
      *
      * @param nextPlayer The player whose turn is starting.
@@ -911,13 +911,6 @@ public class GameController implements GameView, PacketSender {
     public void hideOverlay() {
         turnOverlayView.hideTurnOverlay();
         triggerAITurnIfNeeded();
-    }
-
-    /**
-     * Shows the generic turn transition overlay.
-     */
-    public void showOverlay() {
-        turnOverlayView.showTurnOverlay();
     }
 
     /**
@@ -1006,7 +999,6 @@ public class GameController implements GameView, PacketSender {
      */
     @Override
     public void endGame() {
-        boardView.clearHighlights();
         if (turnOverlayView != null) {
             turnOverlayView.hideTurnOverlay();
             turnOverlayView.hideLanWaitingOverlay();
@@ -1017,6 +1009,8 @@ public class GameController implements GameView, PacketSender {
 
         aiControlledPlayer = null;
         aiPlayer = null;
+        aiActionBoughtThisTurn = false;
+        lastAiTurnCount = -1;
 
         game = null;
         stopNetwork();
@@ -1051,14 +1045,17 @@ public class GameController implements GameView, PacketSender {
 
             Tile tile = extractTileFromUrl(db.getString());
 
-            if (tile != null) {
+            if (game != null && tile != null) {
                 boardView.highlightCells(game.getValidPositionsFor(tile));
             }
 
             event.consume();
         });
 
-        tileView.setOnDragDone(Event::consume);
+        tileView.setOnDragDone(event -> {
+            boardView.clearHighlights();
+            event.consume();
+        });
     }
 
     /**
@@ -1190,14 +1187,6 @@ public class GameController implements GameView, PacketSender {
     @Override
     public void setHasAlreadyPlaced(boolean value) {
         hasAlreadyPlaced = value;
-    }
-
-    //TODO: docstring
-    /**
-     * @param value
-     */
-    public void setAiActionBoughtThisTurn(boolean value) {
-        this.aiActionBoughtThisTurn = value;
     }
 
     /**
