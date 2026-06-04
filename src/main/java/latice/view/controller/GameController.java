@@ -51,8 +51,6 @@ import latice.view.TurnOverlayView;
 
 public class GameController implements GameView, PacketSender {
 
-    private static final Logger LOGGER = Logger.getLogger(GameController.class.getName());
-
     @FXML private HBox rackBox;
     @FXML private GridPane board;
     @FXML private Label currentPlayerLabel;
@@ -762,9 +760,7 @@ public class GameController implements GameView, PacketSender {
                 } else if (sessionRole == SessionRole.CLIENT && tcpClient != null) {
                     tcpClient.send(packet);
                 }
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Failed to send packet: {0}", e.getMessage());
-            }
+            } catch (IOException e) { /* Nothing here logger are not useful */ }
         }
     }
 
