@@ -20,6 +20,7 @@ import java.util.Objects;
 
 public class BoardView {
     private static final int BOARD_CENTER_INDEX = 4;
+    public static final String HIGHLIGHTS_CELL_CSS = "valid-move-cell";
 
     private final List<Node> highlightedCells = new ArrayList<>();
     private final List<Node> scoreHintNodes = new ArrayList<>();
@@ -80,8 +81,8 @@ public class BoardView {
         Node cell = getCellNode(x, y);
 
         if (cell != null) {
-            if (!cell.getStyleClass().contains("valid-move-cell")) {
-                cell.getStyleClass().add("valid-move-cell");
+            if (!cell.getStyleClass().contains(HIGHLIGHTS_CELL_CSS)) {
+                cell.getStyleClass().add(HIGHLIGHTS_CELL_CSS);
                 highlightedCells.add(cell);
             }
         }
@@ -98,8 +99,8 @@ public class BoardView {
         Node cell = getCellNode(x, y);
 
         if (cell != null) {
-            if (!cell.getStyleClass().contains("valid-move-cell")) {
-                cell.getStyleClass().add("valid-move-cell");
+            if (!cell.getStyleClass().contains(HIGHLIGHTS_CELL_CSS)) {
+                cell.getStyleClass().add(HIGHLIGHTS_CELL_CSS);
                 highlightedCells.add(cell);
             }
 
@@ -119,7 +120,7 @@ public class BoardView {
 
     public void clearHighlights() {
         for (Node cell : highlightedCells) {
-            cell.getStyleClass().remove("valid-move-cell");
+            cell.getStyleClass().remove(HIGHLIGHTS_CELL_CSS);
         }
         boardGrid.getChildren().removeAll(scoreHintNodes);
 
@@ -128,9 +129,8 @@ public class BoardView {
     }
 
     /**
-     * Highlights the given valid board positions without score preview.
-     *
-     * @param positions The positions to highlight.
+     * Highlight the given cell position.
+     * @param positions The cell to highlight position
      */
     public void highlightCells(List<BoardPosition> positions) {
         clearHighlights();
@@ -142,7 +142,6 @@ public class BoardView {
 
     /**
      * Highlights the given valid board positions and displays the score preview for each one.
-     *
      * @param moveHints The valid move hints to display.
      */
     public void highlightCellsWithScores(List<BoardMoveHint> moveHints) {

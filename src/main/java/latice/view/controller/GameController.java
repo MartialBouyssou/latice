@@ -1,5 +1,6 @@
 package latice.view.controller;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
@@ -11,20 +12,26 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 import latice.exception.network.NetworkException;
 import latice.exception.network.UnhandledPacketException;
 import latice.listeners.LaticeGameListener;
 import latice.listeners.NetworkGameListener;
+import latice.listeners.AiTurnHandler;
 import latice.model.deck.Deck;
 import latice.model.game.Game;
 import latice.model.game.GameFactory;
 import latice.model.player.Player;
 import latice.model.player.Rack;
+import latice.model.referee.Referee;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
+import latice.model.ai.AIMove;
+import latice.model.ai.AIPlayer;
 import latice.network.NetworkConfig;
 import latice.network.PacketSender;
 import latice.network.packet.Packet;
@@ -47,7 +54,7 @@ import latice.view.MenuView;
 import latice.view.PlayerPanelView;
 import latice.view.TurnOverlayView;
 
-public class GameController implements GameView, PacketSender {
+public class GameController implements GameView, PacketSender, AiTurnHandler {
 
     @FXML private HBox rackBox;
     @FXML private GridPane board;
@@ -73,6 +80,7 @@ public class GameController implements GameView, PacketSender {
     @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
+    @FXML private VBox modeMenuVBox;
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
@@ -85,6 +93,10 @@ public class GameController implements GameView, PacketSender {
     @FXML private Label lanClientNameLabel;
     @FXML private StackPane lanScreenOverlay;
     @FXML private Label turnOfLabel;
+
+    @FXML private VBox usernameVsAIMenuVBox;
+    @FXML private TextField player1UsernameVsAITf;
+    @FXML private Button overlayButton;
 
     private Game game;
     private NetworkGameListener networkGameListener;
@@ -106,6 +118,11 @@ public class GameController implements GameView, PacketSender {
     private PlayerPanelView playerPanelView;
     private TurnOverlayView turnOverlayView;
     private MenuView menuView;
+
+    private Player aiControlledPlayer;
+    private AIPlayer aiPlayer;
+    private boolean aiActionBoughtThisTurn = false;
+    private int lastAiTurnCount = -1;
 
     /**
      * Initializes the JavaFX controller, setting up views, languages, and drag-and-drop events.
@@ -135,9 +152,13 @@ public class GameController implements GameView, PacketSender {
         playerPanelView = new PlayerPanelView(rackImageViews, currentPlayerLabel,
                 currentPlayerScoreLabel, playerTileRemainingLabel, actionButton);
         turnOverlayView = new TurnOverlayView(screenOverlay, overlayPlayerLabel, endTurnButton,
-                lastPlayerLabel, lastPlayerScoreLabel, turnNumberLabel, lanScreenOverlay, turnOfLabel);
-        menuView = new MenuView(startMenuStackpane, gameBoardBP, playMenuVBox, usernameMenuVBox,
-                rulesMenuVBox, themeMenuVBox, lanMenuVBox, searchLanMenuVBox, lanLobbyMenuVBox);
+                lastPlayerLabel, lastPlayerScoreLabel, turnNumberLabel, lanScreenOverlay,
+                turnOfLabel, overlayButton
+        );
+        menuView = new MenuView(startMenuStackpane, gameBoardBP, playMenuVBox,
+                modeMenuVBox, usernameMenuVBox, rulesMenuVBox, themeMenuVBox, lanMenuVBox,
+                searchLanMenuVBox, lanLobbyMenuVBox, usernameVsAIMenuVBox
+        );
     }
 
     /**
@@ -202,25 +223,31 @@ public class GameController implements GameView, PacketSender {
      * @param parent The root JavaFX node to start the recursive search from.
      */
     private void applyTextsRecursively(Parent parent) {
-        if (parent == null) {
-            return;
-        }
+        if (parent != null) {
+            for (Node node : parent.getChildrenUnmodifiable()) {
+                if (node instanceof Labeled labeled) {
+                    String key = (String) labeled.getProperties()
+                            .getOrDefault("i18n-key", labeled.getText());
+                    // i18n is the used name for internationalization => Multi language support :)
 
-        for (Node node : parent.getChildrenUnmodifiable()) {
-            if (node instanceof Labeled labeled) {
-                String key = (String) labeled.getProperties()
-                        .getOrDefault("i18n-key", labeled.getText());
-                // i18n is the used name for internationalization => Multi language support :)
-
-                if (key != null && !key.isBlank() && key.contains(".") && !key.contains(" ")) {
-                    labeled.getProperties().put("i18n-key", key);
-                    labeled.setText(LangManager.getInstance().get(key));
+                    if (key != null && !key.isBlank() && key.contains(".") && !key.contains(" ")) {
+                        labeled.getProperties().put("i18n-key", key);
+                        labeled.setText(LangManager.getInstance().get(key));
+                    }
+                }
+                if (node instanceof Parent childParent) {
+                    applyTextsRecursively(childParent);
                 }
             }
-            if (node instanceof Parent childParent) {
-                applyTextsRecursively(childParent);
-            }
         }
+    }
+
+    /**
+     * Displays the menu for choosing the game mode (Local, LAN, IA).
+     */
+    public void showModeMenu() {
+        stopNetwork();
+        menuView.showModeMenu();
     }
 
     /**
@@ -228,6 +255,13 @@ public class GameController implements GameView, PacketSender {
      */
     public void showUsernameChoiceMenu() {
         menuView.showUsernameChoiceMenu();
+    }
+
+    /**
+     * Displays the menu for choosing a human username against AI.
+     */
+    public void showUsernameVsAIMenu() {
+        menuView.showUsernameVsAIMenu();
     }
 
     /**
@@ -363,6 +397,102 @@ public class GameController implements GameView, PacketSender {
         game.addListener(new LaticeGameListener(this, false));
         game.startGame();
         resetBoard();
+    }
+
+    /**
+     * Starts a local game versus the Artificial Intelligence.
+     */
+    public void startGameVsAI() {
+        sessionRole = SessionRole.LOCAL;
+        menuView.showGameBoard();
+
+        LangManager lang = LangManager.getInstance();
+        String humanName = getPlayerName(player1UsernameVsAITf.getText(), lang.get("default.firstPlayerName"));
+        String aiName = lang.get("menu.username.aiPlayerName");
+
+        game = GameFactory.createGame(humanName, aiName);
+        game.addListener(new LaticeGameListener(this, false, this));
+        aiPlayer = new AIPlayer(game.getReferee());
+        aiActionBoughtThisTurn = false;
+        lastAiTurnCount = -1;
+        game.startGame();
+
+        for (Player p : game.getPlayers()) {
+            if (p.getName().equals(aiName)) {
+                aiControlledPlayer = p;
+                break;
+            }
+        }
+
+        resetBoard();
+        triggerAITurnIfNeeded();
+    }
+
+    /**
+     * Manages and executes the AI player's moves synchronously.
+     */
+    public void playAITurn() {
+        if (aiControlledPlayer == null || aiPlayer == null) return;
+
+        int turnsRemaining = Game.MAX_CYCLES - (game.getTurnCount() / game.getPlayers().size());
+
+        if (hasAlreadyPlaced) {
+            game.endTurn();
+            return;
+        }
+
+        // Hasn't bought action this turn, has money to afford and has 2 or more tiles
+        // remaining to play
+        boolean aiCanBuyAction = !aiActionBoughtThisTurn &&
+                aiControlledPlayer.canAfford(Referee.EXTRA_ACTION_COST) &&
+                aiControlledPlayer.getRack().getTiles().size() >= 2;
+
+        boolean isDoublePlayWorthIt = aiPlayer.isDoublePlayWorthIt(
+                game.getBoard(), aiControlledPlayer.getRack(),
+                aiControlledPlayer.getScore(), turnsRemaining
+        );
+
+        if (aiCanBuyAction && isDoublePlayWorthIt) {
+                aiActionBoughtThisTurn = true;
+                game.buyAnAction();
+        }
+
+        AIMove move = aiPlayer.findBestMove(
+                game.getBoard(), aiControlledPlayer.getRack(),
+                aiControlledPlayer.getScore(), turnsRemaining
+        );
+
+        if (move != null) {
+            game.playTile(move.getTile(), move.getX(), move.getY());
+        } else {
+            if (aiControlledPlayer.getDeck().isEmpty()) {
+                game.passTurn();
+            } else {
+                game.exchangeAll();
+            }
+        }
+    }
+
+    /**
+     * Checks if the active player is the AI, and triggers its turn asynchronously.
+     */
+    public void triggerAITurnIfNeeded() {
+        if (aiPlayer != null && game != null && game.getCurrentPlayer() != null
+                && game.getCurrentPlayer().equals(aiControlledPlayer)) {
+            if (lastAiTurnCount != game.getTurnCount()) {
+                aiActionBoughtThisTurn = false;
+                lastAiTurnCount = game.getTurnCount();
+            }
+            Platform.runLater(this::playAITurn);
+        }
+    }
+
+    /**
+     * Implementation of AiTurnHandler used by LaticeGameListener.
+     */
+    @Override
+    public void playAiTurnIfNeeded() {
+        triggerAITurnIfNeeded();
     }
 
     /**
@@ -578,7 +708,7 @@ public class GameController implements GameView, PacketSender {
             int tilesPlayedBeforeMove = playerBeforeMove.getTilesPlayed();
             game.playTile(packet.getTile(), packet.getX(), packet.getY());
             boolean moveSucceeded = playerBeforeMove.getTilesPlayed() > tilesPlayedBeforeMove;
-            if (moveSucceeded && game != null) {
+            if (moveSucceeded) {
                 showLanOverlay(game.getCurrentPlayer().getName());
             }
             networkGameListener.setLocalAction(false);
@@ -630,22 +760,20 @@ public class GameController implements GameView, PacketSender {
      * @param packet The packet containing the remote end game informations.
      */
     private void handleGameOver(GameOverPacket packet) {
-        if (game == null) {
-            return;
-        }
+        if (game != null) {
+            if (packet.isDraw()) {
+                showGameOver(null);
+                endGame();
+                return;
+            }
 
-        if (packet.isDraw()) {
-            showGameOver(null);
+            Player winner = game.getPlayers().stream()
+                    .filter(p -> p.getName().equals(packet.getWinnerUsername()))
+                    .findFirst()
+                    .orElse(null);
+            showGameOver(winner);
             endGame();
-            return;
         }
-
-        Player winner = game.getPlayers().stream()
-                .filter(p -> p.getName().equals(packet.getWinnerUsername()))
-                .findFirst()
-                .orElse(null);
-        showGameOver(winner);
-        endGame();
     }
 
     /**
@@ -697,10 +825,18 @@ public class GameController implements GameView, PacketSender {
      */
     public void buttonEndTurn() {
         if (sessionRole == SessionRole.LOCAL) {
-            game.passTurn();
+            if (hasAlreadyPlaced) {
+                game.endTurn();
+            } else {
+                game.passTurn();
+            }
         } else {
             executeLocalAction(() -> {
-                game.passTurn();
+                if (hasAlreadyPlaced) {
+                    game.endTurn();
+                } else {
+                    game.passTurn();
+                }
                 showLanOverlay(game.getCurrentPlayer().getName());
             });
         }
@@ -779,22 +915,6 @@ public class GameController implements GameView, PacketSender {
     }
 
     /**
-     * Toggles the interactive state of the action button.
-     */
-    public void toggleActionButton() {
-        setActionButtonDisabled(!actionButton.isDisable());
-    }
-
-    /**
-     * Sets the active state of the action button explicitly.
-     *
-     * @param activate A boolean indicating if the button is disabled (true) or enabled (false).
-     */
-    public void toggleActionButton(boolean activate) {
-        setActionButtonDisabled(activate);
-    }
-
-    /**
      * Displays the transition overlay between player turns with score summaries.
      *
      * @param nextPlayer The player whose turn is starting.
@@ -804,6 +924,16 @@ public class GameController implements GameView, PacketSender {
     @Override
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         turnOverlayView.showTurnOverlay(game, nextPlayer, lastPlayer, lastTurnScore);
+
+        String aiName = LangManager.getInstance().get("menu.username.aiPlayerName");
+        if (nextPlayer.getName().equals(aiName)) {
+            turnOverlayView.setReadyButtonVisible(false);
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(e -> hideOverlay());
+            pause.play();
+        } else {
+            turnOverlayView.setReadyButtonVisible(true);
+        }
     }
 
     /**
@@ -811,13 +941,7 @@ public class GameController implements GameView, PacketSender {
      */
     public void hideOverlay() {
         turnOverlayView.hideTurnOverlay();
-    }
-
-    /**
-     * Shows the generic turn transition overlay.
-     */
-    public void showOverlay() {
-        turnOverlayView.showTurnOverlay();
+        triggerAITurnIfNeeded();
     }
 
     /**
@@ -826,7 +950,8 @@ public class GameController implements GameView, PacketSender {
      * @param currentPlayerName The name of the player whose turn is active.
      */
     public void showLanOverlay(String currentPlayerName) {
-        String localUsername = sessionRole == SessionRole.HOST ? hostUsername : clientUsername;
+        String localUsername = sessionRole == SessionRole.HOST ?
+                hostUsername : clientUsername;
         boolean isMyTurn = currentPlayerName.equals(localUsername);
 
         if (isMyTurn) {
@@ -912,6 +1037,12 @@ public class GameController implements GameView, PacketSender {
         if (game != null && game.getBoard() != null) {
             resetBoard();
         }
+
+        aiControlledPlayer = null;
+        aiPlayer = null;
+        aiActionBoughtThisTurn = false;
+        lastAiTurnCount = -1;
+
         game = null;
         stopNetwork();
         menuView.showStartMenu();
@@ -926,6 +1057,7 @@ public class GameController implements GameView, PacketSender {
             boardView.reset(game.getBoard());
         }
         hasAlreadyPlaced = false;
+        aiActionBoughtThisTurn = false;
     }
 
     /**
@@ -961,49 +1093,94 @@ public class GameController implements GameView, PacketSender {
      * Configures the main board grid to accept drag-and-drop actions and trigger game logic.
      */
     private void setupBoardDropTarget() {
-        board.setOnDragOver(event -> {
-            if (event.getGestureSource() != board && event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.MOVE);
+        board.setOnDragOver(this::handleBoardDragOver);
+        board.setOnDragDropped(this::handleBoardDragDropped);
+    }
+
+    /**
+     * Handle drag-over events on the board and allows tile drops when possible.
+     * @param event the drag event triggered over the board
+     */
+    private void handleBoardDragOver(DragEvent event) {
+        if (canAcceptDrag(event)) {
+            event.acceptTransferModes(TransferMode.MOVE);
+        }
+
+        event.consume();
+    }
+
+    /**
+     * Handle a tile drop event on the board.
+     * @param event the drag event triggered when dropping on the board
+     */
+    private void handleBoardDragDropped(DragEvent event) {
+        boolean dropCompleted = false;
+
+        if (canHandleDrop(event)) {
+            dropCompleted = handleTileDrop(event);
+        }
+
+        event.setDropCompleted(dropCompleted);
+        event.consume();
+    }
+
+    /**
+     * Extract and plays the tile dropped on the board.
+     * @param event the drop event containing the tile data and mouse position
+     * @return true if the dropped tile was handled, false otherwise
+     */
+    private boolean handleTileDrop(DragEvent event) {
+        Tile tile = extractTileFromUrl(event.getDragboard().getString());
+
+        if (tile == null) {
+            return false;
+        }
+
+        if (hasAlreadyPlaced) {
+            showInvalidMove(LangManager.getInstance().get("popup.game.invalid.reason"));
+            return false;
+        }
+
+        int col = getBoardColumn(event.getX());
+        int row = getBoardRow(event.getY());
+
+        boardView.clearHighlights();
+        playDroppedTile(tile, col, row);
+
+        return true;
+    }
+
+    /**
+     * Play a dropped tile using the correct game mode behavior.
+     * @param tile the tile to play
+     * @param col the target board column
+     * @param row the target board row
+     */
+    private void playDroppedTile(Tile tile, int col, int row) {
+        if (sessionRole == SessionRole.LOCAL) {
+            game.playTile(tile, col, row);
+            return;
+        }
+
+        playDroppedTileInLan(tile, col, row);
+    }
+
+    /**
+     * Play a dropped tile in a LAN game and shows the turn transition overlay after a successful move.
+     * @param tile the tile to play
+     * @param col the target board column
+     * @param row the target board row
+     */
+    private void playDroppedTileInLan(Tile tile, int col, int row) {
+        executeLocalAction(() -> {
+            Player playerBeforeMove = game.getCurrentPlayer();
+            int tilesPlayedBeforeMove = playerBeforeMove.getTilesPlayed();
+
+            game.playTile(tile, col, row);
+
+            if (hasMoveSucceeded(playerBeforeMove, tilesPlayedBeforeMove)) {
+                showLanOverlay(game.getCurrentPlayer().getName());
             }
-            event.consume();
-        });
-
-        board.setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-
-            if (db.hasString() && game != null) {
-                double cellWidth = board.getWidth() / 9.0;
-                double cellHeight = board.getHeight() / 9.0;
-
-                int col = (int) (event.getX() / cellWidth);
-                int row = (int) (event.getY() / cellHeight);
-
-                Tile tile = extractTileFromUrl(db.getString());
-
-                if (tile != null) {
-                    if (!hasAlreadyPlaced) {
-                        boardView.clearHighlights();
-                        if (sessionRole == SessionRole.LOCAL) {
-                            game.playTile(tile, col, row);
-                        } else {
-                            executeLocalAction(() -> {
-                                Player playerBeforeMove = game.getCurrentPlayer();
-                                int tilesPlayedBeforeMove = playerBeforeMove.getTilesPlayed();
-                                game.playTile(tile, col, row);
-                                boolean moveSucceeded =
-                                        playerBeforeMove.getTilesPlayed() > tilesPlayedBeforeMove;
-                                if (moveSucceeded && game != null) {
-                                    showLanOverlay(game.getCurrentPlayer().getName());
-                                }
-                            });
-                        }
-                    } else {
-                        showInvalidMove(LangManager.getInstance().get("popup.game.invalid.reason"));
-                    }
-                }
-            }
-            event.setDropCompleted(false);
-            event.consume();
         });
     }
 
@@ -1048,6 +1225,58 @@ public class GameController implements GameView, PacketSender {
         networkGameListener = null;
     }
 
+
+
+    /**
+     * Check whether the current drag event contains a draggable tile payload.
+     * @param event the drag event to validate
+     * @return true if the board can accept the dragged content, false otherwise
+     */
+    private boolean canAcceptDrag(DragEvent event) {
+        return event.getGestureSource() != board
+                && event.getDragboard().hasString();
+    }
+
+    /**
+     * Check whether the drop event can be processed by the current game.
+     * @param event the drop event to validate
+     * @return true if a game is runing and the drag board contains tile data, false otherwise
+     */
+    private boolean canHandleDrop(DragEvent event) {
+        return game != null
+                && event.getDragboard().hasString();
+    }
+
+    /**
+     * Check whether a tile placement actually changed the player's played tile count.
+     * @param playerBeforeMove the player who attempted to play
+     * @param tilesPlayedBeforeMove the number of tiles played before the move
+     * @return true if the move succeeded, false otherwise
+     */
+    private boolean hasMoveSucceeded(Player playerBeforeMove, int tilesPlayedBeforeMove) {
+        return game != null
+                && playerBeforeMove.getTilesPlayed() > tilesPlayedBeforeMove;
+    }
+
+    /**
+     * Converts a horizontal position into a board column index.
+     * @param x the horizontal mouse position inside the board
+     * @return the corresponding board column
+     */
+    private int getBoardColumn(double x) {
+        double cellWidth = board.getWidth() / 9.0;
+        return (int) (x / cellWidth);
+    }
+
+    /**
+     * Converts a vertical position into a board row index.
+     * @param y the vertical mouse position inside the board
+     * @return the corresponding board row
+     */
+    private int getBoardRow(double y) {
+        double cellHeight = board.getHeight() / 9.0;
+        return (int) (y / cellHeight);
+    }
 
     /**
      * Sets the action button disabled state through the player panel view.

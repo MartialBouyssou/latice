@@ -8,20 +8,36 @@ public class LaticeGameListener implements GameListener {
 
     private final GameView gameView;
     private final boolean isLanMode;
+    private final AiTurnHandler aiTurnHandler;
 
     /**
-     * Creates the listener bound to a game view used to update the UI.
-     * @param gameView The view used to reflect game events on the interface.
-     * @param isLanMode A boolean to define if you want to execute it in local or not
+     * Creates a game listener bound to the given view.
+     *
+     * @param gameView  The view to update in response to game events.
+     * @param isLanMode Whether the game is running in LAN multiplayer mode.
      */
     public LaticeGameListener(GameView gameView, boolean isLanMode) {
-        this.gameView = gameView;
-        this.isLanMode = isLanMode;
+        this(gameView, isLanMode, null);
     }
 
     /**
-     * Handles the game started event by refreshing the starting player's rack and info on the UI.
-     * @param event The event holding the player who starts the game.
+     * Creates a game listener.
+     *
+     * @param gameView The view to update in response to game events.
+     * @param isLanMode Whether the game is running in LAN multiplayer mode.
+     * @param aiTurnHandler Optional handler used to trigger AI turns.
+     */
+    public LaticeGameListener(GameView gameView, boolean isLanMode,
+                              AiTurnHandler aiTurnHandler) {
+        this.gameView = gameView;
+        this.isLanMode = isLanMode;
+        this.aiTurnHandler = aiTurnHandler;
+    }
+
+    /**
+     * Called when the game starts. Updates the rack and player info for the first player.
+     *
+     * @param event The game started event.
      */
     @Override
     public void onGameStarted(GameStartedEvent event) {
@@ -30,23 +46,24 @@ public class LaticeGameListener implements GameListener {
     }
 
     /**
-     * Handles the action bought event by updating the player info and disabling the action button
-     * until the bought action is used.
-     * @param event The event describing the bought action and its type.
+     * Called when a player buys an extra action. Updates the player info
+     * and disables the action button if a play-twice action was purchased.
+     *
+     * @param event The action bought event.
      */
     @Override
     public void onActionBought(ActionBoughtEvent event) {
         gameView.updatePlayerInfo(event.getPlayer());
-
         if (event.getActionType() == ActionType.PLAY_TWICE) {
             gameView.setActionButtonDisabled(true);
         }
     }
 
     /**
-     * Handles the turn ended event by showing the next player overlay and refreshing
-     * their rack and info.
-     * @param event The event holding the next player, last player and last turn score.
+     * Called when a player's turn ends. Resets placement state and shows
+     * the turn overlay for the next player, or stores pending overlay info in LAN mode.
+     *
+     * @param event The turn ended event.
      */
     @Override
     public void onTurnEnded(TurnEndedEvent event) {
@@ -63,8 +80,10 @@ public class LaticeGameListener implements GameListener {
     }
 
     /**
-     * Handles the tile placed event by drawing the tile on the board and refreshing the UI.
-     * @param event The event holding the placed tile, its coordinates and the player.
+     * Called when a tile is successfully placed on the board. Updates the board,
+     * player info, and rack. Also triggers the AI if the player has another action.
+     *
+     * @param event The tile placed event.
      */
     @Override
     public void onTilePlaced(TilePlacedEvent event) {
@@ -83,12 +102,15 @@ public class LaticeGameListener implements GameListener {
             if (hasRemainingAction) {
                 gameView.setActionButtonDisabled(false);
             }
+            playAiTurnIfNeeded();
         }
     }
 
     /**
-     * Handles the turn passed event by showing the next player overlay and refreshing their rack and info.
-     * @param event The event holding the next player, last player and last turn score.
+     * Called when a player passes their turn. Resets placement state and shows
+     * the turn overlay, or stores pending overlay info in LAN mode.
+     *
+     * @param event The turn passed event.
      */
     @Override
     public void onTurnPassed(TurnPassedEvent event) {
@@ -105,8 +127,10 @@ public class LaticeGameListener implements GameListener {
     }
 
     /**
-     * Handles the rack exchanged event by refreshing the rack and action state.
-     * @param event The event holding the player whose rack was exchanged.
+     * Called when a player's rack is exchanged. Updates the rack view
+     * and triggers the AI if the player has another action.
+     *
+     * @param event The rack exchanged event.
      */
     @Override
     public void onRackExchanged(RackExchangedEvent event) {
@@ -117,12 +141,14 @@ public class LaticeGameListener implements GameListener {
             if (hasRemainingAction) {
                 gameView.setActionButtonDisabled(false);
             }
+            playAiTurnIfNeeded();
         }
     }
 
     /**
-     * Handles the game over event by displaying the winner, ending the game and resetting the board.
-     * @param event The event holding the winner of the game.
+     * Called when the game is over. Shows the game over screen and ends the game.
+     *
+     * @param event The game over event.
      */
     @Override
     public void onGameOver(GameOverEvent event) {
@@ -131,8 +157,10 @@ public class LaticeGameListener implements GameListener {
     }
 
     /**
-     * Handles the invalid move event by showing the rejection reason on the UI.
-     * @param event The event holding the reason for the invalid move.
+     * Called when a player attempts an invalid move. Shows an error popup
+     * only if the player is not the AI.
+     *
+     * @param event The invalid move event.
      */
     @Override
     public void onInvalidMove(InvalidMoveEvent event) {
@@ -140,11 +168,22 @@ public class LaticeGameListener implements GameListener {
     }
 
     /**
-     * Handles the cannot afford event by showing the reason on the UI.
-     * @param event The event holding the reason the player cannot afford the action.
+     * Called when a player cannot afford to buy an action. Shows an error popup
+     * only if the player is not the AI.
+     *
+     * @param event The cannot afford event.
      */
     @Override
     public void onCannotAfford(CannotAffordEvent event) {
         gameView.showInvalidMove(event.getReason());
+    }
+
+    /**
+     * Triggers the AI turn handler when one was provided.
+     */
+    private void playAiTurnIfNeeded() {
+        if (aiTurnHandler != null) {
+            aiTurnHandler.playAiTurnIfNeeded();
+        }
     }
 }

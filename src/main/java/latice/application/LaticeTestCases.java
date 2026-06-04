@@ -22,12 +22,10 @@ public class LaticeTestCases {
 	 * @param args The command line arguments (unused).
 	 */
 	public static void main(String[] args) {
-		// kind of unit test
 		testBoardCreation();
 		testBoardCellTypes();
 		testBoardDisplay();
 
-		// Game test
 		displayHeader();
 		Game game = getNewGame();
 		eventExampleInGameContext(game);
