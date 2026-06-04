@@ -96,4 +96,5 @@ default.firstPlayerName=Παίκτης 1
 
 menu.start.quit=Έξοδος
 menu.username.back=Πίσω
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Πίσω

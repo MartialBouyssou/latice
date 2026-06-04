@@ -96,4 +96,5 @@ default.firstPlayerName=Giocatore 1
 
 menu.start.quit=Esci
 menu.username.back=Indietro
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Indietro

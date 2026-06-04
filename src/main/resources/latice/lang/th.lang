@@ -96,4 +96,5 @@ default.firstPlayerName=ผู้เล่น 1
 
 menu.start.quit=ออกจากเกม
 menu.username.back=ย้อนกลับ
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=ย้อนกลับ

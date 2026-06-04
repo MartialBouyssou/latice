@@ -96,4 +96,5 @@ default.firstPlayerName=Hráč 1
 
 menu.start.quit=Ukončit
 menu.username.back=Zpět
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Zpět

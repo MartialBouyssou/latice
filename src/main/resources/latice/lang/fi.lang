@@ -96,4 +96,5 @@ default.firstPlayerName=Pelaaja 1
 
 menu.start.quit=Lopeta
 menu.username.back=Takaisin
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Takaisin

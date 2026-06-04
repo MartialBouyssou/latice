@@ -96,4 +96,5 @@ default.firstPlayerName=Igrač 1
 
 menu.start.quit=Izađi
 menu.username.back=Natrag
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Natrag

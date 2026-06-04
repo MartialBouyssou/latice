@@ -96,4 +96,5 @@ default.firstPlayerName=玩家 1
 
 menu.start.quit=退出
 menu.username.back=返回
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=返回

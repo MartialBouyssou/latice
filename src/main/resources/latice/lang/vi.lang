@@ -96,4 +96,5 @@ default.firstPlayerName=Người chơi 1
 
 menu.start.quit=Thoát
 menu.username.back=Quay lại
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Quay lại

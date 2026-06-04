@@ -38,6 +38,7 @@ menu.username.firstUsernameChoiceLabel=Choisissez votre pseudo :
 menu.username.secondUsernameChoiceLabel=Vous pouvez aussi choisir un pseudo :
 menu.username.play=Jouer
 menu.username.back=Retour
+menu.username.beginnerHint=Aide au débutant
 
 # # Lan Menu
 menu.lan.title=Latice LAN

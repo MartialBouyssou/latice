@@ -96,4 +96,5 @@ default.firstPlayerName=1. játékos
 
 menu.start.quit=Kilépés
 menu.username.back=Vissza
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Vissza

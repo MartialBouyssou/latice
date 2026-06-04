@@ -96,4 +96,5 @@ default.firstPlayerName=플레이어 1
 
 menu.start.quit=종료
 menu.username.back=뒤로
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=뒤로

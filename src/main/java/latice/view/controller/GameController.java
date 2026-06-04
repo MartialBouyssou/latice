@@ -1,12 +1,10 @@
 package latice.view.controller;
 
 import javafx.application.Platform;
-import javafx.event.Event;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -92,6 +90,7 @@ public class GameController implements GameView, PacketSender {
     private NetworkGameListener networkGameListener;
     private List<ImageView> rackImageViews;
     private boolean hasAlreadyPlaced = false;
+    private boolean moveHintsEnabled = false;
     private Map<String, String> availableLanguages;
 
     private SessionRole sessionRole;
@@ -153,6 +152,21 @@ public class GameController implements GameView, PacketSender {
             String firstCode = availableLanguages.keySet().iterator().next();
             LangManager.getInstance().load(firstCode);
             languageComboBox.setValue(availableLanguages.get(firstCode));
+        }
+    }
+
+    /**
+     * Enables or Disables move hints according to the beginner hint toggle state.
+     * @param event The action event fired by the toggle button.
+     */
+    @FXML
+    private void toggleMoveHints(ActionEvent event) {
+        if (event.getSource() instanceof RadioButton radioButton) {
+            moveHintsEnabled = radioButton.isSelected();
+        }
+
+        if (!moveHintsEnabled && boardView != null) {
+            boardView.clearHighlights();
         }
     }
 
@@ -930,14 +944,17 @@ public class GameController implements GameView, PacketSender {
 
             Tile tile = extractTileFromUrl(db.getString());
 
-            if (tile != null) {
-                boardView.highlightCells(game.getValidPositionsFor(tile));
+            if (moveHintsEnabled && tile != null && game != null) {
+                boardView.highlightCellsWithScores(game.getValidMoveHintsFor(tile));
             }
 
             event.consume();
         });
 
-        tileView.setOnDragDone(Event::consume);
+        tileView.setOnDragDone(event -> {
+            boardView.clearHighlights();
+            event.consume();
+        });
     }
 
     /**

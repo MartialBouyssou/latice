@@ -96,4 +96,5 @@ default.firstPlayerName=Spiller 1
 
 menu.start.quit=Afslut
 menu.username.back=Tilbage
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Tilbage

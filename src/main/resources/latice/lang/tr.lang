@@ -96,4 +96,5 @@ default.firstPlayerName=Oyuncu 1
 
 menu.start.quit=Çıkış
 menu.username.back=Geri
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Geri

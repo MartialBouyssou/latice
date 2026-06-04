@@ -97,4 +97,5 @@ default.firstPlayerName=Mchezaji 1
 
 menu.start.quit=Toka
 menu.username.back=Nyuma
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Nyuma

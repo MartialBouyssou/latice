@@ -96,4 +96,5 @@ default.firstPlayerName=Jogador 1
 
 menu.start.quit=Sair
 menu.username.back=Voltar
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Voltar

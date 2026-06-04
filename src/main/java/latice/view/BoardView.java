@@ -1,11 +1,15 @@
 package latice.view;
 
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import latice.model.board.Board;
 import latice.model.board.BoardPosition;
+import latice.model.board.BoardMoveHint;
 import latice.model.board.cell.SunCell;
 import latice.model.tile.Tile;
 import latice.utils.theme.ThemeManager;
@@ -18,6 +22,7 @@ public class BoardView {
     private static final int BOARD_CENTER_INDEX = 4;
 
     private final List<Node> highlightedCells = new ArrayList<>();
+    private final List<Node> scoreHintNodes = new ArrayList<>();
     private final GridPane boardGrid;
 
     /**
@@ -35,6 +40,8 @@ public class BoardView {
      * @param board The board model
      */
     public void reset(Board board) {
+        clearHighlights();
+
         for (Node node : boardGrid.getChildren()) {
             if (node instanceof ImageView imageView) {
                 int x = getColumn(node);
@@ -63,16 +70,50 @@ public class BoardView {
         }
     }
 
+    /**
+     * Highlights a playable board cell without displaying a score preview.
+     *
+     * @param x The board column to highlight.
+     * @param y The board row to highlight.
+     */
     private void highlightCell(int x, int y) {
         Node cell = getCellNode(x, y);
 
-        if (cell == null) {
-            return;
+        if (cell != null) {
+            if (!cell.getStyleClass().contains("valid-move-cell")) {
+                cell.getStyleClass().add("valid-move-cell");
+                highlightedCells.add(cell);
+            }
         }
+    }
 
-        if (!cell.getStyleClass().contains("valid-move-cell")) {
-            cell.getStyleClass().add("valid-move-cell");
-            highlightedCells.add(cell);
+    /**
+     * Highlights a playable board cell and displays the score preview on top of it.
+     *
+     * @param x The board column to highlight.
+     * @param y The board row to highlight.
+     * @param score The score earned by placing the selected tile on this cell.
+     */
+    private void highlightCell(int x, int y, int score) {
+        Node cell = getCellNode(x, y);
+
+        if (cell != null) {
+            if (!cell.getStyleClass().contains("valid-move-cell")) {
+                cell.getStyleClass().add("valid-move-cell");
+                highlightedCells.add(cell);
+            }
+
+            Label scoreLabel = new Label("+" + score);
+            scoreLabel.getStyleClass().add("score-hint");
+            scoreLabel.setMouseTransparent(true);
+
+            GridPane.setColumnIndex(scoreLabel, x);
+            GridPane.setRowIndex(scoreLabel, y);
+            GridPane.setHalignment(scoreLabel, HPos.CENTER);
+            GridPane.setValignment(scoreLabel, VPos.CENTER);
+
+            boardGrid.getChildren().add(scoreLabel);
+            scoreHintNodes.add(scoreLabel);
         }
     }
 
@@ -80,19 +121,35 @@ public class BoardView {
         for (Node cell : highlightedCells) {
             cell.getStyleClass().remove("valid-move-cell");
         }
+        boardGrid.getChildren().removeAll(scoreHintNodes);
 
+        scoreHintNodes.clear();
         highlightedCells.clear();
     }
 
     /**
-     * Highlight the given cell position.
-     * @param positions The cell to highlight position
+     * Highlights the given valid board positions without score preview.
+     *
+     * @param positions The positions to highlight.
      */
     public void highlightCells(List<BoardPosition> positions) {
         clearHighlights();
 
         for (BoardPosition position : positions) {
             highlightCell(position.x(), position.y());
+        }
+    }
+
+    /**
+     * Highlights the given valid board positions and displays the score preview for each one.
+     *
+     * @param moveHints The valid move hints to display.
+     */
+    public void highlightCellsWithScores(List<BoardMoveHint> moveHints) {
+        clearHighlights();
+
+        for (BoardMoveHint moveHint : moveHints) {
+            highlightCell(moveHint.x(), moveHint.y(), moveHint.score());
         }
     }
 
@@ -150,7 +207,7 @@ public class BoardView {
                 nodeY = row;
             }
 
-            if (nodeX == x && nodeY == y) {
+            if (node instanceof ImageView && nodeX == x && nodeY == y) {
                 return node;
             }
         }

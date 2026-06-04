@@ -94,4 +94,5 @@ default.clientName=Klient Hráč
 
 menu.start.quit=Ukončiť
 menu.username.back=Späť
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Späť
