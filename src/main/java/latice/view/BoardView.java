@@ -10,12 +10,14 @@ import latice.model.board.cell.SunCell;
 import latice.model.tile.Tile;
 import latice.utils.theme.ThemeManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class BoardView {
     private static final int BOARD_CENTER_INDEX = 4;
 
+    private final List<Node> highlightedCells = new ArrayList<>();
     private final GridPane boardGrid;
 
     /**
@@ -61,16 +63,36 @@ public class BoardView {
         }
     }
 
+    private void highlightCell(int x, int y) {
+        Node cell = getCellNode(x, y);
+
+        if (cell == null) {
+            return;
+        }
+
+        if (!cell.getStyleClass().contains("valid-move-cell")) {
+            cell.getStyleClass().add("valid-move-cell");
+            highlightedCells.add(cell);
+        }
+    }
+
+    public void clearHighlights() {
+        for (Node cell : highlightedCells) {
+            cell.getStyleClass().remove("valid-move-cell");
+        }
+
+        highlightedCells.clear();
+    }
 
     /**
      * Highlight the given cell position.
      * @param positions The cell to highlight position
      */
     public void highlightCells(List<BoardPosition> positions) {
-        // TODO: clearHighlights()
+        clearHighlights();
 
         for (BoardPosition position : positions) {
-            // TODO: highlightCell(position.x(), position.y())
+            highlightCell(position.x(), position.y());
         }
     }
 
@@ -106,6 +128,34 @@ public class BoardView {
         }
 
         return backgroundFile;
+    }
+
+    /**
+     * Get the Node of a give position
+     * @param x position of the node
+     * @param y position of the node
+     * @return the wanted node
+     */
+    private Node getCellNode(int x, int y) {
+        for (Node node : boardGrid.getChildren()) {
+            Integer column = GridPane.getColumnIndex(node);
+            Integer row = GridPane.getRowIndex(node);
+
+            int nodeX = 0;
+            int nodeY = 0;
+            if (column != null) {
+                nodeX = column;
+            }
+            if (row != null) {
+                nodeY = row;
+            }
+
+            if (nodeX == x && nodeY == y) {
+                return node;
+            }
+        }
+
+        return null;
     }
 
     /**

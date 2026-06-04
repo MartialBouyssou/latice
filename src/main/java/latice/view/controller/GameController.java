@@ -942,6 +942,7 @@ public class GameController implements GameView, PacketSender {
             if (event.getGestureSource() != board && event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
+            boardView.clearHighlights();
             event.consume();
         });
 
