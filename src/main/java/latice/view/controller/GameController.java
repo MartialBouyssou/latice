@@ -1,6 +1,5 @@
 package latice.view.controller;
 
-import javafx.application.Platform;
 import javafx.animation.PauseTransition;
 import javafx.event.Event;
 import javafx.util.Duration;
@@ -31,6 +30,7 @@ import latice.utils.LangManager;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
 
 public class GameController {
 
@@ -68,12 +68,14 @@ public class GameController {
     private Game game;
     private List<ImageView> rackImageViews;
     private boolean hasAlreadyPlaced = false;
+    private boolean aiActionBoughtThisTurn = false;
     private Map<String, String> availableLanguages;
     private Player aiControlledPlayer;
     private AIPlayer aiPlayer;
 
     /**
-     * Initializes the JavaFX controller, setting up views, languages, and drag-and-drop events.
+     * Méthode d'initialisation appelée automatiquement par JavaFX lors du chargement du FXML.
+     * Prépare les textes, les langues et les événements de glisser-déposer (drag-and-drop).
      */
     @FXML
     public void initialize() {
@@ -89,7 +91,7 @@ public class GameController {
     }
 
     /**
-     * Loads available languages from the LangManager and populates the selection ComboBox.
+     * Charge les langues disponibles depuis le gestionnaire et initialise la liste déroulante (ComboBox).
      */
     private void loadLanguageSelector() {
         availableLanguages = LangManager.getInstance().loadAvailableLanguages();
@@ -102,7 +104,8 @@ public class GameController {
     }
 
     /**
-     * Handles the event triggered when the user selects a new language in the ComboBox.
+     * Appelée lorsque l'utilisateur sélectionne une nouvelle langue dans la liste déroulante.
+     * Met à jour toute l'interface avec la nouvelle langue choisie.
      */
     public void onLanguageChanged() {
         String selectedLabel = languageComboBox.getValue();
@@ -117,7 +120,7 @@ public class GameController {
     }
 
     /**
-     * Reloads and applies internationalization texts across all main UI components.
+     * Parcours l'interface pour appliquer les textes traduits sur tous les nœuds marqués.
      */
     public void loadTexts() {
         applyTextsRecursively(startMenuStackpane);
@@ -126,8 +129,8 @@ public class GameController {
     }
 
     /**
-     * Recursively traverses a JavaFX Parent node to find and translate Labeled components.
-     * @param parent The root JavaFX node to start the recursive search from.
+     * Applique récursivement les traductions sur un composant parent et ses enfants.
+     * * @param parent Le nœud parent à parcourir.
      */
     private void applyTextsRecursively(Parent parent) {
         for (Node node : parent.getChildrenUnmodifiable()) {
@@ -146,7 +149,7 @@ public class GameController {
     }
 
     /**
-     * Displays the game mode selection menu (local, LAN, vs AI).
+     * Affiche le menu de sélection du mode de jeu (Local, IA, etc.) et masque les autres menus.
      */
     public void showModeMenu() {
         playMenuVBox.setVisible(false);
@@ -156,7 +159,7 @@ public class GameController {
     }
 
     /**
-     * Displays the menu for choosing player usernames and hides other menus.
+     * Affiche le menu de choix de pseudo pour le mode multijoueur local.
      */
     public void showUsernameChoiceMenu() {
         modeMenuVBox.setVisible(false);
@@ -166,7 +169,7 @@ public class GameController {
     }
 
     /**
-     * Displays the username menu for player-vs-AI mode.
+     * Affiche le menu de choix de pseudo pour le mode Joueur contre IA.
      */
     public void showUsernameVsAIMenu() {
         modeMenuVBox.setVisible(false);
@@ -176,7 +179,7 @@ public class GameController {
     }
 
     /**
-     * Displays the main play menu and hides the rules, theme and other menus.
+     * Affiche le menu de démarrage principal du jeu.
      */
     public void showPlayMenu() {
         themeMenuVBox.setVisible(false);
@@ -192,7 +195,7 @@ public class GameController {
     }
 
     /**
-     * Displays the rules menu and hides the main play menu.
+     * Affiche le panneau des règles du jeu.
      */
     public void showRules() {
         playMenuVBox.setVisible(false);
@@ -202,22 +205,22 @@ public class GameController {
     }
 
     /**
-     * Toggles the interactive state of the action button.
+     * Active ou désactive le bouton d'achat d'action (inverse son état actuel).
      */
     public void toggleActionButton() {
         actionButton.setDisable(!actionButton.isDisable());
     }
 
     /**
-     * Sets the active state of the action button explicitly.
-     * @param activate A boolean indicating if the button should be disabled (true) or enabled (false).
+     * Définit explicitement l'état activé/désactivé du bouton d'achat d'action.
+     * * @param activate {@code true} pour désactiver le bouton, {@code false} pour l'activer.
      */
     public void toggleActionButton(boolean activate) {
         actionButton.setDisable(activate);
     }
 
     /**
-     * Hides the starting menus, initializes the game components, and brings up the game board.
+     * Démarre une partie locale en mode Humain contre Humain.
      */
     public void startGame() {
         playMenuVBox.setVisible(true);
@@ -236,7 +239,7 @@ public class GameController {
     }
 
     /**
-     * Hides the starting menus, initializes a player-vs-AI game, and brings up the game board.
+     * Démarre une partie en mode Humain contre Intelligence Artificielle.
      */
     public void startGameVsAI() {
         playMenuVBox.setVisible(true);
@@ -275,7 +278,8 @@ public class GameController {
     }
 
     /**
-     * Executes the AI's turn, including the capability to buy additional actions if the AI gains enough points.
+     * Gère et exécute de manière synchrone les décisions et actions du joueur IA.
+     * L'IA détermine si elle achète une action supplémentaire et place ses tuiles.
      */
     public void playAITurn() {
         if (aiControlledPlayer == null || aiPlayer == null) {
@@ -285,16 +289,15 @@ public class GameController {
         int turnsRemaining = Game.MAX_CYCLES - (game.getTurnCount() / game.getPlayers().size());
 
         if (hasAlreadyPlaced) {
-            if (aiControlledPlayer.canAfford(Referee.EXTRA_ACTION_COST) && !aiControlledPlayer.getRack().isEmpty()) {
-                AIMove extraMove = aiPlayer.findBestMove(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore() - Referee.EXTRA_ACTION_COST, turnsRemaining);
-                if (extraMove != null) {
-                    game.buyAnAction();
-                    game.playTile(extraMove.getTile(), extraMove.getX(), extraMove.getY());
-                    return;
-                }
-            }
             game.endTurn();
             return;
+        }
+
+        if (!aiActionBoughtThisTurn && aiControlledPlayer.canAfford(Referee.EXTRA_ACTION_COST) && aiControlledPlayer.getRack().getTiles().size() >= 2) {
+            if (aiPlayer.isDoublePlayWorthIt(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore(), turnsRemaining)) {
+                aiActionBoughtThisTurn = true;
+                game.buyAnAction();
+            }
         }
 
         AIMove move = aiPlayer.findBestMove(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore(), turnsRemaining);
@@ -310,7 +313,7 @@ public class GameController {
     }
 
     /**
-     * Triggers the AI turn if the current player is the AI-controlled player.
+     * Vérifie si le joueur courant est l'IA, et si oui, déclenche sa réflexion.
      */
     public void triggerAITurnIfNeeded() {
         if (aiControlledPlayer != null
@@ -323,8 +326,8 @@ public class GameController {
     }
 
     /**
-     * Constructs the Game object for a local two-player game, injecting rules and player names.
-     * @return The newly instantiated Game object.
+     * Construit et retourne une nouvelle instance de jeu configurée pour le mode local.
+     * * @return La partie initialisée avec les règles et les noms des joueurs.
      */
     private Game buildGame() {
         List<IRule> rules = List.of(
@@ -342,10 +345,10 @@ public class GameController {
     }
 
     /**
-     * Validates and returns a player's name, falling back to a default if empty.
-     * @param input The user input to validate.
-     * @param defaultName The default name to apply if the input is empty.
-     * @return A valid player name.
+     * Récupère le nom saisi ou attribue un nom par défaut si le champ est vide.
+     * * @param input Le nom entré par l'utilisateur.
+     * @param defaultName Le nom par défaut à utiliser en cas de champ vide.
+     * @return Le pseudo validé.
      */
     private String getPlayerName(String input, String defaultName) {
         if (input == null || input.isBlank()) {
@@ -355,10 +358,11 @@ public class GameController {
     }
 
     /**
-     * Displays the transition overlay between player turns with score summaries.
-     * @param nextPlayer The player who will play next.
-     * @param lastPlayer The player whose turn just ended.
-     * @param lastTurnScore The score acquired during the last turn.
+     * Affiche l'écran de transition entre deux tours (overlay) masquant le chevalet de l'adversaire.
+     * Gère automatiquement la transition si c'est au tour de l'IA de jouer.
+     * * @param nextPlayer Le joueur qui doit jouer le tour suivant.
+     * @param lastPlayer Le joueur qui vient de terminer son tour.
+     * @param lastTurnScore Le score remporté lors du tour précédent.
      */
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         LangManager lang = LangManager.getInstance();
@@ -392,7 +396,7 @@ public class GameController {
     }
 
     /**
-     * Hides the transition overlay and re-enables the end turn button.
+     * Cache l'écran de transition et donne la main au joueur actif ou à l'IA.
      */
     public void hideOverlay() {
         screenOverlay.setVisible(false);
@@ -402,8 +406,8 @@ public class GameController {
     }
 
     /**
-     * Updates the UI images representing the current player's rack of tiles.
-     * @param player The player whose rack is being updated.
+     * Met à jour l'affichage graphique des tuiles présentes sur le chevalet du joueur.
+     * * @param player Le joueur dont le chevalet doit être dessiné.
      */
     public void updateRack(Player player) {
         List<Tile> tiles = player.getRack().getTiles();
@@ -421,8 +425,8 @@ public class GameController {
     }
 
     /**
-     * Refreshes the score, name, and remaining tile count displayed for the current player.
-     * @param player The current player.
+     * Rafraîchit les étiquettes de score, de nom et de tuiles restantes pour le joueur actif.
+     * * @param player Le joueur dont les informations doivent être affichées.
      */
     public void updatePlayerInfo(Player player) {
         int remainingTiles = player.getDeck().size() + player.getRack().getTiles().size();
@@ -440,8 +444,8 @@ public class GameController {
     }
 
     /**
-     * Displays an error alert popup to the user detailing why their move was invalid.
-     * @param reason The specific rule violation or error message.
+     * Affiche une pop-up d'erreur informant l'utilisateur que son coup n'est pas permis.
+     * * @param reason La raison précise du refus (ex: "Pas assez de points", "Coup illégal").
      */
     public void showInvalidMove(String reason) {
         LangManager lang = LangManager.getInstance();
@@ -453,8 +457,8 @@ public class GameController {
     }
 
     /**
-     * Displays the end-of-game alert showing the winner and their score, or a tie message.
-     * @param player The winning player, or null if the game resulted in a tie.
+     * Affiche l'écran de fin de partie avec le score du vainqueur.
+     * * @param player Le gagnant de la partie, ou {@code null} en cas d'égalité.
      */
     public void showGameOver(Player player) {
         hideOverlay();
@@ -478,11 +482,11 @@ public class GameController {
     }
 
     /**
-     * Visually places a tile onto the board grid and updates the player's rack view.
-     * @param tile The tile object being placed.
-     * @param targetX The X coordinate on the grid.
-     * @param targetY The Y coordinate on the grid.
-     * @param player The player performing the placement.
+     * Insère visuellement l'image d'une tuile posée sur la case correspondante du plateau de jeu.
+     * * @param tile La tuile à afficher.
+     * @param targetX La coordonnée X sur la grille.
+     * @param targetY La coordonnée Y sur la grille.
+     * @param player Le joueur qui a placé la tuile.
      */
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
         try {
@@ -505,8 +509,8 @@ public class GameController {
     }
 
     /**
-     * Configures a JavaFX ImageView to support drag operations using its image URL.
-     * @param tileView The ImageView representing the draggable tile.
+     * Configure une image de tuile du chevalet pour la rendre déplaçable avec la souris.
+     * * @param tileView Le composant ImageView de la tuile.
      */
     private void setupDraggable(ImageView tileView) {
         tileView.setOnDragDetected(event -> {
@@ -522,7 +526,7 @@ public class GameController {
     }
 
     /**
-     * Configures the main board grid to accept drag-and-drop actions and trigger game logic.
+     * Configure la grille du plateau pour qu'elle accepte le relâchement d'une tuile (drop).
      */
     private void setupBoardDropTarget() {
         board.setOnDragOver(event -> {
@@ -556,21 +560,21 @@ public class GameController {
     }
 
     /**
-     * Triggers the logic to exchange all tiles in the current player's rack.
+     * Déclenche la procédure d'échange de tuiles via le clic sur le bouton correspondant.
      */
     public void buttonExchangeAll() {
         game.exchangeAll();
     }
 
     /**
-     * Triggers the logic to buy an extra action using sun points.
+     * Déclenche l'achat d'une action supplémentaire via le clic sur le bouton correspondant.
      */
     public void buttonBuyAnAction() {
         game.buyAnAction();
     }
 
     /**
-     * Passes the current player's turn to the next player, or ends the turn if an action was played.
+     * Déclenche la fin ou le passage de tour via le clic sur le bouton "Fin du tour".
      */
     public void buttonEndTurn() {
         if (hasAlreadyPlaced) {
@@ -581,16 +585,16 @@ public class GameController {
     }
 
     /**
-     * Resolves the corresponding Tile model object from the provided image file path.
-     * @param fullUrl The absolute file path of the image being parsed.
-     * @return The corresponding Tile instance.
+     * Convertit le chemin de l'image de la tuile en son équivalent objet {@link Tile}.
+     * * @param fullUrl L'URL complète de l'image.
+     * @return L'objet Tile associé.
      */
     private Tile extractTileFromUrl(String fullUrl) {
         return TileFactory.getTileFromImagePath(fullUrl);
     }
 
     /**
-     * Terminates the active game session and returns the user to the starting menus.
+     * Quitte la partie en cours, réinitialise l'état et renvoie au menu principal.
      */
     public void endGame() {
         playMenuVBox.setVisible(true);
@@ -609,7 +613,7 @@ public class GameController {
     }
 
     /**
-     * Resets the graphical state of the board to its empty, initial configuration.
+     * Réinitialise les images du plateau pour correspondre à un plateau vide en fonction du thème.
      */
     public void resetBoard() {
         for (Node node : board.getChildren()) {
@@ -637,18 +641,19 @@ public class GameController {
             }
         }
         hasAlreadyPlaced = false;
+        aiActionBoughtThisTurn = false;
     }
 
     /**
-     * Gets the active Game instance managed by this controller.
-     * @return The active Game object.
+     * Retourne l'instance du jeu actuellement active.
+     * * @return L'instance {@link Game}.
      */
     public Game getGame() {
         return game;
     }
 
     /**
-     * Displays the menu allowing the user to select the visual theme of the game.
+     * Affiche le menu de choix du thème visuel du jeu.
      */
     public void showThemeMenu() {
         playMenuVBox.setVisible(false);
@@ -658,7 +663,7 @@ public class GameController {
     }
 
     /**
-     * Applies the default Latice visual theme and returns to the play menu.
+     * Applique le thème "Classique" et retourne à l'écran de sélection.
      */
     public void applyThemeDefault() {
         ThemeManager.getInstance().setCurrentTheme(Theme.DEFAULT);
@@ -666,7 +671,7 @@ public class GameController {
     }
 
     /**
-     * Applies the Animal Crossing visual theme and returns to the play menu.
+     * Applique le thème "Animal Crossing" et retourne à l'écran de sélection.
      */
     public void applyThemeAnimalCrossing() {
         ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
@@ -674,7 +679,7 @@ public class GameController {
     }
 
     /**
-     * Applies the Legend of Zelda visual theme and returns to the play menu.
+     * Applique le thème "Zelda" et retourne à l'écran de sélection.
      */
     public void applyThemeZelda() {
         ThemeManager.getInstance().setCurrentTheme(Theme.ZELDA);
@@ -682,17 +687,25 @@ public class GameController {
     }
 
     /**
-     * Executes the surrender logic for the currently active player.
+     * Déclenche l'abandon de la partie pour le joueur actif.
      */
     public void buttonSurrender() {
         game.surrender();
     }
 
     /**
-     * Updates the status of whether a tile has already been placed in the current turn.
-     * @param value Boolean true if a tile has been placed, false otherwise.
+     * Met à jour le flag indiquant si le joueur actif a posé sa tuile principale ce tour-ci.
+     * * @param value {@code true} si une tuile a été posée, {@code false} sinon.
      */
     public void setHasAlreadyPlaced(boolean value) {
         hasAlreadyPlaced = value;
+    }
+
+    /**
+     * Met à jour le flag indiquant si l'IA a déjà acheté une action pendant ce tour.
+     * * @param value {@code true} si l'action a été achetée, {@code false} sinon.
+     */
+    public void setAiActionBoughtThisTurn(boolean value) {
+        this.aiActionBoughtThisTurn = value;
     }
 }
