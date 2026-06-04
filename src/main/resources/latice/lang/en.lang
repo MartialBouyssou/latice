@@ -1,3 +1,8 @@
+# / ! \ Warning / ! \
+# >  This translation was created with AI  <
+# >  If you want to submit a hand-made version, you can create a pull request ;)  <
+# / ! \ Warning / ! \
+
 # App window
 app.title=Latice
 
@@ -5,8 +10,13 @@ app.title=Latice
 # # Start menu
 menu.start.title=Latice
 menu.start.play=Play
+menu.start.lan=Play in Lan
 menu.start.rules=Rules
 menu.start.theme=Theme
+menu.start.quit=Quit
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (coming soon)
+menu.start.modeVsAI=Vs AI
 
 # # Rules menu
 menu.rules.title=Rules
@@ -30,6 +40,30 @@ menu.username.title=Latice
 menu.username.firstUsernameChoiceLabel=Choose your username:
 menu.username.secondUsernameChoiceLabel=You also choose a username:
 menu.username.play=Play
+menu.username.back=Back
+menu.username.beginnerHint=Beginners help
+menu.username.aiPlayerName=Computer
+
+# # Lan Menu
+menu.lan.title=Latice Lan
+menu.lan.host=Host Game
+menu.lan.search=Search Host
+menu.lan.backButton=Back
+
+# # Lan Search Menu
+menu.lanSearch.title=Searching Host
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Back
+
+# # Lan Lobby Menu
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=First Player: {host}
+menu.lanLobby.clientNotHere=Waiting for a second player...
+menu.lanLobby.clientUsernameNotReady=[Not Ready] Second Player: {client}
+menu.lanLobby.clientUsernameReady=[Ready] Second Player: {client}
+menu.lanLobby.ready=Ready
+menu.lanLobby.play=Play
+menu.lanLobby.back=Back
 
 # # Theme Menu
 menu.theme.title=Choose a theme
@@ -52,6 +86,9 @@ menu.turnIndicator.currentPlayer=It's {name}'s turn!
 menu.turnIndicator.lastPlayerScoreHeader={name}'s last turn score :
 menu.turnIndicator.readyButton=I'm ready!
 
+# # Lan Overlay
+menu.lanOverlay.turnOf=Turn of {currentPlayer}
+
 # Popups:
 # # Game over popup
 popup.game.over.title=Game ended
@@ -65,6 +102,12 @@ popup.game.invalid.title=Invalid move
 popup.game.invalid.header=You can't do that..
 popup.game.invalid.reason=You already placed a tile this turn ! Buy an action or end your turn !
 
+# # Lan Search
+popup.lanUsername.title=Lan Username
+popup.lanUsername.header=Choose your username
+popup.lanUsername.context=Username:
+popup.lanSearch.noHost=There is no host...
+
 # Events messages:
 # # Invalid Move Event
 event.invalidMove.tileError=Player don't have this tile in his rack
@@ -72,38 +115,8 @@ event.invalidMove.moveError=Move is not valid according to game rules
 
 # # Connot Afford Event
 event.invalidMove.cannotAfford=Not enough point to buy extra action
-# # Mode selection menu
-menu.start.modeLocal=Local
-menu.start.modeLan=LAN (coming soon)
-menu.start.modeVsAI=Vs AI
 
-# # AI player name
-menu.username.aiPlayerName=Computer
-
-# # LAN / defaults (depuis lang1)
-menu.start.lan=Play in Lan
-menu.start.quit=Quit
-menu.username.back=Back
-menu.lan.title=Latice Lan
-menu.lan.host=Host Game
-menu.lan.search=Search Host
-menu.lan.backButton=Back
-menu.lanSearch.title=Searching Host
-menu.lanSearch.host=Host: {host}
-menu.lanSearch.backButton=Back
-menu.lanLobby.title=Lobby
-menu.lanLobby.hostUsername=First Player: {host}
-menu.lanLobby.clientNotHere=Waiting for a second player...
-menu.lanLobby.clientUsernameNotReady=[Not Ready] Second Player: {client}
-menu.lanLobby.clientUsernameReady=[Ready] Second Player: {client}
-menu.lanLobby.ready=Ready
-menu.lanLobby.play=Play
-menu.lanLobby.back=Back
-menu.lanOverlay.turnOf=Turn of {currentPlayer}
-popup.lanUsername.title=Lan Username
-popup.lanUsername.header=Choose your username
-popup.lanUsername.context=Username:
-popup.lanSearch.noHost=There is no host...
+# Default
 default.hostName=Host Player
 default.clientName=Client Player
 default.secondPlayerName=Player 2

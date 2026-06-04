@@ -1,67 +1,46 @@
+# / ! \ Упозорење / ! \
+# >  Овај превод је направљен са AI  <
+# >  Ако желите да пошаљете ручно направљену верзију, можете да направите захтев за повлачење ;)  <
+# / ! \ Упозорење / ! \
+
 app.title=Latice
+
 menu.start.title=Latice
 menu.start.play=Igraj
+menu.start.lan=Igraj na LAN-u
 menu.start.rules=Pravila
 menu.start.theme=Tema
-menu.rules.title=Pravila
-menu.rules.firstCategory=Postavka
-menu.rules.firstCategory.description=Uzmite 5 pločica. Počnite u centru.
-menu.rules.secondCategory=Vaš potez
-menu.rules.secondCategory.description=Prvi potez besplatan. Sledeći 2 poena.
-menu.rules.secondCategory.list=4 akcije
-menu.rules.secondCategory.list.first=1. Postavi pločicu
-menu.rules.secondCategory.list.second=2. Kupi akciju
-menu.rules.secondCategory.list.third=3. Zameni
-menu.rules.secondCategory.list.fourth=4. Preskoči
-menu.rules.thirdCategory=Bodovi
-menu.rules.thirdCategory.description=Duplo=+1, Trostruko=+2, Četvorostruko=+4, Sunce=+2
-menu.rules.fourthCategory=Kraj
-menu.rules.fourthCategory.description=Kraj kada nestane pločica.
-menu.rules.back=Nazad
-menu.theme.title=Tema
-menu.theme.classicTheme=Klasična
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Nazad
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Ime 1:
-menu.username.secondUsernameChoiceLabel=Ime 2:
-menu.username.play=Igraj
-menu.game.actionButton=Kupi akciju
-menu.game.exchangeButton=Zameni
-menu.game.endTurnButton=Kraj poteza
-menu.game.player.currentPlayer=Na redu je {name}:
-menu.game.player.score=Bodovi: {score}
-menu.game.player.remaining=Preostalo: {count}
-menu.turnIndicator.turnIndicatorTitle=Potez {turnNumber}
-menu.turnIndicator.currentPlayer=Na redu je {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Bodovi od {name}:
-menu.turnIndicator.readyButton=Spreman!
-popup.game.over.title=Kraj
-popup.game.over.winner.header=Pobednik: {name}
-popup.game.over.winner.content=Pobedio sa {score} poena!
-popup.game.over.tie.header=Nerešeno!
-popup.game.over.tie.content=Nerešeno!
-popup.game.invalid.title=Greška
-popup.game.invalid.header=Nevažeće
-popup.game.invalid.reason=Greška
-event.invalidMove.tileError=Greška pločice
-event.invalidMove.moveError=Pogrešan potez
-event.invalidMove.cannotAfford=Nedovoljno bodova
-menu.start.modeLocal=Lokalno
-menu.start.modeLan=LAN
-menu.start.modeVsAI=Protiv AI
-menu.username.aiPlayerName=Računar
 
-# # LAN / defaults (depuis lang1)
-menu.start.lan=Igraj na LAN-u
+menu.rules.title=Pravila
+menu.rules.firstCategory=Priprema
+menu.rules.firstCategory.description=Pločice se mešaju i ravnomerno dele između 2 igrača. Svaki igrač izvlači 5 pločica na svoj stalak. Prvi igrač postavlja pločicu na polje mesec (centar) da počne.
+menu.rules.secondCategory=U tvom potezu
+menu.rules.secondCategory.description=Prva akcija je BESPLATNA. Svaka dodatna akcija košta 2 poena. Izaberi jednu od 4 akcije ispod.
+menu.rules.secondCategory.list=4 moguće akcije
+menu.rules.secondCategory.list.first=1. Odigraj pločicu — Postavi pločicu sa svog stalka pored postojeće pločice. Svaka dodirujuća strana mora odgovarati bojom ili oblikom.
+menu.rules.secondCategory.list.second=2. Kupi akciju — Potroši 2 poena da odigraš dodatni potez.
+menu.rules.secondCategory.list.third=3. Zameni stalak — Zameni sve pločice na svom stalku novima iz špila. Završava tvoj potez.
+menu.rules.secondCategory.list.fourth=4. Prođi — Preskoči svoj potez besplatno.
+menu.rules.thirdCategory=Bodovanje
+menu.rules.thirdCategory.description=Duplo (2 poklapajuće strane) => +1 p  |  Detelina (3 strane) => +2 p  |  Latice (4 strane) => +4 p  |  Sunčano polje => +2 p bonus
+menu.rules.fourthCategory=Kraj igre
+menu.rules.fourthCategory.description=Igra se završava kada igrač isprazni svoj stalak i špil, ili nakon 10 ciklusa (1 ciklus = 1 potez po igraču). Pobednik je igrač koji je postavio najviše pločica.
+menu.rules.back=Nazad
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Izaberi korisničko ime:
+menu.username.secondUsernameChoiceLabel=Možeš takođe izabrati korisničko ime:
+menu.username.play=Igraj
+
 menu.lan.title=Latice LAN
 menu.lan.host=Hostuj igru
 menu.lan.search=Traži host
 menu.lan.backButton=Nazad
+
 menu.lanSearch.title=Traženje hosta
 menu.lanSearch.host=Host: {host}
 menu.lanSearch.backButton=Nazad
+
 menu.lanLobby.title=Lobi
 menu.lanLobby.hostUsername=Prvi igrač: {host}
 menu.lanLobby.clientNotHere=Čeka se drugi igrač...
@@ -69,15 +48,57 @@ menu.lanLobby.clientUsernameNotReady=[Nije spreman] Drugi igrač: {client}
 menu.lanLobby.clientUsernameReady=[Spreman] Drugi igrač: {client}
 menu.lanLobby.ready=Spreman
 menu.lanLobby.play=Igraj
+
+menu.theme.title=Izaberi temu
+menu.theme.classicTheme=Klasično
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Nazad
+
+menu.game.actionButton=Kupi akciju
+menu.game.exchangeButton=Zameni stalak
+menu.game.endTurnButton=Završi potez
+menu.game.player.currentPlayer=Na potezu: {name}
+menu.game.player.score=Rezultat: {score}
+menu.game.player.remaining=Preostale pločice: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Potez {turnNumber}
+menu.turnIndicator.currentPlayer=Na potezu je {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Rezultat poslednjeg poteza {name} :
+menu.turnIndicator.readyButton=Spreman sam!
+
 menu.lanOverlay.turnOf=Potez {currentPlayer}
+
+popup.game.over.title=Igra završena
+popup.game.over.winner.header=Pobednik: {name}
+popup.game.over.winner.content={name} je pobedio sa {score} poena!
+popup.game.over.tie.header=Izjednačeno!
+popup.game.over.tie.content=Izjednačeno! Oба играча су поставили исти број плочица!
+
+popup.game.invalid.title=Nevažeći potez
+popup.game.invalid.header=Ne можеš то да урадиш..
+popup.game.invalid.reason=Već si postavio pločicu u ovom potezu! Kupi akciju ili završi svoj potez!
+
 popup.lanUsername.title=LAN Korisničko ime
 popup.lanUsername.header=Izaberi korisničko ime
 popup.lanUsername.context=Korisnik:
 popup.lanSearch.noHost=Нема хоста...
+
+event.invalidMove.tileError=Igrač nema ovu pločicu na svom stalku
+event.invalidMove.moveError=Potez nije važeći prema pravilima igre
+
+event.invalidMove.cannotAfford=Nemate dovoljno poena da kupite dodatnu akciju
+
 default.hostName=Host Igrač
 default.clientName=Klijent Igrač
 default.secondPlayerName=Играч 2
 default.firstPlayerName=Играч 1
+
 menu.start.quit=Изађи
+menu.start.modeLocal=Lokalno
+menu.start.modeLan=LAN (uskoro)
+menu.start.modeVsAI=Protiv VI
 menu.username.back=Назад
+menu.username.beginnerHint=Pomoć za početnike
+menu.username.aiPlayerName=Računar
 menu.lanLobby.back=Назад

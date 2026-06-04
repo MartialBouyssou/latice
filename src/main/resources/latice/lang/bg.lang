@@ -1,67 +1,46 @@
+# / ! \ Предупреждение / ! \
+# >  Този превод е създаден с AI  <
+# >  Ако желаете да изпратите ръчно направена версия, можете да направите pull request ;)  <
+# / ! \ Предупреждение / ! \
+
 app.title=Latice
+
 menu.start.title=Latice
 menu.start.play=Играй
+menu.start.lan=Игра в LAN
 menu.start.rules=Правила
 menu.start.theme=Тема
+
 menu.rules.title=Правила
 menu.rules.firstCategory=Настройка
-menu.rules.firstCategory.description=Вземете 5 плочки. Започнете от центъра.
-menu.rules.secondCategory=Твой ред
-menu.rules.secondCategory.description=Първото действие е БЕЗПЛАТНО. Следващото е 2 точки.
-menu.rules.secondCategory.list=4 действия
-menu.rules.secondCategory.list.first=1. Постави плочка
-menu.rules.secondCategory.list.second=2. Купи действие
-menu.rules.secondCategory.list.third=3. Смени плочките
-menu.rules.secondCategory.list.fourth=4. Пасувай
+menu.rules.firstCategory.description=Плочките се смесват и се разделят равномерно между 2 играчи. Всеки играч тегли 5 плочки на своята стойка. Първият играч поставя плочка върху квадрат Луна (център), за да започне.
+menu.rules.secondCategory=В твоя ход
+menu.rules.secondCategory.description=Първото действие е БЕЗПЛАТНО. Всяко допълнително действие струва 2 точки. Избери едно от 4-те действия по-долу.
+menu.rules.secondCategory.list=4 възможни действия
+menu.rules.secondCategory.list.first=1. Играй плочка — Постави плочка от стойката си до съществуваща плочка. Всяка допираща се страна трябва да съвпада по цвят или форма.
+menu.rules.secondCategory.list.second=2. Купи действие — Изразходвай 2 точки за допълнителен ход.
+menu.rules.secondCategory.list.third=3. Смени стойката — Замени всички плочки на стойката си с нови от тестето. Край на твоя ход.
+menu.rules.secondCategory.list.fourth=4. Пропусни — Пропусни своя ход безплатно.
 menu.rules.thirdCategory=Точки
-menu.rules.thirdCategory.description=Двойно=+1, Тройно=+2, Четворно=+4, Слънце=+2
-menu.rules.fourthCategory=Край
-menu.rules.fourthCategory.description=Свършват плочките.
+menu.rules.thirdCategory.description=Двойно (2 съвпадащи страни) => +1 т  |  Трилистник (3 страни) => +2 т  |  Latice (4 страни) => +4 т  |  Слънчеви квадрат => +2 т бонус
+menu.rules.fourthCategory=Край на играта
+menu.rules.fourthCategory.description=Играта свършва когато играч изпразни своята стойка и тестето, или след 10 цикъла (1 цикъл = 1 ход на играч). Играчът който е поставил най‑много плочки печели.
 menu.rules.back=Назад
-menu.theme.title=Избери тема
-menu.theme.classicTheme=Класическа
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Зелда
-menu.theme.backButton=Назад
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Име 1:
-menu.username.secondUsernameChoiceLabel=Име 2:
-menu.username.play=Играй
-menu.game.actionButton=Действие
-menu.game.exchangeButton=Смени
-menu.game.endTurnButton=Край на хода
-menu.game.player.currentPlayer=Ред на {name}:
-menu.game.player.score=Точки: {score}
-menu.game.player.remaining=Оставащи: {count}
-menu.turnIndicator.turnIndicatorTitle=Ход {turnNumber}
-menu.turnIndicator.currentPlayer=Ред на {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Точки на {name}:
-menu.turnIndicator.readyButton=Готов!
-popup.game.over.title=Край
-popup.game.over.winner.header=Победител: {name}
-popup.game.over.winner.content=Спечели с {score}!
-popup.game.over.tie.header=Равенство!
-popup.game.over.tie.content=Равенство!
-popup.game.invalid.title=Грешка
-popup.game.invalid.header=Невалидно
-popup.game.invalid.reason=Невалиден ход
-event.invalidMove.tileError=Грешка с плочка
-event.invalidMove.moveError=Грешка
-event.invalidMove.cannotAfford=Няма точки
-menu.start.modeLocal=Локално
-menu.start.modeLan=LAN
-menu.start.modeVsAI=Срещу ИИ
-menu.username.aiPlayerName=Компютър
 
-# # LAN / defaults (depuis lang1)
-menu.start.lan=Игра в LAN
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Избери потребителско име:
+menu.username.secondUsernameChoiceLabel=Можеш също да избереш потребителско име:
+menu.username.play=Играй
+
 menu.lan.title=Latice LAN
 menu.lan.host=Хостни игра
 menu.lan.search=Търси хост
 menu.lan.backButton=Назад
+
 menu.lanSearch.title=Търсене на хост
 menu.lanSearch.host=Хост: {host}
 menu.lanSearch.backButton=Назад
+
 menu.lanLobby.title=Лоби
 menu.lanLobby.hostUsername=Първи играч: {host}
 menu.lanLobby.clientNotHere=Чакане на втори играч...
@@ -69,15 +48,57 @@ menu.lanLobby.clientUsernameNotReady=[Не е готов] Втори играч:
 menu.lanLobby.clientUsernameReady=[Готов] Втори играч: {client}
 menu.lanLobby.ready=Готов
 menu.lanLobby.play=Играй
+
+menu.theme.title=Избери тема
+menu.theme.classicTheme=Класически
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Назад
+
+menu.game.actionButton=Купи действие
+menu.game.exchangeButton=Смени стойка
+menu.game.endTurnButton=Край на ход
+menu.game.player.currentPlayer=Ход на {name}:
+menu.game.player.score=Точки: {score}
+menu.game.player.remaining=Останали плочки: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Ход {turnNumber}
+menu.turnIndicator.currentPlayer=Поред е {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Точки от последния ход на {name} :
+menu.turnIndicator.readyButton=Готов съм!
+
 menu.lanOverlay.turnOf=Ход на {currentPlayer}
+
+popup.game.over.title=Играта приключи
+popup.game.over.winner.header=Победител: {name}
+popup.game.over.winner.content={name} спечели с {score} точки!
+popup.game.over.tie.header=Равенство!
+popup.game.over.tie.content=Равенство! И двамата играчи поставиха еднакъв брой плочки!
+
+popup.game.invalid.title=Невалиден ход
+popup.game.invalid.header=Не можеш да направиш това..
+popup.game.invalid.reason=Вече постави плочка в този ход! Купи действие или приключи хода си!
+
 popup.lanUsername.title=LAN Потребителско име
 popup.lanUsername.header=Избери потребителско име
 popup.lanUsername.context=Потребител:
 popup.lanSearch.noHost=Няма хост...
+
+event.invalidMove.tileError=Играчът няма тази плочка на своята стойка
+event.invalidMove.moveError=Ходът не е валиден според правилата на играта
+
+event.invalidMove.cannotAfford=Нямаш достатъчно точки да купиш допълнително действие
+
 default.hostName=Host играч
 default.clientName=Клиент играч
 default.secondPlayerName=Играч 2
 default.firstPlayerName=Играч 1
+
 menu.start.quit=Изход
+menu.start.modeLocal=Локално
+menu.start.modeLan=LAN (очаквайте скоро)
+menu.start.modeVsAI=Срещу ИИ
 menu.username.back=Назад
+menu.username.beginnerHint=Помощ за начинаещи
+menu.username.aiPlayerName=Компютър
 menu.lanLobby.back=Назад

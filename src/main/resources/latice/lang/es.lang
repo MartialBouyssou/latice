@@ -3,98 +3,44 @@
 # >  Si deseas enviar una versión traducida a mano, puedes crear un pull request ;)  <
 # / ! \ Advertencia / ! \
 
-# Ventana de la aplicación
 app.title=Latice
 
-# Menús de la aplicación:
-# # Menú de inicio
 menu.start.title=Latice
 menu.start.play=Jugar
+menu.start.lan=Jugar en LAN
 menu.start.rules=Reglas
 menu.start.theme=Tema
 
-# # Menú de reglas
-menu.rules.title=Reglas del juego
+menu.rules.title=Reglas
 menu.rules.firstCategory=Preparación
-menu.rules.firstCategory.description=Las fichas se mezclan y se reparten equitativamente entre 2 jugadores. Cada jugador toma 5 fichas para su atril. El primer jugador coloca una ficha en la casilla luna (centro) para comenzar.
-menu.rules.secondCategory=Tu turno
-menu.rules.secondCategory.description=La primera acción es GRATUITA. Cada acción adicional cuesta 2 puntos. Elige una de las 4 acciones a continuación.
+menu.rules.firstCategory.description=Las fichas se barajan y se reparten por igual entre 2 jugadores. Cada jugador roba 5 fichas a su atril. El primer jugador coloca una ficha en la casilla luna (centro) para empezar.
+menu.rules.secondCategory=En tu turno
+menu.rules.secondCategory.description=La primera acción es GRATIS. Cada acción adicional cuesta 2 puntos. Elige una de las 4 acciones abajo.
 menu.rules.secondCategory.list=4 acciones posibles
-menu.rules.secondCategory.list.first=1. Colocar una ficha — Coloca una ficha de tu atril adyacente a una ficha existente. Cada lado en contacto debe coincidir en color o forma.
-menu.rules.secondCategory.list.second=2. Comprar una acción — Gasta 2 puntos para jugar un movimiento adicional.
-menu.rules.secondCategory.list.third=3. Cambiar el atril — Reemplaza todas las fichas de tu atril con nuevas de tu reserva. Termina tu turno.
-menu.rules.secondCategory.list.fourth=4. Pasar — Salta tu turno de forma gratuita.
+menu.rules.secondCategory.list.first=1. Jugar una ficha — Coloca una ficha de tu atril adyacente a una ficha existente. Cada lado en contacto debe coincidir por color o forma.
+menu.rules.secondCategory.list.second=2. Comprar una acción — Gasta 2 puntos para jugar una jugada extra.
+menu.rules.secondCategory.list.third=3. Cambiar atril — Sustituye todas las fichas de tu atril por otras nuevas del montón. Termina tu turno.
+menu.rules.secondCategory.list.fourth=4. Pasar — Salta tu turno gratis.
 menu.rules.thirdCategory=Puntuación
-menu.rules.thirdCategory.description=Doble (2 lados iguales) => +1 pt  |  Trébol (3 lados) => +2 pts  |  Latice (4 lados) => +4 pts  |  Casilla sol => +2 pts de bonificación
-menu.rules.fourthCategory=Fin de la partida
-menu.rules.fourthCategory.description=La partida termina cuando un jugador vacía su atril y su reserva, o tras 10 ciclos (1 ciclo = 1 turno por jugador). El jugador que haya colocado más fichas gana.
-menu.rules.back=Volver
+menu.rules.thirdCategory.description=Doble (2 lados coincidentes) => +1 pt  |  Trébol (3 lados) => +2 pts  |  Latice (4 lados) => +4 pts  |  Casilla Sol => +2 pts bono
+menu.rules.fourthCategory=Fin del juego
+menu.rules.fourthCategory.description=El juego termina cuando un jugador vacía su atril y el montón, o después de 10 ciclos (1 ciclo = 1 turno por jugador). El jugador que colocó más fichas gana.
+menu.rules.back=Atrás
 
-# # Menú de tema
-menu.theme.title=Elige un tema
-menu.theme.classicTheme=Clásico
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Volver
-
-# # Menú de elección de nombre de usuario
 menu.username.title=Latice
 menu.username.firstUsernameChoiceLabel=Elige tu nombre de usuario:
-menu.username.secondUsernameChoiceLabel=Elige también un nombre de usuario:
+menu.username.secondUsernameChoiceLabel=También puedes elegir un nombre de usuario:
 menu.username.play=Jugar
 
-# # Vista del juego
-menu.game.actionButton=Comprar una acción
-menu.game.exchangeButton=Cambiar el atril
-menu.game.endTurnButton=Fin del turno
-menu.game.player.currentPlayer=Turno de {name}:
-menu.game.player.score=Puntuación: {score}
-menu.game.player.remaining=Fichas restantes: {count}
-
-# # Menú indicador de turno (aparece al final de cada turno)
-menu.turnIndicator.turnIndicatorTitle=Turno {turnNumber}
-menu.turnIndicator.currentPlayer=¡Es el turno de {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Puntuación del último turno de {name}:
-menu.turnIndicator.readyButton=¡Estoy listo!
-
-# Popups:
-# # Popup de fin de partida
-popup.game.over.title=Partida terminada
-popup.game.over.winner.header=Ganador: {name}
-popup.game.over.winner.content=¡{name} ganó con una puntuación de {score} puntos!
-popup.game.over.tie.header=¡Empate!
-popup.game.over.tie.content=¡Empate! ¡Ambos jugadores colocaron el mismo número de fichas!
-
-# # Popup de movimiento inválido
-popup.game.invalid.title=Movimiento inválido
-popup.game.invalid.header=No puedes hacer eso..
-popup.game.invalid.reason=¡Ya colocaste una ficha en este turno! ¡Compra una acción o termina tu turno!
-
-# Mensajes de eventos:
-# # Movimiento inválido
-event.invalidMove.tileError=El jugador no tiene esta ficha en su atril
-event.invalidMove.moveError=El movimiento no es válido según las reglas del juego
-
-# # No se puede pagar
-event.invalidMove.cannotAfford=No tienes suficientes puntos para comprar una acción adicional
-
-# # Menú de selección de modo
-menu.start.modeLocal=Local
-menu.start.modeLan=LAN (próximamente)
-menu.start.modeVsAI=Vs IA
-
-# # Nombre de la IA
-menu.username.aiPlayerName=Ordenador
-
-# # LAN / defaults (depuis lang1)
-menu.start.lan=Jugar en LAN
 menu.lan.title=Latice LAN
 menu.lan.host=Hospedar partida
 menu.lan.search=Buscar anfitrión
 menu.lan.backButton=Atrás
+
 menu.lanSearch.title=Buscando anfitrión
 menu.lanSearch.host=Anfitrión: {host}
 menu.lanSearch.backButton=Atrás
+
 menu.lanLobby.title=Sala
 menu.lanLobby.hostUsername=Primer jugador: {host}
 menu.lanLobby.clientNotHere=Esperando un segundo jugador...
@@ -102,15 +48,57 @@ menu.lanLobby.clientUsernameNotReady=[No listo] Segundo jugador: {client}
 menu.lanLobby.clientUsernameReady=[Listo] Segundo jugador: {client}
 menu.lanLobby.ready=Listo
 menu.lanLobby.play=Jugar
+
+menu.theme.title=Elige un tema
+menu.theme.classicTheme=Clásico
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Atrás
+
+menu.game.actionButton=Comprar una acción
+menu.game.exchangeButton=Cambiar atril
+menu.game.endTurnButton=Finalizar turno
+menu.game.player.currentPlayer=Turno de {name}:
+menu.game.player.score=Puntuación: {score}
+menu.game.player.remaining=Fichas restantes: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Turno {turnNumber}
+menu.turnIndicator.currentPlayer=¡Es el turno de {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Puntuación del último turno de {name} :
+menu.turnIndicator.readyButton=¡Estoy listo!
+
 menu.lanOverlay.turnOf=Turno de {currentPlayer}
+
+popup.game.over.title=Juego terminado
+popup.game.over.winner.header=Ganador: {name}
+popup.game.over.winner.content={name} ganó con una puntuación de {score} puntos!
+popup.game.over.tie.header=¡Empate!
+popup.game.over.tie.content=¡Empate! Ambos jugadores han colocado la misma cantidad de fichas!
+
+popup.game.invalid.title=Movimiento inválido
+popup.game.invalid.header=No puedes hacer eso..
+popup.game.invalid.reason=Ya colocaste una ficha este turno! Compra una acción o termina tu turno!
+
 popup.lanUsername.title=Nombre LAN
 popup.lanUsername.header=Elige tu nombre de usuario
 popup.lanUsername.context=Usuario:
 popup.lanSearch.noHost=No hay anfitrión...
+
+event.invalidMove.tileError=El jugador no tiene esta ficha en su atril
+event.invalidMove.moveError=El movimiento no es válido según las reglas del juego
+
+event.invalidMove.cannotAfford=No tienes suficientes puntos para comprar una acción extra
+
 default.hostName=Jugador Host
 default.clientName=Jugador Cliente
 default.secondPlayerName=Jugador 2
 default.firstPlayerName=Jugador 1
+
 menu.start.quit=Salir
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (próximamente)
+menu.start.modeVsAI=Contra IA
 menu.username.back=Atrás
+menu.username.beginnerHint=Ayuda para principiantes
+menu.username.aiPlayerName=Computadora
 menu.lanLobby.back=Atrás

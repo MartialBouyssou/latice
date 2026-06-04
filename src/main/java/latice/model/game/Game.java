@@ -4,6 +4,7 @@ import latice.exception.model.GameNotStartException;
 import latice.exception.model.NoTilePlayedException;
 import latice.model.board.Board;
 import latice.model.board.BoardPosition;
+import latice.model.board.BoardMoveHint;
 import latice.model.deck.Deck;
 import latice.model.game.events.*;
 import latice.model.player.ActionType;
@@ -283,6 +284,16 @@ public class Game {
      */
     public List<BoardPosition> getValidPositionsFor(Tile tile) {
         return referee.getValidPositions(board, tile);
+    }
+
+    /**
+     * Determines the valid positions for a tile and the score preview for each position.
+     *
+     * @param tile The tile to place.
+     * @return The list of valid move hints for the given tile.
+     */
+    public List<BoardMoveHint> getValidMoveHintsFor(Tile tile) {
+        return referee.getValidMoveHints(board, tile);
     }
 
     /**

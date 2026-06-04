@@ -1,67 +1,46 @@
+# / ! \ Uyarı / ! \
+# >  Bu çeviri AI ile oluşturulmuştur  <
+# >  El yapımı bir sürüm göndermek istiyorsanız, bir pull request oluşturabilirsiniz ;)  <
+# / ! \ Uyarı / ! \
+
 app.title=Latice
+
 menu.start.title=Latice
 menu.start.play=Oyna
+menu.start.lan=LAN'da Oyna
 menu.start.rules=Kurallar
 menu.start.theme=Tema
+
 menu.rules.title=Kurallar
 menu.rules.firstCategory=Kurulum
-menu.rules.firstCategory.description=5 taşla başla. İlk taş ortaya.
-menu.rules.secondCategory=Senin Sıran
-menu.rules.secondCategory.description=İlki bedava. Sonraki 2 puan.
-menu.rules.secondCategory.list=4 hamle
-menu.rules.secondCategory.list.first=1. Taş koy
-menu.rules.secondCategory.list.second=2. Hamle al
-menu.rules.secondCategory.list.third=3. Değiştir
-menu.rules.secondCategory.list.fourth=4. Pas
-menu.rules.thirdCategory=Puan
-menu.rules.thirdCategory.description=Çift=+1, Üçlü=+2, Dörtlü=+4, Güneş=+2
-menu.rules.fourthCategory=Oyun Sonu
-menu.rules.fourthCategory.description=Taşlar bitince biter.
+menu.rules.firstCategory.description=Taşlar karıştırılır ve 2 oyuncu arasında eşit şekilde dağıtılır. Her oyuncu rafına 5 taş çeker. İlk oyuncu başlamak için ay karesine (merkez) bir taş koyar.
+menu.rules.secondCategory=Sıra sende
+menu.rules.secondCategory.description=İlk eylem ÜCRETSİZDİR. Her ek eylem 2 puar tutar. Aşağıdaki 4 eylemden birini seçin.
+menu.rules.secondCategory.list=4 olası eylem
+menu.rules.secondCategory.list.first=1. Bir taş oynayın — Rafınızdan mevcut bir taşın yanına bir taş yerleştirin. Her temas eden kenar renk veya şekil olarak eşleşmelidir.
+menu.rules.secondCategory.list.second=2. Eylem satın alın — Ek hamle yapmak için 2 puan harcayın.
+menu.rules.secondCategory.list.third=3. Rafı değiştir — Rafınızdaki tüm taşları havuzdan yeni taşlarla değiştirin. Sıranız biter.
+menu.rules.secondCategory.list.fourth=4. Pas — Sıranızı ücretsiz atlayın.
+menu.rules.thirdCategory=Puanlama
+menu.rules.thirdCategory.description=Çift (2 eşleşen kenar) => +1 pt  |  Yonca (3 kenar) => +2 pt  |  Latice (4 kenar) => +4 pt  |  Güneş karesi => +2 pt bonus
+menu.rules.fourthCategory=Oyunun sonu
+menu.rules.fourthCategory.description=Bir oyuncu rafını ve havuzunu boşalttığında veya 10 döngü sonra oyun biter (1 döngü = her oyuncu 1 tur). En çok taş koyan oyuncu kazanır.
 menu.rules.back=Geri
-menu.theme.title=Tema Seç
-menu.theme.classicTheme=Klasik
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Geri
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=İsim 1:
-menu.username.secondUsernameChoiceLabel=İsim 2:
-menu.username.play=Oyna
-menu.game.actionButton=Hamle Al
-menu.game.exchangeButton=Değiştir
-menu.game.endTurnButton=Sırayı Bitir
-menu.game.player.currentPlayer=Sıra {name}:
-menu.game.player.score=Puan: {score}
-menu.game.player.remaining=Kalan: {count}
-menu.turnIndicator.turnIndicatorTitle=Tur {turnNumber}
-menu.turnIndicator.currentPlayer=Sıra {name}'de!
-menu.turnIndicator.lastPlayerScoreHeader={name} Puanı:
-menu.turnIndicator.readyButton=Hazır!
-popup.game.over.title=Bitti
-popup.game.over.winner.header=Kazanan: {name}
-popup.game.over.winner.content={score} puanla kazandı!
-popup.game.over.tie.header=Berabere!
-popup.game.over.tie.content=Berabere!
-popup.game.invalid.title=Hata
-popup.game.invalid.header=Geçersiz
-popup.game.invalid.reason=Geçersiz hamle
-event.invalidMove.tileError=Taş Hatası
-event.invalidMove.moveError=Hatalı Hamle
-event.invalidMove.cannotAfford=Yetersiz Puan
-menu.start.modeLocal=Yerel
-menu.start.modeLan=LAN
-menu.start.modeVsAI=Yapay Zekaya Karşı
-menu.username.aiPlayerName=Bilgisayar
 
-# # LAN / defaults (depuis lang1)
-menu.start.lan=LAN'da Oyna
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Kullanıcı adınızı seçin:
+menu.username.secondUsernameChoiceLabel=Ayrıca bir kullanıcı adı seçebilirsiniz:
+menu.username.play=Oyna
+
 menu.lan.title=Latice LAN
 menu.lan.host=Oyun Sunucu
 menu.lan.search=Sunucu Ara
 menu.lan.backButton=Geri
+
 menu.lanSearch.title=Sunucu aranıyor
 menu.lanSearch.host=Sunucu: {host}
 menu.lanSearch.backButton=Geri
+
 menu.lanLobby.title=Lobi
 menu.lanLobby.hostUsername=İlk Oyuncu: {host}
 menu.lanLobby.clientNotHere=İkinci oyuncu bekleniyor...
@@ -69,15 +48,57 @@ menu.lanLobby.clientUsernameNotReady=[Hazır değil] İkinci Oyuncu: {client}
 menu.lanLobby.clientUsernameReady=[Hazır] İkinci Oyuncu: {client}
 menu.lanLobby.ready=Hazır
 menu.lanLobby.play=Oyna
+
+menu.theme.title=Bir tema seç
+menu.theme.classicTheme=Klasik
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Geri
+
+menu.game.actionButton=Eylem satın al
+menu.game.exchangeButton=Rafı değiştir
+menu.game.endTurnButton=Tur bitir
+menu.game.player.currentPlayer={name} sırası:
+menu.game.player.score=Skor: {score}
+menu.game.player.remaining=Kalan Taşlar: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Tur {turnNumber}
+menu.turnIndicator.currentPlayer={name} sırası!
+menu.turnIndicator.lastPlayerScoreHeader={name} son turun skoru :
+menu.turnIndicator.readyButton=Hazırım!
+
 menu.lanOverlay.turnOf={currentPlayer} sırası
+
+popup.game.over.title=Oyun bitti
+popup.game.over.winner.header=Kazanan: {name}
+popup.game.over.winner.content={name} {score} puanla kazandı!
+popup.game.over.tie.header=Berabere!
+popup.game.over.tie.content=Berabere! Her iki oyuncu da aynı sayıda taş koydu!
+
+popup.game.invalid.title=Geçersiz hamle
+popup.game.invalid.header=Bunu yapamazsın..
+popup.game.invalid.reason=Bu tur zaten bir taş koydun! Bir eylem satın al veya turunu bitir!
+
 popup.lanUsername.title=LAN Kullanıcı adı
 popup.lanUsername.header=Kullanıcı adınızı seçin
 popup.lanUsername.context=Kullanıcı adı:
 popup.lanSearch.noHost=Host yok...
+
+event.invalidMove.tileError=Oyuncunun rafında bu taş yok
+event.invalidMove.moveError=Hamle oyun kurallarına göre geçerli değil
+
+event.invalidMove.cannotAfford=Ek eylem satın almak için yeterli puan yok
+
 default.hostName=Sunucu Oyuncu
 default.clientName=İstemci Oyuncu
 default.secondPlayerName=Oyuncu 2
 default.firstPlayerName=Oyuncu 1
+
 menu.start.quit=Çıkış
+menu.start.modeLocal=Yerel
+menu.start.modeLan=LAN (yakında)
+menu.start.modeVsAI=Yapay zekaya karşı
 menu.username.back=Geri
+menu.username.beginnerHint=Başlangıç yardımı
+menu.username.aiPlayerName=Bilgisayar
 menu.lanLobby.back=Geri

@@ -1,67 +1,47 @@
+# messages_ms.properties
+# / ! \ Amaran / ! \
+# >  Terjemahan ini dibuat dengan AI  <
+# >  Jika anda ingin menyerahkan versi buatan tangan, anda boleh membuat permintaan tarik ;)  <
+# / ! \ Amaran / ! \
+
 app.title=Latice
+
 menu.start.title=Latice
 menu.start.play=Main
+menu.start.lan=Main dalam LAN
 menu.start.rules=Peraturan
 menu.start.theme=Tema
-menu.rules.title=Peraturan
-menu.rules.firstCategory=Persediaan
-menu.rules.firstCategory.description=Mula dengan 5 jubin. Pergerakan pertama di tengah.
-menu.rules.secondCategory=Giliran anda
-menu.rules.secondCategory.description=Pertama percuma. Seterusnya 2 mata.
-menu.rules.secondCategory.list=4 Tindakan
-menu.rules.secondCategory.list.first=1. Main Jubin
-menu.rules.secondCategory.list.second=2. Beli Tindakan
-menu.rules.secondCategory.list.third=3. Tukar
-menu.rules.secondCategory.list.fourth=4. Lepas
-menu.rules.thirdCategory=Markah
-menu.rules.thirdCategory.description=Ganda=+1, Tiga=+2, Empat=+4, Matahari=+2
-menu.rules.fourthCategory=Tamat
-menu.rules.fourthCategory.description=Jubin habis.
-menu.rules.back=Kembali
-menu.theme.title=Tema
-menu.theme.classicTheme=Klasik
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Kembali
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Nama 1:
-menu.username.secondUsernameChoiceLabel=Nama 2:
-menu.username.play=Main
-menu.game.actionButton=Beli Tindakan
-menu.game.exchangeButton=Tukar
-menu.game.endTurnButton=Tamat Giliran
-menu.game.player.currentPlayer=Giliran {name}:
-menu.game.player.score=Markah: {score}
-menu.game.player.remaining=Baki: {count}
-menu.turnIndicator.turnIndicatorTitle=Giliran {turnNumber}
-menu.turnIndicator.currentPlayer=Giliran {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Markah {name}:
-menu.turnIndicator.readyButton=Sedia!
-popup.game.over.title=Tamat
-popup.game.over.winner.header=Pemenang: {name}
-popup.game.over.winner.content=Menang dengan {score} mata!
-popup.game.over.tie.header=Seri!
-popup.game.over.tie.content=Seri!
-popup.game.invalid.title=Ralat
-popup.game.invalid.header=Tidak Sah
-popup.game.invalid.reason=Ralat
-event.invalidMove.tileError=Ralat Jubin
-event.invalidMove.moveError=Ralat Gerak
-event.invalidMove.cannotAfford=Mata tidak mencukupi
-menu.start.modeLocal=Tempatan
-menu.start.modeLan=LAN
-menu.start.modeVsAI=Lawan AI
-menu.username.aiPlayerName=Komputer
 
-# # LAN / defaults (depuis lang1)
-menu.start.lan=Main dalam LAN
+menu.rules.title=Peraturan
+menu.rules.firstCategory=Penyediaan
+menu.rules.firstCategory.description=Keping dikocok dan dibahagikan sama rata antara 2 pemain. Setiap pemain mengambil 5 keping ke rak mereka. Pemain pertama meletakkan satu keping pada kotak bulan (tengah) untuk memulakan.
+menu.rules.secondCategory=Pada giliran anda
+menu.rules.secondCategory.description=Tindakan pertama PERCUMA. Setiap tindakan tambahan berharga 2 mata. Pilih salah satu daripada 4 tindakan di bawah.
+menu.rules.secondCategory.list=4 tindakan yang mungkin
+menu.rules.secondCategory.list.first=1. Mainkan keping — Letakkan keping dari rak anda bersebelahan dengan keping sedia ada. Setiap sisi yang bersentuhan mesti sepadan dari segi warna atau bentuk.
+menu.rules.secondCategory.list.second=2. Beli tindakan — Belanjakan 2 mata untuk melakukan langkah tambahan.
+menu.rules.secondCategory.list.third=3. Tukar rak — Gantikan semua keping pada rak anda dengan yang baru dari timbunan. Menamatkan giliran anda.
+menu.rules.secondCategory.list.fourth=4. Langkau — Langkau giliran anda secara percuma.
+menu.rules.thirdCategory=Skor
+menu.rules.thirdCategory.description=Dwi (2 sisi padanan) => +1 pt  |  Semanggi (3 sisi) => +2 pt  |  Latice (4 sisi) => +4 pt  |  Petak matahari => +2 pt bonus
+menu.rules.fourthCategory=Akhir permainan
+menu.rules.fourthCategory.description=Permainan berakhir apabila seorang pemain mengosongkan rak dan timbunan, atau selepas 10 kitaran (1 kitaran = 1 giliran setiap pemain). Pemain yang meletakkan paling banyak keping menang.
+menu.rules.back=Kembali
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Pilih nama pengguna anda:
+menu.username.secondUsernameChoiceLabel=Anda juga boleh memilih nama pengguna:
+menu.username.play=Main
+
 menu.lan.title=Latice LAN
 menu.lan.host=Hos permainan
 menu.lan.search=Cari hos
 menu.lan.backButton=Kembali
+
 menu.lanSearch.title=Mencari hos
 menu.lanSearch.host=Hos: {host}
 menu.lanSearch.backButton=Kembali
+
 menu.lanLobby.title=Lobi
 menu.lanLobby.hostUsername=Pemain pertama: {host}
 menu.lanLobby.clientNotHere=Menunggu pemain kedua...
@@ -69,15 +49,57 @@ menu.lanLobby.clientUsernameNotReady=[Belum Sedia] Pemain kedua: {client}
 menu.lanLobby.clientUsernameReady=[Sedia] Pemain kedua: {client}
 menu.lanLobby.ready=Sedia
 menu.lanLobby.play=Main
+
+menu.theme.title=Pilih tema
+menu.theme.classicTheme=Klasik
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Kembali
+
+menu.game.actionButton=Beli tindakan
+menu.game.exchangeButton=Tukar rak
+menu.game.endTurnButton=Akhiri giliran
+menu.game.player.currentPlayer=Giliran {name}:
+menu.game.player.score=Skor: {score}
+menu.game.player.remaining=Keping tinggal: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Giliran {turnNumber}
+menu.turnIndicator.currentPlayer=Giliran {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Skor giliran terakhir {name} :
+menu.turnIndicator.readyButton=Saya sedia!
+
 menu.lanOverlay.turnOf=Giliran {currentPlayer}
+
+popup.game.over.title=Permainan tamat
+popup.game.over.winner.header=Pemenang: {name}
+popup.game.over.winner.content={name} menang dengan {score} mata!
+popup.game.over.tie.header=Seri!
+popup.game.over.tie.content=Seri! Kedua-dua pemain telah meletakkan bilangan keping yang sama!
+
+popup.game.invalid.title=Tindakan tidak sah
+popup.game.invalid.header=Anda tidak boleh berbuat demikian..
+popup.game.invalid.reason=Anda telah meletakkan keping pada giliran ini! Beli tindakan atau akhiri giliran anda!
+
 popup.lanUsername.title=Nama pengguna LAN
 popup.lanUsername.header=Pilih nama pengguna anda
 popup.lanUsername.context=Nama pengguna:
 popup.lanSearch.noHost=Tiada hos...
+
+event.invalidMove.tileError=Pemain tidak mempunyai keping ini pada raknya
+event.invalidMove.moveError=Tindakan tidak sah menurut peraturan permainan
+
+event.invalidMove.cannotAfford=Tidak cukup mata untuk membeli tindakan tambahan
+
 default.hostName=Pemain Hos
 default.clientName=Pemain Klien
 default.secondPlayerName=Pemain 2
 default.firstPlayerName=Pemain 1
+
 menu.start.quit=Keluar
+menu.start.modeLocal=Tempatan
+menu.start.modeLan=LAN (akan datang)
+menu.start.modeVsAI=Lawan AI
 menu.username.back=Kembali
+menu.username.beginnerHint=Bantuan pemula
+menu.username.aiPlayerName=Komputer
 menu.lanLobby.back=Kembali

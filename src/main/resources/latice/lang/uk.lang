@@ -1,67 +1,46 @@
+# / ! \ Попередження / ! \
+# >  Цей переклад був створений за допомогою AI  <
+# >  Якщо ви хочете надіслати рукописну версію, ви можете створити запит на витяг ;)  <
+# / ! \ Попередження / ! \
+
 app.title=Latice
+
 menu.start.title=Latice
 menu.start.play=Грати
+menu.start.lan=Грати в LAN
 menu.start.rules=Правила
 menu.start.theme=Тема
-menu.rules.title=Правила
-menu.rules.firstCategory=Налаштування
-menu.rules.firstCategory.description=Візьміть 5 плиток. Почніть з центру.
-menu.rules.secondCategory=Ваш хід
-menu.rules.secondCategory.description=Перший безкоштовно. Наступний 2 бали.
-menu.rules.secondCategory.list=4 дії
-menu.rules.secondCategory.list.first=1. Покласти плитку
-menu.rules.secondCategory.list.second=2. Купити дію
-menu.rules.secondCategory.list.third=3. Обмін
-menu.rules.secondCategory.list.fourth=4. Пас
-menu.rules.thirdCategory=Бали
-menu.rules.thirdCategory.description=Подвійна=+1, Потрійна=+2, Четверна=+4, Сонце=+2
-menu.rules.fourthCategory=Кінець
-menu.rules.fourthCategory.description=Плитки закінчились.
-menu.rules.back=Назад
-menu.theme.title=Тема
-menu.theme.classicTheme=Класична
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Зельда
-menu.theme.backButton=Назад
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Ім'я 1:
-menu.username.secondUsernameChoiceLabel=Ім'я 2:
-menu.username.play=Грати
-menu.game.actionButton=Купити дію
-menu.game.exchangeButton=Обмін
-menu.game.endTurnButton=Кінець ходу
-menu.game.player.currentPlayer=Хід {name}:
-menu.game.player.score=Бали: {score}
-menu.game.player.remaining=Залишилось: {count}
-menu.turnIndicator.turnIndicatorTitle=Хід {turnNumber}
-menu.turnIndicator.currentPlayer=Хід {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Бали {name}:
-menu.turnIndicator.readyButton=Готово!
-popup.game.over.title=Кінець
-popup.game.over.winner.header=Переможець: {name}
-popup.game.over.winner.content=Переміг з {score} балами!
-popup.game.over.tie.header=Нічия!
-popup.game.over.tie.content=Нічия!
-popup.game.invalid.title=Помилка
-popup.game.invalid.header=Недійсний хід
-popup.game.invalid.reason=Помилка
-event.invalidMove.tileError=Помилка плитки
-event.invalidMove.moveError=Помилка ходу
-event.invalidMove.cannotAfford=Мало балів
-menu.start.modeLocal=Локально
-menu.start.modeLan=LAN
-menu.start.modeVsAI=Проти ШІ
-menu.username.aiPlayerName=Комп'ютер
 
-# # LAN / defaults (depuis lang1)
-menu.start.lan=Грати в LAN
+menu.rules.title=Правила
+menu.rules.firstCategory=Підготовка
+menu.rules.firstCategory.description=Кафелі тасуються і рівномірно розподіляються між 2 гравцями. Кожен гравець тягне 5 кафелів на свою підставку. Перший гравець ставить кафель на поле місяця (центр), щоб почати.
+menu.rules.secondCategory=У ваш хід
+menu.rules.secondCategory.description=Перша дія БЕЗКОШТОВНА. Кожна додаткова дія коштує 2 бали. Виберіть одну з 4 дій нижче.
+menu.rules.secondCategory.list=4 можливі дії
+menu.rules.secondCategory.list.first=1. Поставити кафель — Розмістіть кафель зі своєї підставки поруч із існуючим кафелем. Кожна торкаючася сторона має збігатися кольором або формою.
+menu.rules.secondCategory.list.second=2. Купити дію — Витратьте 2 бали, щоб зробити додатковий хід.
+menu.rules.secondCategory.list.third=3. Поміняти підставку — Замініть усі кафелі на своїй підставці новими з колоди. Завершує ваш хід.
+menu.rules.secondCategory.list.fourth=4. Пропустити — Пропустіть свій хід безкоштовно.
+menu.rules.thirdCategory=Нарахування очок
+menu.rules.thirdCategory.description=Подвійний (2 збігаючі сторони) => +1 б  |  Клевер (3 сторони) => +2 б  |  Latice (4 сторони) => +4 б  |  Сонячне поле => +2 б бонус
+menu.rules.fourthCategory=Кінець гри
+menu.rules.fourthCategory.description=Гра закінчується, коли гравець спорожнить свою підставку і колоду, або після 10 циклів (1 цикл = 1 хід на гравця). Перемагає гравець, який розмістив найбільше кафелів.
+menu.rules.back=Назад
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Оберіть ім'я користувача:
+menu.username.secondUsernameChoiceLabel=Ви також можете вибрати ім'я користувача:
+menu.username.play=Грати
+
 menu.lan.title=Latice LAN
 menu.lan.host=Провести гру
 menu.lan.search=Пошук хоста
 menu.lan.backButton=Назад
+
 menu.lanSearch.title=Пошук хоста
 menu.lanSearch.host=Хост: {host}
 menu.lanSearch.backButton=Назад
+
 menu.lanLobby.title=Лобі
 menu.lanLobby.hostUsername=Перший гравець: {host}
 menu.lanLobby.clientNotHere=Очікування другого гравця...
@@ -69,15 +48,57 @@ menu.lanLobby.clientUsernameNotReady=[Не готовий] Другий грав
 menu.lanLobby.clientUsernameReady=[Готовий] Другий гравець: {client}
 menu.lanLobby.ready=Готовий
 menu.lanLobby.play=Грати
+
+menu.theme.title=Оберіть тему
+menu.theme.classicTheme=Класичний
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Назад
+
+menu.game.actionButton=Купити дію
+menu.game.exchangeButton=Замінити підставку
+menu.game.endTurnButton=Завершити хід
+menu.game.player.currentPlayer=Хід {name}:
+menu.game.player.score=Рахунок: {score}
+menu.game.player.remaining=Залишилось плиток: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Хід {turnNumber}
+menu.turnIndicator.currentPlayer=Зараз хід {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Результат останнього ходу {name} :
+menu.turnIndicator.readyButton=Я готовий!
+
 menu.lanOverlay.turnOf=Хід {currentPlayer}
+
+popup.game.over.title=Гру завершено
+popup.game.over.winner.header=Переможець: {name}
+popup.game.over.winner.content={name} виграв з {score} балами!
+popup.game.over.tie.header=Нічија!
+popup.game.over.tie.content=Нічија! Обидва гравці розмістили однакову кількість плиток!
+
+popup.game.invalid.title=Неприпустимий хід
+popup.game.invalid.header=Ти не можеш цього зробити..
+popup.game.invalid.reason=Ти вже розмістив плитку в цьому ході! Купи дію або завершити хід!
+
 popup.lanUsername.title=LAN Ім'я користувача
 popup.lanUsername.header=Оберіть своє ім'я користувача
 popup.lanUsername.context=Користувач:
 popup.lanSearch.noHost=Немає хоста...
+
+event.invalidMove.tileError=Гравець не має цієї плитки на своїй підставці
+event.invalidMove.moveError=Хід не дійсний згідно з правилами гри
+
+event.invalidMove.cannotAfford=Недостатньо очок для купівлі додаткової дії
+
 default.hostName=Хост Гравець
 default.clientName=Клієнт Гравець
 default.secondPlayerName=Гравець 2
 default.firstPlayerName=Гравець 1
+
 menu.start.quit=Вийти
+menu.start.modeLocal=Локальна
+menu.start.modeLan=LAN (незабаром)
+menu.start.modeVsAI=Проти ШІ
 menu.username.back=Назад
+menu.username.beginnerHint=Допомога для початківців
+menu.username.aiPlayerName=Комп'ютер
 menu.lanLobby.back=Назад

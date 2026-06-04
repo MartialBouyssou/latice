@@ -1,67 +1,46 @@
-app.title=Latice
-menu.start.title=Latice
-menu.start.play=Pelaa
-menu.start.rules=Säännöt
-menu.start.theme=Teema
-menu.rules.title=Säännöt
-menu.rules.firstCategory=Asetukset
-menu.rules.firstCategory.description=Aloita 5 laatalla. Ensimmäinen siirto keskelle.
-menu.rules.secondCategory=Vuorosi
-menu.rules.secondCategory.description=1. ilmainen. Seuraava 2 pistettä.
-menu.rules.secondCategory.list=4 toimintoa
-menu.rules.secondCategory.list.first=1. Pelaa laatta
-menu.rules.secondCategory.list.second=2. Osta toiminto
-menu.rules.secondCategory.list.third=3. Vaihda
-menu.rules.secondCategory.list.fourth=4. Ohita
-menu.rules.thirdCategory=Pisteet
-menu.rules.thirdCategory.description=Tupla=+1, Tripla=+2, Nelinkertainen=+4, Aurinko=+2
-menu.rules.fourthCategory=Loppu
-menu.rules.fourthCategory.description=Laatat loppuvat.
-menu.rules.back=Takaisin
-menu.theme.title=Teema
-menu.theme.classicTheme=Klassinen
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Takaisin
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Nimi 1:
-menu.username.secondUsernameChoiceLabel=Nimi 2:
-menu.username.play=Pelaa
-menu.game.actionButton=Osta
-menu.game.exchangeButton=Vaihda
-menu.game.endTurnButton=Lopeta vuoro
-menu.game.player.currentPlayer={name}n vuoro:
-menu.game.player.score=Pisteet: {score}
-menu.game.player.remaining=Jäljellä: {count}
-menu.turnIndicator.turnIndicatorTitle=Vuoro {turnNumber}
-menu.turnIndicator.currentPlayer={name}n vuoro!
-menu.turnIndicator.lastPlayerScoreHeader={name}n pisteet:
-menu.turnIndicator.readyButton=Valmis!
-popup.game.over.title=Loppu
-popup.game.over.winner.header=Voittaja: {name}
-popup.game.over.winner.content=Voitti {score} pisteellä!
-popup.game.over.tie.header=Tasapeli!
-popup.game.over.tie.content=Tasapeli!
-popup.game.invalid.title=Virhe
-popup.game.invalid.header=Laiton
-popup.game.invalid.reason=Virhe
-event.invalidMove.tileError=Laattavirhe
-event.invalidMove.moveError=Siirtovirhe
-event.invalidMove.cannotAfford=Ei pisteitä
-menu.start.modeLocal=Paikallinen
-menu.start.modeLan=LAN
-menu.start.modeVsAI=Tekoälyä vastaan
-menu.username.aiPlayerName=Tietokone
+# / ! \ Varoitus / ! \
+# >  Tämä käännös on luotu tekoälyllä  <
+# >  Jos haluat lähettää käsin tehdyn version, voit luoda pull requestin ;)  <
+# / ! \ Varoitus / ! \
 
-# # LAN / defaults (depuis lang1)
+app.title=Latice
+
+menu.start.title=Latice
+menu.start.play=Joacă
 menu.start.lan=Joacă în LAN
+menu.start.rules=Reguli
+menu.start.theme=Temă
+
+menu.rules.title=Reguli
+menu.rules.firstCategory=Pregătire
+menu.rules.firstCategory.description=Plăcile sunt amestecate și împărțite în mod egal între 2 jucători. Fiecare jucător extrage 5 plăci pe suportul său. Primul jucător plasează o placă pe pătratul lunii (centru) pentru a începe.
+menu.rules.secondCategory=La rândul tău
+menu.rules.secondCategory.description=Prima acțiune este GRATUITĂ. Fiecare acțiune suplimentară costă 2 puncte. Alege una dintre cele 4 acțiuni de mai jos.
+menu.rules.secondCategory.list=4 acțiuni posibile
+menu.rules.secondCategory.list.first=1. Joacă o placă — Plasează o placă de pe suportul tău adiacent unei plăci existente. Fiecare latură în contact trebuie să se potrivească ca culoare sau formă.
+menu.rules.secondCategory.list.second=2. Cumpără o acțiune — Cheltuie 2 puncte pentru a efectua o mutare în plus.
+menu.rules.secondCategory.list.third=3. Schimbă suportul — Înlocuiește toate plăcile de pe suportul tău cu altele noi din teanc. Îți încheie runda.
+menu.rules.secondCategory.list.fourth=4. Treci — Sari peste runda ta gratuit.
+menu.rules.thirdCategory=Scorare
+menu.rules.thirdCategory.description=Dublu (2 laturi potrivite) => +1 pct  |  Trifoi (3 laturi) => +2 pct  |  Latice (4 laturi) => +4 pct  |  Pătratul Soare => +2 pct bonus
+menu.rules.fourthCategory=Sfârșitul jocului
+menu.rules.fourthCategory.description=Jocul se termină când un jucător își golește suportul și teancul, sau după 10 cicluri (1 ciclu = 1 tură per jucător). Câștigă jucătorul care a plasat cele mai multe plăci.
+menu.rules.back=Înapoi
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Alege numele de utilizator:
+menu.username.secondUsernameChoiceLabel=Poți, de asemenea, să alegi un nume de utilizator:
+menu.username.play=Joacă
+
 menu.lan.title=Latice LAN
 menu.lan.host=Găzduiește joc
 menu.lan.search=Caută gazdă
 menu.lan.backButton=Înapoi
+
 menu.lanSearch.title=Căutare gazdă
 menu.lanSearch.host=Gazdă: {host}
 menu.lanSearch.backButton=Înapoi
+
 menu.lanLobby.title=Loby
 menu.lanLobby.hostUsername=Primul jucător: {host}
 menu.lanLobby.clientNotHere=Aștept un al doilea jucător...
@@ -69,15 +48,57 @@ menu.lanLobby.clientUsernameNotReady=[Nu e gata] Al doilea jucător: {client}
 menu.lanLobby.clientUsernameReady=[Gata] Al doilea jucător: {client}
 menu.lanLobby.ready=Gata
 menu.lanLobby.play=Joacă
+
+menu.theme.title=Alege o temă
+menu.theme.classicTheme=Clasic
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Înapoi
+
+menu.game.actionButton=Cumpără o acțiune
+menu.game.exchangeButton=Schimbă suportul
+menu.game.endTurnButton=Încheie runda
+menu.game.player.currentPlayer=Rândul lui {name}:
+menu.game.player.score=Scor: {score}
+menu.game.player.remaining=Plăci rămase: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Runda {turnNumber}
+menu.turnIndicator.currentPlayer=Este rândul lui {name}!
+menu.turnIndicator.lastPlayerScoreHeader=scorul lui {name} din ultima rundă :
+menu.turnIndicator.readyButton=Sunt gata!
+
 menu.lanOverlay.turnOf=Rândul lui {currentPlayer}
+
+popup.game.over.title=Joc terminat
+popup.game.over.winner.header=Câștigător: {name}
+popup.game.over.winner.content={name} a câștigat cu {score} puncte!
+popup.game.over.tie.header=Egalitate!
+popup.game.over.tie.content=Egalitate! Ambii jucători au pus același număr de plăci!
+
+popup.game.invalid.title=Mutare invalidă
+popup.game.invalid.header=Nu poți face asta..
+popup.game.invalid.reason=Ai deja așezat o placă în acest tur! Cumpără o acțiune sau încheie-ți runda!
+
 popup.lanUsername.title=Nume LAN
 popup.lanUsername.header=Alege-ți numele de utilizator
 popup.lanUsername.context=Nume utilizator:
 popup.lanSearch.noHost=Nu există gazdă...
+
+event.invalidMove.tileError=Jucătorul nu are această placă pe suport
+event.invalidMove.moveError=Mutarea nu este validă conform regulilor jocului
+
+event.invalidMove.cannotAfford=Nu ai puncte suficiente pentru a cumpăra o acțiune suplimentară
+
 default.hostName=Jucător Gazdă
 default.clientName=Jucător Client
 default.secondPlayerName=Pelaaja 2
 default.firstPlayerName=Pelaaja 1
+
 menu.start.quit=Lopeta
+menu.start.modeLocal=Paikallinen
+menu.start.modeLan=LAN (tulossa pian)
+menu.start.modeVsAI=Tekoälyä vastaan
 menu.username.back=Takaisin
+menu.username.beginnerHint=Aloittelijan apu
+menu.username.aiPlayerName=Tietokone
 menu.lanLobby.back=Takaisin

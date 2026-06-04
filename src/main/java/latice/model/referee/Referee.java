@@ -2,6 +2,7 @@ package latice.model.referee;
 
 import latice.model.board.Board;
 import latice.model.board.BoardPosition;
+import latice.model.board.BoardMoveHint;
 import latice.model.board.cell.Cell;
 import latice.model.board.cell.SunCell;
 import latice.model.game.Game;
@@ -85,6 +86,27 @@ public class Referee {
         }
 
         return validPositions;
+    }
+
+    /**
+     * Checks all valid move positions for a tile and calculates their score preview.
+     * @param board The board on which the move is made.
+     * @param tile The tile to place.
+     * @return The list of valid move hints with their score.
+     */
+    public List<BoardMoveHint> getValidMoveHints(Board board, Tile tile) {
+        List<BoardMoveHint> moveHints = new ArrayList<>();
+
+        for (int x = 0; x < Board.GRID_SIZE; x++) {
+            for (int y = 0; y < Board.GRID_SIZE; y++) {
+                if (isValidMove(board, tile, x, y)) {
+                    int score = calculateScore(board, tile, x, y);
+                    moveHints.add(new BoardMoveHint(x, y, score));
+                }
+            }
+        }
+
+        return moveHints;
     }
 
     /**

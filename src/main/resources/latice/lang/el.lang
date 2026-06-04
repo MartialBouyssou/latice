@@ -1,67 +1,46 @@
+# / ! \ Προειδοποίηση / ! \
+# >  Αυτή η μετάφραση δημιουργήθηκε με AI  <
+# >  Εάν θέλετε να υποβάλετε μια χειροποίητη έκδοση, μπορείτε να δημιουργήσετε ένα pull request ;)  <
+# / ! \ Προειδοποίηση / ! \
+
 app.title=Latice
+
 menu.start.title=Latice
 menu.start.play=Παίξε
+menu.start.lan=Παίξε σε LAN
 menu.start.rules=Κανόνες
 menu.start.theme=Θέμα
-menu.rules.title=Κανόνες
-menu.rules.firstCategory=Ρύθμιση
-menu.rules.firstCategory.description=Ξεκινήστε με 5 πλακίδια. Η πρώτη κίνηση είναι στο κέντρο.
-menu.rules.secondCategory=Σειρά σας
-menu.rules.secondCategory.description=1η δωρεάν. Η επόμενη 2 πόντους.
-menu.rules.secondCategory.list=4 ενέργειες
-menu.rules.secondCategory.list.first=1. Παίξτε πλακίδιο
-menu.rules.secondCategory.list.second=2. Αγορά ενέργειας
-menu.rules.secondCategory.list.third=3. Αλλαγή
-menu.rules.secondCategory.list.fourth=4. Πάσο
-menu.rules.thirdCategory=Βαθμολογία
-menu.rules.thirdCategory.description=Διπλό=+1, Τριπλό=+2, Τετραπλό=+4, Ήλιος=+2
-menu.rules.fourthCategory=Τέλος
-menu.rules.fourthCategory.description=Τέλος πλακιδίων.
-menu.rules.back=Πίσω
-menu.theme.title=Θέμα
-menu.theme.classicTheme=Κλασικό
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Πίσω
-menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Όνομα 1:
-menu.username.secondUsernameChoiceLabel=Όνομα 2:
-menu.username.play=Παίξε
-menu.game.actionButton=Αγορά
-menu.game.exchangeButton=Αλλαγή
-menu.game.endTurnButton=Τέλος γύρου
-menu.game.player.currentPlayer=Σειρά του {name}:
-menu.game.player.score=Σκορ: {score}
-menu.game.player.remaining=Υπόλοιπο: {count}
-menu.turnIndicator.turnIndicatorTitle=Γύρος {turnNumber}
-menu.turnIndicator.currentPlayer=Σειρά του {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Σκορ {name}:
-menu.turnIndicator.readyButton=Έτοιμος!
-popup.game.over.title=Τέλος
-popup.game.over.winner.header=Νικητής: {name}
-popup.game.over.winner.content=Νίκησε με {score}!
-popup.game.over.tie.header=Ισοπαλία!
-popup.game.over.tie.content=Ισοπαλία!
-popup.game.invalid.title=Σφάλμα
-popup.game.invalid.header=Λάθος
-popup.game.invalid.reason=Μη έγκυρο
-event.invalidMove.tileError=Σφάλμα
-event.invalidMove.moveError=Σφάλμα
-event.invalidMove.cannotAfford=Μη αρκετοί πόντοι
-menu.start.modeLocal=Τοπικό
-menu.start.modeLan=LAN
-menu.start.modeVsAI=Με AI
-menu.username.aiPlayerName=Υπολογιστής
 
-# # LAN / defaults (depuis lang1)
-menu.start.lan=Παίξε σε LAN
+menu.rules.title=Κανόνες
+menu.rules.firstCategory=Εγκατάσταση
+menu.rules.firstCategory.description=Τα πλακίδια ανακατεύονται και μοιράζονται εξίσου μεταξύ 2 παικτών. Κάθε παίκτης τραβάει 5 πλακίδια στη βάση του. Ο πρώτος παίκτης τοποθετεί ένα πλακίδιο στο τετράγωνο φεγγάρι (κέντρο) για να ξεκινήσει.
+menu.rules.secondCategory=Στη σειρά σου
+menu.rules.secondCategory.description=Η πρώτη ενέργεια είναι ΔΩΡΕΑΝ. Κάθε επιπλέον ενέργεια κοστίζει 2 πόντους. Επιλέξτε μία από τις 4 ενέργειες παρακάτω.
+menu.rules.secondCategory.list=4 πιθανές ενέργειες
+menu.rules.secondCategory.list.first=1. Παίξε ένα πλακίδιο — Τοποθέτησε ένα πλακίδιο από τη βάση σου δίπλα σε υπάρχον πλακίδιο. Κάθε αγγίζει πλευρά πρέπει να ταιριάζει σε χρώμα ή σχήμα.
+menu.rules.secondCategory.list.second=2. Αγόρασε μια ενέργεια — Δώσε 2 πόντους για να κάνεις μια επιπλέον κίνηση.
+menu.rules.secondCategory.list.third=3. Αντάλλαξε βάση — Αντικατέστησε όλα τα πλακίδια στη βάση σου με νέα από την στοίβα. Τερματίζει τη σειρά σου.
+menu.rules.secondCategory.list.fourth=4. Παράλειψη — Παράλειψε τη σειρά σου δωρεάν.
+menu.rules.thirdCategory=Βαθμολογία
+menu.rules.thirdCategory.description=Διπλό (2 ταιριαστές πλευρές) => +1 β  |  Τριφύλλι (3 πλευρές) => +2 β  |  Latice (4 πλευρές) => +4 β  |  Τετράγωνο Ήλιος => +2 β μπόνους
+menu.rules.fourthCategory=Τέλος του παιχνιδιού
+menu.rules.fourthCategory.description=Το παιχνίδι τελειώνει όταν ένας παίκτης αδειάσει τη βάση και την στοίβα του, ή μετά από 10 κύκλους (1 κύκλος = 1 σειρά ανά παίκτη). Νικά ο παίκτης που έχει τοποθετήσει τις περισσότερες πλακίδες.
+menu.rules.back=Πίσω
+
+menu.username.title=Latice
+menu.username.firstUsernameChoiceLabel=Επίλεξε το όνομα χρήστη:
+menu.username.secondUsernameChoiceLabel=Μπορείς επίσης να επιλέξεις ένα όνομα χρήστη:
+menu.username.play=Παίξε
+
 menu.lan.title=Latice LAN
 menu.lan.host=Δημιούργησε παιχνίδι
 menu.lan.search=Αναζήτηση κεντρικού
 menu.lan.backButton=Πίσω
+
 menu.lanSearch.title=Αναζήτηση κεντρικού
 menu.lanSearch.host=Κεντρικός: {host}
 menu.lanSearch.backButton=Πίσω
+
 menu.lanLobby.title=Αίθουσα
 menu.lanLobby.hostUsername=Πρώτος παίκτης: {host}
 menu.lanLobby.clientNotHere=Αναμονή για δεύτερο παίκτη...
@@ -69,15 +48,57 @@ menu.lanLobby.clientUsernameNotReady=[Όχι έτοιμος] Δεύτερος π
 menu.lanLobby.clientUsernameReady=[Έτοιμος] Δεύτερος παίκτης: {client}
 menu.lanLobby.ready=Έτοιμος
 menu.lanLobby.play=Παίξε
+
+menu.theme.title=Επίλεξε θέμα
+menu.theme.classicTheme=Κλασικό
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Πίσω
+
+menu.game.actionButton=Αγόρασε ενέργεια
+menu.game.exchangeButton=Αντάλλαξε βάση
+menu.game.endTurnButton=Τέλος σειράς
+menu.game.player.currentPlayer=Η σειρά του {name}:
+menu.game.player.score=Σκορ: {score}
+menu.game.player.remaining=Υπολειπόμενες πλακίδες: {count}
+
+menu.turnIndicator.turnIndicatorTitle= Σειρά {turnNumber}
+menu.turnIndicator.currentPlayer=Είναι η σειρά του {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Σκορ του τελευταίου γύρου του {name} :
+menu.turnIndicator.readyButton=Είμαι έτοιμος!
+
 menu.lanOverlay.turnOf=Σειρά του {currentPlayer}
+
+popup.game.over.title=Το παιχνίδι τελείωσε
+popup.game.over.winner.header=Νικητής: {name}
+popup.game.over.winner.content={name} κέρδισε με {score} πόντους!
+popup.game.over.tie.header=Ισοπαλία!
+popup.game.over.tie.content=Ισοπαλία! Και οι δύο παίκτες έχουν το ίδιο πλήθος τοποθετημένων πλακιδίων!
+
+popup.game.invalid.title=Μη έγκυρη κίνηση
+popup.game.invalid.header=Δεν μπορείς να το κάνεις..
+popup.game.invalid.reason=Έχεις ήδη τοποθετήσει μια πλακίδα αυτή τη σειρά! Αγόρασε μια ενέργεια ή τερμάτισε τη σειρά σου!
+
 popup.lanUsername.title=LAN Όνομα χρήστη
 popup.lanUsername.header=Επίλεξε το όνομα χρήστη σου
 popup.lanUsername.context=Όνομα χρήστη:
 popup.lanSearch.noHost=Δεν υπάρχει κεντρικός...
+
+event.invalidMove.tileError=Ο παίκτης δεν έχει αυτή την πλακίδα στη βάση του
+event.invalidMove.moveError=Η κίνηση δεν είναι έγκυρη σύμφωνα με τους κανόνες του παιχνιδιού
+
+event.invalidMove.cannotAfford=Δεν έχεις αρκετούς πόντους για να αγοράσεις επιπλέον ενέργεια
+
 default.hostName=Host Παίκτης
 default.clientName=Client Παίκτης
 default.secondPlayerName=Παίκτης 2
 default.firstPlayerName=Παίκτης 1
+
 menu.start.quit=Έξοδος
+menu.start.modeLocal=Τοπικό
+menu.start.modeLan=LAN (σύντομα)
+menu.start.modeVsAI=Εναντίον AI
 menu.username.back=Πίσω
+menu.username.beginnerHint=Βοήθεια για αρχάριους
+menu.username.aiPlayerName=Υπολογιστής
 menu.lanLobby.back=Πίσω
