@@ -3,44 +3,98 @@
 # >  Wenn du eine handgefertigte Version einreichen möchtest, kannst du einen Pull Request erstellen ;)  <
 # / ! \ Warnung / ! \
 
+# App-Fenster
 app.title=Latice
 
+# App-Menüs:
+# # Startmenü
 menu.start.title=Latice
 menu.start.play=Spielen
-menu.start.lan=Im LAN spielen
 menu.start.rules=Regeln
 menu.start.theme=Thema
 
-menu.rules.title=Regeln
+# # Regelmenü
+menu.rules.title=Spielregeln
 menu.rules.firstCategory=Aufbau
-menu.rules.firstCategory.description=Die Spielsteine werden gemischt und gleichmäßig auf 2 Spieler verteilt. Jeder Spieler zieht 5 Steine auf sein Regal. Der erste Spieler legt einen Stein auf das Mondfeld (Mitte), um zu beginnen.
-menu.rules.secondCategory=In deinem Zug
-menu.rules.secondCategory.description=Die erste Aktion ist KOSTENLOS. Jede zusätzliche Aktion kostet 2 Punkte. Wähle eine der 4 Aktionen unten.
+menu.rules.firstCategory.description=Die Plättchen werden gemischt und gleichmäßig auf 2 Spieler verteilt. Jeder Spieler zieht 5 Plättchen auf sein Gestell. Der erste Spieler legt ein Plättchen auf das Mondfeld (Mitte), um zu beginnen.
+menu.rules.secondCategory=An deinem Zug
+menu.rules.secondCategory.description=Die erste Aktion ist KOSTENLOS. Jede weitere Aktion kostet 2 Punkte. Wähle eine der 4 Aktionen unten.
 menu.rules.secondCategory.list=4 mögliche Aktionen
-menu.rules.secondCategory.list.first=1. Spiel einen Stein — Lege einen Stein von deinem Regal neben einen vorhandenen Stein. Jede berührende Seite muss in Farbe oder Form passen.
-menu.rules.secondCategory.list.second=2. Aktion kaufen — Gib 2 Punkte aus, um einen zusätzlichen Zug zu machen.
-menu.rules.secondCategory.list.third=3. Regal tauschen — Ersetze alle Steine auf deinem Regal durch neue aus dem Vorrat. Beendet deinen Zug.
-menu.rules.secondCategory.list.fourth=4. Aussetzen — Überspringe deinen Zug kostenlos.
-menu.rules.thirdCategory=Punktwertung
-menu.rules.thirdCategory.description=Doppel (2 passende Seiten) => +1 Pkt  |  Kleeblatt (3 Seiten) => +2 Pkt  |  Latice (4 Seiten) => +4 Pkt  |  Sonnenfeld => +2 Pkt Bonus
+menu.rules.secondCategory.list.first=1. Plättchen legen — Lege ein Plättchen von deinem Gestell neben ein bestehendes Plättchen. Jede berührende Seite muss nach Farbe oder Form übereinstimmen.
+menu.rules.secondCategory.list.second=2. Aktion kaufen — Gib 2 Punkte aus, um einen zusätzlichen Zug zu spielen.
+menu.rules.secondCategory.list.third=3. Gestell tauschen — Ersetze alle Plättchen auf deinem Gestell durch neue aus deinem Vorrat. Beendet deinen Zug.
+menu.rules.secondCategory.list.fourth=4. Passen — Überspringe deinen Zug kostenlos.
+menu.rules.thirdCategory=Wertung
+menu.rules.thirdCategory.description=Doppel (2 gleiche Seiten) => +1 Pkt  |  Dreiblatt (3 Seiten) => +2 Pkte  |  Latice (4 Seiten) => +4 Pkte  |  Sonnenfeld => +2 Pkte Bonus
 menu.rules.fourthCategory=Spielende
-menu.rules.fourthCategory.description=Das Spiel endet, wenn ein Spieler sein Regal und den Vorrat leert, oder nach 10 Zyklen (1 Zyklus = 1 Zug pro Spieler). Der Spieler, der die meisten Steine platziert hat, gewinnt.
+menu.rules.fourthCategory.description=Das Spiel endet, wenn ein Spieler sein Gestell und seinen Vorrat leert, oder nach 10 Runden (1 Runde = 1 Zug pro Spieler). Der Spieler, der die meisten Plättchen gelegt hat, gewinnt.
 menu.rules.back=Zurück
 
+# # Themamenü
+menu.theme.title=Wähle ein Thema
+menu.theme.classicTheme=Klassisch
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Zurück
+
+# # Benutzernamen-Auswahlmenü
 menu.username.title=Latice
 menu.username.firstUsernameChoiceLabel=Wähle deinen Benutzernamen:
-menu.username.secondUsernameChoiceLabel=Du kannst auch einen Benutzernamen wählen:
+menu.username.secondUsernameChoiceLabel=Wähle auch einen Benutzernamen:
 menu.username.play=Spielen
 
+# # Spielansicht
+menu.game.actionButton=Aktion kaufen
+menu.game.exchangeButton=Gestell tauschen
+menu.game.endTurnButton=Zug beenden
+menu.game.player.currentPlayer={name} ist dran:
+menu.game.player.score=Punkte: {score}
+menu.game.player.remaining=Verbleibende Plättchen: {count}
+
+# # Zuganzeigemenü (erscheint am Ende jedes Zuges)
+menu.turnIndicator.turnIndicatorTitle=Zug {turnNumber}
+menu.turnIndicator.currentPlayer={name} ist dran!
+menu.turnIndicator.lastPlayerScoreHeader={name}s letzter Zugpunktestand:
+menu.turnIndicator.readyButton=Ich bin bereit!
+
+# Popups:
+# # Spielende-Popup
+popup.game.over.title=Spiel beendet
+popup.game.over.winner.header=Gewinner: {name}
+popup.game.over.winner.content={name} hat mit {score} Punkten gewonnen!
+popup.game.over.tie.header=Unentschieden!
+popup.game.over.tie.content=Unentschieden! Beide Spieler haben gleich viele Plättchen gelegt!
+
+# # Ungültiger-Zug-Popup
+popup.game.invalid.title=Ungültiger Zug
+popup.game.invalid.header=Das kannst du nicht tun..
+popup.game.invalid.reason=Du hast diesen Zug bereits ein Plättchen gelegt! Kaufe eine Aktion oder beende deinen Zug!
+
+# Ereignismeldungen:
+# # Ungültiger Zug
+event.invalidMove.tileError=Der Spieler hat dieses Plättchen nicht auf seinem Gestell
+event.invalidMove.moveError=Der Zug ist laut Spielregeln nicht gültig
+
+# # Nicht genug Punkte
+event.invalidMove.cannotAfford=Nicht genug Punkte, um eine zusätzliche Aktion zu kaufen
+
+# # Modusauswahlmenü
+menu.start.modeLocal=Lokal
+menu.start.modeLan=LAN (demnächst)
+menu.start.modeVsAI=Gegen KI
+
+# # Name der KI
+menu.username.aiPlayerName=Computer
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Im LAN spielen
 menu.lan.title=Latice LAN
 menu.lan.host=Spiel hosten
 menu.lan.search=Host suchen
 menu.lan.backButton=Zurück
-
 menu.lanSearch.title=Host wird gesucht
 menu.lanSearch.host=Host: {host}
 menu.lanSearch.backButton=Zurück
-
 menu.lanLobby.title=Lobby
 menu.lanLobby.hostUsername=Erster Spieler: {host}
 menu.lanLobby.clientNotHere=Warten auf einen zweiten Spieler...
@@ -48,52 +102,15 @@ menu.lanLobby.clientUsernameNotReady=[Nicht bereit] Zweiter Spieler: {client}
 menu.lanLobby.clientUsernameReady=[Bereit] Zweiter Spieler: {client}
 menu.lanLobby.ready=Bereit
 menu.lanLobby.play=Spielen
-
-menu.theme.title=Wähle ein Thema
-menu.theme.classicTheme=Klassisch
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Zurück
-
-menu.game.actionButton=Aktion kaufen
-menu.game.exchangeButton=Regal tauschen
-menu.game.endTurnButton=Zug beenden
-menu.game.player.currentPlayer={name} ist am Zug:
-menu.game.player.score=Punktestand: {score}
-menu.game.player.remaining=Verbleibende Steine: {count}
-
-menu.turnIndicator.turnIndicatorTitle= Zug {turnNumber}
-menu.turnIndicator.currentPlayer={name} ist dran!
-menu.turnIndicator.lastPlayerScoreHeader={name}s Punkte des letzten Zuges :
-menu.turnIndicator.readyButton=Ich bin bereit!
-
 menu.lanOverlay.turnOf=Zug von {currentPlayer}
-
-popup.game.over.title=Spiel beendet
-popup.game.over.winner.header=Gewinner: {name}
-popup.game.over.winner.content={name} hat mit {score} Punkten gewonnen!
-popup.game.over.tie.header=Unentschieden!
-popup.game.over.tie.content=Unentschieden! Beide Spieler haben gleich viele Steine gelegt!
-
-popup.game.invalid.title=Ungültiger Zug
-popup.game.invalid.header=Das kannst du nicht tun..
-popup.game.invalid.reason=Du hast diesen Zug bereits eine Kachel gelegt! Kaufe eine Aktion oder beende deinen Zug!
-
 popup.lanUsername.title=LAN Benutzername
 popup.lanUsername.header=Wähle deinen Benutzernamen
 popup.lanUsername.context=Benutzername:
 popup.lanSearch.noHost=Es gibt keinen Host...
-
-event.invalidMove.tileError=Der Spieler hat diese Kachel nicht auf seinem Regal
-event.invalidMove.moveError=Der Zug ist laut Spielregeln nicht gültig
-
-event.invalidMove.cannotAfford=Nicht genügend Punkte, um eine zusätzliche Aktion zu kaufen
-
 default.hostName=Host Spieler
 default.clientName=Client Spieler
 default.secondPlayerName=Spieler 2
 default.firstPlayerName=Spieler 1
-
 menu.start.quit=Beenden
 menu.username.back=Zurück
 menu.lanLobby.back=Zurück

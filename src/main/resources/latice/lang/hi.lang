@@ -1,46 +1,67 @@
-# / ! \ चेतावनी / ! \
-# >  यह अनुवाद AI के साथ बनाया गया था  <
-# >  यदि आप हाथ से बने संस्करण को जमा करना चाहते हैं, तो आप एक पुल अनुरोध बना सकते हैं ;)  <
-# / ! \ चेतावनी / ! \
-
 app.title=Latice
-
 menu.start.title=Latice
 menu.start.play=खेलें
-menu.start.lan=LAN में खेलें
 menu.start.rules=नियम
 menu.start.theme=थीम
-
 menu.rules.title=नियम
-menu.rules.firstCategory=सेटअप
-menu.rules.firstCategory.description=टाइल्स को मिलाया जाता है और 2 खिलाड़ियों में समान रूप से बांटा जाता है। प्रत्येक खिलाड़ी अपनी रैक पर 5 टाइल्स डालता है। पहला खिलाड़ी शुरुआत के लिए मून स्क्वायर (केंद्र) पर एक टाइल रखता है।
-menu.rules.secondCategory=आपकी बारी में
-menu.rules.secondCategory.description=पहला क्रिया मुफ्त है। हर अतिरिक्त क्रिया की लागत 2 पॉइंट है। नीचे दिए गए 4 क्रियाओं में से एक चुनें।
-menu.rules.secondCategory.list=4 संभव क्रियाएँ
-menu.rules.secondCategory.list.first=1. एक टाइल खेलें — अपनी रैक से एक टाइल को मौजूदा टाइल के बगल में रखें। हर स्पर्श करने वाला किनारा रंग या आकार से मेल खाना चाहिए।
-menu.rules.secondCategory.list.second=2. एक क्रिया खरीदें — अतिरिक्त चाल के लिए 2 पॉइंट खर्च करें।
-menu.rules.secondCategory.list.third=3. रैक बदलें — अपनी रैक की सभी टाइल्स को पूल से नई टाइल्स से बदलें। आपकी बारी समाप्त होती है।
-menu.rules.secondCategory.list.fourth=4. पास — अपनी बारी मुफ्त में छोड़ें।
-menu.rules.thirdCategory=स्कोरिंग
-menu.rules.thirdCategory.description=डबल (2 मैचिंग साइड) => +1 प्वाइंट  |  ट्रिफ़ॉइल (3 साइड) => +2 प्वाइंट  |  Latice (4 साइड) => +4 प्वाइंट  |  सन स्क्वायर => +2 प्वाइंट बोनस
-menu.rules.fourthCategory=खेल समाप्ति
-menu.rules.fourthCategory.description=खेल तब समाप्त होता है जब किसी खिलाड़ी का रैक और पूल खाली हो जाता है, या 10 चक्रों के बाद (1 चक्र = प्रति खिलाड़ी 1 बारी)। जिसने सबसे अधिक टाइल्स रखी हों वह जीतेगा।
+menu.rules.firstCategory=तैयारी
+menu.rules.firstCategory.description=5 टाइलें लें। केंद्र में शुरू करें।
+menu.rules.secondCategory=आपकी बारी
+menu.rules.secondCategory.description=पहला मुफ्त। अगला 2 अंक।
+menu.rules.secondCategory.list=4 क्रियाएँ
+menu.rules.secondCategory.list.first=1. टाइल रखें
+menu.rules.secondCategory.list.second=2. क्रिया खरीदें
+menu.rules.secondCategory.list.third=3. बदलें
+menu.rules.secondCategory.list.fourth=4. पास करें
+menu.rules.thirdCategory=स्कोर
+menu.rules.thirdCategory.description=डबल=+1, ट्रिपल=+2, क्वाड्रपल=+4, सूर्य=+2
+menu.rules.fourthCategory=अंत
+menu.rules.fourthCategory.description=टाइलें खत्म।
 menu.rules.back=वापस
-
+menu.theme.title=थीम चुनें
+menu.theme.classicTheme=क्लासिक
+menu.theme.animalCrossingTheme=एनिमल क्रॉसिंग
+menu.theme.zeldaTheme=ज़ेल्डा
+menu.theme.backButton=वापस
 menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=अपना उपयोगकर्ता नाम चुनें:
-menu.username.secondUsernameChoiceLabel=आप एक उपयोगकर्ता नाम भी चुन सकते हैं:
+menu.username.firstUsernameChoiceLabel=नाम 1:
+menu.username.secondUsernameChoiceLabel=नाम 2:
 menu.username.play=खेलें
+menu.game.actionButton=खरीदें
+menu.game.exchangeButton=बदलें
+menu.game.endTurnButton=बारी समाप्त करें
+menu.game.player.currentPlayer={name} की बारी:
+menu.game.player.score=स्कोर: {score}
+menu.game.player.remaining=शेष: {count}
+menu.turnIndicator.turnIndicatorTitle=बारी {turnNumber}
+menu.turnIndicator.currentPlayer={name} की बारी!
+menu.turnIndicator.lastPlayerScoreHeader={name} का स्कोर:
+menu.turnIndicator.readyButton=तैयार!
+popup.game.over.title=अंत
+popup.game.over.winner.header=विजेता: {name}
+popup.game.over.winner.content={score} से जीता!
+popup.game.over.tie.header=टाई!
+popup.game.over.tie.content=टाई!
+popup.game.invalid.title=त्रुटि
+popup.game.invalid.header=अमान्य
+popup.game.invalid.reason=अमान्य
+event.invalidMove.tileError=त्रुटि
+event.invalidMove.moveError=त्रुटि
+event.invalidMove.cannotAfford=अंक कम हैं
+menu.start.modeLocal=लोकल
+menu.start.modeLan=LAN
+menu.start.modeVsAI=AI के खिलाफ
+menu.username.aiPlayerName=कंप्यूटर
 
+# # LAN / defaults (depuis lang1)
+menu.start.lan=LAN में खेलें
 menu.lan.title=Latice LAN
 menu.lan.host=गेम होस्ट करें
 menu.lan.search=होस्ट खोजें
 menu.lan.backButton=वापस
-
 menu.lanSearch.title=होस्ट खोज रहा है
 menu.lanSearch.host=होस्ट: {host}
 menu.lanSearch.backButton=वापस
-
 menu.lanLobby.title=लॉबी
 menu.lanLobby.hostUsername=पहला खिलाड़ी: {host}
 menu.lanLobby.clientNotHere=दूसरे खिलाड़ी की प्रतीक्षा...
@@ -48,52 +69,15 @@ menu.lanLobby.clientUsernameNotReady=[तैयार नहीं] दूसर
 menu.lanLobby.clientUsernameReady=[तैयार] दूसरा खिलाड़ी: {client}
 menu.lanLobby.ready=तैयार
 menu.lanLobby.play=खेलें
-
-menu.theme.title=थीम चुनें
-menu.theme.classicTheme=क्लासिक
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=वापस
-
-menu.game.actionButton=एक क्रिया खरीदें
-menu.game.exchangeButton=रैक बदलें
-menu.game.endTurnButton=बारी समाप्त करें
-menu.game.player.currentPlayer={name} की बारी:
-menu.game.player.score=स्कोर: {score}
-menu.game.player.remaining=बचे हुए टाइल्स: {count}
-
-menu.turnIndicator.turnIndicatorTitle= टर्न {turnNumber}
-menu.turnIndicator.currentPlayer={name} की बारी है!
-menu.turnIndicator.lastPlayerScoreHeader={name} का पिछला टर्न स्कोर :
-menu.turnIndicator.readyButton=मैं तैयार हूँ!
-
 menu.lanOverlay.turnOf={currentPlayer} की बारी
-
-popup.game.over.title=खेल समाप्त
-popup.game.over.winner.header=विजेता: {name}
-popup.game.over.winner.content={name} ने {score} पॉइंट्स के साथ जीता!
-popup.game.over.tie.header=टाई!
-popup.game.over.tie.content=यह टाई है! दोनों खिलाड़ियों ने समान संख्या में टाइल्स रखीं!
-
-popup.game.invalid.title=अमान्य चाल
-popup.game.invalid.header=आप ऐसा नहीं कर सकते..
-popup.game.invalid.reason=आपने इस टर्न में पहले ही एक टाइल रखी है! एक क्रिया खरीदें या अपना टर्न समाप्त करें!
-
 popup.lanUsername.title=LAN उपयोगकर्ता नाम
 popup.lanUsername.header=अपना उपयोगकर्ता नाम चुनें
 popup.lanUsername.context=उपयोगकर्ता नाम:
 popup.lanSearch.noHost=कोई होस्ट नहीं...
-
-event.invalidMove.tileError=खिलाड़ी के पास यह टाइल उसकी रैक में नहीं है
-event.invalidMove.moveError=चाल खेल के नियमों के अनुसार मान्य नहीं है
-
-event.invalidMove.cannotAfford=अतिरिक्त क्रिया खरीदने के लिए पर्याप्त प्वाइंट नहीं हैं
-
 default.hostName=होस्ट खिलाड़ी
 default.clientName=क्लाइंट खिलाड़ी
 default.secondPlayerName=खिलाड़ी 2
 default.firstPlayerName=खिलाड़ी 1
-
 menu.start.quit=बाहर निकलें
 menu.username.back=पीछे
 menu.lanLobby.back=पीछे

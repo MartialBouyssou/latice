@@ -1,46 +1,67 @@
-# / ! \ Peringatan / ! \
-# >  Terjemahan ini dibuat dengan AI  <
-# >  Jika Anda ingin mengirimkan versi buatan tangan, Anda dapat membuat permintaan tarik ;)  <
-# / ! \ Peringatan / ! \
-
 app.title=Latice
-
 menu.start.title=Latice
 menu.start.play=Main
-menu.start.lan=Main di LAN
 menu.start.rules=Aturan
 menu.start.theme=Tema
-
 menu.rules.title=Aturan
-menu.rules.firstCategory=Persiapan
-menu.rules.firstCategory.description=Keping dicampur dan dibagi rata antara 2 pemain. Setiap pemain mengambil 5 keping ke raknya. Pemain pertama menempatkan satu keping di kotak bulan (tengah) untuk memulai.
-menu.rules.secondCategory=Pada giliranmu
-menu.rules.secondCategory.description=Aksi pertama GRATIS. Setiap aksi tambahan dikenai biaya 2 poin. Pilih salah satu dari 4 aksi di bawah.
-menu.rules.secondCategory.list=4 aksi yang mungkin
-menu.rules.secondCategory.list.first=1. Mainkan keping — Tempatkan keping dari rakmu berdampingan dengan keping yang ada. Setiap sisi yang bersentuhan harus cocok warna atau bentuknya.
-menu.rules.secondCategory.list.second=2. Beli aksi — Habiskan 2 poin untuk melakukan langkah ekstra.
-menu.rules.secondCategory.list.third=3. Tukar rak — Ganti semua keping di rakmu dengan yang baru dari tumpukan. Mengakhiri giliranmu.
-menu.rules.secondCategory.list.fourth=4. Lewatkan — Lewatkan giliranmu gratis.
+menu.rules.firstCategory=Pengaturan
+menu.rules.firstCategory.description=Mulai dengan 5 ubin. Gerakan pertama di tengah.
+menu.rules.secondCategory=Giliranmu
+menu.rules.secondCategory.description=Pertama gratis. Selanjutnya 2 poin.
+menu.rules.secondCategory.list=4 Aksi
+menu.rules.secondCategory.list.first=1. Mainkan Ubin
+menu.rules.secondCategory.list.second=2. Beli Aksi
+menu.rules.secondCategory.list.third=3. Tukar
+menu.rules.secondCategory.list.fourth=4. Lewati
 menu.rules.thirdCategory=Skor
-menu.rules.thirdCategory.description=Ganda (2 sisi cocok) => +1 pt  |  Semanggi (3 sisi) => +2 pts  |  Latice (4 sisi) => +4 pts  |  Kotak Matahari => +2 pts bonus
-menu.rules.fourthCategory=Akhir permainan
-menu.rules.fourthCategory.description=Permainan berakhir ketika seorang pemain mengosongkan rak dan tumpukannya, atau setelah 10 siklus (1 siklus = 1 giliran per pemain). Pemain yang menempatkan paling banyak keping menang.
+menu.rules.thirdCategory.description=Ganda=+1, Tiga=+2, Empat=+4, Matahari=+2
+menu.rules.fourthCategory=Selesai
+menu.rules.fourthCategory.description=Ubin habis.
 menu.rules.back=Kembali
-
+menu.theme.title=Tema
+menu.theme.classicTheme=Klasik
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Kembali
 menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Pilih nama pengguna:
-menu.username.secondUsernameChoiceLabel=Kamu juga bisa memilih nama pengguna:
+menu.username.firstUsernameChoiceLabel=Nama 1:
+menu.username.secondUsernameChoiceLabel=Nama 2:
 menu.username.play=Main
+menu.game.actionButton=Beli Aksi
+menu.game.exchangeButton=Tukar
+menu.game.endTurnButton=Akhiri Giliran
+menu.game.player.currentPlayer=Giliran {name}:
+menu.game.player.score=Skor: {score}
+menu.game.player.remaining=Sisa: {count}
+menu.turnIndicator.turnIndicatorTitle=Giliran {turnNumber}
+menu.turnIndicator.currentPlayer=Giliran {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Skor {name}:
+menu.turnIndicator.readyButton=Siap!
+popup.game.over.title=Selesai
+popup.game.over.winner.header=Pemenang: {name}
+popup.game.over.winner.content=Menang dengan {score} poin!
+popup.game.over.tie.header=Seri!
+popup.game.over.tie.content=Seri!
+popup.game.invalid.title=Kesalahan
+popup.game.invalid.header=Tidak Valid
+popup.game.invalid.reason=Kesalahan
+event.invalidMove.tileError=Kesalahan Ubin
+event.invalidMove.moveError=Kesalahan Gerak
+event.invalidMove.cannotAfford=Poin tidak cukup
+menu.start.modeLocal=Lokal
+menu.start.modeLan=LAN
+menu.start.modeVsAI=Lawan AI
+menu.username.aiPlayerName=Komputer
 
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Main di LAN
 menu.lan.title=Latice LAN
 menu.lan.host=Host Game
 menu.lan.search=Cari Host
 menu.lan.backButton=Kembali
-
 menu.lanSearch.title=Mencari Host
 menu.lanSearch.host=Host: {host}
 menu.lanSearch.backButton=Kembali
-
 menu.lanLobby.title=Lobby
 menu.lanLobby.hostUsername=Pemain Pertama: {host}
 menu.lanLobby.clientNotHere=Menunggu pemain kedua...
@@ -48,52 +69,15 @@ menu.lanLobby.clientUsernameNotReady=[Belum Siap] Pemain Kedua: {client}
 menu.lanLobby.clientUsernameReady=[Siap] Pemain Kedua: {client}
 menu.lanLobby.ready=Siap
 menu.lanLobby.play=Main
-
-menu.theme.title=Pilih tema
-menu.theme.classicTheme=Klasik
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Kembali
-
-menu.game.actionButton=Beli aksi
-menu.game.exchangeButton>Tukar rak
-menu.game.endTurnButton=Selesai giliran
-menu.game.player.currentPlayer=Giliran {name}:
-menu.game.player.score=Skor: {score}
-menu.game.player.remaining=Keping tersisa: {count}
-
-menu.turnIndicator.turnIndicatorTitle= Giliran {turnNumber}
-menu.turnIndicator.currentPlayer=Giliran {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Skor giliran terakhir {name} :
-menu.turnIndicator.readyButton=Saya siap!
-
 menu.lanOverlay.turnOf=Giliran {currentPlayer}
-
-popup.game.over.title=Permainan selesai
-popup.game.over.winner.header=Pemenang: {name}
-popup.game.over.winner.content={name} menang dengan skor {score} poin!
-popup.game.over.tie.header=Seri!
-popup.game.over.tie.content=Seri! Kedua pemain memiliki jumlah keping yang sama!
-
-popup.game.invalid.title=Langkah tidak valid
-popup.game.invalid.header=Anda tidak bisa melakukan itu..
-popup.game.invalid.reason=Anda sudah meletakkan sebuah keping pada giliran ini! Beli aksi atau akhiri giliran Anda!
-
 popup.lanUsername.title=Nama Pengguna LAN
 popup.lanUsername.header=Pilih nama pengguna Anda
 popup.lanUsername.context=Nama pengguna:
 popup.lanSearch.noHost=Tidak ada host...
-
-event.invalidMove.tileError=Pemain tidak memiliki keping ini di raknya
-event.invalidMove.moveError=Langkah tidak valid menurut aturan permainan
-
-event.invalidMove.cannotAfford=Tidak cukup poin untuk membeli aksi tambahan
-
 default.hostName=Host Pemain
 default.clientName=Klien Pemain
 default.secondPlayerName=Pemain 2
 default.firstPlayerName=Pemain 1
-
 menu.start.quit=Keluar
 menu.username.back=Kembali
 menu.lanLobby.back=Kembali

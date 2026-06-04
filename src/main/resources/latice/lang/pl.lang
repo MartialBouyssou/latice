@@ -3,44 +3,98 @@
 # >  Jeśli chcesz przesłać ręcznie wykonaną wersję, możesz utworzyć pull request ;)  <
 # / ! \ Ostrzeżenie / ! \
 
+# Okno aplikacji
 app.title=Latice
 
+# Menu aplikacji:
+# # Menu startowe
 menu.start.title=Latice
 menu.start.play=Graj
-menu.start.lan=Graj w LAN
 menu.start.rules=Zasady
 menu.start.theme=Motyw
 
-menu.rules.title=Zasady
+# # Menu zasad
+menu.rules.title=Zasady gry
 menu.rules.firstCategory=Przygotowanie
-menu.rules.firstCategory.description,Kafelki są potasowane i równo podzielone między 2 graczy. Każdy gracz dobiera 5 kafelków na swoją półkę. Pierwszy gracz umieszcza kafelek na polu księżyca (środek), aby rozpocząć.
-menu.rules.secondCategory=W twojej turze
-menu.rules.secondCategory.description=Pierwsza akcja jest DARMOWA. Każda dodatkowa akcja kosztuje 2 punkty. Wybierz jedną z 4 akcji poniżej.
+menu.rules.firstCategory.description=Kafelki są tasowane i dzielone równo między 2 graczy. Każdy gracz bierze 5 kafelków na swój stojak. Pierwszy gracz kładzie jeden kafelek na polu księżyca (centrum), aby rozpocząć.
+menu.rules.secondCategory=Twoja tura
+menu.rules.secondCategory.description=Pierwsza akcja jest BEZPŁATNA. Każda dodatkowa akcja kosztuje 2 punkty. Wybierz jedną z 4 akcji poniżej.
 menu.rules.secondCategory.list=4 możliwe akcje
-menu.rules.secondCategory.list.first=1. Zagraj kafelek — Umieść kafelek z półki obok istniejącego kafelka. Każda dotykająca strona musi pasować kolorem lub kształtem.
-menu.rules.secondCategory.list.second=2. Kup akcję — Wydaj 2 punkty, aby wykonać dodatkowy ruch.
-menu.rules.secondCategory.list.third=3. Wymiana półki — Zastąp wszystkie kafelki na swojej półce nowymi z puli. Kończy twój ruch.
-menu.rules.secondCategory.list.fourth=4. Pass — Pomiń swoją turę za darmo.
+menu.rules.secondCategory.list.first=1. Połóż kafelek — Umieść kafelek ze swojego stojaka obok istniejącego kafelka. Każda stykająca się strona musi pasować kolorem lub kształtem.
+menu.rules.secondCategory.list.second=2. Kup akcję — Wydaj 2 punkty, aby zagrać dodatkowy ruch.
+menu.rules.secondCategory.list.third=3. Wymień stojak — Zastąp wszystkie kafelki na swoim stojaku nowymi z rezerwy. Kończy twoją turę.
+menu.rules.secondCategory.list.fourth=4. Pominięcie — Pomiń swoją turę za darmo.
 menu.rules.thirdCategory=Punktacja
-menu.rules.thirdCategory.description=Podwójne (2 pasujące strony) => +1 pkt  |  Koniczyna (3 strony) => +2 pkt  |  Latice (4 strony) => +4 pkt  |  Pole słońca => +2 pkt bonus
+menu.rules.thirdCategory.description=Dublet (2 pasujące strony) => +1 pkt  |  Trójliść (3 strony) => +2 pkt  |  Latice (4 strony) => +4 pkt  |  Pole słońca => +2 pkt bonus
 menu.rules.fourthCategory=Koniec gry
-menu.rules.fourthCategory.description=Gra kończy się, gdy gracz opróżni swoją półkę i pulę, lub po 10 cyklach (1 cykl = 1 tura na gracza). Wygrywa gracz, który położył najwięcej kafelków.
-menu.rules.back=Wstecz
+menu.rules.fourthCategory.description=Gra kończy się, gdy gracz opróżni swój stojak i rezerwę, lub po 10 rundach (1 runda = 1 tura na gracza). Wygrywa gracz, który położył najwięcej kafelków.
+menu.rules.back=Powrót
 
+# # Menu motyw
+menu.theme.title=Wybierz motyw
+menu.theme.classicTheme=Klasyczny
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Powrót
+
+# # Menu wyboru nazwy użytkownika
 menu.username.title=Latice
 menu.username.firstUsernameChoiceLabel=Wybierz swoją nazwę użytkownika:
-menu.username.secondUsernameChoiceLabel=Możesz także wybrać nazwę użytkownika:
+menu.username.secondUsernameChoiceLabel=Wybierz też nazwę użytkownika:
 menu.username.play=Graj
 
+# # Widok gry
+menu.game.actionButton=Kup akcję
+menu.game.exchangeButton=Wymień stojak
+menu.game.endTurnButton=Zakończ turę
+menu.game.player.currentPlayer=Tura gracza {name}:
+menu.game.player.score=Wynik: {score}
+menu.game.player.remaining=Pozostałe kafelki: {count}
+
+# # Menu wskaźnika tury (pojawia się na końcu każdej tury)
+menu.turnIndicator.turnIndicatorTitle=Tura {turnNumber}
+menu.turnIndicator.currentPlayer=Tura gracza {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Wynik ostatniej tury gracza {name}:
+menu.turnIndicator.readyButton=Jestem gotowy!
+
+# Okna dialogowe:
+# # Okno końca gry
+popup.game.over.title=Koniec gry
+popup.game.over.winner.header=Zwycięzca: {name}
+popup.game.over.winner.content={name} wygrał z wynikiem {score} punktów!
+popup.game.over.tie.header=Remis!
+popup.game.over.tie.content=Remis! Obaj gracze położyli tę samą liczbę kafelków!
+
+# # Okno nieprawidłowego ruchu
+popup.game.invalid.title=Nieprawidłowy ruch
+popup.game.invalid.header=Nie możesz tego zrobić..
+popup.game.invalid.reason=Już położyłeś kafelek w tej turze! Kup akcję lub zakończ swoją turę!
+
+# Wiadomości zdarzeń:
+# # Nieprawidłowy ruch
+event.invalidMove.tileError=Gracz nie ma tego kafelka na swoim stojaku
+event.invalidMove.moveError=Ruch jest nieprawidłowy zgodnie z zasadami gry
+
+# # Brak punktów
+event.invalidMove.cannotAfford=Niewystarczająca liczba punktów, aby kupić dodatkową akcję
+
+# # Menu wyboru trybu
+menu.start.modeLocal=Lokalny
+menu.start.modeLan=LAN (wkrótce)
+menu.start.modeVsAI=Vs AI
+
+# # Nazwa gracza AI
+menu.username.aiPlayerName=Komputer
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Graj w LAN
 menu.lan.title=Latice LAN
 menu.lan.host=Hostuj grę
 menu.lan.search=Szukaj hosta
 menu.lan.backButton=Wstecz
-
 menu.lanSearch.title=Wyszukiwanie hosta
 menu.lanSearch.host=Host: {host}
 menu.lanSearch.backButton=Wstecz
-
 menu.lanLobby.title=Lobby
 menu.lanLobby.hostUsername=Pierwszy gracz: {host}
 menu.lanLobby.clientNotHere=Czekanie na drugiego gracza...
@@ -48,52 +102,15 @@ menu.lanLobby.clientUsernameNotReady=[Nie gotowy] Drugi gracz: {client}
 menu.lanLobby.clientUsernameReady=[Gotowy] Drugi gracz: {client}
 menu.lanLobby.ready=Gotowy
 menu.lanLobby.play=Graj
-
-menu.theme.title=Wybierz motyw
-menu.theme.classicTheme=Klasyczny
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Wstecz
-
-menu.game.actionButton=Kup akcję
-menu.game.exchangeButton=Wymień półkę
-menu.game.endTurnButton=Zakończ turę
-menu.game.player.currentPlayer=Tura gracza {name}:
-menu.game.player.score=Wynik: {score}
-menu.game.player.remaining=Pozostałe kafelki: {count}
-
-menu.turnIndicator.turnIndicatorTitle= Tura {turnNumber}
-menu.turnIndicator.currentPlayer=To tura {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Wynik z ostatniej tury {name} :
-menu.turnIndicator.readyButton=Jestem gotowy!
-
 menu.lanOverlay.turnOf=Tura {currentPlayer}
-
-popup.game.over.title=Koniec gry
-popup.game.over.winner.header=Zwycięzca: {name}
-popup.game.over.winner.content={name} wygrał z wynikiem {score} punktów!
-popup.game.over.tie.header=Remis!
-popup.game.over.tie.content=Remis! Obaj gracze położyli taką samą liczbę kafelków!
-
-popup.game.invalid.title=Nieprawidłowy ruch
-popup.game.invalid.header=Nie możesz tego zrobić..
-popup.game.invalid.reason=Już położyłeś kafelek w tej turze! Kup akcję lub zakończ turę!
-
 popup.lanUsername.title=Nazwa LAN
 popup.lanUsername.header=Wybierz swoją nazwę użytkownika
 popup.lanUsername.context=Użytkownik:
 popup.lanSearch.noHost=Brak hosta...
-
-event.invalidMove.tileError=Gracz nie ma tej kafelki na swojej półce
-event.invalidMove.moveError=Ruch nie jest zgodny z zasadami gry
-
-event.invalidMove.cannotAfford=Brak wystarczającej liczby punktów, aby kupić dodatkową akcję
-
 default.hostName=Gracz Host
 default.clientName=Gracz Klient
 default.secondPlayerName=Gracz 2
 default.firstPlayerName=Gracz 1
-
 menu.start.quit=Wyjdź
 menu.username.back=Wstecz
 menu.lanLobby.back=Wstecz

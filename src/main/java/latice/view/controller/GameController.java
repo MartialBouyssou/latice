@@ -7,8 +7,6 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -80,7 +78,7 @@ public class GameController implements GameView, PacketSender {
     @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
-    @FXML private VBox modeMenuVBox; // Correction de l'erreur d'interface !
+    @FXML private VBox modeMenuVBox;
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
@@ -200,9 +198,7 @@ public class GameController implements GameView, PacketSender {
      * @param parent The root JavaFX node to start the recursive search from.
      */
     private void applyTextsRecursively(Parent parent) {
-        if (parent == null) {
-            return;
-        }
+        if (parent == null) return;
 
         for (Node node : parent.getChildrenUnmodifiable()) {
             if (node instanceof Labeled labeled) {
@@ -258,8 +254,7 @@ public class GameController implements GameView, PacketSender {
     }
 
     /**
-     * Displays the lan search menu and hides the main lan menu while
-     * starting UDP requests
+     * Displays the lan search menu and hides the main lan menu while starting UDP requests
      */
     public void showLanSearchMenu() {
         LangManager lang = LangManager.getInstance();
@@ -310,8 +305,7 @@ public class GameController implements GameView, PacketSender {
         dialog.setContentText(lang.get("popup.lanUsername.context"));
         Optional<String> result = dialog.showAndWait();
         hostUsername = result.filter(s -> !s.isBlank()).orElse(lang.get("default.hostName"));
-        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
-                "host", hostUsername));
+        lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
         lanClientNameLabel.setText(lang.get("menu.lanLobby.clientNotHere"));
         startAsHost();
     }
@@ -330,33 +324,21 @@ public class GameController implements GameView, PacketSender {
         menuView.showThemeMenu();
     }
 
-    /**
-     * Apply the default theme to the game.
-     */
     public void applyThemeDefault() {
         ThemeManager.getInstance().setCurrentTheme(Theme.DEFAULT);
         applyTheme();
     }
 
-    /**
-     * Apply the animal crossing theme to the game.
-     */
     public void applyThemeAnimalCrossing() {
         ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
         applyTheme();
     }
 
-    /**
-     * Apply the zelda crossing theme to the game.
-     */
     public void applyThemeZelda() {
         ThemeManager.getInstance().setCurrentTheme(Theme.ZELDA);
         applyTheme();
     }
 
-    /**
-     * Apply the theme and show play menu.
-     */
     private void applyTheme() {
         showPlayMenu();
     }
@@ -404,9 +386,7 @@ public class GameController implements GameView, PacketSender {
      * Manages and executes the AI player's moves synchronously.
      */
     public void playAITurn() {
-        if (aiControlledPlayer == null || aiPlayer == null) {
-            return;
-        }
+        if (aiControlledPlayer == null || aiPlayer == null) return;
 
         int turnsRemaining = Game.MAX_CYCLES - (game.getTurnCount() / game.getPlayers().size());
 
@@ -435,7 +415,7 @@ public class GameController implements GameView, PacketSender {
     }
 
     /**
-     * Checks if the active player is the AI, and triggers its turn if so.
+     * Checks if the active player is the AI, and triggers its turn asynchronously.
      */
     public void triggerAITurnIfNeeded() {
         if (aiControlledPlayer != null
@@ -443,15 +423,11 @@ public class GameController implements GameView, PacketSender {
                 && game != null
                 && game.getCurrentPlayer() != null
                 && game.getCurrentPlayer().equals(aiControlledPlayer)) {
-            playAITurn();
+            // Utilisation de runLater pour éviter les conflits de threads JavaFX lors de coups successifs de l'IA
+            Platform.runLater(() -> playAITurn());
         }
     }
 
-    /**
-     * Constructs the Game object, injecting rules and player names.
-     *
-     * @return The newly instantiated Game object.
-     */
     private Game buildLocalGame() {
         LangManager lang = LangManager.getInstance();
         String name1 = getPlayerName(player1UsernameTf.getText(),
@@ -462,9 +438,6 @@ public class GameController implements GameView, PacketSender {
         return GameFactory.createGame(name1, name2);
     }
 
-    /**
-     * Start the host and launch UDP and TCP server
-     */
     private void startAsHost() {
         sessionRole = SessionRole.HOST;
         tcpServer = new TcpServer(NetworkConfig.TCP_PORT, this::handleIncomingPacket,
@@ -478,9 +451,6 @@ public class GameController implements GameView, PacketSender {
         udpThread.start();
     }
 
-    /**
-     * Start the client and launch TCP server
-     */
     public void startAsClient(DiscoveredHost host) {
         sessionRole = SessionRole.CLIENT;
         tcpClient = new TcpClient(clientUsername, this::handleIncomingPacket,
@@ -492,10 +462,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Start the game with received Game Packet to have the same games objects
-     * as the host
-     */
     private void startLanGame(GameStartPacket packet) {
         Player starter = Player.create(packet.getStarterUserName(),
                 new Rack(packet.getStarterRack()),
@@ -510,17 +476,10 @@ public class GameController implements GameView, PacketSender {
         game.addListener(new LaticeGameListener(this, true));
 
         game.startFromExistingPlayers();
-
         menuView.showGameBoard();
-
         showLanOverlay(game.getCurrentPlayer().getName());
     }
 
-    /**
-     * Routes an incoming network packet to the appropriate handler on the JavaFX thread.
-     *
-     * @param packet The packet received from the remote player.
-     */
     private void handleIncomingPacket(Packet packet) {
         if (packet instanceof LobbyJoinPacket p) {
             Platform.runLater(() -> handleLobbyJoin(p));
@@ -545,9 +504,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Handles the remote client disconnection while hosting a LAN game.
-     */
     private void handleClientDisconnected() {
         if (game != null && gameBoardBP.isVisible()) {
             showGameOver(null);
@@ -558,9 +514,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Handles the host disconnection while connected as a LAN client.
-     */
     private void handleHostDisconnected() {
         if (game != null && gameBoardBP.isVisible()) {
             showGameOver(null);
@@ -570,30 +523,18 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Handles a client joining the hosted LAN lobby.
-     *
-     * @param packet The lobby join packet containing the client name.
-     */
     private void handleLobbyJoin(LobbyJoinPacket packet) {
         LangManager lang = LangManager.getInstance();
         clientUsername = packet.getClientName();
-
         lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameNotReady",
                 "client", clientUsername));
         sendPacket(new LobbyWelcomePacket(hostUsername));
     }
 
-    /**
-     * Handles the host welcome packet received by a LAN client.
-     *
-     * @param packet The welcome packet containing the host name.
-     */
     private void handleLobbyWelcome(LobbyWelcomePacket packet) {
         LangManager lang = LangManager.getInstance();
         hostUsername = packet.getHostName();
-
         searchLanMenuVBox.setVisible(false);
         searchLanMenuVBox.setManaged(false);
         lanLobbyMenuVBox.setVisible(true);
@@ -601,15 +542,11 @@ public class GameController implements GameView, PacketSender {
         lanPlayButton.setText(lang.get("menu.lanLobby.ready"));
         lanPlayButton.setOnAction(e -> buttonLanReady());
         lanPlayButton.setDisable(false);
-
         lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameNotReady",
                 "client", clientUsername));
     }
 
-    /**
-     * Marks the LAN client as ready and enables the host start button.
-     */
     private void handleLobbyReady() {
         LangManager lang = LangManager.getInstance();
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameReady",
@@ -618,9 +555,6 @@ public class GameController implements GameView, PacketSender {
         lanPlayButton.setOnAction(e -> startLanGameAsHost());
     }
 
-    /**
-     * Starts the LAN game from the host side and sends the initial game state to the client.
-     */
     private void startLanGameAsHost() {
         lanPlayButton.setDisable(true);
         game = buildLanGameAsHost();
@@ -636,20 +570,10 @@ public class GameController implements GameView, PacketSender {
         menuView.showGameBoard();
     }
 
-    /**
-     * Starts a LAN game from a game start packet.
-     *
-     * @param packet The packet containing both players' initial state.
-     */
     private void handleStartGame(GameStartPacket packet) {
         startLanGame(packet);
     }
 
-    /**
-     * Applies a tile placement received from the remote player.
-     *
-     * @param packet The packet containing the tile and target coordinates.
-     */
     private void handlePlayTile(PlayTilePacket packet) {
         if (networkGameListener != null) {
             networkGameListener.setLocalAction(false);
@@ -664,9 +588,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Applies a pass turn action received from the remote player.
-     */
     private void handlePassTurn() {
         if (networkGameListener != null) {
             networkGameListener.setLocalAction(false);
@@ -676,11 +597,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Applies a rack exchange received from the remote player.
-     *
-     * @param packet The packet containing the synchronized rack and deck state.
-     */
     private void handleExchangeRack(ExchangeRackPacket packet) {
         if (networkGameListener != null) {
             networkGameListener.setLocalAction(false);
@@ -692,9 +608,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Applies an action purchase received from the remote player.
-     */
     private void handleBuyAction() {
         if (networkGameListener != null) {
             networkGameListener.setLocalAction(false);
@@ -703,22 +616,13 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Handles a remote game over notification.
-     *
-     * @param packet The packet containing the remote end game informations.
-     */
     private void handleGameOver(GameOverPacket packet) {
-        if (game == null) {
-            return;
-        }
-
+        if (game == null) return;
         if (packet.isDraw()) {
             showGameOver(null);
             endGame();
             return;
         }
-
         Player winner = game.getPlayers().stream()
                 .filter(p -> p.getName().equals(packet.getWinnerUsername()))
                 .findFirst()
@@ -727,17 +631,11 @@ public class GameController implements GameView, PacketSender {
         endGame();
     }
 
-    /**
-     * Runs a local game action while allowing the network listener to relay its events.
-     *
-     * @param action The local action to execute.
-     */
     private void executeLocalAction(Runnable action) {
         if (networkGameListener == null) {
             action.run();
             return;
         }
-
         networkGameListener.setLocalAction(true);
         try {
             action.run();
@@ -746,9 +644,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Triggers the logic to exchange all tiles in the current player's rack.
-     */
     public void buttonExchangeAll() {
         if (sessionRole == SessionRole.LOCAL) {
             game.exchangeAll();
@@ -760,9 +655,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Triggers the logic to buy an extra action using sun points.
-     */
     public void buttonBuyAnAction() {
         if (sessionRole == SessionRole.LOCAL) {
             game.buyAnAction();
@@ -771,9 +663,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Passes the current player's turn to the next player.
-     */
     public void buttonEndTurn() {
         if (sessionRole == SessionRole.LOCAL) {
             if (hasAlreadyPlaced) {
@@ -793,9 +682,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Executes the surrender logic for the currently active player.
-     */
     public void buttonSurrender() {
         if (sessionRole == SessionRole.LOCAL) {
             game.surrender();
@@ -804,9 +690,6 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Sends the client ready state to the host in a LAN lobby.
-     */
     private void buttonLanReady() {
         LangManager lang = LangManager.getInstance();
         lanPlayButton.setDisable(true);
@@ -815,28 +698,15 @@ public class GameController implements GameView, PacketSender {
                 "client", clientUsername));
     }
 
-    /**
-     * Stops active network resources and exits the application.
-     */
     public void quitApp() {
         stopNetwork();
         System.exit(0);
     }
 
-    /**
-     * Builds a LAN game for the host using the selected player names.
-     *
-     * @return A new LAN game instance.
-     */
     private Game buildLanGameAsHost() {
         return GameFactory.createGame(hostUsername, clientUsername);
     }
 
-    /**
-     * Builds the packet used to synchronize the initial LAN game state.
-     *
-     * @return The game start packet to send to the client.
-     */
     private GameStartPacket buildGameStartPacket() {
         Player starter = game.getCurrentPlayer();
         Player second = game.getNextPlayer();
@@ -847,11 +717,6 @@ public class GameController implements GameView, PacketSender {
         );
     }
 
-    /**
-     * Sends a packet through the active LAN connection.
-     *
-     * @param packet The packet to send.
-     */
     @Override
     public void sendPacket(Packet packet) {
         if (sessionRole != SessionRole.LOCAL) {
@@ -861,33 +726,18 @@ public class GameController implements GameView, PacketSender {
                 } else if (sessionRole == SessionRole.CLIENT && tcpClient != null) {
                     tcpClient.send(packet);
                 }
-            } catch (IOException e) { /* Nothing here logger are not useful */ }
+            } catch (IOException e) { /* Ignored */ }
         }
     }
 
-    /**
-     * Toggles the interactive state of the action button.
-     */
     public void toggleActionButton() {
         setActionButtonDisabled(!actionButton.isDisable());
     }
 
-    /**
-     * Sets the active state of the action button explicitly.
-     *
-     * @param activate A boolean indicating if the button is disabled (true) or enabled (false).
-     */
     public void toggleActionButton(boolean activate) {
         setActionButtonDisabled(activate);
     }
 
-    /**
-     * Displays the transition overlay between player turns with score summaries.
-     *
-     * @param nextPlayer The player whose turn is starting.
-     * @param lastPlayer The player whose turn just ended.
-     * @param lastTurnScore The score acquired by the last player during their turn.
-     */
     @Override
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         turnOverlayView.showTurnOverlay(game, nextPlayer, lastPlayer, lastTurnScore);
@@ -903,26 +753,15 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Hides the transition overlay and re-enables the end turn button.
-     */
     public void hideOverlay() {
         turnOverlayView.hideTurnOverlay();
         triggerAITurnIfNeeded();
     }
 
-    /**
-     * Shows the generic turn transition overlay.
-     */
     public void showOverlay() {
         turnOverlayView.showTurnOverlay();
     }
 
-    /**
-     * Updates the LAN overlay depending on whether the current turn belongs to the local player.
-     *
-     * @param currentPlayerName The name of the player whose turn is active.
-     */
     public void showLanOverlay(String currentPlayerName) {
         String localUsername = sessionRole == SessionRole.HOST ?
                 hostUsername : clientUsername;
@@ -946,62 +785,31 @@ public class GameController implements GameView, PacketSender {
         }
     }
 
-    /**
-     * Updates the UI images representing the current player's rack of tiles.
-     *
-     * @param player The player whose rack should be displayed.
-     */
     @Override
     public void updateRack(Player player) {
         playerPanelView.updateRack(player);
     }
 
-    /**
-     * Refreshes the score, name, and remaining tile count displayed for the current player.
-     *
-     * @param player The current active player.
-     */
     @Override
     public void updatePlayerInfo(Player player) {
         playerPanelView.updatePlayerInfo(player);
     }
 
-    /**
-     * Displays an error alert popup to the user detailing why their move was invalid.
-     *
-     * @param reason The specific rule violation or error message.
-     */
     @Override
     public void showInvalidMove(String reason) {
         turnOverlayView.showInvalidMove(reason);
     }
 
-    /**
-     * Displays the end-of-game alert showing the winner and their score, or a tie message.
-     *
-     * @param player The winning player, or null if the game resulted in a tie.
-     */
     @Override
     public void showGameOver(Player player) {
         turnOverlayView.showGameOver(player);
     }
 
-    /**
-     * Visually places a tile onto the board grid and updates the player's rack view.
-     *
-     * @param tile The tile object being placed.
-     * @param targetX The X coordinate (column) on the grid.
-     * @param targetY The Y coordinate (row) on the grid.
-     * @param player The player performing the placement.
-     */
     @Override
     public void placeTileOnBoard(Tile tile, int targetX, int targetY, Player player) {
         boardView.placeTile(tile, targetX, targetY);
     }
 
-    /**
-     * Terminates the active game session and returns the user to the starting menus.
-     */
     @Override
     public void endGame() {
         if (turnOverlayView != null) {
@@ -1021,9 +829,6 @@ public class GameController implements GameView, PacketSender {
         menuView.showPlayMenu();
     }
 
-    /**
-     * Resets the graphical state of the board to its empty, initial configuration.
-     */
     public void resetBoard() {
         if (game != null && game.getBoard() != null) {
             boardView.reset(game.getBoard());
@@ -1032,29 +837,18 @@ public class GameController implements GameView, PacketSender {
         aiActionBoughtThisTurn = false;
     }
 
-    /**
-     * Configures a JavaFX ImageView to support drag operations using its image URL.
-     *
-     * @param tileView The ImageView representing the draggable tile.
-     */
     private void setupDraggable(ImageView tileView) {
         tileView.setOnDragDetected(event -> {
             Dragboard db = tileView.startDragAndDrop(TransferMode.MOVE);
-
             ClipboardContent content = new ClipboardContent();
             content.putString(tileView.getImage().getUrl());
             db.setContent(content);
             db.setDragView(tileView.getImage());
-
             event.consume();
         });
-
         tileView.setOnDragDone(Event::consume);
     }
 
-    /**
-     * Configures the main board grid to accept drag-and-drop actions and trigger game logic.
-     */
     private void setupBoardDropTarget() {
         board.setOnDragOver(event -> {
             if (event.getGestureSource() != board && event.getDragboard().hasString()) {
@@ -1064,14 +858,11 @@ public class GameController implements GameView, PacketSender {
         });
         board.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
-
             if (db.hasString() && game != null) {
                 double cellWidth = board.getWidth() / 9.0;
                 double cellHeight = board.getHeight() / 9.0;
-
                 int col = (int) (event.getX() / cellWidth);
                 int row = (int) (event.getY() / cellHeight);
-
                 Tile tile = extractTileFromUrl(db.getString());
 
                 if (tile != null) {
@@ -1100,32 +891,14 @@ public class GameController implements GameView, PacketSender {
         });
     }
 
-    /**
-     * Resolves the corresponding Tile model object from the provided image file path.
-     *
-     * @param fullUrl The absolute file path of the image being parsed.
-     * @return The corresponding Tile instance.
-     */
     private Tile extractTileFromUrl(String fullUrl) {
         return TileFactory.getTileFromImagePath(fullUrl);
     }
 
-
-    /**
-     * Validates and returns a player's name, falling back to a default if empty.
-     *
-     * @param input The raw input string from the username text field.
-     * @param defaultName The default string to use if the input is blank or null.
-     * @return The finalized player name.
-     */
     private String getPlayerName(String input, String defaultName) {
-        return (input == null || input.isBlank()) ?
-                defaultName : input;
+        return (input == null || input.isBlank()) ? defaultName : input;
     }
 
-    /**
-     * Stop the TCP and UDP server and reset all variables
-     */
     private void stopNetwork() {
         if (udpDiscoveryServer != null) {
             udpDiscoveryServer.stop();
@@ -1140,59 +913,29 @@ public class GameController implements GameView, PacketSender {
         networkGameListener = null;
     }
 
-    /**
-     * Sets the action button disabled state through the player panel view.
-     *
-     * @param disabled True when the button must be disabled.
-     */
     @Override
     public void setActionButtonDisabled(boolean disabled) {
         playerPanelView.setActionButtonDisabled(disabled);
     }
 
-    /**
-     * Indicates if the active game still allows one more action this turn.
-     *
-     * @return True when an action remains.
-     */
     @Override
     public boolean hasRemainingAction() {
         return game != null && game.hasRemainingAction();
     }
 
-    /**
-     * Gets the active Game instance managed by this controller.
-     *
-     * @return The active Game object.
-     */
     public Game getGame() {
         return game;
     }
 
-    /**
-     * Updates the status of whether a tile has already been placed in the current turn.
-     *
-     * @param value Boolean true if a tile has been placed, false otherwise.
-     */
     @Override
     public void setHasAlreadyPlaced(boolean value) {
         hasAlreadyPlaced = value;
     }
 
-    /**
-     * Set the AI action bought this turn state flag.
-     * * @param value True if the AI has purchased an action this turn.
-     */
     public void setAiActionBoughtThisTurn(boolean value) {
         this.aiActionBoughtThisTurn = value;
     }
 
-    /**
-     * Set lastPlayer and lastTurnScore to info overlay
-     *
-     * @param lastPlayer the last Player who has played
-     * @param lastTurnScore the last Player score
-     */
     @Override
     public void setPendingOverlayInfo(Player lastPlayer, int lastTurnScore) {
         this.pendingLastPlayer = lastPlayer;

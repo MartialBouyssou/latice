@@ -1,46 +1,67 @@
-# / ! \ 경고 / ! \
-# >  이 번역은 AI로 작성되었습니다  <
-# >  손으로 만든 버전을 제출하고 싶다면 풀 요청을 만들 수 있습니다 ;)  <
-# / ! \ 경고 / ! \
-
 app.title=Latice
-
 menu.start.title=Latice
 menu.start.play=플레이
-menu.start.lan=LAN에서 플레이
 menu.start.rules=규칙
 menu.start.theme=테마
-
 menu.rules.title=규칙
-menu.rules.firstCategory=설정
-menu.rules.firstCategory.description=타일을 섞어 2명의 플레이어에게 골고루 나눕니다. 각 플레이어는 랙에 타일 5개를 뽑습니다. 첫 번째 플레이어가 중앙의 달 칸에 타일을 하나 놓고 시작합니다.
+menu.rules.firstCategory=준비
+menu.rules.firstCategory.description=타일 5개를 가져갑니다. 첫 턴은 중앙에.
 menu.rules.secondCategory=당신의 턴
-menu.rules.secondCategory.description=첫 번째 액션은 무료입니다. 추가 액션은 각각 2포인트가 필요합니다. 아래 4가지 액션 중 하나를 선택하세요.
-menu.rules.secondCategory.list=가능한 4가지 액션
-menu.rules.secondCategory.list.first=1. 타일 놓기 — 랙에서 기존 타일 옆에 타일을 놓습니다. 맞닿은 면은 색상이나 모양이 일치해야 합니다.
-menu.rules.secondCategory.list.second=2. 액션 구매 — 추가 이동을 위해 2포인트를 사용합니다.
-menu.rules.secondCategory.list.third=3. 랙 교체 — 랙의 모든 타일을 더미에서 새 타일로 교체합니다. 턴이 종료됩니다.
-menu.rules.secondCategory.list.fourth=4. 패스 — 턴을 무료로 건너뜁니다.
+menu.rules.secondCategory.description=첫 번째는 무료. 추가는 2포인트.
+menu.rules.secondCategory.list=4가지 행동
+menu.rules.secondCategory.list.first=1. 타일 놓기
+menu.rules.secondCategory.list.second=2. 행동 구매
+menu.rules.secondCategory.list.third=3. 교환
+menu.rules.secondCategory.list.fourth=4. 패스
 menu.rules.thirdCategory=점수
-menu.rules.thirdCategory.description=더블 (2 면 일치) => +1 점  |  트리포일 (3 면) => +2 점  |  Latice (4 면) => +4 점  |  태양 칸 => +2 점 보너스
-menu.rules.fourthCategory=게임 종료
-menu.rules.fourthCategory.description=플레이어가 자신의 랙과 더미를 비우거나, 10사이클(1사이클 = 각 플레이어 1턴) 후 게임이 종료됩니다. 가장 많은 타일을 놓은 플레이어가 승리합니다.
+menu.rules.thirdCategory.description=더블=+1, 트리플=+2, 라티스=+4, 태양=+2
+menu.rules.fourthCategory=종료
+menu.rules.fourthCategory.description=타일이 떨어지면 끝.
 menu.rules.back=뒤로
-
+menu.theme.title=테마
+menu.theme.classicTheme=클래식
+menu.theme.animalCrossingTheme=동물의 숲
+menu.theme.zeldaTheme=젤다
+menu.theme.backButton=뒤로
 menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=사용자명을 선택하세요:
-menu.username.secondUsernameChoiceLabel=사용자명을 직접 선택할 수도 있습니다:
+menu.username.firstUsernameChoiceLabel=이름 1:
+menu.username.secondUsernameChoiceLabel=이름 2:
 menu.username.play=플레이
+menu.game.actionButton=행동 구매
+menu.game.exchangeButton=교환
+menu.game.endTurnButton=턴 종료
+menu.game.player.currentPlayer={name}의 턴:
+menu.game.player.score=점수: {score}
+menu.game.player.remaining=남은 타일: {count}
+menu.turnIndicator.turnIndicatorTitle=턴 {turnNumber}
+menu.turnIndicator.currentPlayer={name}의 턴입니다!
+menu.turnIndicator.lastPlayerScoreHeader={name}의 점수:
+menu.turnIndicator.readyButton=준비 완료!
+popup.game.over.title=종료
+popup.game.over.winner.header=승자: {name}
+popup.game.over.winner.content={score} 포인트로 승리!
+popup.game.over.tie.header=무승부!
+popup.game.over.tie.content=무승부입니다!
+popup.game.invalid.title=오류
+popup.game.invalid.header=무효
+popup.game.invalid.reason=오류
+event.invalidMove.tileError=타일 오류
+event.invalidMove.moveError=이동 오류
+event.invalidMove.cannotAfford=포인트 부족
+menu.start.modeLocal=로컬
+menu.start.modeLan=LAN
+menu.start.modeVsAI=AI 대전
+menu.username.aiPlayerName=컴퓨터
 
+# # LAN / defaults (depuis lang1)
+menu.start.lan=LAN에서 플레이
 menu.lan.title=Latice LAN
 menu.lan.host=게임 호스트
 menu.lan.search=호스트 검색
 menu.lan.backButton=뒤로
-
 menu.lanSearch.title=호스트 검색 중
 menu.lanSearch.host=호스트: {host}
 menu.lanSearch.backButton=뒤로
-
 menu.lanLobby.title=로비
 menu.lanLobby.hostUsername=선수 1: {host}
 menu.lanLobby.clientNotHere=두 번째 플레이어를 기다리는 중...
@@ -48,52 +69,15 @@ menu.lanLobby.clientUsernameNotReady=[준비 안됨] 두 번째 플레이어: {c
 menu.lanLobby.clientUsernameReady=[준비됨] 두 번째 플레이어: {client}
 menu.lanLobby.ready=준비됨
 menu.lanLobby.play=플레이
-
-menu.theme.title=테마 선택
-menu.theme.classicTheme=클래식
-menu.theme.animalCrossingTheme=동물의 숲
-menu.theme.zeldaTheme=젤다
-menu.theme.backButton=뒤로
-
-menu.game.actionButton=액션 구매
-menu.game.exchangeButton=랙 교체
-menu.game.endTurnButton=턴 종료
-menu.game.player.currentPlayer={name}의 턴:
-menu.game.player.score=점수: {score}
-menu.game.player.remaining=남은 타일: {count}
-
-menu.turnIndicator.turnIndicatorTitle= 턴 {turnNumber}
-menu.turnIndicator.currentPlayer={name}의 턴입니다!
-menu.turnIndicator.lastPlayerScoreHeader={name}의 지난 턴 점수 :
-menu.turnIndicator.readyButton=준비됐어요!
-
 menu.lanOverlay.turnOf={currentPlayer}의 턴
-
-popup.game.over.title=게임 종료
-popup.game.over.winner.header=우승자: {name}
-popup.game.over.winner.content={name}이(가) {score}점으로 승리했습니다!
-popup.game.over.tie.header=무승부!
-popup.game.over.tie.content=무승부입니다! 두 플레이어 모두 같은 수의 타일을 놓았습니다!
-
-popup.game.invalid.title=잘못된 수
-popup.game.invalid.header=그럴 수 없습니다..
-popup.game.invalid.reason=이미 이 턴에 타일을 놓았습니다! 액션을 구매하거나 턴을 종료하세요!
-
 popup.lanUsername.title=LAN 사용자명
 popup.lanUsername.header=사용자명을 선택하세요
 popup.lanUsername.context=사용자명:
 popup.lanSearch.noHost=호스트가 없습니다...
-
-event.invalidMove.tileError=플레이어의 랙에 이 타일이 없습니다
-event.invalidMove.moveError=수는 게임 규칙에 따라 유효하지 않습니다
-
-event.invalidMove.cannotAfford=추가 액션을 구매할 포인트가 부족합니다
-
 default.hostName=호스트 플레이어
 default.clientName=클라이언트 플레이어
 default.secondPlayerName=플레이어 2
 default.firstPlayerName=플레이어 1
-
 menu.start.quit=종료
 menu.username.back=뒤로
 menu.lanLobby.back=뒤로

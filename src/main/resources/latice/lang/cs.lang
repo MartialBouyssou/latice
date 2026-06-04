@@ -97,3 +97,9 @@ default.firstPlayerName=Hráč 1
 menu.start.quit=Ukončit
 menu.username.back=Zpět
 menu.lanLobby.back=Zpět
+
+# # Mode selection (ajouté depuis lang2)
+menu.start.modeLocal=Lokální
+menu.start.modeLan=LAN
+menu.start.modeVsAI=Proti AI
+menu.username.aiPlayerName=Počítač

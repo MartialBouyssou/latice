@@ -1,47 +1,67 @@
-# messages_sw.properties
-# / ! \ Onyo / ! \
-# >  Tafsiri hii ilijengwa kwa AI  <
-# >  Ikiwa unataka kuwasilisha toleo lililofanya kwa mikono, unaweza kuunda ombi la kumvuta ;)  <
-# / ! \ Onyo / ! \
-
 app.title=Latice
-
 menu.start.title=Latice
 menu.start.play=Cheza
-menu.start.lan=Cheza kwa LAN
-menu.start.rules=Kanuni
+menu.start.rules=Sheria
 menu.start.theme=Mada
-
-menu.rules.title=Kanuni
-menu.rules.firstCategory=Maandalizi
-menu.rules.firstCategory.description=Vipande vimechanganywa na kugawanywa kwa usawa kati ya wachezaji 2. Kila mchezaji kunyakua vipande 5 kwenye rafu yake. Mchezaji wa kwanza anaweka kipande kwenye mraba wa mwezi (katikati) kuanzia.
-menu.rules.secondCategory=Wakati wa zamu yako
-menu.rules.secondCategory.description=Hatua ya kwanza NI BURE. Kila hatua ya ziada inagharimu pointi 2. Chagua moja kati ya hatua 4 hapa chini.
-menu.rules.secondCategory.list=Hatua 4 zinazowezekana
-menu.rules.secondCategory.list.first=1. Cheza kipande — Weka kipande kutoka rafu yako karibu na kipande kilicho tayari. Kila upande unaogusa lazima ulingane kwa rangi au umbo.
-menu.rules.secondCategory.list.second=2. Nunua hatua — Tumia pointi 2 kucheza mwendo wa ziada.
-menu.rules.secondCategory.list.third=3. Badilisha rafu — Badilisha vipande vyote kwenye rafu yako na vipya kutoka kwenye duru. Inamaliza zamu yako.
-menu.rules.secondCategory.list.fourth=4. Pita — Ruka zamu yako bila malipo.
-menu.rules.thirdCategory=Uhesabu wa alama
-menu.rules.thirdCategory.description=Dubli (pande 2 zinazolingana) => +1 pt  |  Trifoili (pande 3) => +2 pt  |  Latice (pande 4) => +4 pt  |  Mraba wa jua => +2 pt bonasi
-menu.rules.fourthCategory=Mwisho wa mchezo
-menu.rules.fourthCategory.description=Mchezo unamalizika mchezaji mmoja akitakasa rafu na duru yake, au baada ya mizunguko 10 (1 mzunguko = 1 zamu kwa kila mchezaji). Mshindi ni mchezaji aliyeweka vipande vingi zaidi.
+menu.rules.title=Sheria
+menu.rules.firstCategory=Mipangilio
+menu.rules.firstCategory.description=Anza na vigae 5. Hatua ya kwanza katikati.
+menu.rules.secondCategory=Zamu yako
+menu.rules.secondCategory.description=Ya kwanza ni bure. Inayofuata alama 2.
+menu.rules.secondCategory.list=Hatua 4
+menu.rules.secondCategory.list.first=1. Weka kigae
+menu.rules.secondCategory.list.second=2. Nunua hatua
+menu.rules.secondCategory.list.third=3. Badilisha
+menu.rules.secondCategory.list.fourth=4. Ruka
+menu.rules.thirdCategory=Alama
+menu.rules.thirdCategory.description=Mbili=+1, Tatu=+2, Nne=+4, Jua=+2
+menu.rules.fourthCategory=Mwisho
+menu.rules.fourthCategory.description=Mwisho vigae vinapoisha.
 menu.rules.back=Rudi
-
+menu.theme.title=Mada
+menu.theme.classicTheme=Kawaida
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Rudi
 menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Chagua jina la mtumiaji:
-menu.username.secondUsernameChoiceLabel=Unaweza pia kuchagua jina la mtumiaji:
+menu.username.firstUsernameChoiceLabel=Jina 1:
+menu.username.secondUsernameChoiceLabel=Jina 2:
 menu.username.play=Cheza
+menu.game.actionButton=Nunua hatua
+menu.game.exchangeButton=Badilisha
+menu.game.endTurnButton=Maliza Zamu
+menu.game.player.currentPlayer=Zamu ya {name}:
+menu.game.player.score=Alama: {score}
+menu.game.player.remaining=Zilizobaki: {count}
+menu.turnIndicator.turnIndicatorTitle=Zamu {turnNumber}
+menu.turnIndicator.currentPlayer=Ni zamu ya {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Alama za {name}:
+menu.turnIndicator.readyButton=Tayari!
+popup.game.over.title=Mwisho
+popup.game.over.winner.header=Mshindi: {name}
+popup.game.over.winner.content=Ameshinda na alama {score}!
+popup.game.over.tie.header=Sare!
+popup.game.over.tie.content=Sare!
+popup.game.invalid.title=Kosa
+popup.game.invalid.header=Batili
+popup.game.invalid.reason=Kosa
+event.invalidMove.tileError=Kosa la Kigae
+event.invalidMove.moveError=Hatua mbaya
+event.invalidMove.cannotAfford=Alama hazitoshi
+menu.start.modeLocal=Ndani
+menu.start.modeLan=LAN
+menu.start.modeVsAI=Dhidi ya AI
+menu.username.aiPlayerName=Kompyuta
 
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Cheza kwa LAN
 menu.lan.title=Latice LAN
 menu.lan.host=Chukuza mchezo
 menu.lan.search=Tafuta mwenyeji
 menu.lan.backButton=Rudi
-
 menu.lanSearch.title=Kutafuta mwenyeji
 menu.lanSearch.host=Mwenyeji: {host}
 menu.lanSearch.backButton=Rudi
-
 menu.lanLobby.title=Ukumbi
 menu.lanLobby.hostUsername=Mchezaji wa kwanza: {host}
 menu.lanLobby.clientNotHere=Kusarabika kwa mchezaji wa pili...
@@ -49,52 +69,15 @@ menu.lanLobby.clientUsernameNotReady=[Sio tayari] Mchezaji wa pili: {client}
 menu.lanLobby.clientUsernameReady=[Tayari] Mchezaji wa pili: {client}
 menu.lanLobby.ready=Tayari
 menu.lanLobby.play=Cheza
-
-menu.theme.title=Chagua mada
-menu.theme.classicTheme=Klasiki
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Rudi
-
-menu.game.actionButton=Nunua hatua
-menu.game.exchangeButton=Badilisha rafu
-menu.game.endTurnButton=Maliza zamu
-menu.game.player.currentPlayer=Zamu ya {name}:
-menu.game.player.score=Alama: {score}
-menu.game.player.remaining=Vipande vilivyobaki: {count}
-
-menu.turnIndicator.turnIndicatorTitle= Zamu {turnNumber}
-menu.turnIndicator.currentPlayer=Ni zamu ya {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Alama za zamu iliyopita za {name} :
-menu.turnIndicator.readyButton=Niko tayari!
-
 menu.lanOverlay.turnOf=Zamu ya {currentPlayer}
-
-popup.game.over.title=Mchezo umemalizika
-popup.game.over.winner.header=Mshindi: {name}
-popup.game.over.winner.content={name} alishinda akiwa na alama {score}!
-popup.game.over.tie.header=Sawa!
-popup.game.over.tie.content=Sawa! Wachezaji wote wameweka idadi ile ile ya vipande!
-
-popup.game.invalid.title=Mchezo haukubali
-popup.game.invalid.header=Huwezi kufanya hivyo..
-popup.game.invalid.reason=Umeweka kipande tayari katika zamu hii! Nunua hatua au maliza zamu yako!
-
 popup.lanUsername.title=Jina la mtumiaji LAN
 popup.lanUsername.header=Chagua jina lako la mtumiaji
 popup.lanUsername.context=Mtumiaji:
 popup.lanSearch.noHost=Hakuna mwenyeji...
-
-event.invalidMove.tileError=Mchezaji hana kipande hiki kwenye rafu yake
-event.invalidMove.moveError=Mwendo si halali kulingana na sheria za mchezo
-
-event.invalidMove.cannotAfford=Hakuna pointi za kutosha kununua hatua ya ziada
-
 default.hostName=Mwenyeji Mchezaji
 default.clientName=Mteja Mchezaji
 default.secondPlayerName=Mchezaji 2
 default.firstPlayerName=Mchezaji 1
-
 menu.start.quit=Toka
 menu.username.back=Nyuma
 menu.lanLobby.back=Nyuma

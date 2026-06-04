@@ -1,46 +1,67 @@
-# / ! \ คำเตือน / ! \
-# >  การแปลนี้สร้างขึ้นด้วย AI  <
-# >  หากคุณต้องการส่งเวอร์ชันทำด้วยมือ คุณสามารถสร้างคำขอดึงข้อมูลได้ ;)  <
-# / ! \ คำเตือน / ! \
-
 app.title=Latice
-
 menu.start.title=Latice
 menu.start.play=เล่น
-menu.start.lan=เล่นผ่าน LAN
 menu.start.rules=กฎ
 menu.start.theme=ธีม
-
 menu.rules.title=กฎ
 menu.rules.firstCategory=การตั้งค่า
-menu.rules.firstCategory.description=สับตัวต่อแล้วแจกให้ผู้เล่น 2 คนเท่าๆ กัน แต่ละคนจั่วตัวต่อ 5 ตัววางบนแร็คของตน ผู้เล่นคนแรกวางตัวต่อหนึ่งตัวบนช่องดวงจันทร์ (กลาง) เพื่อเริ่มเกม
-menu.rules.secondCategory=ในเทิร์นของคุณ
-menu.rules.secondCategory.description=การกระทำแรกฟรี การกระทำเพิ่มเติมแต่ละครั้งเสียค่าใช้จ่าย 2 คะแนน เลือกหนึ่งใน 4 การกระทำด้านล่าง
-menu.rules.secondCategory.list=4 การกระทำที่เป็นไปได้
-menu.rules.secondCategory.list.first=1. วางตัวต่อ — วางตัวต่อจากแร็คของคุณชิดกับตัวต่อที่มีอยู่ ขอบที่สัมผัสกันต้องตรงกันทั้งสีหรือรูปทรง
-menu.rules.secondCategory.list.second=2. ซื้อการกระทำ — ใช้ 2 คะแนนเพื่อเล่นการกระทำพิเศษ
-menu.rules.secondCategory.list.third=3. สลับแร็ค — เปลี่ยนตัวต่อทั้งหมดบนแร็คของคุณเป็นตัวใหม่จากกอง จบเทิร์นของคุณ
-menu.rules.secondCategory.list.fourth=4. ข้าม — ข้ามเทิร์นโดยไม่มีค่าใช้จ่าย
-menu.rules.thirdCategory=การให้คะแนน
-menu.rules.thirdCategory.description=คู่ (2 ด้านตรงกัน) => +1 คะแนน  |  โคลเวอร์ (3 ด้าน) => +2 คะแนน  |  Latice (4 ด้าน) => +4 คะแนน  |  ช่องดวงอาทิตย์ => +2 คะแนนโบนัส
-menu.rules.fourthCategory=จบเกม
-menu.rules.fourthCategory.description=เกมจะจบเมื่อผู้เล่นคนใดคนหนึ่งทำให้แร็คและกองหมด หรือหลังจาก 10 รอบ (1 รอบ = 1 เทิร์นต่อผู้เล่น) ผู้เล่นที่วางตัวต่อได้มากที่สุดจะชนะ
+menu.rules.firstCategory.description=เริ่มด้วย 5 แผ่น ทิ้งแผ่นแรกตรงกลาง
+menu.rules.secondCategory=ตาของคุณ
+menu.rules.secondCategory.description=ครั้งแรกฟรี ครั้งต่อไป 2 คะแนน
+menu.rules.secondCategory.list=4 การกระทำ
+menu.rules.secondCategory.list.first=1. วางแผ่น
+menu.rules.secondCategory.list.second=2. ซื้อการกระทำ
+menu.rules.secondCategory.list.third=3. แลกเปลี่ยน
+menu.rules.secondCategory.list.fourth=4. ผ่าน
+menu.rules.thirdCategory=คะแนน
+menu.rules.thirdCategory.description=คูณ 2=+1, คูณ 3=+2, คูณ 4=+4, พระอาทิตย์=+2
+menu.rules.fourthCategory=จบ
+menu.rules.fourthCategory.description=แผ่นหมดคือจบ
 menu.rules.back=กลับ
-
+menu.theme.title=เลือกธีม
+menu.theme.classicTheme=คลาสสิก
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=กลับ
 menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=เลือกชื่อผู้ใช้ของคุณ:
-menu.username.secondUsernameChoiceLabel=คุณยังสามารถเลือกชื่อผู้ใช้ได้:
+menu.username.firstUsernameChoiceLabel=ชื่อ 1:
+menu.username.secondUsernameChoiceLabel=ชื่อ 2:
 menu.username.play=เล่น
+menu.game.actionButton=ซื้อการกระทำ
+menu.game.exchangeButton=แลกเปลี่ยน
+menu.game.endTurnButton=จบตา
+menu.game.player.currentPlayer=ตาของ {name}:
+menu.game.player.score=คะแนน: {score}
+menu.game.player.remaining=เหลือ: {count}
+menu.turnIndicator.turnIndicatorTitle=ตาที่ {turnNumber}
+menu.turnIndicator.currentPlayer=ตาของ {name}!
+menu.turnIndicator.lastPlayerScoreHeader=คะแนนของ {name}:
+menu.turnIndicator.readyButton=พร้อม!
+popup.game.over.title=จบ
+popup.game.over.winner.header=ผู้ชนะ: {name}
+popup.game.over.winner.content=ชนะด้วยคะแนน {score}!
+popup.game.over.tie.header=เสมอ!
+popup.game.over.tie.content=เสมอ!
+popup.game.invalid.title=ข้อผิดพลาด
+popup.game.invalid.header=ไม่ถูกต้อง
+popup.game.invalid.reason=ผิดพลาด
+event.invalidMove.tileError=ข้อผิดพลาดแผ่น
+event.invalidMove.moveError=การเคลื่อนไหวผิดพลาด
+event.invalidMove.cannotAfford=คะแนนไม่พอ
+menu.start.modeLocal=ในเครื่อง
+menu.start.modeLan=แลน
+menu.start.modeVsAI=แข่งกับ AI
+menu.username.aiPlayerName=คอมพิวเตอร์
 
+# # LAN / defaults (depuis lang1)
+menu.start.lan=เล่นผ่าน LAN
 menu.lan.title=Latice LAN
 menu.lan.host=เป็นโฮสต์เกม
 menu.lan.search=ค้นหาโฮสต์
 menu.lan.backButton=กลับ
-
 menu.lanSearch.title=กำลังค้นหาโฮสต์
 menu.lanSearch.host=โฮสต์: {host}
 menu.lanSearch.backButton=กลับ
-
 menu.lanLobby.title=ล็อบบี้
 menu.lanLobby.hostUsername=ผู้เล่นแรก: {host}
 menu.lanLobby.clientNotHere=กำลังรอผู้เล่นที่สอง...
@@ -48,52 +69,15 @@ menu.lanLobby.clientUsernameNotReady=[ยังไม่พร้อม] ผู�
 menu.lanLobby.clientUsernameReady=[พร้อมแล้ว] ผู้เล่นที่สอง: {client}
 menu.lanLobby.ready=พร้อม
 menu.lanLobby.play=เล่น
-
-menu.theme.title=เลือกธีม
-menu.theme.classicTheme=คลาสสิก
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=กลับ
-
-menu.game.actionButton=ซื้อการกระทำ
-menu.game.exchangeButton=สลับแร็ค
-menu.game.endTurnButton=จบเทิร์น
-menu.game.player.currentPlayer=เทิร์นของ {name}:
-menu.game.player.score=คะแนน: {score}
-menu.game.player.remaining=ตัวต่อที่เหลือ: {count}
-
-menu.turnIndicator.turnIndicatorTitle= รอบ {turnNumber}
-menu.turnIndicator.currentPlayer=เป็นเทิร์นของ {name}!
-menu.turnIndicator.lastPlayerScoreHeader=คะแนนของรอบที่แล้วของ {name} :
-menu.turnIndicator.readyButton=ฉันพร้อม!
-
 menu.lanOverlay.turnOf=เทิร์นของ {currentPlayer}
-
-popup.game.over.title=เกมจบแล้ว
-popup.game.over.winner.header=ผู้ชนะ: {name}
-popup.game.over.winner.content={name} ชนะด้วยคะแนน {score}!
-popup.game.over.tie.header=เสมอ!
-popup.game.over.tie.content=เสมอ! ผู้เล่นทั้งสองวางตัวต่อจำนวนเท่ากัน!
-
-popup.game.invalid.title=การเคลื่อนไหวไม่ถูกต้อง
-popup.game.invalid.header=คุณไม่สามารถทำเช่นนั้นได้..
-popup.game.invalid.reason=คุณได้วางตัวต่อแล้วในเทิร์นนี้! ซื้อการกระทำหรือจบเทิร์นของคุณ!
-
 popup.lanUsername.title=ชื่อผู้ใช้ LAN
 popup.lanUsername.header=เลือกชื่อผู้ใช้ของคุณ
 popup.lanUsername.context=ชื่อผู้ใช้:
 popup.lanSearch.noHost=ไม่มีโฮสต์...
-
-event.invalidMove.tileError=ผู้เล่นไม่มีตัวต่อนี้ในแร็คของเขา
-event.invalidMove.moveError=การเคลื่อนไหวไม่ถูกต้องตามกฎของเกม
-
-event.invalidMove.cannotAfford=ไม่มีคะแนนเพียงพอที่จะซื้อการกระทำเพิ่มเติม
-
 default.hostName=ผู้เล่นโฮสต์
 default.clientName=ผู้เล่นไคลเอนต์
 default.secondPlayerName=ผู้เล่น 2
 default.firstPlayerName=ผู้เล่น 1
-
 menu.start.quit=ออกจากเกม
 menu.username.back=ย้อนกลับ
 menu.lanLobby.back=ย้อนกลับ

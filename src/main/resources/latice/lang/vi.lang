@@ -1,46 +1,67 @@
-# / ! \ Cảnh báo / ! \
-# >  Bản dịch này được tạo bằng AI  <
-# >  Nếu bạn muốn gửi phiên bản được làm bằng tay, bạn có thể tạo một yêu cầu kéo ;)  <
-# / ! \ Cảnh báo / ! \
-
 app.title=Latice
-
 menu.start.title=Latice
 menu.start.play=Chơi
-menu.start.lan=Chơi qua LAN
-menu.start.rules=Luật chơi
-menu.start.theme=Chủ đề
-
-menu.rules.title=Luật chơi
-menu.rules.firstCategory=Chuẩn bị
-menu.rules.firstCategory.description=Các ô được xào và chia đều cho 2 người chơi. Mỗi người chơi rút 5 ô lên kệ của mình. Người chơi đầu tiên đặt một ô lên ô mặt trăng (giữa) để bắt đầu.
-menu.rules.secondCategory=Đến lượt bạn
-menu.rules.secondCategory.description=Hành động đầu tiên MIỄN PHÍ. Mỗi hành động thêm tốn 2 điểm. Chọn một trong 4 hành động bên dưới.
-menu.rules.secondCategory.list=4 hành động có thể
-menu.rules.secondCategory.list.first=1. Đặt ô — Đặt một ô từ kệ của bạn cạnh một ô đã có. Mỗi cạnh tiếp xúc phải trùng màu hoặc hình dạng.
-menu.rules.secondCategory.list.second=2. Mua hành động — Tiêu 2 điểm để thực hiện thêm nước đi.
-menu.rules.secondCategory.list.third=3. Đổi kệ — Thay tất cả các ô trên kệ của bạn bằng các ô mới từ ngăn. Kết thúc lượt của bạn.
-menu.rules.secondCategory.list.fourth=4. Bỏ lượt — Bỏ lượt miễn phí.
+menu.start.rules=Luật
+menu.start.theme=Giao diện
+menu.rules.title=Luật
+menu.rules.firstCategory=Thiết lập
+menu.rules.firstCategory.description=Bắt đầu với 5 ô. Lượt đầu ở giữa.
+menu.rules.secondCategory=Đến lượt
+menu.rules.secondCategory.description=Miễn phí lần 1. Tiếp theo 2 điểm.
+menu.rules.secondCategory.list=4 hành động
+menu.rules.secondCategory.list.first=1. Đặt ô
+menu.rules.secondCategory.list.second=2. Mua hành động
+menu.rules.secondCategory.list.third=3. Đổi
+menu.rules.secondCategory.list.fourth=4. Bỏ qua
 menu.rules.thirdCategory=Điểm
-menu.rules.thirdCategory.description=Đôi (2 cạnh khớp) => +1 điểm  |  Ba lá (3 cạnh) => +2 điểm  |  Latice (4 cạnh) => +4 điểm  |  Ô mặt trời => +2 điểm thưởng
-menu.rules.fourthCategory=Kết thúc trò chơi
-menu.rules.fourthCategory.description=Trò chơi kết thúc khi một người chơi làm rỗng kệ và ngăn, hoặc sau 10 chu kỳ (1 chu kỳ = 1 lượt mỗi người chơi). Người đặt nhiều ô nhất thắng.
-menu.rules.back=Quay lại
-
+menu.rules.thirdCategory.description=Kép=+1, Ba=+2, Bốn=+4, Mặt trời=+2
+menu.rules.fourthCategory=Kết thúc
+menu.rules.fourthCategory.description=Hết ô thì kết thúc.
+menu.rules.back=Trở lại
+menu.theme.title=Chọn giao diện
+menu.theme.classicTheme=Cổ điển
+menu.theme.animalCrossingTheme=Animal Crossing
+menu.theme.zeldaTheme=Zelda
+menu.theme.backButton=Trở lại
 menu.username.title=Latice
-menu.username.firstUsernameChoiceLabel=Chọn tên người chơi:
-menu.username.secondUsernameChoiceLabel=Bạn cũng có thể chọn tên người chơi:
+menu.username.firstUsernameChoiceLabel=Tên 1:
+menu.username.secondUsernameChoiceLabel=Tên 2:
 menu.username.play=Chơi
+menu.game.actionButton=Mua hành động
+menu.game.exchangeButton=Đổi
+menu.game.endTurnButton=Kết thúc
+menu.game.player.currentPlayer=Lượt của {name}:
+menu.game.player.score=Điểm: {score}
+menu.game.player.remaining=Còn lại: {count}
+menu.turnIndicator.turnIndicatorTitle=Lượt {turnNumber}
+menu.turnIndicator.currentPlayer=Đến lượt {name}!
+menu.turnIndicator.lastPlayerScoreHeader=Điểm của {name}:
+menu.turnIndicator.readyButton=Sẵn sàng!
+popup.game.over.title=Hoàn thành
+popup.game.over.winner.header=Người thắng: {name}
+popup.game.over.winner.content=Thắng với {score} điểm!
+popup.game.over.tie.header=Hòa!
+popup.game.over.tie.content=Hòa nhau!
+popup.game.invalid.title=Lỗi
+popup.game.invalid.header=Không hợp lệ
+popup.game.invalid.reason=Lỗi di chuyển
+event.invalidMove.tileError=Lỗi ô
+event.invalidMove.moveError=Lỗi đi
+event.invalidMove.cannotAfford=Không đủ điểm
+menu.start.modeLocal=Cục bộ
+menu.start.modeLan=Mạng
+menu.start.modeVsAI=Chơi với Máy
+menu.username.aiPlayerName=Máy tính
 
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Chơi qua LAN
 menu.lan.title=Latice LAN
 menu.lan.host=Tổ chức trận
 menu.lan.search=Tìm host
 menu.lan.backButton=Quay lại
-
 menu.lanSearch.title=Đang tìm host
 menu.lanSearch.host=Host: {host}
 menu.lanSearch.backButton=Quay lại
-
 menu.lanLobby.title=Phòng chờ
 menu.lanLobby.hostUsername=Người chơi đầu: {host}
 menu.lanLobby.clientNotHere=Đang chờ người chơi thứ hai...
@@ -48,52 +69,15 @@ menu.lanLobby.clientUsernameNotReady=[Chưa sẵn sàng] Người chơi thứ ha
 menu.lanLobby.clientUsernameReady=[Sẵn sàng] Người chơi thứ hai: {client}
 menu.lanLobby.ready=Sẵn sàng
 menu.lanLobby.play=Chơi
-
-menu.theme.title=Chọn chủ đề
-menu.theme.classicTheme=Cổ điển
-menu.theme.animalCrossingTheme=Animal Crossing
-menu.theme.zeldaTheme=Zelda
-menu.theme.backButton=Quay lại
-
-menu.game.actionButton=Mua hành động
-menu.game.exchangeButton=Đổi kệ
-menu.game.endTurnButton=Kết thúc lượt
-menu.game.player.currentPlayer=Lượt của {name}:
-menu.game.player.score=Điểm: {score}
-menu.game.player.remaining=Số ô còn lại: {count}
-
-menu.turnIndicator.turnIndicatorTitle= Lượt {turnNumber}
-menu.turnIndicator.currentPlayer=Đến lượt {name}!
-menu.turnIndicator.lastPlayerScoreHeader=Điểm lượt trước của {name} :
-menu.turnIndicator.readyButton=Tôi sẵn sàng!
-
 menu.lanOverlay.turnOf=Lượt của {currentPlayer}
-
-popup.game.over.title=Trò chơi kết thúc
-popup.game.over.winner.header=Người thắng: {name}
-popup.game.over.winner.content={name} đã thắng với {score} điểm!
-popup.game.over.tie.header=Hòa!
-popup.game.over.tie.content=Hòa! Cả hai người chơi đều đặt cùng số ô!
-
-popup.game.invalid.title=Nước đi không hợp lệ
-popup.game.invalid.header=Bạn không thể làm thế..
-popup.game.invalid.reason=Bạn đã đặt một ô trong lượt này rồi! Mua một hành động hoặc kết thúc lượt!
-
 popup.lanUsername.title=Tên LAN
 popup.lanUsername.header=Chọn tên người chơi
 popup.lanUsername.context=Tên:
 popup.lanSearch.noHost=Không có host...
-
-event.invalidMove.tileError=Người chơi không có ô này trên kệ của họ
-event.invalidMove.moveError=Nước đi không hợp lệ theo luật chơi
-
-event.invalidMove.cannotAfford=Không đủ điểm để mua hành động bổ sung
-
 default.hostName=Người chơi Host
 default.clientName=Người chơi Client
 default.secondPlayerName=Người chơi 2
 default.firstPlayerName=Người chơi 1
-
 menu.start.quit=Thoát
 menu.username.back=Quay lại
 menu.lanLobby.back=Quay lại
