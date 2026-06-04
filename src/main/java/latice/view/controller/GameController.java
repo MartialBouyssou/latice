@@ -928,6 +928,12 @@ public class GameController implements GameView, PacketSender {
             db.setContent(content);
             db.setDragView(tileView.getImage());
 
+            Tile tile = extractTileFromUrl(db.getString());
+
+            if (tile != null) {
+                boardView.highlightCells(game.getValidPositionsFor(tile));
+            }
+
             event.consume();
         });
 
@@ -942,7 +948,6 @@ public class GameController implements GameView, PacketSender {
             if (event.getGestureSource() != board && event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
-            boardView.clearHighlights();
             event.consume();
         });
 
@@ -960,6 +965,7 @@ public class GameController implements GameView, PacketSender {
 
                 if (tile != null) {
                     if (!hasAlreadyPlaced) {
+                        boardView.clearHighlights();
                         if (sessionRole == SessionRole.LOCAL) {
                             game.playTile(tile, col, row);
                         } else {
