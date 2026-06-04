@@ -96,4 +96,5 @@ default.firstPlayerName=Spiller 1
 
 menu.start.quit=Avslutt
 menu.username.back=Tilbake
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Tilbake

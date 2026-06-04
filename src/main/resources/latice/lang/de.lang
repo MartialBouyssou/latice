@@ -96,4 +96,5 @@ default.firstPlayerName=Spieler 1
 
 menu.start.quit=Beenden
 menu.username.back=Zurück
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Zurück

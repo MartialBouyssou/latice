@@ -96,4 +96,5 @@ default.firstPlayerName=Гравець 1
 
 menu.start.quit=Вийти
 menu.username.back=Назад
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Назад

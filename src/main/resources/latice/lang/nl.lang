@@ -96,4 +96,5 @@ default.firstPlayerName=Speler 1
 
 menu.start.quit=Stoppen
 menu.username.back=Terug
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Terug

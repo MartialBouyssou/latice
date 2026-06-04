@@ -38,6 +38,7 @@ menu.username.firstUsernameChoiceLabel=Choose your username:
 menu.username.secondUsernameChoiceLabel=You also choose a username:
 menu.username.play=Play
 menu.username.back=Back
+menu.username.beginnerHint=Aide au débutant
 
 # # Lan Menu
 menu.lan.title=Latice Lan

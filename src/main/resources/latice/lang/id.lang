@@ -96,4 +96,5 @@ default.firstPlayerName=Pemain 1
 
 menu.start.quit=Keluar
 menu.username.back=Kembali
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Kembali

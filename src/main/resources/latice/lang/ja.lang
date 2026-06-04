@@ -96,4 +96,5 @@ default.firstPlayerName=プレイヤー1
 
 menu.start.quit=終了
 menu.username.back=戻る
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=戻る

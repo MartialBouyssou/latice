@@ -96,4 +96,5 @@ default.firstPlayerName=खिलाड़ी 1
 
 menu.start.quit=बाहर निकलें
 menu.username.back=पीछे
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=पीछे

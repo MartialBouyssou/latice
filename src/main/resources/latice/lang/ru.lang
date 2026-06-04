@@ -96,4 +96,5 @@ default.firstPlayerName=Игрок 1
 
 menu.start.quit=Выйти
 menu.username.back=Назад
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Назад

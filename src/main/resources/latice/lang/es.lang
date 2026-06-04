@@ -96,4 +96,5 @@ default.firstPlayerName=Jugador 1
 
 menu.start.quit=Salir
 menu.username.back=Atrás
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Atrás

@@ -96,4 +96,5 @@ default.firstPlayerName=Spelare 1
 
 menu.start.quit=Avsluta
 menu.username.back=Bakåt
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Bakåt

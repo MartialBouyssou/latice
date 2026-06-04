@@ -96,4 +96,5 @@ default.firstPlayerName=اللاعب 1
 
 menu.start.quit=خروج
 menu.username.back=رجوع
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=رجوع

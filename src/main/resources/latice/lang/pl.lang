@@ -96,4 +96,5 @@ default.firstPlayerName=Gracz 1
 
 menu.start.quit=Wyjdź
 menu.username.back=Wstecz
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Wstecz

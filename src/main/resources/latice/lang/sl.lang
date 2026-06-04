@@ -96,4 +96,5 @@ default.firstPlayerName=Igralec 1
 
 menu.start.quit=Izhod
 menu.username.back=Nazaj
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Nazaj

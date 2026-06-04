@@ -96,4 +96,5 @@ default.firstPlayerName=Jucător 1
 
 menu.start.quit=Ieșire
 menu.username.back=Înapoi
+menu.username.beginnerHint=Aide au débutant
 menu.lanLobby.back=Înapoi
