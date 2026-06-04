@@ -5,10 +5,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import latice.model.board.Board;
+import latice.model.board.BoardPosition;
 import latice.model.board.cell.SunCell;
 import latice.model.tile.Tile;
 import latice.utils.theme.ThemeManager;
 
+import java.util.List;
 import java.util.Objects;
 
 public class BoardView {
@@ -56,6 +58,19 @@ public class BoardView {
             if (x == targetX && y == targetY && node instanceof ImageView imageNode) {
                 imageNode.setImage(new Image(tile.getTileImgPath()));
             }
+        }
+    }
+
+
+    /**
+     * Highlight the given cell position.
+     * @param positions The cell to highlight position
+     */
+    public void highlightCells(List<BoardPosition> positions) {
+        // TODO: clearHighlights()
+
+        for (BoardPosition position : positions) {
+            // TODO: highlightCell(position.x(), position.y())
         }
     }
 

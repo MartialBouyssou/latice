@@ -3,6 +3,7 @@ package latice.model.game;
 import latice.exception.model.GameNotStartException;
 import latice.exception.model.NoTilePlayedException;
 import latice.model.board.Board;
+import latice.model.board.BoardPosition;
 import latice.model.deck.Deck;
 import latice.model.game.events.*;
 import latice.model.player.ActionType;
@@ -273,6 +274,15 @@ public class Game {
     public Player getWinner() {
         if (currentPlayer == null) throw new GameNotStartException();
         return referee.determineWinner(this);
+    }
+
+    /**
+     * Determines and returns the list of valid position for a tile.
+     * @param tile The tile to place.
+     * @return The list of valid postion for a tile.
+     */
+    public List<BoardPosition> getValidPositionsFor(Tile tile) {
+        return referee.getValidPositions(board, tile);
     }
 
     /**
