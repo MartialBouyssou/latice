@@ -15,6 +15,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 import latice.exception.network.NetworkException;
 import latice.exception.network.UnhandledPacketException;
 import latice.listeners.LaticeGameListener;
