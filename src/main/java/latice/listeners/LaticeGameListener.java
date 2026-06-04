@@ -1,8 +1,12 @@
+// Fichier : projet actuel/LaticeGameListener.java
 package latice.listeners;
 
 import latice.model.game.events.*;
 import latice.model.player.ActionType;
+import latice.model.player.Player;
+import latice.utils.LangManager;
 import latice.view.GameView;
+import latice.view.controller.GameController;
 
 public class LaticeGameListener implements GameListener {
 
@@ -17,6 +21,15 @@ public class LaticeGameListener implements GameListener {
     public LaticeGameListener(GameView gameView, boolean isLanMode) {
         this.gameView = gameView;
         this.isLanMode = isLanMode;
+    }
+
+    /**
+     * Checks if the given player is the AI by comparing their name against the locale settings.
+     * @param player The player to check.
+     * @return {@code true} if the player is the AI, {@code false} otherwise.
+     */
+    private boolean isAI(Player player) {
+        return player != null && player.getName().equals(LangManager.getInstance().get("menu.username.aiPlayerName"));
     }
 
     /**
@@ -37,7 +50,6 @@ public class LaticeGameListener implements GameListener {
     @Override
     public void onActionBought(ActionBoughtEvent event) {
         gameView.updatePlayerInfo(event.getPlayer());
-
         if (event.getActionType() == ActionType.PLAY_TWICE) {
             gameView.setActionButtonDisabled(true);
         }
@@ -52,6 +64,10 @@ public class LaticeGameListener implements GameListener {
     public void onTurnEnded(TurnEndedEvent event) {
         gameView.setHasAlreadyPlaced(false);
         gameView.setActionButtonDisabled(false);
+        if (gameView instanceof GameController gc) {
+            gc.setAiActionBoughtThisTurn(false);
+        }
+
         if (isLanMode) {
             gameView.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
         } else {
@@ -83,6 +99,10 @@ public class LaticeGameListener implements GameListener {
             if (hasRemainingAction) {
                 gameView.setActionButtonDisabled(false);
             }
+
+            if (isAI(event.getPlayer()) && gameView instanceof GameController gc) {
+                gc.triggerAITurnIfNeeded();
+            }
         }
     }
 
@@ -94,6 +114,10 @@ public class LaticeGameListener implements GameListener {
     public void onTurnPassed(TurnPassedEvent event) {
         gameView.setHasAlreadyPlaced(false);
         gameView.setActionButtonDisabled(false);
+        if (gameView instanceof GameController gc) {
+            gc.setAiActionBoughtThisTurn(false);
+        }
+
         if (isLanMode) {
             gameView.setPendingOverlayInfo(event.getLastPlayer(), event.getLastTurnScore());
         } else {
@@ -116,6 +140,10 @@ public class LaticeGameListener implements GameListener {
             gameView.setHasAlreadyPlaced(!hasRemainingAction);
             if (hasRemainingAction) {
                 gameView.setActionButtonDisabled(false);
+            }
+
+            if (isAI(event.getPlayer()) && gameView instanceof GameController gc) {
+                gc.triggerAITurnIfNeeded();
             }
         }
     }

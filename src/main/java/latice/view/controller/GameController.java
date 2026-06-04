@@ -1,7 +1,9 @@
 package latice.view.controller;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.*;
@@ -25,8 +27,11 @@ import latice.model.game.Game;
 import latice.model.game.GameFactory;
 import latice.model.player.Player;
 import latice.model.player.Rack;
+import latice.model.referee.Referee;
 import latice.model.tile.Tile;
 import latice.model.tile.TileFactory;
+import latice.model.ai.AIMove;
+import latice.model.ai.AIPlayer;
 import latice.network.NetworkConfig;
 import latice.network.PacketSender;
 import latice.network.packet.Packet;
@@ -75,6 +80,7 @@ public class GameController implements GameView, PacketSender {
     @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
     @FXML private VBox playMenuVBox;
+    @FXML private VBox modeMenuVBox; // Correction de l'erreur d'interface !
     @FXML private VBox usernameMenuVBox;
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
@@ -87,6 +93,10 @@ public class GameController implements GameView, PacketSender {
     @FXML private Label lanClientNameLabel;
     @FXML private StackPane lanScreenOverlay;
     @FXML private Label turnOfLabel;
+
+    @FXML private VBox usernameVsAIMenuVBox;
+    @FXML private TextField player1UsernameVsAITf;
+    @FXML private Button overlayButton;
 
     private Game game;
     private NetworkGameListener networkGameListener;
@@ -107,6 +117,10 @@ public class GameController implements GameView, PacketSender {
     private PlayerPanelView playerPanelView;
     private TurnOverlayView turnOverlayView;
     private MenuView menuView;
+
+    private Player aiControlledPlayer;
+    private AIPlayer aiPlayer;
+    private boolean aiActionBoughtThisTurn = false;
 
     /**
      * Initializes the JavaFX controller, setting up views, languages, and drag-and-drop events.
@@ -136,9 +150,9 @@ public class GameController implements GameView, PacketSender {
         playerPanelView = new PlayerPanelView(rackImageViews, currentPlayerLabel,
                 currentPlayerScoreLabel, playerTileRemainingLabel, actionButton);
         turnOverlayView = new TurnOverlayView(screenOverlay, overlayPlayerLabel, endTurnButton,
-                lastPlayerLabel, lastPlayerScoreLabel, turnNumberLabel, lanScreenOverlay, turnOfLabel);
-        menuView = new MenuView(startMenuStackpane, gameBoardBP, playMenuVBox, usernameMenuVBox,
-                rulesMenuVBox, themeMenuVBox, lanMenuVBox, searchLanMenuVBox, lanLobbyMenuVBox);
+                lastPlayerLabel, lastPlayerScoreLabel, turnNumberLabel, lanScreenOverlay, turnOfLabel, overlayButton);
+        menuView = new MenuView(startMenuStackpane, gameBoardBP, playMenuVBox, modeMenuVBox, usernameMenuVBox,
+                rulesMenuVBox, themeMenuVBox, lanMenuVBox, searchLanMenuVBox, lanLobbyMenuVBox, usernameVsAIMenuVBox);
     }
 
     /**
@@ -148,7 +162,6 @@ public class GameController implements GameView, PacketSender {
         availableLanguages = LangManager.getInstance().loadAvailableLanguages();
 
         languageComboBox.getItems().addAll(availableLanguages.values());
-
         if (!availableLanguages.isEmpty()) {
             String firstCode = availableLanguages.keySet().iterator().next();
             LangManager.getInstance().load(firstCode);
@@ -161,7 +174,6 @@ public class GameController implements GameView, PacketSender {
      */
     public void onLanguageChanged() {
         String selectedLabel = languageComboBox.getValue();
-
         if (selectedLabel != null) {
             availableLanguages.entrySet().stream()
                     .filter(e -> e.getValue().equals(selectedLabel))
@@ -196,7 +208,6 @@ public class GameController implements GameView, PacketSender {
             if (node instanceof Labeled labeled) {
                 String key = (String) labeled.getProperties()
                         .getOrDefault("i18n-key", labeled.getText());
-                // i18n is the used name for internationalization => Multi language support :)
 
                 if (key != null && !key.isBlank() && key.contains(".") && !key.contains(" ")) {
                     labeled.getProperties().put("i18n-key", key);
@@ -210,10 +221,25 @@ public class GameController implements GameView, PacketSender {
     }
 
     /**
+     * Displays the menu for choosing the game mode (Local, LAN, IA).
+     */
+    public void showModeMenu() {
+        stopNetwork();
+        menuView.showModeMenu();
+    }
+
+    /**
      * Displays the menu for choosing player usernames and hides other menus.
      */
     public void showUsernameChoiceMenu() {
         menuView.showUsernameChoiceMenu();
+    }
+
+    /**
+     * Displays the menu for choosing a human username against AI.
+     */
+    public void showUsernameVsAIMenu() {
+        menuView.showUsernameVsAIMenu();
     }
 
     /**
@@ -245,10 +271,8 @@ public class GameController implements GameView, PacketSender {
         dialog.setContentText(lang.get("popup.lanUsername.context"));
         Optional<String> result = dialog.showAndWait();
         clientUsername = result.filter(s -> !s.isBlank()).orElse(lang.get("default.clientName"));
-
         searchLanMenuVBox.getChildren().removeIf(node ->
                 node.getUserData() != null && node.getUserData().equals("hostButton"));
-
         UdpDiscoveryClient discoveryClient = new UdpDiscoveryClient();
         try {
             List<DiscoveredHost> hosts = discoveryClient.discover();
@@ -286,7 +310,6 @@ public class GameController implements GameView, PacketSender {
         dialog.setContentText(lang.get("popup.lanUsername.context"));
         Optional<String> result = dialog.showAndWait();
         hostUsername = result.filter(s -> !s.isBlank()).orElse(lang.get("default.hostName"));
-
         lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername",
                 "host", hostUsername));
         lanClientNameLabel.setText(lang.get("menu.lanLobby.clientNotHere"));
@@ -344,11 +367,84 @@ public class GameController implements GameView, PacketSender {
     public void startGame() {
         sessionRole = SessionRole.LOCAL;
         menuView.showGameBoard();
-
         game = buildLocalGame();
         game.addListener(new LaticeGameListener(this, false));
         game.startGame();
         resetBoard();
+    }
+
+    /**
+     * Starts a local game versus the Artificial Intelligence.
+     */
+    public void startGameVsAI() {
+        sessionRole = SessionRole.LOCAL;
+        menuView.showGameBoard();
+
+        LangManager lang = LangManager.getInstance();
+        String humanName = getPlayerName(player1UsernameVsAITf.getText(), lang.get("default.firstPlayerName"));
+        String aiName = lang.get("menu.username.aiPlayerName");
+
+        game = GameFactory.createGame(humanName, aiName);
+        game.addListener(new LaticeGameListener(this, false));
+        aiPlayer = new AIPlayer(game.getReferee());
+        game.startGame();
+
+        for (Player p : game.getPlayers()) {
+            if (p.getName().equals(aiName)) {
+                aiControlledPlayer = p;
+                break;
+            }
+        }
+
+        resetBoard();
+        triggerAITurnIfNeeded();
+    }
+
+    /**
+     * Manages and executes the AI player's moves synchronously.
+     */
+    public void playAITurn() {
+        if (aiControlledPlayer == null || aiPlayer == null) {
+            return;
+        }
+
+        int turnsRemaining = Game.MAX_CYCLES - (game.getTurnCount() / game.getPlayers().size());
+
+        if (hasAlreadyPlaced) {
+            game.endTurn();
+            return;
+        }
+
+        if (!aiActionBoughtThisTurn && aiControlledPlayer.canAfford(Referee.EXTRA_ACTION_COST) && aiControlledPlayer.getRack().getTiles().size() >= 2) {
+            if (aiPlayer.isDoublePlayWorthIt(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore(), turnsRemaining)) {
+                aiActionBoughtThisTurn = true;
+                game.buyAnAction();
+            }
+        }
+
+        AIMove move = aiPlayer.findBestMove(game.getBoard(), aiControlledPlayer.getRack(), aiControlledPlayer.getScore(), turnsRemaining);
+        if (move != null) {
+            game.playTile(move.getTile(), move.getX(), move.getY());
+        } else {
+            if (aiControlledPlayer.getDeck().isEmpty()) {
+                game.passTurn();
+            } else {
+                game.exchangeAll();
+            }
+        }
+    }
+
+    /**
+     * Checks if the active player is the AI, and triggers its turn if so.
+     */
+    public void triggerAITurnIfNeeded() {
+        if (aiControlledPlayer != null
+                && aiPlayer != null
+                && game != null
+                && game.getCurrentPlayer() != null
+                && game.getCurrentPlayer().equals(aiControlledPlayer)) {
+            playAITurn();
+        }
     }
 
     /**
@@ -407,7 +503,6 @@ public class GameController implements GameView, PacketSender {
         Player second = Player.create(packet.getSecondUserName(),
                 new Rack(packet.getSecondRack()),
                 Deck.createNoShuffle(packet.getSecondDeck()));
-
         game = GameFactory.createGame(starter, second);
 
         networkGameListener = new NetworkGameListener(this);
@@ -487,7 +582,6 @@ public class GameController implements GameView, PacketSender {
         lanHostNameLabel.setText(lang.format("menu.lanLobby.hostUsername", "host", hostUsername));
         lanClientNameLabel.setText(lang.format("menu.lanLobby.clientUsernameNotReady",
                 "client", clientUsername));
-
         sendPacket(new LobbyWelcomePacket(hostUsername));
     }
 
@@ -539,7 +633,6 @@ public class GameController implements GameView, PacketSender {
             sendPacket(buildGameStartPacket());
             showLanOverlay(game.getCurrentPlayer().getName());
         });
-
         menuView.showGameBoard();
     }
 
@@ -683,10 +776,18 @@ public class GameController implements GameView, PacketSender {
      */
     public void buttonEndTurn() {
         if (sessionRole == SessionRole.LOCAL) {
-            game.passTurn();
+            if (hasAlreadyPlaced) {
+                game.endTurn();
+            } else {
+                game.passTurn();
+            }
         } else {
             executeLocalAction(() -> {
-                game.passTurn();
+                if (hasAlreadyPlaced) {
+                    game.endTurn();
+                } else {
+                    game.passTurn();
+                }
                 showLanOverlay(game.getCurrentPlayer().getName());
             });
         }
@@ -790,6 +891,16 @@ public class GameController implements GameView, PacketSender {
     @Override
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         turnOverlayView.showTurnOverlay(game, nextPlayer, lastPlayer, lastTurnScore);
+
+        String aiName = LangManager.getInstance().get("menu.username.aiPlayerName");
+        if (nextPlayer.getName().equals(aiName)) {
+            turnOverlayView.setReadyButtonVisible(false);
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(e -> hideOverlay());
+            pause.play();
+        } else {
+            turnOverlayView.setReadyButtonVisible(true);
+        }
     }
 
     /**
@@ -797,6 +908,7 @@ public class GameController implements GameView, PacketSender {
      */
     public void hideOverlay() {
         turnOverlayView.hideTurnOverlay();
+        triggerAITurnIfNeeded();
     }
 
     /**
@@ -812,7 +924,8 @@ public class GameController implements GameView, PacketSender {
      * @param currentPlayerName The name of the player whose turn is active.
      */
     public void showLanOverlay(String currentPlayerName) {
-        String localUsername = sessionRole == SessionRole.HOST ? hostUsername : clientUsername;
+        String localUsername = sessionRole == SessionRole.HOST ?
+                hostUsername : clientUsername;
         boolean isMyTurn = currentPlayerName.equals(localUsername);
 
         if (isMyTurn) {
@@ -898,6 +1011,10 @@ public class GameController implements GameView, PacketSender {
         if (game != null && game.getBoard() != null) {
             resetBoard();
         }
+
+        aiControlledPlayer = null;
+        aiPlayer = null;
+
         game = null;
         stopNetwork();
         menuView.showStartMenu();
@@ -912,6 +1029,7 @@ public class GameController implements GameView, PacketSender {
             boardView.reset(game.getBoard());
         }
         hasAlreadyPlaced = false;
+        aiActionBoughtThisTurn = false;
     }
 
     /**
@@ -944,7 +1062,6 @@ public class GameController implements GameView, PacketSender {
             }
             event.consume();
         });
-
         board.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
 
@@ -987,7 +1104,6 @@ public class GameController implements GameView, PacketSender {
      * Resolves the corresponding Tile model object from the provided image file path.
      *
      * @param fullUrl The absolute file path of the image being parsed.
-     *
      * @return The corresponding Tile instance.
      */
     private Tile extractTileFromUrl(String fullUrl) {
@@ -1000,11 +1116,11 @@ public class GameController implements GameView, PacketSender {
      *
      * @param input The raw input string from the username text field.
      * @param defaultName The default string to use if the input is blank or null.
-     *
      * @return The finalized player name.
      */
     private String getPlayerName(String input, String defaultName) {
-        return (input == null || input.isBlank()) ? defaultName : input;
+        return (input == null || input.isBlank()) ?
+                defaultName : input;
     }
 
     /**
@@ -1023,7 +1139,6 @@ public class GameController implements GameView, PacketSender {
         sessionRole = null;
         networkGameListener = null;
     }
-
 
     /**
      * Sets the action button disabled state through the player panel view.
@@ -1062,6 +1177,14 @@ public class GameController implements GameView, PacketSender {
     @Override
     public void setHasAlreadyPlaced(boolean value) {
         hasAlreadyPlaced = value;
+    }
+
+    /**
+     * Set the AI action bought this turn state flag.
+     * * @param value True if the AI has purchased an action this turn.
+     */
+    public void setAiActionBoughtThisTurn(boolean value) {
+        this.aiActionBoughtThisTurn = value;
     }
 
     /**

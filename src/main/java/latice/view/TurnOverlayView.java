@@ -19,9 +19,10 @@ public class TurnOverlayView {
     private final Label turnNumberLabel;
     private final StackPane lanScreenOverlay;
     private final Label turnOfLabel;
+    private final Button overlayButton;
 
     /**
-     * creates the overlays
+     * Creates the overlays.
      * @param screenOverlay The local turn transition overlay.
      * @param overlayPlayerLabel The label showing the next player.
      * @param endTurnButton The button to disable while an overlay is visible.
@@ -30,11 +31,14 @@ public class TurnOverlayView {
      * @param turnNumberLabel The label showing the current turn number.
      * @param lanScreenOverlay The LAN waiting overlay.
      * @param turnOfLabel The label showing whose turn it is in LAN mode.
+     * @param overlayButton The ready button to hide during AI turns.
      */
     public TurnOverlayView(StackPane screenOverlay, Label overlayPlayerLabel,
                            Button endTurnButton, Label lastPlayerLabel,
                            Label lastPlayerScoreLabel, Label turnNumberLabel,
-                           StackPane lanScreenOverlay, Label turnOfLabel) {
+                           StackPane lanScreenOverlay, Label turnOfLabel,
+                           Button overlayButton) {
+
         this.screenOverlay = Objects.requireNonNull(screenOverlay);
         this.overlayPlayerLabel = Objects.requireNonNull(overlayPlayerLabel);
         this.endTurnButton = Objects.requireNonNull(endTurnButton);
@@ -43,10 +47,11 @@ public class TurnOverlayView {
         this.turnNumberLabel = Objects.requireNonNull(turnNumberLabel);
         this.lanScreenOverlay = lanScreenOverlay;
         this.turnOfLabel = turnOfLabel;
+        this.overlayButton = overlayButton;
     }
 
     /**
-     * Show the transition overlay between two player turns
+     * Show the transition overlay between two player turns.
      * @param game the active game
      * @param nextPlayer the player whose turn starts
      * @param lastPlayer the player whose turn ended
@@ -55,7 +60,6 @@ public class TurnOverlayView {
     public void showTurnOverlay(Game game, Player nextPlayer, Player lastPlayer,
                                 int lastTurnScore) {
         LangManager lang = LangManager.getInstance();
-
         endTurnButton.setDisable(true);
         overlayPlayerLabel.setText(lang.format("menu.turnIndicator.currentPlayer",
                 "name", nextPlayer.getName())
@@ -68,12 +72,11 @@ public class TurnOverlayView {
                 "turnNumber",
                 (game.getTurnCount() / game.getPlayers().size() + 1) + "/" + Game.MAX_CYCLES)
         );
-
         showTurnOverlay();
     }
 
     /**
-     * Hide the transition overlay and unlocks the end turn button
+     * Hide the transition overlay and unlocks the end turn button.
      */
     public void hideTurnOverlay() {
         setOverlayVisible(screenOverlay, false);
@@ -81,7 +84,7 @@ public class TurnOverlayView {
     }
 
     /**
-     * Show the transition overlay and locks the end turn button
+     * Show the transition overlay and locks the end turn button.
      */
     public void showTurnOverlay() {
         setOverlayVisible(screenOverlay, true);
@@ -89,7 +92,7 @@ public class TurnOverlayView {
     }
 
     /**
-     * Show the LAN waiting overlay
+     * Show the LAN waiting overlay.
      * @param currentPlayerName The player whose turn is active
      */
     public void showLanWaitingOverlay(String currentPlayerName) {
@@ -101,7 +104,7 @@ public class TurnOverlayView {
     }
 
     /**
-     * Hides the LAN waiting overlay
+     * Hides the LAN waiting overlay.
      */
     public void hideLanWaitingOverlay() {
         if (lanScreenOverlay != null) {
@@ -110,12 +113,11 @@ public class TurnOverlayView {
     }
 
     /**
-     * Shows an invalid move popup
+     * Shows an invalid move popup.
      * @param reason The rejection reason to display
      */
     public void showInvalidMove(String reason) {
         LangManager lang = LangManager.getInstance();
-
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(lang.get("popup.game.invalid.title"));
         alert.setHeaderText(lang.get("popup.game.invalid.header"));
@@ -124,7 +126,7 @@ public class TurnOverlayView {
     }
 
     /**
-     * Shows the end-of-game popup
+     * Shows the end-of-game popup.
      * @param player The winning player, or null for a tie
      */
     public void showGameOver(Player player) {
@@ -148,7 +150,17 @@ public class TurnOverlayView {
         alert.show();
     }
 
-    // this docstring is done with AI
+    /**
+     * Toggles the visibility of the ready button during an overlay.
+     * @param visible {@code true} to show the button, {@code false} to hide it.
+     */
+    public void setReadyButtonVisible(boolean visible) {
+        if (overlayButton != null) {
+            overlayButton.setVisible(visible);
+            overlayButton.setManaged(visible);
+        }
+    }
+
     /**
      * Toggles the visibility of a full-screen or contextual UI overlay pane.
      * @param overlay The {@code StackPane} serving as the UI overlay.
