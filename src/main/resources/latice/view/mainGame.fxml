@@ -394,14 +394,14 @@
       <right>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-               <Button fx:id="actionButton" maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonBuyAnAction" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="menu.game.actionButton" translateX="-400.0" translateY="700.0">
+               <Button fx:id="actionButton" maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonBuyAnAction" prefWidth="125.0" scaleX="2.0" scaleY="2.0" styleClass="btn-game" text="menu.game.actionButton" translateX="-250.0" translateY="650.0">
                   <font><Font size="11.0" /></font>
                </Button>
-               <Button maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonExchangeAll" prefWidth="125.0" scaleX="2.0" scaleY="2.0" text="menu.game.exchangeButton" translateX="-400.0" translateY="750.0">
+               <Button maxWidth="125.0" minWidth="125.0" mnemonicParsing="false" onAction="#buttonExchangeAll" prefWidth="125.0" scaleX="2.0" scaleY="2.0" styleClass="btn-game" text="menu.game.exchangeButton" translateX="-250.0" translateY="700.0">
                   <font><Font size="11.0" /></font>
                </Button>
-               <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="menu.game.endTurnButton" translateX="-200.0" translateY="800.0" />
-               <ImageView fx:id="surrenderButton" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#buttonSurrender" pickOnBounds="true" preserveRatio="true" translateX="-400.0" translateY="750.0">
+               <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" styleClass="btn-game-primary" text="menu.game.endTurnButton" translateX="-200.0" translateY="780.0" />
+               <ImageView fx:id="surrenderButton" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#buttonSurrender" pickOnBounds="true" preserveRatio="true" translateX="-425.0" translateY="730.0">
                   <image><Image url="@../images/surrender.png" /></image>
                </ImageView>
             </children>
