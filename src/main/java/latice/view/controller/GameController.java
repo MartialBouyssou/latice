@@ -1,7 +1,9 @@
 package latice.view.controller;
 
 import javafx.application.Platform;
+import javafx.animation.PauseTransition;
 import javafx.event.Event;
+import javafx.util.Duration;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -26,7 +28,6 @@ import latice.model.tile.TileFactory;
 import latice.utils.theme.ThemeManager;
 import latice.utils.theme.Theme;
 import latice.utils.LangManager;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -49,10 +50,8 @@ public class GameController {
     @FXML private Label lastPlayerLabel;
     @FXML private Label lastPlayerScoreLabel;
     @FXML private Label turnNumberLabel;
-
     @FXML private BorderPane gameBoardBP;
     @FXML private Button actionButton;
-
     @FXML private StackPane startMenuStackpane;
     @FXML private ComboBox<String> languageComboBox;
     @FXML private VBox rulesMenuVBox;
@@ -61,16 +60,15 @@ public class GameController {
     @FXML private TextField player1UsernameTf;
     @FXML private TextField player2UsernameTf;
     @FXML private VBox themeMenuVBox;
-
     @FXML private VBox modeMenuVBox;
     @FXML private VBox usernameVsAIMenuVBox;
     @FXML private TextField player1UsernameVsAITf;
+    @FXML private Button overlayButton;
 
     private Game game;
     private List<ImageView> rackImageViews;
     private boolean hasAlreadyPlaced = false;
     private Map<String, String> availableLanguages;
-
     private Player aiControlledPlayer;
     private AIPlayer aiPlayer;
 
@@ -80,16 +78,13 @@ public class GameController {
     @FXML
     public void initialize() {
         rackImageViews = List.of(rackTile1, rackTile2, rackTile3, rackTile4, rackTile5);
-
         loadLanguageSelector();
         loadTexts();
-
         for (Node node : rackBox.getChildren()) {
             if (node instanceof ImageView imageNode) {
                 setupDraggable(imageNode);
             }
         }
-
         setupBoardDropTarget();
     }
 
@@ -98,9 +93,7 @@ public class GameController {
      */
     private void loadLanguageSelector() {
         availableLanguages = LangManager.getInstance().loadAvailableLanguages();
-
         languageComboBox.getItems().addAll(availableLanguages.values());
-
         if (!availableLanguages.isEmpty()) {
             String firstCode = availableLanguages.keySet().iterator().next();
             LangManager.getInstance().load(firstCode);
@@ -114,7 +107,6 @@ public class GameController {
     public void onLanguageChanged() {
         String selectedLabel = languageComboBox.getValue();
         if (selectedLabel == null) return;
-
         availableLanguages.entrySet().stream()
                 .filter(e -> e.getValue().equals(selectedLabel))
                 .findFirst()
@@ -142,7 +134,6 @@ public class GameController {
             if (node instanceof Labeled labeled) {
                 String key = (String) labeled.getProperties()
                         .getOrDefault("i18n-key", labeled.getText());
-
                 if (key != null && !key.isBlank() && key.contains(".") && !key.contains(" ")) {
                     labeled.getProperties().put("i18n-key", key);
                     labeled.setText(LangManager.getInstance().get(key));
@@ -233,7 +224,6 @@ public class GameController {
         playMenuVBox.setManaged(true);
         usernameMenuVBox.setVisible(false);
         usernameMenuVBox.setManaged(false);
-
         startMenuStackpane.setVisible(false);
         startMenuStackpane.setManaged(false);
 
@@ -265,11 +255,10 @@ public class GameController {
                 new PositionRule(),
                 new FirstTurnRule()
         );
+
         game = new Game(Referee.create(rules), humanName, aiName);
         game.addListener(new LaticeGameListener(this));
-
         aiPlayer = new AIPlayer(game.getReferee());
-
         game.startGame();
 
         for (Player p : game.getPlayers()) {
@@ -282,7 +271,7 @@ public class GameController {
         gameBoardBP.setVisible(true);
         gameBoardBP.setManaged(true);
 
-        Platform.runLater(this::triggerAITurnIfNeeded);
+        triggerAITurnIfNeeded();
     }
 
     /**
@@ -344,14 +333,11 @@ public class GameController {
                 new PositionRule(),
                 new FirstTurnRule()
         );
-
         String name1 = getPlayerName(player1UsernameTf.getText(), "P1");
         String name2 = getPlayerName(player2UsernameTf.getText(), "P2");
-
         if (name1.equals(name2)) {
             name2 = name2 + "_2";
         }
-
         return new Game(Referee.create(rules), name1, name2);
     }
 
@@ -376,22 +362,30 @@ public class GameController {
      */
     public void showOverlayForPlayer(Player nextPlayer, Player lastPlayer, int lastTurnScore) {
         LangManager lang = LangManager.getInstance();
-
         endTurnButton.setDisable(true);
-
         overlayPlayerLabel.setText(lang.format("menu.turnIndicator.currentPlayer",
                 "name", nextPlayer.getName())
         );
         lastPlayerLabel.setText(lang.format("menu.turnIndicator.lastPlayerScoreHeader",
                 "name", lastPlayer.getName())
         );
-
         lastPlayerScoreLabel.setText(Integer.toString(lastTurnScore));
-
         turnNumberLabel.setText(lang.format("menu.turnIndicator.turnIndicatorTitle",
                 "turnNumber",
                 (game.getTurnCount() / game.getPlayers().size() + 1) + "/" + Game.MAX_CYCLES)
         );
+
+        String aiName = lang.get("menu.username.aiPlayerName");
+        if (nextPlayer.getName().equals(aiName)) {
+            overlayButton.setVisible(false);
+            overlayButton.setManaged(false);
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(e -> hideOverlay());
+            pause.play();
+        } else {
+            overlayButton.setVisible(true);
+            overlayButton.setManaged(true);
+        }
 
         screenOverlay.setVisible(true);
         screenOverlay.setManaged(true);
@@ -404,8 +398,7 @@ public class GameController {
         screenOverlay.setVisible(false);
         screenOverlay.setManaged(false);
         endTurnButton.setDisable(false);
-
-        Platform.runLater(this::triggerAITurnIfNeeded);
+        triggerAITurnIfNeeded();
     }
 
     /**
@@ -414,7 +407,6 @@ public class GameController {
      */
     public void updateRack(Player player) {
         List<Tile> tiles = player.getRack().getTiles();
-
         for (int i = 0; i < 5; i++) {
             if (i < tiles.size()) {
                 Tile tile = tiles.get(i);
@@ -453,7 +445,6 @@ public class GameController {
      */
     public void showInvalidMove(String reason) {
         LangManager lang = LangManager.getInstance();
-
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(lang.get("popup.game.invalid.title"));
         alert.setHeaderText(lang.get("popup.game.invalid.header"));
@@ -469,8 +460,8 @@ public class GameController {
         hideOverlay();
         LangManager lang = LangManager.getInstance();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
         alert.setTitle(lang.get("popup.game.over.title"));
+
         if (player != null) {
             alert.setHeaderText(lang.format("popup.game.over.winner.header",
                     "name", player.getName())
@@ -506,9 +497,7 @@ public class GameController {
                     break;
                 }
             }
-
             updateRack(player);
-
         } catch (Exception e) {
             Logger.getLogger(GameController.class.getName())
                     .warning("Failed to place tile on board UI: " + e.getMessage());
@@ -522,17 +511,13 @@ public class GameController {
     private void setupDraggable(ImageView tileView) {
         tileView.setOnDragDetected(event -> {
             Dragboard db = tileView.startDragAndDrop(TransferMode.MOVE);
-
             ClipboardContent content = new ClipboardContent();
             String imageUrl = tileView.getImage().getUrl();
             content.putString(imageUrl);
-
             db.setContent(content);
             db.setDragView(tileView.getImage());
-
             event.consume();
         });
-
         tileView.setOnDragDone(Event::consume);
     }
 
@@ -550,16 +535,13 @@ public class GameController {
         board.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             boolean success = false;
-
             if (db.hasString() && game != null) {
                 double cellWidth  = board.getWidth()  / 9.0;
                 double cellHeight = board.getHeight() / 9.0;
-
                 int col = (int) (event.getX() / cellWidth);
                 int row = (int) (event.getY() / cellHeight);
 
                 Tile tile = extractTileFromUrl(db.getString());
-
                 if (tile != null) {
                     if (!hasAlreadyPlaced) {
                         game.playTile(tile, col, row);
@@ -568,7 +550,6 @@ public class GameController {
                     }
                 }
             }
-
             event.setDropCompleted(success);
             event.consume();
         });
@@ -622,6 +603,7 @@ public class GameController {
 
         gameBoardBP.setVisible(false);
         gameBoardBP.setManaged(false);
+
         startMenuStackpane.setVisible(true);
         startMenuStackpane.setManaged(true);
     }
@@ -650,7 +632,6 @@ public class GameController {
                         getClass().getResource("/" +
                                 ThemeManager.getInstance().getBoardBgPath(bgFile))
                 ).toExternalForm();
-
                 imageView.setImage(new Image(path));
                 imageView.setVisible(true);
             }

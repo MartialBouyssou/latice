@@ -17,7 +17,7 @@ menu.rules.secondCategory.description=La première action est GRATUITE. Chaque a
 menu.rules.secondCategory.list=4 actions possibles
 menu.rules.secondCategory.list.first=1. Poser une tuile — Placez une tuile de votre chevalet adjacente à une tuile existante. Chaque côté en contact doit correspondre par couleur ou par forme.
 menu.rules.secondCategory.list.second=2. Acheter une action — Dépensez 2 points pour jouer un coup supplémentaire.
-menu.rules.secondCategory.list.third=3. Échanger le chevalet — Remplacez toutes les tuiles de votre chevalet par de nouvelles tuiles de votre réserve. Met fin à votre tour.
+menu.rules.secondCategory.list.third=3. Échanger la main — Remplacez toutes les tuiles de votre chevalet par de nouvelles tuiles de votre réserve. Met fin à votre tour.
 menu.rules.secondCategory.list.fourth=4. Passer — Passez votre tour gratuitement.
 menu.rules.thirdCategory=Score
 menu.rules.thirdCategory.description=Double (2 côtés identiques) => +1 pt  |  Trèfle (3 côtés) => +2 pts  |  Latice (4 côtés) => +4 pts  |  Case soleil => +2 pts bonus
@@ -40,7 +40,7 @@ menu.username.play=Jouer
 
 # # Affichage en jeu
 menu.game.actionButton=Acheter une action
-menu.game.exchangeButton=Échanger le chevalet
+menu.game.exchangeButton=Échanger la main
 menu.game.endTurnButton=Fin du tour
 menu.game.player.currentPlayer=Tour de {name} :
 menu.game.player.score=Score : {score}

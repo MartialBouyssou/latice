@@ -111,25 +111,19 @@
                   <VBox.margin>
                      <Insets top="75.0" />
                   </VBox.margin></Label>
-
                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.firstCategory" />
                <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.firstCategory.description" wrapText="true" />
-
                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.secondCategory" />
                <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.description" wrapText="true" />
-
                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.secondCategory.list" />
                <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.list.first" wrapText="true" />
                <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.list.second" wrapText="true" />
                <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.list.third" wrapText="true" />
                <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.secondCategory.list.fourth" wrapText="true" />
-
                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.thirdCategory" />
                <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.thirdCategory.description" wrapText="true" />
-
                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.rules.fourthCategory" />
                <Label style="-fx-font-size: 15px; -fx-text-fill: #cccccc;" text="menu.rules.fourthCategory.description" wrapText="true" />
-
                <Button mnemonicParsing="false" onAction="#showPlayMenu" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-background-radius: 10;" text="menu.rules.back">
                   <VBox.margin>
                      <Insets top="20.0" />
@@ -141,9 +135,7 @@
             <children>
                <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="menu.theme.title" />
                <Button mnemonicParsing="false" onAction="#applyThemeDefault" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.theme.classicTheme" />
-
                <Button mnemonicParsing="false" onAction="#applyThemeAnimalCrossing" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.theme.animalCrossingTheme" />
-
                <Button mnemonicParsing="false" onAction="#applyThemeZelda" prefHeight="60.0" prefWidth="300.0" style="-fx-font-size: 22px; -fx-background-radius: 10;" text="menu.theme.zeldaTheme" />
                <Button mnemonicParsing="false" onAction="#showPlayMenu" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-background-radius: 10;" text="menu.theme.backButton" />
             </children>
@@ -657,7 +649,7 @@
                      <Font size="11.0" />
                   </font></Button>
                <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#buttonEndTurn" scaleX="3.0" scaleY="3.0" text="menu.game.endTurnButton" translateX="-200.0" translateY="800.0" />
-               <ImageView fx:id="surrenderButton" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#buttonSurrender" pickOnBounds="true" preserveRatio="true">
+               <ImageView fx:id="surrenderButton" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#buttonSurrender" pickOnBounds="true" preserveRatio="true" translateX="-400.0" translateY="800.0">
                   <image>
                      <Image url="@../images/surrender.png" />
                   </image>
