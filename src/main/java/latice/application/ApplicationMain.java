@@ -11,10 +11,19 @@ import latice.utils.LangManager;
 
 public class ApplicationMain extends Application {
 
+    /**
+     * Application entry point that launches the JavaFX runtime.
+     * @param args The command line arguments passed to the application.
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Initializes and displays the main game window by loading its FXML view.
+     * If loading fails, shows an error pane with the failure message instead.
+     * @param primaryStage The primary stage provided by the JavaFX runtime.
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -25,6 +34,7 @@ public class ApplicationMain extends Application {
 
             primaryStage.setScene(new Scene(root, 1920, 1080));
             primaryStage.setTitle(LangManager.getInstance().get("app.title"));
+            primaryStage.setOnCloseRequest(event -> System.exit(0));
             primaryStage.show();
 
         } catch (Exception e) {

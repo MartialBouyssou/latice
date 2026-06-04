@@ -17,7 +17,7 @@ menu.rules.secondCategory.description=La première action est GRATUITE. Chaque a
 menu.rules.secondCategory.list=4 actions possibles
 menu.rules.secondCategory.list.first=1. Poser une tuile — Placez une tuile de votre chevalet adjacente à une tuile existante. Chaque côté en contact doit correspondre par couleur ou par forme.
 menu.rules.secondCategory.list.second=2. Acheter une action — Dépensez 2 points pour jouer un coup supplémentaire.
-menu.rules.secondCategory.list.third=3. Échanger le chevalet — Remplacez toutes les tuiles de votre chevalet par de nouvelles tuiles de votre réserve. Met fin à votre tour.
+menu.rules.secondCategory.list.third=3. Échanger la main — Remplacez toutes les tuiles de votre chevalet par de nouvelles tuiles de votre réserve. Met fin à votre tour.
 menu.rules.secondCategory.list.fourth=4. Passer — Passez votre tour gratuitement.
 menu.rules.thirdCategory=Score
 menu.rules.thirdCategory.description=Double (2 côtés identiques) => +1 pt  |  Trèfle (3 côtés) => +2 pts  |  Latice (4 côtés) => +4 pts  |  Case soleil => +2 pts bonus
@@ -40,7 +40,7 @@ menu.username.play=Jouer
 
 # # Affichage en jeu
 menu.game.actionButton=Acheter une action
-menu.game.exchangeButton=Échanger le chevalet
+menu.game.exchangeButton=Échanger la main
 menu.game.endTurnButton=Fin du tour
 menu.game.player.currentPlayer=Tour de {name} :
 menu.game.player.score=Score : {score}
@@ -72,3 +72,39 @@ event.invalidMove.moveError=Le placement n'est pas valide selon les règles du j
 
 # # Event d'achat d'action invalide
 event.invalidMove.cannotAfford=Vous n'avez pas assez de points pour acheter une action supplémentaire
+# # Menu de sélection de mode
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (bientôt)
+menu.start.modeVsAI=Contre l'IA
+
+# # Nom de l'IA
+menu.username.aiPlayerName=Ordinateur
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Jouer en LAN
+menu.start.quit=Quitter
+menu.username.back=Retour
+menu.lan.title=Latice LAN
+menu.lan.host=Héberger une partie
+menu.lan.search=Rechercher un hôte
+menu.lan.backButton=Retour
+menu.lanSearch.title=Recherche d'hôte
+menu.lanSearch.host=Hôte : {host}
+menu.lanSearch.backButton=Retour
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Premier joueur : {host}
+menu.lanLobby.clientNotHere=En attente d'un second joueur...
+menu.lanLobby.clientUsernameNotReady=[Non prêt] Second joueur : {client}
+menu.lanLobby.clientUsernameReady=[Prêt] Second joueur : {client}
+menu.lanLobby.ready=Prêt
+menu.lanLobby.play=Jouer
+menu.lanLobby.back=Retour
+menu.lanOverlay.turnOf=Tour de {currentPlayer}
+popup.lanUsername.title=Pseudo LAN
+popup.lanUsername.header=Choisissez votre pseudo
+popup.lanUsername.context=Pseudo :
+popup.lanSearch.noHost=Il n'y a pas d'hôte...
+default.hostName=Joueur Hôte
+default.clientName=Joueur Client
+default.secondPlayerName=Joueur 2
+default.firstPlayerName=Joueur 1

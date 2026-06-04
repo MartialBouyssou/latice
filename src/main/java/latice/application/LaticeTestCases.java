@@ -17,13 +17,15 @@ import java.util.Scanner;
 
 public class LaticeTestCases {
 
+	/**
+	 * Entry point that runs the manual test scenarios for the board and game.
+	 * @param args The command line arguments (unused).
+	 */
 	public static void main(String[] args) {
-		// kind of unit test
 		testBoardCreation();
 		testBoardCellTypes();
 		testBoardDisplay();
 
-		// Game test
 		displayHeader();
 		Game game = getNewGame();
 		eventExampleInGameContext(game);
@@ -31,6 +33,11 @@ public class LaticeTestCases {
 		testGetTileImgPath();
 	}
 
+	/**
+	 * Creates a new game configured with the standard set of rules and a
+	 * console listener attached.
+	 * @return A newly created game ready to be started.
+	 */
 	private static Game getNewGame() {
 		List<IRule> rules = new ArrayList<>();
 		rules.add(new MatchingRule());
@@ -44,6 +51,11 @@ public class LaticeTestCases {
 		return game;
 	}
 
+	/**
+	 * Runs an interactive example turn, reading coordinates from standard input
+	 * and placing tiles until an action is played, then ending the turn.
+	 * @param game The game in which the example turn is played.
+	 */
 	private static void eventExampleInGameContext(Game game) {
 		game.startGame(); // here is call onGameStarted from ConsoleListener
 		message(game.getBoard().toString());
@@ -67,6 +79,9 @@ public class LaticeTestCases {
 		message(game.getBoard().toString());
 	}
 
+	/**
+	 * Tests board creation and prints the type of a few representative cells.
+	 */
 	static void testBoardCreation() {
 		titre("BOARD CREATE");
 		Board board = Board.create();
@@ -76,6 +91,10 @@ public class LaticeTestCases {
 		message("Cell (1,0) - NormalCell: " + board.getCell(1, 0).getClass().getSimpleName());
 	}
 
+	/**
+	 * Tests the board by counting the number of sun, moon and normal cells
+	 * and checking that every cell is empty.
+	 */
 	static void testBoardCellTypes() {
 		titre("BOARD CELL TYPES");
 		Board board = Board.create();
@@ -101,6 +120,9 @@ public class LaticeTestCases {
 		message("All cells empty: " + allEmpty(board));
 	}
 
+	/**
+	 * Tests the board display by creating a board and printing it to the console.
+	 */
 	static void testBoardDisplay() {
 		titre("BOARD DISPLAY");
 		Board board = Board.create();

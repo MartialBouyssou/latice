@@ -77,3 +77,40 @@ event.invalidMove.moveError=Ruch jest nieprawidłowy zgodnie z zasadami gry
 
 # # Brak punktów
 event.invalidMove.cannotAfford=Niewystarczająca liczba punktów, aby kupić dodatkową akcję
+
+# # Menu wyboru trybu
+menu.start.modeLocal=Lokalny
+menu.start.modeLan=LAN (wkrótce)
+menu.start.modeVsAI=Vs AI
+
+# # Nazwa gracza AI
+menu.username.aiPlayerName=Komputer
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Graj w LAN
+menu.lan.title=Latice LAN
+menu.lan.host=Hostuj grę
+menu.lan.search=Szukaj hosta
+menu.lan.backButton=Wstecz
+menu.lanSearch.title=Wyszukiwanie hosta
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Wstecz
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Pierwszy gracz: {host}
+menu.lanLobby.clientNotHere=Czekanie na drugiego gracza...
+menu.lanLobby.clientUsernameNotReady=[Nie gotowy] Drugi gracz: {client}
+menu.lanLobby.clientUsernameReady=[Gotowy] Drugi gracz: {client}
+menu.lanLobby.ready=Gotowy
+menu.lanLobby.play=Graj
+menu.lanOverlay.turnOf=Tura {currentPlayer}
+popup.lanUsername.title=Nazwa LAN
+popup.lanUsername.header=Wybierz swoją nazwę użytkownika
+popup.lanUsername.context=Użytkownik:
+popup.lanSearch.noHost=Brak hosta...
+default.hostName=Gracz Host
+default.clientName=Gracz Klient
+default.secondPlayerName=Gracz 2
+default.firstPlayerName=Gracz 1
+menu.start.quit=Wyjdź
+menu.username.back=Wstecz
+menu.lanLobby.back=Wstecz

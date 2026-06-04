@@ -93,7 +93,7 @@ class MatchingRuleTest {
         Tile redBirdTile = new Tile(Shape.BIRD, Color.RED);
         Tile greenGeckoTile = new Tile(Shape.GECKO, Color.GREEN);
 
-        Tile incompatibleCandidate = new Tile(Shape.DOLPHIN, Color.NAVY);
+        Tile incompatibleCandidate = new Tile(Shape.BIRD, Color.NAVY);
 
         board.placeTile(redBirdTile, 5, 4);
         board.placeTile(greenGeckoTile, 5, 6);

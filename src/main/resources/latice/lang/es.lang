@@ -77,3 +77,40 @@ event.invalidMove.moveError=El movimiento no es válido según las reglas del ju
 
 # # No se puede pagar
 event.invalidMove.cannotAfford=No tienes suficientes puntos para comprar una acción adicional
+
+# # Menú de selección de modo
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (próximamente)
+menu.start.modeVsAI=Vs IA
+
+# # Nombre de la IA
+menu.username.aiPlayerName=Ordenador
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Jugar en LAN
+menu.lan.title=Latice LAN
+menu.lan.host=Hospedar partida
+menu.lan.search=Buscar anfitrión
+menu.lan.backButton=Atrás
+menu.lanSearch.title=Buscando anfitrión
+menu.lanSearch.host=Anfitrión: {host}
+menu.lanSearch.backButton=Atrás
+menu.lanLobby.title=Sala
+menu.lanLobby.hostUsername=Primer jugador: {host}
+menu.lanLobby.clientNotHere=Esperando un segundo jugador...
+menu.lanLobby.clientUsernameNotReady=[No listo] Segundo jugador: {client}
+menu.lanLobby.clientUsernameReady=[Listo] Segundo jugador: {client}
+menu.lanLobby.ready=Listo
+menu.lanLobby.play=Jugar
+menu.lanOverlay.turnOf=Turno de {currentPlayer}
+popup.lanUsername.title=Nombre LAN
+popup.lanUsername.header=Elige tu nombre de usuario
+popup.lanUsername.context=Usuario:
+popup.lanSearch.noHost=No hay anfitrión...
+default.hostName=Jugador Host
+default.clientName=Jugador Cliente
+default.secondPlayerName=Jugador 2
+default.firstPlayerName=Jugador 1
+menu.start.quit=Salir
+menu.username.back=Atrás
+menu.lanLobby.back=Atrás

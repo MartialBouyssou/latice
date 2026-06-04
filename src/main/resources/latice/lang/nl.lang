@@ -77,3 +77,40 @@ event.invalidMove.moveError=De zet is niet geldig volgens de spelregels
 
 # # Niet genoeg punten
 event.invalidMove.cannotAfford=Niet genoeg punten om een extra actie te kopen
+
+# # Modusselectiemenu
+menu.start.modeLocal=Lokaal
+menu.start.modeLan=LAN (binnenkort)
+menu.start.modeVsAI=Vs AI
+
+# # Naam van de AI
+menu.username.aiPlayerName=Computer
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Spelen in LAN
+menu.lan.title=Latice LAN
+menu.lan.host=Host spel
+menu.lan.search=Zoek host
+menu.lan.backButton=Terug
+menu.lanSearch.title=Host zoeken
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Terug
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Eerste speler: {host}
+menu.lanLobby.clientNotHere=Wachten op een tweede speler...
+menu.lanLobby.clientUsernameNotReady=[Niet klaar] Tweede speler: {client}
+menu.lanLobby.clientUsernameReady=[Klaar] Tweede speler: {client}
+menu.lanLobby.ready=Klaar
+menu.lanLobby.play=Spelen
+menu.lanOverlay.turnOf=Beurt van {currentPlayer}
+popup.lanUsername.title=LAN Gebruikersnaam
+popup.lanUsername.header=Kies je gebruikersnaam
+popup.lanUsername.context=Gebruikersnaam:
+popup.lanSearch.noHost=Er is geen host...
+default.hostName=Host Speler
+default.clientName=Client Speler
+default.secondPlayerName=Speler 2
+default.firstPlayerName=Speler 1
+menu.start.quit=Stoppen
+menu.username.back=Terug
+menu.lanLobby.back=Terug

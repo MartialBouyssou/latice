@@ -24,10 +24,19 @@ public class Referee {
 
     private final List<IRule> rules;
 
+    /**
+     * Creates a referee that validates moves using the given rules.
+     * @param rules The list of rules used to validate moves.
+     */
     private Referee(List<IRule> rules) {
         this.rules = rules;
     }
 
+    /**
+     * Creates a referee with its rules sorted by ascending priority.
+     * @param rules The rules to assign to the referee.
+     * @return A new referee using the sorted rules.
+     */
     public static Referee create(List<IRule> rules) {
         rules = rules.stream()
                 .sorted(Comparator.comparingInt(IRule::getPriority))
@@ -35,6 +44,14 @@ public class Referee {
         return new Referee(rules);
     }
 
+    /**
+     * Checks whether placing a tile at the given position is a valid move according to the rules.
+     * @param board The board on which the move is made.
+     * @param tile The tile to place.
+     * @param x The x coordinate of the target cell.
+     * @param y The y coordinate of the target cell.
+     * @return True if the move satisfies the rules, false otherwise.
+     */
     public boolean isValidMove(Board board, Tile tile, int x, int y) {
         for (IRule rule : rules) {
             if (rule instanceof FirstTurnRule) {
@@ -48,6 +65,14 @@ public class Referee {
         return true;
     }
 
+    /**
+     * Calculates the score earned by placing a tile at the given position based on matching neighbors and sun bonus.
+     * @param board The board on which the move is made.
+     * @param tile The tile being placed.
+     * @param x The x coordinate of the target cell.
+     * @param y The y coordinate of the target cell.
+     * @return The score earned for the placement.
+     */
     public int calculateScore(Board board, Tile tile, int x, int y) {
         List<Cell> neighbors = board.getNeighbors(x, y);
         int matchingCount = 0;
@@ -73,6 +98,11 @@ public class Referee {
         return score;
     }
 
+    /**
+     * Determines the winning player based on the number of tiles played.
+     * @param game The game whose players are compared.
+     * @return The player who played more tiles, or null if it is a tie.
+     */
     public Player determineWinner(Game game) {
         Player first = game.getPlayers().get(0);
         Player second = game.getPlayers().get(1);
@@ -86,6 +116,11 @@ public class Referee {
         return null;
     }
 
+    /**
+     * Checks whether the game is over, either by reaching the maximum number of turns or by a player having no tiles left.
+     * @param game The game to check.
+     * @return True if the game is over, false otherwise.
+     */
     public boolean isGameOver(Game game) {
         int totalTurns = Game.MAX_CYCLES * game.getPlayers().size();
 

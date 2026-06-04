@@ -77,3 +77,40 @@ event.invalidMove.moveError=Der Zug ist laut Spielregeln nicht gültig
 
 # # Nicht genug Punkte
 event.invalidMove.cannotAfford=Nicht genug Punkte, um eine zusätzliche Aktion zu kaufen
+
+# # Modusauswahlmenü
+menu.start.modeLocal=Lokal
+menu.start.modeLan=LAN (demnächst)
+menu.start.modeVsAI=Gegen KI
+
+# # Name der KI
+menu.username.aiPlayerName=Computer
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Im LAN spielen
+menu.lan.title=Latice LAN
+menu.lan.host=Spiel hosten
+menu.lan.search=Host suchen
+menu.lan.backButton=Zurück
+menu.lanSearch.title=Host wird gesucht
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Zurück
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Erster Spieler: {host}
+menu.lanLobby.clientNotHere=Warten auf einen zweiten Spieler...
+menu.lanLobby.clientUsernameNotReady=[Nicht bereit] Zweiter Spieler: {client}
+menu.lanLobby.clientUsernameReady=[Bereit] Zweiter Spieler: {client}
+menu.lanLobby.ready=Bereit
+menu.lanLobby.play=Spielen
+menu.lanOverlay.turnOf=Zug von {currentPlayer}
+popup.lanUsername.title=LAN Benutzername
+popup.lanUsername.header=Wähle deinen Benutzernamen
+popup.lanUsername.context=Benutzername:
+popup.lanSearch.noHost=Es gibt keinen Host...
+default.hostName=Host Spieler
+default.clientName=Client Spieler
+default.secondPlayerName=Spieler 2
+default.firstPlayerName=Spieler 1
+menu.start.quit=Beenden
+menu.username.back=Zurück
+menu.lanLobby.back=Zurück

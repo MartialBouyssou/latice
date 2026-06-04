@@ -77,3 +77,40 @@ event.invalidMove.moveError=La mossa non è valida secondo le regole del gioco
 
 # # Non abbastanza punti
 event.invalidMove.cannotAfford=Non hai abbastanza punti per acquistare un'azione aggiuntiva
+
+# # Menu selezione modalità
+menu.start.modeLocal=Locale
+menu.start.modeLan=LAN (prossimamente)
+menu.start.modeVsAI=Vs IA
+
+# # Nome dell'IA
+menu.username.aiPlayerName=Computer
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Gioca in LAN
+menu.lan.title=Latice LAN
+menu.lan.host=Ospita partita
+menu.lan.search=Cerca host
+menu.lan.backButton=Indietro
+menu.lanSearch.title=Ricerca host
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Indietro
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=Primo giocatore: {host}
+menu.lanLobby.clientNotHere=In attesa di un secondo giocatore...
+menu.lanLobby.clientUsernameNotReady=[Non pronto] Secondo giocatore: {client}
+menu.lanLobby.clientUsernameReady=[Pronto] Secondo giocatore: {client}
+menu.lanLobby.ready=Pronto
+menu.lanLobby.play=Gioca
+menu.lanOverlay.turnOf=Turno di {currentPlayer}
+popup.lanUsername.title=Nome LAN
+popup.lanUsername.header=Scegli il tuo nome utente
+popup.lanUsername.context=Nome utente:
+popup.lanSearch.noHost=Non ci sono host...
+default.hostName=Giocatore Host
+default.clientName=Giocatore Client
+default.secondPlayerName=Giocatore 2
+default.firstPlayerName=Giocatore 1
+menu.start.quit=Esci
+menu.username.back=Indietro
+menu.lanLobby.back=Indietro

@@ -1,0 +1,121 @@
+package latice.view;
+
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import latice.model.board.Board;
+import latice.model.board.cell.SunCell;
+import latice.model.tile.Tile;
+import latice.utils.theme.ThemeManager;
+
+import java.util.Objects;
+
+public class BoardView {
+    private static final int BOARD_CENTER_INDEX = 4;
+
+    private final GridPane boardGrid;
+
+    /**
+     * Creates a board view
+     *
+     * @param boardGrid grid
+     */
+    public BoardView(GridPane boardGrid) {
+        this.boardGrid = Objects.requireNonNull(boardGrid);
+    }
+
+    /**
+     * Resets all board cells to their themed background image
+     *
+     * @param board The board model
+     */
+    public void reset(Board board) {
+        for (Node node : boardGrid.getChildren()) {
+            if (node instanceof ImageView imageView) {
+                int x = getColumn(node);
+                int y = getRow(node);
+                imageView.setImage(new Image(getBackgroundPath(board, x, y)));
+                imageView.setVisible(true);
+            }
+        }
+    }
+
+    /**
+     * Places the given tile image in the right board cell
+     *
+     * @param tile The tile to display
+     * @param targetX The board column
+     * @param targetY The board row
+     */
+    public void placeTile(Tile tile, int targetX, int targetY) {
+        for (Node node : boardGrid.getChildren()) {
+            int x = getColumn(node);
+            int y = getRow(node);
+
+            if (x == targetX && y == targetY && node instanceof ImageView imageNode) {
+                imageNode.setImage(new Image(tile.getTileImgPath()));
+            }
+        }
+    }
+
+    /**
+     * Get the absolute URL string of the background image for the cell at the given coordinates
+     * @param board The game board
+     * @param x the tile x positio,
+     * @param y The tile y position
+     * @return the path
+     */
+    private String getBackgroundPath(Board board, int x, int y) {
+        String backgroundFile = getBackgroundFile(board, x, y);
+        return Objects.requireNonNull(
+                getClass().getResource("/" +
+                        ThemeManager.getInstance().getBoardBgPath(backgroundFile))
+        ).toExternalForm();
+    }
+
+    /**
+     * Determines the filename of the background image of a board cell
+     * @param board the game board used to check the cell types
+     * @param x horizontal coordinate (column) of the cell
+     * @param y vertical coordinate (row) of the cell
+     * @return The filename of the background image
+     */
+    private String getBackgroundFile(Board board, int x, int y) {
+        String backgroundFile = "bg_sea.png";
+
+        if (x == BOARD_CENTER_INDEX && y == BOARD_CENTER_INDEX) {
+            backgroundFile = "bg_moon.png";
+        } else if (board.getCell(x, y) instanceof SunCell) {
+            backgroundFile = "bg_sun.png";
+        }
+
+        return backgroundFile;
+    }
+
+    /**
+     * Determine the column index of the node in the grid pane
+     * @param node The node to get the column index of
+     * @return The column index
+     */
+    private int getColumn(Node node) {
+        Integer columnIndex = GridPane.getColumnIndex(node);
+        if (columnIndex == null) {
+            return 0;
+        }
+        return columnIndex;
+    }
+
+    /**
+     * Determine the row index of the node in the grid pane
+     * @param node The node to get the row index of
+     * @return The row index
+     */
+    private int getRow(Node node) {
+        Integer rowIndex = GridPane.getRowIndex(node);
+        if (rowIndex == null) {
+            return 0;
+        }
+        return rowIndex;
+    }
+}

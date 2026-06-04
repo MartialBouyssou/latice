@@ -72,3 +72,39 @@ event.invalidMove.moveError=Move is not valid according to game rules
 
 # # Connot Afford Event
 event.invalidMove.cannotAfford=Not enough point to buy extra action
+# # Mode selection menu
+menu.start.modeLocal=Local
+menu.start.modeLan=LAN (coming soon)
+menu.start.modeVsAI=Vs AI
+
+# # AI player name
+menu.username.aiPlayerName=Computer
+
+# # LAN / defaults (depuis lang1)
+menu.start.lan=Play in Lan
+menu.start.quit=Quit
+menu.username.back=Back
+menu.lan.title=Latice Lan
+menu.lan.host=Host Game
+menu.lan.search=Search Host
+menu.lan.backButton=Back
+menu.lanSearch.title=Searching Host
+menu.lanSearch.host=Host: {host}
+menu.lanSearch.backButton=Back
+menu.lanLobby.title=Lobby
+menu.lanLobby.hostUsername=First Player: {host}
+menu.lanLobby.clientNotHere=Waiting for a second player...
+menu.lanLobby.clientUsernameNotReady=[Not Ready] Second Player: {client}
+menu.lanLobby.clientUsernameReady=[Ready] Second Player: {client}
+menu.lanLobby.ready=Ready
+menu.lanLobby.play=Play
+menu.lanLobby.back=Back
+menu.lanOverlay.turnOf=Turn of {currentPlayer}
+popup.lanUsername.title=Lan Username
+popup.lanUsername.header=Choose your username
+popup.lanUsername.context=Username:
+popup.lanSearch.noHost=There is no host...
+default.hostName=Host Player
+default.clientName=Client Player
+default.secondPlayerName=Player 2
+default.firstPlayerName=Player 1
