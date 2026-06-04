@@ -1006,6 +1006,7 @@ public class GameController implements GameView, PacketSender {
      */
     @Override
     public void endGame() {
+        boardView.clearHighlights();
         if (turnOverlayView != null) {
             turnOverlayView.hideTurnOverlay();
             turnOverlayView.hideLanWaitingOverlay();
