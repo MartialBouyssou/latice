@@ -9,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import latice.utils.LangManager;
 
+import java.util.Objects;
+
 public class ApplicationMain extends Application {
 
     /**
@@ -32,7 +34,11 @@ public class ApplicationMain extends Application {
 
             Parent root = loader.load();
 
-            primaryStage.setScene(new Scene(root, 1920, 1080));
+            Scene scene = new Scene(root, 1920, 1080);
+            scene.getStylesheets().add(Objects.requireNonNull(
+                    getClass().getResource("/latice/style/game.css")).toExternalForm()
+            );
+            primaryStage.setScene(scene);
             primaryStage.setTitle(LangManager.getInstance().get("app.title"));
             primaryStage.setOnCloseRequest(event -> System.exit(0));
             primaryStage.show();

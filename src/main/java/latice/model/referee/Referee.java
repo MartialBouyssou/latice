@@ -1,6 +1,7 @@
 package latice.model.referee;
 
 import latice.model.board.Board;
+import latice.model.board.BoardPosition;
 import latice.model.board.cell.Cell;
 import latice.model.board.cell.SunCell;
 import latice.model.game.Game;
@@ -9,6 +10,7 @@ import latice.model.referee.rule.FirstTurnRule;
 import latice.model.referee.rule.IRule;
 import latice.model.tile.Tile;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -63,6 +65,26 @@ public class Referee {
             }
         }
         return true;
+    }
+
+    /**
+     * Checks all valid move position for a tile according to the rules.
+     * @param board The board on which the move is made.
+     * @param tile The tile to place.
+     * @return The list of valid positions
+     */
+    public List<BoardPosition> getValidPositions(Board board, Tile tile) {
+        List<BoardPosition> validPositions = new ArrayList<>();
+
+        for (int x = 0; x < Board.GRID_SIZE; x++) {
+            for (int y = 0; y < Board.GRID_SIZE; y++) {
+                if (isValidMove(board, tile, x, y)) {
+                    validPositions.add(new BoardPosition(x, y));
+                }
+            }
+        }
+
+        return validPositions;
     }
 
     /**

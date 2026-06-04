@@ -1,0 +1,4 @@
+.valid-move-cell {
+    -fx-effect: dropshadow(gaussian, limegreen, 20, 0.7, 0, 0);
+    -fx-opacity: 0.85;
+}
