@@ -423,7 +423,6 @@ public class GameController implements GameView, PacketSender {
                 && game != null
                 && game.getCurrentPlayer() != null
                 && game.getCurrentPlayer().equals(aiControlledPlayer)) {
-            // Utilisation de runLater pour éviter les conflits de threads JavaFX lors de coups successifs de l'IA
             Platform.runLater(() -> playAITurn());
         }
     }

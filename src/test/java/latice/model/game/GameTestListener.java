@@ -1,3 +1,4 @@
+//Made by Gabriel, copy paste for merge
 package latice.model.game;
 
 import latice.model.game.events.*;

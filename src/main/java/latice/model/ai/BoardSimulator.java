@@ -10,18 +10,17 @@ import latice.model.tile.Tile;
 public class BoardSimulator {
 
     /**
-     * Constructeur privé pour empêcher l'instanciation de cette classe utilitaire.
+     * Private constructor to prevent instantiation of this utility class.
      */
     private BoardSimulator() {
     }
 
     /**
-     * Crée une copie profonde (deep copy) du plateau donné, en préservant les types de cellules
-     * et les tuiles déjà placées. La copie est totalement indépendante : placer une tuile sur
-     * cette copie n'affectera pas le plateau d'origine.
+     * Creates a deep copy of the given board, preserving cell types and already placed tiles.
+     * The copy is fully independent: placing a tile on the copy will not affect the original board.
      *
-     * @param original Le plateau de jeu original à copier.
-     * @return Une nouvelle instance de {@link Board} avec le même état que l'original.
+     * @param original The original game board to copy.
+     * @return A new {@link Board} instance with the same state as the original.
      */
     public static Board deepCopy(Board original) {
         Cell[][] copiedGrid = new Cell[Board.GRID_SIZE][Board.GRID_SIZE];
@@ -38,11 +37,11 @@ public class BoardSimulator {
     }
 
     /**
-     * Clone une cellule unique en préservant sa nature exacte (Soleil, Lune ou Normale)
-     * ainsi que la tuile qu'elle contient éventuellement.
+     * Clones a single cell, preserving its exact type (Sun, Moon, or Normal)
+     * as well as the tile it may contain.
      *
-     * @param cell La cellule à cloner.
-     * @return Une nouvelle instance de {@link Cell} du même type, contenant la même tuile.
+     * @param cell The cell to clone.
+     * @return A new {@link Cell} instance of the same type, containing the same tile.
      */
     private static Cell cloneCell(Cell cell) {
         Tile tile = cell.isEmpty() ? null : cell.getTile();
@@ -57,12 +56,12 @@ public class BoardSimulator {
     }
 
     /**
-     * Construit une instance de {@link Board} à partir d'une grille de cellules pré-remplie.
-     * Utilise {@code Board.create()} puis un placement manuel des tuiles pour rester compatible
-     * avec l'API existante de Board (qui n'expose pas de constructeur public prenant une grille).
+     * Builds a {@link Board} instance from a pre-filled grid of cells.
+     * Uses {@code Board.create()} followed by manual tile placement to stay compatible
+     * with the existing Board API (which does not expose a public constructor taking a grid).
      *
-     * @param grid Le tableau à deux dimensions représentant la grille de cellules.
-     * @return Un nouveau plateau configuré selon la grille fournie.
+     * @param grid The two-dimensional array representing the cell grid.
+     * @return A new board configured according to the provided grid.
      */
     private static Board fromGrid(Cell[][] grid) {
         Board board = Board.create();

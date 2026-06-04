@@ -366,7 +366,8 @@ public class Game {
             sendEvent(new ActionBoughtEvent(currentPlayer, ActionType.PLAY_TWICE));
         } else {
             sendEvent(new CannotAffordEvent(
-                    LangManager.getInstance().get("event.invalidMove.cannotAfford")
+                    LangManager.getInstance().get("event.invalidMove.cannotAfford"),
+                    currentPlayer
             ));
         }
     }
