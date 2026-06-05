@@ -703,7 +703,7 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * @param packet The packet containing the tile and target coordinates.
      */
     private void handlePlayTile(PlayTilePacket packet) {
-        if (networkGameListener != null) {
+        if (networkGameListener != null && game != null) {
             networkGameListener.setLocalAction(false);
             Player playerBeforeMove = game.getCurrentPlayer();
             int tilesPlayedBeforeMove = playerBeforeMove.getTilesPlayed();
@@ -720,7 +720,7 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * Applies a pass turn action received from the remote player.
      */
     private void handlePassTurn() {
-        if (networkGameListener != null) {
+        if (networkGameListener != null && game != null) {
             networkGameListener.setLocalAction(false);
             game.passTurn();
             networkGameListener.setLocalAction(false);
@@ -734,7 +734,7 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * @param packet The packet containing the synchronized rack and deck state.
      */
     private void handleExchangeRack(ExchangeRackPacket packet) {
-        if (networkGameListener != null) {
+        if (networkGameListener != null && game != null) {
             networkGameListener.setLocalAction(false);
             game.getCurrentPlayer().getRack().setTiles(packet.getNewRack());
             game.getCurrentPlayer().getDeck().setDeck(packet.getRemainingDeck());
@@ -748,10 +748,8 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * Applies an action purchase received from the remote player.
      */
     private void handleBuyAction() {
-        if (networkGameListener != null) {
-            networkGameListener.setLocalAction(false);
-            game.buyAnAction();
-            networkGameListener.setLocalAction(false);
+        if (game != null) {
+            executeRemoteAction(game::buyAnAction);
         }
     }
 
@@ -783,16 +781,29 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * @param action The local action to execute.
      */
     private void executeLocalAction(Runnable action) {
-        if (networkGameListener == null) {
+        NetworkGameListener listener = networkGameListener;
+        if (listener == null) {
             action.run();
-            return;
+        } else {
+            listener.setLocalAction(true);
+            try {
+                action.run();
+            } finally {
+                listener.setLocalAction(false);
+            }
+        }
+    }
+
+    private void executeRemoteAction(Runnable action) {
+        NetworkGameListener listener = networkGameListener;
+        if (listener != null) {
+            listener.setLocalAction(false);
         }
 
-        networkGameListener.setLocalAction(true);
-        try {
-            action.run();
-        } finally {
-            networkGameListener.setLocalAction(false);
+        action.run();
+
+        if (listener != null) {
+            listener.setLocalAction(false);
         }
     }
 
@@ -814,9 +825,7 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * Triggers the logic to buy an extra action using sun points.
      */
     public void buttonBuyAnAction() {
-        if (sessionRole == SessionRole.LOCAL) {
-            game.buyAnAction();
-        } else {
+        if (game != null) {
             executeLocalAction(game::buyAnAction);
         }
     }
@@ -1158,12 +1167,11 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * @param row the target board row
      */
     private void playDroppedTile(Tile tile, int col, int row) {
-        if (sessionRole == SessionRole.LOCAL) {
+        if (networkGameListener == null) {
             game.playTile(tile, col, row);
-            return;
+        } else {
+            playDroppedTileInLan(tile, col, row);
         }
-
-        playDroppedTileInLan(tile, col, row);
     }
 
     /**

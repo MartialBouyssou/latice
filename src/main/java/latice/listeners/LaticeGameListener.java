@@ -81,7 +81,7 @@ public class LaticeGameListener implements GameListener {
 
     /**
      * Called when a tile is successfully placed on the board. Updates the board,
-     * player info, and rack. Also triggers the AI if the player has another action.
+     * player info, and rack. Also triggers the AI if the player hasn't another action.
      *
      * @param event The tile placed event.
      */
@@ -96,12 +96,14 @@ public class LaticeGameListener implements GameListener {
         gameView.updatePlayerInfo(event.getPlayer());
         gameView.updateRack(event.getPlayer());
 
+        boolean hasRemainingAction = gameView.hasRemainingAction();
+        gameView.setHasAlreadyPlaced(!hasRemainingAction);
+
+        if (hasRemainingAction) {
+            gameView.setActionButtonDisabled(false);
+        }
+
         if (!isLanMode) {
-            boolean hasRemainingAction = gameView.hasRemainingAction();
-            gameView.setHasAlreadyPlaced(!hasRemainingAction);
-            if (hasRemainingAction) {
-                gameView.setActionButtonDisabled(false);
-            }
             playAiTurnIfNeeded();
         }
     }
