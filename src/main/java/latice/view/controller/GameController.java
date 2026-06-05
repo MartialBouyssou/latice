@@ -888,7 +888,11 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * @return A new LAN game instance.
      */
     private Game buildLanGameAsHost() {
-        return GameFactory.createGame(hostUsername, clientUsername);
+        if (hostUsername != clientUsername) {
+            return GameFactory.createGame(hostUsername, clientUsername);
+        } else {
+            return GameFactory.createGame(hostUsername + "_host", clientUsername + "_client");
+        }
     }
 
     /**
