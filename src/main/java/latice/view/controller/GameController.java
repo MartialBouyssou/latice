@@ -367,8 +367,9 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * Apply the animal crossing theme to the game.
      */
     public void applyThemeAnimalCrossing() {
-        ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
-        applyTheme();
+        applyThemeDefault();
+        //ThemeManager.getInstance().setCurrentTheme(Theme.ANIMAL_CROSSING);
+        //applyTheme();
     }
 
     /**
