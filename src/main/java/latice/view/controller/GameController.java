@@ -433,7 +433,11 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * Manages and executes the AI player's moves synchronously.
      */
     public void playAITurn() {
-        if (aiControlledPlayer == null || aiPlayer == null) return;
+        if (aiControlledPlayer == null || aiPlayer == null || game == null) return;
+
+        if (!game.getCurrentPlayer().equals(aiControlledPlayer)) {
+            return;
+        }
 
         int turnsRemaining = Game.MAX_CYCLES - (game.getTurnCount() / game.getPlayers().size());
 
@@ -454,8 +458,8 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
         );
 
         if (aiCanBuyAction && isDoublePlayWorthIt) {
-                aiActionBoughtThisTurn = true;
-                game.buyAnAction();
+            aiActionBoughtThisTurn = true;
+            game.buyAnAction();
         }
 
         AIMove move = aiPlayer.findBestMove(
