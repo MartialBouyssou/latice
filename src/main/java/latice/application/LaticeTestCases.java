@@ -80,12 +80,12 @@ public class LaticeTestCases {
 	}
 
 	/**
-	 * Tests board creation and prints the type of a few representative cells.
+	 * Tests board creation and prints the type of few representative cells.
 	 */
 	static void testBoardCreation() {
 		titre("BOARD CREATE");
 		Board board = Board.create();
-		message("Board created: " + (board != null));
+		message("Board created: " + true);
 		message("Cell (4,4) - MoonCell: " + board.getCell(4, 4).getClass().getSimpleName());
 		message("Cell (0,0) - SunCell: " + board.getCell(0, 0).getClass().getSimpleName());
 		message("Cell (1,0) - NormalCell: " + board.getCell(1, 0).getClass().getSimpleName());
