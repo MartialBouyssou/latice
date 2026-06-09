@@ -27,35 +27,27 @@ public class AIPlayer {
         this.referee = referee;
     }
 
+
     /**
-     * Simulates the future to determine whether buying an extra action is worthwhile
-     * at the start of the turn, given the current point balance (before any tile placement).
+     * Builds the list of all legal and valid moves possible with the current rack.
      *
-     * @param board           The current game board.
-     * @param rack            The rack containing the AI's tiles.
-     * @param currentScore    The AI's current score.
-     * @param turnsRemaining  The number of turns remaining in the game.
-     * @return {@code true} if buying an action yields more points or helps finish the game, {@code false} otherwise.
+     * @param board The game board.
+     * @param rack  The rack containing the available tiles.
+     * @return A list containing all valid {@link AIMove} objects.
      */
-    public boolean isDoublePlayWorthIt(Board board, Rack rack, int currentScore, int turnsRemaining) {
-        if (currentScore < Referee.EXTRA_ACTION_COST || rack.getTiles().size() < 2) {
-            return false;
+    private List<AIMove> buildValidMoves(Board board, Rack rack) {
+        List<AIMove> moves = new ArrayList<>();
+        for (Tile tile : rack.getTiles()) {
+            for (int x = 0; x < Board.GRID_SIZE; x++) {
+                for (int y = 0; y < Board.GRID_SIZE; y++) {
+                    if (board.getCell(x, y).isEmpty() && referee.isValidMove(board, tile, x, y)) {
+                        int score = referee.calculateScore(board, tile, x, y);
+                        moves.add(new AIMove(tile, x, y, score));
+                    }
+                }
+            }
         }
-
-        AIMove firstMove = findBestMove(board, rack, turnsRemaining);
-        if (firstMove == null) return false;
-
-        Board simBoard = BoardSimulator.deepCopy(board);
-        simBoard.placeTile(firstMove.getTile(), firstMove.getX(), firstMove.getY());
-        Rack simRack = copyRackWithout(rack, firstMove.getTile());
-
-        AIMove secondMove = findBestMove(simBoard, simRack, turnsRemaining);
-
-        if (secondMove != null) {
-            int totalScoreGain = firstMove.getScore() + secondMove.getScore();
-            return totalScoreGain >= 2 || turnsRemaining <= 3;
-        }
-        return false;
+        return moves;
     }
 
     /**
@@ -83,8 +75,13 @@ public class AIPlayer {
             }
         }
 
-        return bestMove != null ? bestMove : validMoves.get(0);
+        if (bestMove != null) {
+            return bestMove;
+        } else {
+            return validMoves.get(0);
+        }
     }
+
 
     /**
      * Evaluates a specific move by assigning it a relevance score,
@@ -149,26 +146,36 @@ public class AIPlayer {
     }
 
     /**
-     * Builds the list of all legal and valid moves possible with the current rack.
+     * Simulates the future to determine whether buying an extra action is worthwhile
+     * at the start of the turn, given the current point balance (before any tile placement).
      *
-     * @param board The game board.
-     * @param rack  The rack containing the available tiles.
-     * @return A list containing all valid {@link AIMove} objects.
+     * @param board           The current game board.
+     * @param rack            The rack containing the AI's tiles.
+     * @param currentScore    The AI's current score.
+     * @param turnsRemaining  The number of turns remaining in the game.
+     * @return {@code true} if buying an action yields more points or helps finish the game, {@code false} otherwise.
      */
-    private List<AIMove> buildValidMoves(Board board, Rack rack) {
-        List<AIMove> moves = new ArrayList<>();
-        for (Tile tile : rack.getTiles()) {
-            for (int x = 0; x < Board.GRID_SIZE; x++) {
-                for (int y = 0; y < Board.GRID_SIZE; y++) {
-                    if (board.getCell(x, y).isEmpty() && referee.isValidMove(board, tile, x, y)) {
-                        int score = referee.calculateScore(board, tile, x, y);
-                        moves.add(new AIMove(tile, x, y, score));
-                    }
-                }
-            }
+    public boolean isDoublePlayWorthIt(Board board, Rack rack, int currentScore, int turnsRemaining) {
+        if (currentScore < Referee.EXTRA_ACTION_COST || rack.getTiles().size() < 2) {
+            return false;
         }
-        return moves;
+
+        AIMove firstMove = findBestMove(board, rack, turnsRemaining);
+        if (firstMove == null) return false;
+
+        Board simBoard = BoardSimulator.deepCopy(board);
+        simBoard.placeTile(firstMove.getTile(), firstMove.getX(), firstMove.getY());
+        Rack simRack = copyRackWithout(rack, firstMove.getTile());
+
+        AIMove secondMove = findBestMove(simBoard, simRack, turnsRemaining);
+
+        if (secondMove != null) {
+            int totalScoreGain = firstMove.getScore() + secondMove.getScore();
+            return totalScoreGain >= 2 || turnsRemaining <= 3;
+        }
+        return false;
     }
+
 
     /**
      * Creates an independent copy of a rack with the first occurrence of a specified tile removed.
