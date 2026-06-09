@@ -46,7 +46,7 @@ class AIPlayerTest {
         rack.addTile(new Tile(Shape.TURTLE, Color.NAVY));
 
         // Act
-        AIMove move = aiPlayer.findBestMove(board, rack, 0, 5);
+        AIMove move = aiPlayer.findBestMove(board, rack, 5);
 
         // Assert
         assertNull(move);
@@ -58,7 +58,7 @@ class AIPlayerTest {
         rack.addTile(new Tile(Shape.BIRD, Color.GREEN));
 
         // Act
-        AIMove move = aiPlayer.findBestMove(board, rack, 0, 5);
+        AIMove move = aiPlayer.findBestMove(board, rack, 5);
 
         // Assert
         assertNotNull(move);
@@ -71,12 +71,44 @@ class AIPlayerTest {
         rack.addTile(new Tile(Shape.BIRD, Color.GREEN));
 
         // Act
-        AIMove move = aiPlayer.findBestMove(board, rack, 0, 5);
+        AIMove move = aiPlayer.findBestMove(board, rack, 5);
 
         // Assert
         assertNotNull(move);
         assertEquals(4, move.getX());
         assertEquals(5, move.getY());
+    }
+
+    @Test
+    void testEvaluateMovePenaltiesCoverage() {
+        // Arrange
+        board.placeTile(new Tile(Shape.TURTLE, Color.RED), 1, 2);
+        board.placeTile(new Tile(Shape.DOLPHIN, Color.RED), 2, 1);
+        board.placeTile(new Tile(Shape.FLOWER, Color.TEAL), 7, 6);
+        board.placeTile(new Tile(Shape.GECKO, Color.YELLOW), 6, 7);
+
+        rack.addTile(new Tile(Shape.TURTLE, Color.TEAL));
+        rack.addTile(new Tile(Shape.DOLPHIN, Color.YELLOW));
+        rack.addTile(new Tile(Shape.FLOWER, Color.RED));
+        rack.addTile(new Tile(Shape.GECKO, Color.GREEN));
+
+        // Act
+        AIMove move = aiPlayer.findBestMove(board, rack, 5);
+
+        // Assert
+        assertNotNull(move);
+    }
+
+    @Test
+    void testEvaluateMoveNoSunCellPenaltyWhenGameEndingSoon() {
+        // Arrange
+        rack.addTile(new Tile(Shape.BIRD, Color.GREEN));
+
+        // Act
+        AIMove move = aiPlayer.findBestMove(board, rack, 2);
+
+        // Assert
+        assertNotNull(move);
     }
 
     @Test
