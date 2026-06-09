@@ -42,20 +42,18 @@ public class AIPlayer {
             return false;
         }
 
-        AIMove firstMove = findBestMove(board, rack, currentScore, turnsRemaining);
+        AIMove firstMove = findBestMove(board, rack, turnsRemaining);
         if (firstMove == null) return false;
 
         Board simBoard = BoardSimulator.deepCopy(board);
         simBoard.placeTile(firstMove.getTile(), firstMove.getX(), firstMove.getY());
         Rack simRack = copyRackWithout(rack, firstMove.getTile());
 
-        AIMove secondMove = findBestMove(simBoard, simRack, currentScore - Referee.EXTRA_ACTION_COST + firstMove.getScore(), turnsRemaining);
+        AIMove secondMove = findBestMove(simBoard, simRack, turnsRemaining);
 
         if (secondMove != null) {
             int totalScoreGain = firstMove.getScore() + secondMove.getScore();
-            if (totalScoreGain >= 2 || turnsRemaining <= 3) {
-                return true;
-            }
+            return totalScoreGain >= 2 || turnsRemaining <= 3;
         }
         return false;
     }
@@ -65,11 +63,10 @@ public class AIPlayer {
      *
      * @param board          The current game board.
      * @param rack           The AI's rack.
-     * @param currentScore   The AI's current score.
      * @param turnsRemaining The number of turns remaining.
      * @return The {@link AIMove} representing the best move, or {@code null} if no move is possible.
      */
-    public AIMove findBestMove(Board board, Rack rack, int currentScore, int turnsRemaining) {
+    public AIMove findBestMove(Board board, Rack rack, int turnsRemaining) {
         List<AIMove> validMoves = buildValidMoves(board, rack);
         if (validMoves.isEmpty()) {
             return null;
@@ -79,7 +76,7 @@ public class AIPlayer {
         int bestEval = Integer.MIN_VALUE;
 
         for (AIMove move : validMoves) {
-            int eval = evaluateMove(board, rack, move, turnsRemaining);
+            int eval = evaluateMove(board, move, turnsRemaining);
             if (eval > bestEval) {
                 bestEval = eval;
                 bestMove = move;
@@ -94,12 +91,11 @@ public class AIPlayer {
      * taking into account dangerous openings (e.g. offering a Sun cell to the opponent).
      *
      * @param board          The game board.
-     * @param rack           The AI's rack.
      * @param move           The move to evaluate.
      * @param turnsRemaining The number of turns remaining.
      * @return The computed evaluation score.
      */
-    private int evaluateMove(Board board, Rack rack, AIMove move, int turnsRemaining) {
+    private int evaluateMove(Board board, AIMove move, int turnsRemaining) {
         int score = move.getScore();
         int eval = score * 10;
 
@@ -137,12 +133,15 @@ public class AIPlayer {
         for (int x = 0; x < Board.GRID_SIZE; x++) {
             for (int y = 0; y < Board.GRID_SIZE; y++) {
                 if (board.getCell(x, y) instanceof SunCell && board.getCell(x, y).isEmpty()) {
+
+                    boolean tileFound = false;
                     for (Cell n : board.getNeighbors(x, y)) {
-                        if (!n.isEmpty()) {
+                        if (!tileFound && !n.isEmpty()) {
                             count++;
-                            break;
+                            tileFound = true;
                         }
                     }
+
                 }
             }
         }

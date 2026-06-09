@@ -418,10 +418,10 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
         lastAiTurnCount = -1;
         game.startGame();
 
+        aiControlledPlayer = null;
         for (Player p : game.getPlayers()) {
-            if (p.getName().equals(aiName)) {
+            if (aiControlledPlayer == null && p.getName().equals(aiName)) {
                 aiControlledPlayer = p;
-                break;
             }
         }
 
@@ -464,7 +464,7 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
 
         AIMove move = aiPlayer.findBestMove(
                 game.getBoard(), aiControlledPlayer.getRack(),
-                aiControlledPlayer.getScore(), turnsRemaining
+                turnsRemaining
         );
 
         if (move != null) {
@@ -892,7 +892,7 @@ public class GameController implements GameView, PacketSender, AiTurnHandler {
      * @return A new LAN game instance.
      */
     private Game buildLanGameAsHost() {
-        if (hostUsername != clientUsername) {
+        if (!Objects.equals(hostUsername, clientUsername)) {
             return GameFactory.createGame(hostUsername, clientUsername);
         } else {
             return GameFactory.createGame(hostUsername + "_host", clientUsername + "_client");

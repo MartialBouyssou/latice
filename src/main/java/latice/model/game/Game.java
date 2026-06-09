@@ -3,7 +3,6 @@ package latice.model.game;
 import latice.exception.model.GameNotStartException;
 import latice.exception.model.NoTilePlayedException;
 import latice.model.board.Board;
-import latice.model.board.BoardPosition;
 import latice.model.board.BoardMoveHint;
 import latice.model.deck.Deck;
 import latice.model.game.events.*;
@@ -118,27 +117,11 @@ public class Game {
     }
 
     /**
-     * Indicates whether the current player has bought an additional action.
-     * @return True if more than one action is currently available, false otherwise.
-     */
-    public boolean isPlayTwiceActive() {
-        return remainingActions > STARTING_ACTIONS_PER_TURN;
-    }
-
-    /**
      * Indicates whether the current player can still perform an action this turn.
      * @return True if at least one action remains for the current turn.
      */
     public boolean hasRemainingAction() {
         return remainingActions > 0;
-    }
-
-    /**
-     * Returns the score earned by the current player during this turn.
-     * @return The current turn score.
-     */
-    public int getPlayersTurnScore() {
-        return playersTurnScore;
     }
 
     /**
@@ -275,15 +258,6 @@ public class Game {
     public Player getWinner() {
         if (currentPlayer == null) throw new GameNotStartException();
         return referee.determineWinner(this);
-    }
-
-    /**
-     * Determines and returns the list of valid position for a tile.
-     * @param tile The tile to place.
-     * @return The list of valid postion for a tile.
-     */
-    public List<BoardPosition> getValidPositionsFor(Tile tile) {
-        return referee.getValidPositions(board, tile);
     }
 
     /**

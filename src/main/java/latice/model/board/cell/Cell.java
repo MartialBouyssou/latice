@@ -2,7 +2,7 @@ package latice.model.board.cell;
 
 import latice.model.tile.Tile;
 public abstract class Cell {
-    private Tile tile = null;
+    private Tile tile;
 
     /**
      * Creates a cell holding the given tile.
@@ -25,17 +25,16 @@ public abstract class Cell {
      */
     public boolean isEmpty(){
         return tile == null;
-    };
+    }
 
     /**
      * Places the given tile on this cell.
+     *
      * @param tile The tile to place on this cell.
-     * @return The tile that was placed.
      */
-    public Tile setTile(Tile tile){
+    public void setTile(Tile tile){
         this.tile = tile;
-        return tile;
-    };
+    }
 
     /**
      * Returns the tile currently placed on this cell.
@@ -43,6 +42,6 @@ public abstract class Cell {
      */
     public Tile getTile(){
         return tile;
-    };
+    }
 
 }
